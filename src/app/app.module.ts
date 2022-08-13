@@ -9,12 +9,16 @@ import { ServicesComponent } from './services/services.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
+import { ProfileComponent } from './profile/profile.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ServicesComponent
+    ServicesComponent,
+    ProfileComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
