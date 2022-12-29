@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { HeaderService } from '../shared/services/header/header.service';
 
 @Component({
   selector: 'app-services',
@@ -11,8 +12,9 @@ export class ServicesComponent implements OnInit {
 
   services: Observable<any[]>;
 
-  constructor(firestore: AngularFirestore) { 
-    this.services = firestore.collection('Services').valueChanges();
+  constructor(firestore: AngularFirestore, headerService: HeaderService) { 
+    this.services = firestore.collection('Services', ref => ref.orderBy('price', 'asc')).valueChanges();
+    headerService.setTitle("Services");
   }
 
   ngOnInit(): void {
