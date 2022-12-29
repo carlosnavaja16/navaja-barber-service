@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { HeaderService } from '../shared/services/header/header.service';
+=======
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+>>>>>>> 522a81dec23cbff75a75644f02ff8bfda8aa509a
 
 @Component({
   selector: 'app-signup',
@@ -19,8 +23,17 @@ export class SignupComponent implements OnInit {
   submitAttempted = false;
   formValid = true;
 
+<<<<<<< HEAD
   constructor(headerService: HeaderService) {
     headerService.setTitle('Sign Up');
+=======
+  constructor(public auth: AngularFireAuth) { }
+
+  signup(): void{
+  }
+
+  ngOnInit(): void {
+>>>>>>> 522a81dec23cbff75a75644f02ff8bfda8aa509a
   }
 
   ngOnInit(): void {}
