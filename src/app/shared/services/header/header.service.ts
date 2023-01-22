@@ -5,17 +5,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HeaderService {
-    private title = new BehaviorSubject<string>("Carlos Navaja Barber Service");
+    private header = new BehaviorSubject<string>("Carlos Navaja Barber Service");
 
     constructor() {
 
    }
 
-   setTitle(title: string): void{
-    this.title.next(title);
+   setHeader(header: string): void{
+    this.header.next(header);
    }
 
-   getTitle(): Observable<string>{
-    return this.title.asObservable();
+   getHeader(): Observable<string>{
+    return this.header.asObservable();
    }
 }

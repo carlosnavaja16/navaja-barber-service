@@ -14,7 +14,7 @@ export class ServicesComponent implements OnInit {
 
   constructor(firestore: AngularFirestore, headerService: HeaderService) { 
     this.services = firestore.collection('Services', ref => ref.orderBy('price', 'asc')).valueChanges();
-    headerService.setTitle("Services");
+    headerService.setHeader("Services");
   }
 
   ngOnInit(): void {

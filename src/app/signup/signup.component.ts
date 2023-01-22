@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
-
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { from } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
+ 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -19,28 +23,37 @@ export class SignupComponent implements OnInit {
   submitAttempted = false;
   formValid = true;
 
-  constructor(headerService: HeaderService) {
-    headerService.setTitle('Sign Up');
+  constructor(
+    headerService: HeaderService, 
+    public router: Router,
+    public afAuth: AngularFireAuth,
+    public afs: AngularFirestore,
+    ) {
+    headerService.setHeader('Sign Up');
   }
 
   ngOnInit(): void {}
 
   validate(): void{
-    alert('cahng');
     if(this.submitAttempted){
+        this.formValid = true;
         this.validateInput(this.firstName, 'firstNameInput', /[a-zA-Z]{2,}/g);
         this.validateInput(this.lastName, 'lastNameInput', /[a-zA-Z]{2,}/g);
+        this.validateInput(this.streetAddr, 'streetAddrInput', /\d+\s+\w+\s+\w+/g);
         this.validateInput(this.city, 'cityInput', /[a-zA-Z]{2,}/g);
         this.validateInput(this.state, 'stateInput', /FL/g);
         this.validateInput(this.zipCode, 'zipCodeInput', /\d{5}/g);
         this.validateInput(this.email, 'emailInput', /.+@.+\..+/g);
-        this.validateInput(this.firstName, 'firstNameInput', /\.{6,}/g);
-        if (this.confirmPassword != this.password){
-            this.formValid = false;
-            document.getElementById('confirmPasswordInput')?.classList.add('is-invalid');
+        this.validateInput(this.password, 'passwordInput', /.{6,}/g);
+
+        //validation of the confirm password field
+        if (this.confirmPassword == this.password && this.confirmPassword.length >= 6){
+            document.getElementById('confirmPasswordInput')?.classList.remove('is-invalid');
         }
-        else{
-            document.getElementById('confirmPasswordInput')?.classList.replace('is-invalid', 'is-valid');
+
+        else {
+            this.formValid = false
+            document.getElementById('confirmPasswordInput')?.classList.add('is-invalid');
         }
     }
   }
@@ -48,17 +61,40 @@ export class SignupComponent implements OnInit {
     this.submitAttempted = true;
     this.validate();
     if (this.formValid == true){
-        alert('Form is valid and could be submitted.');
+        const userPromise = this.afAuth.createUserWithEmailAndPassword(this.email, this.password);
+        const userObservable = from(userPromise)
+        userObservable.subscribe({
+            next: (user) => {
+                const newUserProfile = {
+                    userId: user.user?.uid,
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    streetAddr: this.streetAddr,
+                    city: this.city,
+                    state: this.state,
+                    zipCode: this.zipCode,
+                }
+
+                const userProfilesCollection = this.afs.collection('UserProfiles');
+                userProfilesCollection.add(newUserProfile)
+                alert(`Your account has been created ${this.firstName}!`)
+                this.router.navigate(['/home']);
+            },
+            error: (error) => {
+                alert(`Could not create new user: ${error}. Try again?`)
+            }
+        });
     }
   }
 
   validateInput(input: string, inputField: string, pattern: RegExp): void {
-    if (input.match(pattern) === null){
+    if (pattern.test(input)){
+        document.getElementById(inputField)?.classList.remove('is-invalid');
+    }
+
+    else {
         this.formValid = false;
         document.getElementById(inputField)?.classList.add('is-invalid');
-    }
-    else{
-        document.getElementById(inputField)?.classList.replace('is-invalid', 'is-valid');
     }
   }
 }

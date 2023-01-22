@@ -1,1 +1,94 @@
-<p>profile works!</p>
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <form class="small-form">
+      <div class="mb-3">
+        <label for="firstNameInput" class="form-label">First Name</label>
+        <input
+          type="text"
+          name="firstName"
+          class="form-control"
+          id="firstNameInput"
+          [(ngModel)]="firstName"
+          (input)="validate()"
+        />
+        <div class="invalid-feedback">Please provide a valid first name.</div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label for="lastNameInput" class="form-label">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          class="form-control"
+          id="lastNameInput"
+          [(ngModel)]="lastName"
+          (input)="validate()"
+        />
+        <div class="invalid-feedback">Please provide a valid last name.</div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label for="streetAddrInput" class="form-label">Street address</label>
+        <input
+          type="text"
+          name="streetAddr"
+          class="form-control"
+          id="streetAddrInput"
+          [(ngModel)]="streetAddr"
+          (input)="validate()"
+        />
+        <div class="invalid-feedback">
+          Please provide a valid street address.
+        </div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="row">
+        <div class="mb-3 col-sm-6">
+          <label for="cityInput" class="form-label">City</label>
+          <input
+            type="text"
+            name="city"
+            class="form-control"
+            id="cityInput"
+            [(ngModel)]="city"
+            (input)="validate()"
+          />
+          <div class="invalid-feedback">Please provide a valid city.</div>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="mb-3 col-sm-2">
+          <label for="stateInput" class="form-label">State</label>
+          <input
+            type="text"
+            name="state"
+            readonly
+            class="form-control"
+            id="stateInput"
+            [(ngModel)]="state"
+            (input)="validate()"
+          />
+        </div>
+        <div class="mb-3 col-sm-4">
+          <label for="zipCodeInput" class="form-label">Zip code</label>
+          <input
+            type="text"
+            name="zipCode"
+            class="form-control"
+            id="zipCodeInput"
+            [(ngModel)]="zipCode"
+            (input)="validate()"
+            readonly
+          />
+          <div class="invalid-feedback">Please provide a valid zip code.</div>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div>
+      <div class="col-md-12 d-flex justify-content-center mb-5">
+        <button class="btn btn-primary" (click)="edit()">Edit</button>
+      </div>
+      <div class="col-md-12 d-flex justify-content-center mb-5">
+        <button class="btn btn-success" (click)="save()">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

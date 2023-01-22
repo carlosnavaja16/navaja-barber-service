@@ -10,16 +10,16 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent {
   isLoggedIn = false;
-  title = '';
+  header = '';
 
 
   constructor(authService: AuthService, headerService: HeaderService, titleService: Title){
     authService.isLoggedIn().subscribe( loggedIn => {
         this.isLoggedIn = loggedIn;
     });
-    headerService.getTitle().subscribe( title => {
-        this.title = title;
-        titleService.setTitle(title);
+    headerService.getHeader().subscribe( header => {
+        this.header = header;
+        titleService.setTitle(header);
     });
   }
 }

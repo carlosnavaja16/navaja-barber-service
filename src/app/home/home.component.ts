@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HeaderService } from '../shared/services/header/header.service';
 
 
 @Component({
@@ -8,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public headerService: HeaderService
+    ) {
+      headerService.setHeader("Carlos Navaja Barber Service");
+    }
 
   ngOnInit(): void {
   }
