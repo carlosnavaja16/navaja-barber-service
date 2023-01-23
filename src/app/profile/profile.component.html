@@ -2,15 +2,17 @@
   <div class="d-flex justify-content-center">
     <form class="small-form">
       <div class="mb-3">
-        <label for="firstNameInput" class="form-label">First Name</label>
+        <div class="row">
+        <label for="firstNameInput" class="col form-label">First Name</label>
         <input
           type="text"
           name="firstName"
-          class="form-control"
+          class="col form-control"
           id="firstNameInput"
           [(ngModel)]="firstName"
           (input)="validate()"
         />
+        </div>
         <div class="invalid-feedback">Please provide a valid first name.</div>
         <div class="valid-feedback">Looks good!</div>
       </div>
