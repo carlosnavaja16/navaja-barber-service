@@ -9,7 +9,7 @@
     src: url(./assets/fonts/KURT-Italic.otf) format('opentype');
 }
 
-@import "bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .small-form{
     width: 575px;
@@ -26,3 +26,9 @@
 .mt-6{
   margin-top: 5rem;
 }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

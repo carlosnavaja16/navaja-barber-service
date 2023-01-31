@@ -15,11 +15,10 @@ import { LoginComponent } from './login/login.component';
 import { HeaderService } from './shared/services/header/header.service';
 import { FormsModule } from '@angular/forms';
 import { LogoutComponent } from './logout/logout.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
+import { ToastService } from './shared/services/toast/toast.service';
 
 @NgModule({
   declarations: [
@@ -39,12 +38,11 @@ import { ToastContainerComponent } from './toast-container/toast-container.compo
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     FormsModule,
-    MatSlideToggleModule,
-    BrowserAnimationsModule,
     NgbModule
   ],
   providers: [
-    HeaderService
+    HeaderService,
+    ToastService
   ],
   bootstrap: [AppComponent]
 })
