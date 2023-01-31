@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HeaderService {
-    private header = new BehaviorSubject<string>("Carlos Navaja Barber Service");
+    private header = new BehaviorSubject<string>("Vonnegut Barber Service");
 
     constructor() {
 

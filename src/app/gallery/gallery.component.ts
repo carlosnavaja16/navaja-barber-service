@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
 
-
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-gallery',
+  templateUrl: './gallery.component.html',
+  styleUrls: ['./gallery.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class GalleryComponent implements OnInit {
 
   constructor(
     public headerService: HeaderService
-    ) {
-      headerService.setHeader("Vonnegut Barber Service");
-    }
+  ) {
+    headerService.setHeader('Gallery');
+  }
 
   ngOnInit(): void {
   }

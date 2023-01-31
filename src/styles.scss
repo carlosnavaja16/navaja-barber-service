@@ -8,3 +8,21 @@
     font-family: 'kurt-italic';
     src: url(./assets/fonts/KURT-Italic.otf) format('opentype');
 }
+
+@import "bootstrap/scss/bootstrap";
+
+.small-form{
+    width: 575px;
+}
+
+.wide-button{
+  width: 30%;
+}
+
+.kurt-font{
+  font-family: 'KURT-italic', sans-serif;
+}
+
+.mt-6{
+  margin-top: 5rem;
+}

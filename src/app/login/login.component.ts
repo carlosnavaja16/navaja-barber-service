@@ -3,8 +3,8 @@ import { HeaderService } from '../shared/services/header/header.service';
 import { Component } from '@angular/core';
 import { Observable, from, take } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { redirectLoggedInTo } from '@angular/fire/compat/auth-guard';
 import { Router } from '@angular/router';
+import { ToastService } from '../shared/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +20,13 @@ export class LoginComponent {
     public headerService: HeaderService,
     public router: Router, 
     public afAuth: AngularFireAuth,
-    public afs: AngularFirestore
+    public afs: AngularFirestore,
+    public toastService: ToastService
     ) {
-    
+    this.headerService.setHeader("Login")
    }
 
   ngOnInit(): void {
-    this.headerService.setHeader("Login")
   }
 
   login(): void {
@@ -40,8 +40,11 @@ export class LoginComponent {
         .pipe(take(1))
         .subscribe({
           next: (usersProfile) => {
-            alert(`Login successful. Welcome back ${usersProfile[0].firstName}!`);
-            this.router.navigate(['/home']);
+            this.toastService.show(`Login successful. Welcome back ${usersProfile[0].firstName}!`);
+            this.router.navigate(['/']);
+          },
+          error: (err) => {
+            
           }
         });
       },

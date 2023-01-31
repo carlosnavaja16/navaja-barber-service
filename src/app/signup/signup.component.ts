@@ -78,7 +78,7 @@ export class SignupComponent implements OnInit {
                 const userProfilesCollection = this.afs.collection('UserProfiles');
                 userProfilesCollection.add(newUserProfile)
                 alert(`Your account has been created ${this.firstName}!`)
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
             },
             error: (error) => {
                 alert(`Could not create new user: ${error}. Try again?`)

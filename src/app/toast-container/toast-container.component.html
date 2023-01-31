@@ -1,0 +1,9 @@
+<ngb-toast
+  *ngFor="let toast of toastService.toasts; index as i"
+  [delay]="2500"
+  class="text-bg-primary"
+  (hidden)="toastService.remove(toast)"
+  (hide)="toastService.toasts.splice(i, 1)"
+  >
+  {{toast.message}}
+</ngb-toast>

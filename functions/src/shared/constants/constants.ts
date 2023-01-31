@@ -1,0 +1,1 @@
+export const BARBER_SERVICE_CALENDAR_ID = 'em574fr0cq5l93vdnmo91hjsv0@group.calendar.google.com';

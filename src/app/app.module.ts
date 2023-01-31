@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -15,6 +15,11 @@ import { LoginComponent } from './login/login.component';
 import { HeaderService } from './shared/services/header/header.service';
 import { FormsModule } from '@angular/forms';
 import { LogoutComponent } from './logout/logout.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { GalleryComponent } from './gallery/gallery.component';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +29,19 @@ import { LogoutComponent } from './logout/logout.component';
     ProfileComponent,
     SignupComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    GalleryComponent,
+    ToastContainerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    FormsModule
+    FormsModule,
+    MatSlideToggleModule,
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [
     HeaderService

@@ -1,5 +1,9 @@
 <div class="container">
-<h1 class="display-6"></h1>
+  <p  *ngIf="!(isLoggedIn$ | async)" class="text-center mb-5">
+    <small>
+      In order to book you will need to <a [routerLink]="'/login'">Log In</a>. Don't have an account? <a [routerLink]="'/signup'">Sign Up.</a>
+    </small>
+  </p>
   <ul class="list-group">
     <li
       class="list-group-item d-flex justify-content-between align-items-center"
