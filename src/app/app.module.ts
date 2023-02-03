@@ -19,6 +19,7 @@ import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { ToastService } from './shared/services/toast/toast.service';
+import { BookingComponent } from './booking/booking.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ToastService } from './shared/services/toast/toast.service';
     LoginComponent,
     LogoutComponent,
     GalleryComponent,
-    ToastContainerComponent
+    ToastContainerComponent,
+    BookingComponent
   ],
   imports: [
     BrowserModule,

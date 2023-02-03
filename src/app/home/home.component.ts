@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
+import { AuthService } from '../shared/services/auth/auth.service';
 
 
 @Component({
@@ -10,7 +11,8 @@ import { HeaderService } from '../shared/services/header/header.service';
 export class HomeComponent implements OnInit {
 
   constructor(
-    public headerService: HeaderService
+    public headerService: HeaderService,
+    public auth: AuthService
     ) {
       headerService.setHeader("Vonnegut Barber Service");
     }

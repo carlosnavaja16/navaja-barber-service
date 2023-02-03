@@ -12,8 +12,13 @@
   <p class="text-center">Book me and I will come to you!</p>
 
   <div class="d-flex justify-content-center">
-    <a type="button" class="btn btn-primary book-btn">
-      <i class="bi bi-calendar-check-fill"></i> &nbsp; Book me now
+    <a 
+      type="button" 
+      class="btn btn-primary book-btn" 
+      [ngbTooltip]=" (this.auth.isLoggedIn() | async) ? '' : 'In order to book you will need to Log In' "
+      [routerLink]="'/booking'"
+      >
+      <i class="bi bi-calendar-check-fill"></i> &nbsp; Book
     </a>
     <a type="button" href="tel:19545158474" class="btn btn-primary book-btn ms-3">
       <i class="bi bi-telephone-fill"></i> &nbsp; Call

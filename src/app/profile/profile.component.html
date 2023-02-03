@@ -1,114 +1,102 @@
 <div class="container">
   <div class="d-flex justify-content-center">
-    <form class="small-form">
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-md-3 d-flex align-items-center">
-            <label for="firstNameInput" class="fw-bold">First Name</label>
-          </div>
-          <div class="col-md-9">
-            <input
+    <form class="small-form p-2">
+      <div class="row border rounded-4 rounded-bottom-0 p-2">
+        <div class="col-md-3 d-flex align-items-center">
+          <label for="firstNameInput" class="fw-bold">First Name</label>
+        </div>
+        <div class="col-md-9">
+          <input
+          type="text"
+          name="firstName"
+          class="col-lg-8 form-control-plaintext"
+          id="firstNameInput"
+          [(ngModel)]="firstName"
+          [readOnly]="!inEditMode"
+          (input)="validate()"
+          />
+        </div>
+      </div>
+      <div class="row border border-top-0 p-2">
+        <div class="col-md-3 d-flex align-items-center">
+          <label for="lastNameInput" class="fw-bold">Last Name</label>
+        </div>
+        <div class="col-md-9">
+          <input
             type="text"
-            name="firstName"
-            class="col-lg-8 form-control-plaintext"
-            id="firstNameInput"
-            [(ngModel)]="firstName"
-            [readOnly]="!inEditMode"
-            (input)="validate()"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-md-3 d-flex align-items-center">
-            <label for="lastNameInput" class="fw-bold">Last Name</label>
-          </div>
-          <div class="col-md-9">
-            <input
-              type="text"
-              name="lastName"
-              class="form-control-plaintext"
-              id="lastNameInput"
-              [(ngModel)]="lastName"
-              [readOnly]="!inEditMode"
-              (input)="validate()"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-md-3 d-flex align-items-center">
-            <label for="streetAddrInput" class="fw-bold">Street address</label>
-          </div>
-          <div class="col-md-9">
-            <input
-              type="text"
-              name="streetAddr"
-              class="form-control-plaintext"
-              id="streetAddrInput"
-              [(ngModel)]="streetAddr"
-              [readOnly]="!inEditMode"
-              (input)="validate()"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-md-3">
-            <label for="cityInput" class="fw-bold">City</label>
-          </div>
-          <div class="col-md-9">
-            <input
-            type="text"
-            name="city"
+            name="lastName"
             class="form-control-plaintext"
-            id="cityInput"
-            [(ngModel)]="city"
+            id="lastNameInput"
+            [(ngModel)]="lastName"
             [readOnly]="!inEditMode"
             (input)="validate()"
-            />
-          </div>
+          />
         </div>
       </div>
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-md-3">
-            <label for="stateInput" class="fw-bold">State</label>
-          </div>
-          <div class="col-md-9">
-            <input
-              type="text"
-              name="state"
-              readonly
-              class="form-control-plaintext"
-              id="stateInput"
-              [(ngModel)]="state"
-              [readOnly]="!inEditMode"
-              (input)="validate()"
-            />
-          </div>
+      <div class="row border border-top-0 p-2">
+        <div class="col-md-3 d-flex align-items-center">
+          <label for="streetAddrInput" class="fw-bold">Street address</label>
+        </div>
+        <div class="col-md-9">
+          <input
+            type="text"
+            name="streetAddr"
+            class="form-control-plaintext"
+            id="streetAddrInput"
+            [(ngModel)]="streetAddr"
+            [readOnly]="!inEditMode"
+            (input)="validate()"
+          />
         </div>
       </div>
-      <div class="mb-3">
-        <div class="row">
-          <div class="col-sm-3">
-            <label for="zipCodeInput" class="fw-bold">Zip code</label>
-          </div>
-          <div class="col-md-9">
-            <input
-              type="text"
-              name="zipCode"
-              class="form-control-plaintext"
-              id="zipCodeInput"
-              [(ngModel)]="zipCode"
-              [readOnly]="!inEditMode"
-              (input)="validate()"
-              readonly
-            />
-          </div>
+      <div class="row border border-top-0 p-2">
+        <div class="col-md-3 d-flex align-items-center">
+          <label for="cityInput" class="fw-bold">City</label>
+        </div>
+        <div class="col-md-9">
+          <input
+          type="text"
+          name="city"
+          class="form-control-plaintext"
+          id="cityInput"
+          [(ngModel)]="city"
+          [readOnly]="!inEditMode"
+          (input)="validate()"
+          />
+        </div>
+      </div>
+      <div class="row border border-top-0 p-2">
+        <div class="col-md-3 d-flex align-items-center">
+          <label for="stateInput" class="fw-bold">State</label>
+        </div>
+        <div class="col-md-9">
+          <input
+            type="text"
+            name="state"
+            readonly
+            class="form-control-plaintext"
+            id="stateInput"
+            [(ngModel)]="state"
+            [readOnly]="!inEditMode"
+            (input)="validate()"
+          />
+        </div>
+      </div>
+      <div class="row border border-top-0 rounded-4 rounded-top-0 p-2 mb-3">
+        <div class="col-sm-3 d-flex align-items-center">
+          <label for="zipCodeInput" class="fw-bold">Zip code</label>
+        </div>
+        <div class="col-md-9">
+          <input
+            type="text"
+            name="zipCode"
+            class="form-control-plaintext"
+            id="zipCodeInput"
+            [(ngModel)]="zipCode"
+            [readOnly]="!inEditMode"
+            (input)="validate()"
+            readonly
+          />
         </div>
       </div>
       <div class="d-flex justify-content-center">
