@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { from } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { ToastService } from '../shared/services/toast/toast.service';
  
 @Component({
   selector: 'app-signup',
@@ -28,6 +29,7 @@ export class SignupComponent implements OnInit {
     public router: Router,
     public afAuth: AngularFireAuth,
     public afs: AngularFirestore,
+    public toastService: ToastService
     ) {
     headerService.setHeader('Sign Up');
   }
@@ -77,11 +79,12 @@ export class SignupComponent implements OnInit {
 
                 const userProfilesCollection = this.afs.collection('UserProfiles');
                 userProfilesCollection.add(newUserProfile)
-                alert(`Your account has been created ${this.firstName}!`)
+                this.toastService.show(`Your account has been created ${this.firstName}!`)
                 this.router.navigate(['/']);
             },
             error: (error) => {
-                alert(`Could not create new user: ${error}. Try again?`)
+                this.toastService.show(`Could not create new user: ${error}. Try again?`, 'danger');
+                console.log(error.toString());
             }
         });
     }

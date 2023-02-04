@@ -13,7 +13,8 @@ export const environment = {
     authDomain: 'barber-service-45e86.firebaseapp.com',
     messagingSenderId: '624790222178',
     measurementId: 'G-94TSRFXMXE',
-  }
+  },
+  useEmulators: true
 };
 
 /*

@@ -1,11 +1,11 @@
 import * as functions from 'firebase-functions';
-import { AppointmentData } from '../../src/app/shared/types/appointmentData';
 import { google } from 'googleapis';
 import { 
   BARBER_SERVICE_CALENDAR_ID,
   API_KEY_FILE,
   SCOPES
 } from './shared/constants/constants';
+import { from } from 'rxjs'
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -49,11 +49,31 @@ exports.createAppointment = functions.https.onCall(
 
 exports.getTimeSlots = functions.https.onCall(
   (date: Date) => {
-    calendar.freebusy.query({
+    const currDateAsString = date.toISOString();
+    date.setDate(date.getDate() + 14);
+    const limit = date;
+    const limitDateAsString = limit.toISOString();
+    
+    
+    const res =  calendar.freebusy.query({
       requestBody: {
-        
+        items: [{
+          id: BARBER_SERVICE_CALENDAR_ID
+        }],
+        timeMin: currDateAsString,
+        timeMax: limitDateAsString
       }
     });
     
+    const res$ = from(res);
+
+    res$.subscribe({
+      next: (response) => {
+        return response;
+      },
+      error: (err) => {
+        return err
+      },
+    });
   }
 );

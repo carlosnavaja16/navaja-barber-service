@@ -10,7 +10,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from './booking/booking.component';
 
-const redirectUnauthorizedToHome = () => redirectUnauthorizedTo(['home']);
+const redirectUnauthorizedToHome = () => redirectUnauthorizedTo(['']);
 
 const routes: Routes = [
     { path: '', component: HomeComponent },

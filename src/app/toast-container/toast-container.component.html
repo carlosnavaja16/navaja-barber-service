@@ -1,7 +1,7 @@
 <ngb-toast
   *ngFor="let toast of toastService.toasts; index as i"
-  [delay]="3000"
-  class="text-bg-primary"
+  [delay]="5000"
+  [ngClass]="'text-bg-' + toast.type "
   (hidden)="toastService.remove(toast)"
   >
   <div class="d-flex justify-content-between">
