@@ -1,8 +1,8 @@
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { HeaderService } from '../shared/services/header/header.service';
 import { Component } from '@angular/core';
-import { Observable, from, take } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable, take } from 'rxjs';
+import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { ToastService } from '../shared/services/toast/toast.service';
 
@@ -19,8 +19,8 @@ export class LoginComponent {
   constructor(
     public headerService: HeaderService,
     public router: Router, 
-    public afAuth: AngularFireAuth,
-    public afs: AngularFirestore,
+    public auth: Auth,
+    public firestore: Firestore,
     public toastService: ToastService
     ) {
     this.headerService.setHeader("Login")
@@ -30,25 +30,21 @@ export class LoginComponent {
   }
 
   login(): void {
-    const userPromise = this.afAuth.signInWithEmailAndPassword(this.email, this.password);
-    const userObservable = from(userPromise);
-    userObservable.subscribe({
-      next: (user) => {
-        const userProfilesCollection = this.afs.collection('UserProfiles', ref => ref.where('userId', "==", user.user?.uid));
-        const userProfilesObservable: Observable<any> = userProfilesCollection.valueChanges();
-        userProfilesObservable
-        .pipe(take(1))
-        .subscribe({
-          next: (usersProfile) => {
-            this.toastService.show(`Login successful. Welcome back ${usersProfile[0].firstName}!`);
-            this.router.navigate(['/']);
-          },
-          error: (err) => {
-            
-          }
-        });
-      },
+    const userPromise = signInWithEmailAndPassword(this.auth, this.email, this.password);
+    userPromise.then((user) => {
+      const userCollection = collection(this.firestore, 'UserProfiles')
+      const userQuery = query(userCollection, where('userId', '==', user.user.uid));
+      const userProfilesObservable: Observable<any> = collectionData(userQuery)
+      userProfilesObservable
+      .pipe(take(1))
+      .subscribe({
+        next: (usersProfile) => {
+          this.toastService.show(`Login successful. Welcome back ${usersProfile[0].firstName}!`);
+          this.router.navigate(['/']);
+        }
+      });
+    }).catch((error) => {
+      this.toastService.show(`Could not authenticate: ${error}`, 'danger');
     });
   }
-
 }

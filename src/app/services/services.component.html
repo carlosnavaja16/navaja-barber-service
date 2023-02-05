@@ -1,5 +1,5 @@
 <div class="container">
-  <p  *ngIf="!(isLoggedIn$ | async)" class="text-center mb-5">
+  <p  *ngIf="!(this.authService.isLoggedIn()| async)" class="text-center mb-5">
     <small>
       In order to book you will need to <a [routerLink]="'/login'">Log In</a>. Don't have an account? <a [routerLink]="'/signup'">Sign Up.</a>
     </small>
@@ -7,7 +7,7 @@
   <ul class="list-group">
     <li
       class="list-group-item d-flex justify-content-between align-items-center"
-      *ngFor="let service of services | async"
+      *ngFor="let service of services$ | async"
     >
       <div class="d-flex flex-column">
         <h5>{{ service.name }}</h5>

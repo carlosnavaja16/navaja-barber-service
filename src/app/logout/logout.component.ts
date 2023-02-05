@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth } from '@angular/fire/auth';
 import { ToastService } from '../shared/services/toast/toast.service';
 
 @Component({
@@ -10,13 +10,13 @@ import { ToastService } from '../shared/services/toast/toast.service';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(public afAuth: AngularFireAuth,
+  constructor(public auth: Auth,
    public router: Router,
    public toastService: ToastService
    ) { }
 
   ngOnInit(): void {
-    this.afAuth.signOut();
+    this.auth.signOut();
     this.toastService.show('Logged out successfully.');
     this.router.navigate(['/']);
   }

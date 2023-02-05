@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -9,8 +9,9 @@ export class AuthService {
 
   loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(public afAuth: AngularFireAuth) {
-    this.afAuth.onAuthStateChanged((user) => {
+  constructor(public auth: Auth) {
+    onAuthStateChanged( auth,
+      (user) => {
         if (user) {
           this.loggedIn.next(true);
         }

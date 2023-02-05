@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Auth, user } from '@angular/fire/auth';
+import { Firestore, collection, collectionData, query, where, doc, updateDoc } from '@angular/fire/firestore';
 import { Observable, take } from 'rxjs';
-import { HashLocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -30,8 +29,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public headerService: HeaderService,
-    public afAuth: AngularFireAuth,
-    public afs: AngularFirestore
+    public auth: Auth,
+    public firestore: Firestore
   ) {
     headerService.setHeader('Profile');
   }
@@ -39,15 +38,12 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
 
     //get user data from db
-    const userObservable = this.afAuth.user;
+    const userObservable = user(this.auth);
     userObservable.subscribe({
       next: (user) => {
-        const userProfilesCollection = this.afs.collection(
-          'UserProfiles',
-          (ref) => ref.where('userId', '==', user?.uid)
-        );
-        const userProfilesObservable: Observable<any> =
-          userProfilesCollection.valueChanges({ idField: 'userProfileId' });
+        const userProfilesCollection = collection(this.firestore, 'UserProfiles');
+        const userQuery = query(userProfilesCollection, where('userId', '==', user?.uid));
+        const userProfilesObservable: Observable<any> = collectionData(userQuery)
         userProfilesObservable.pipe(take(1)).subscribe({
           next: (userProfiles) => {
             this.userProfileId = userProfiles[0].userProfileId;
@@ -94,8 +90,9 @@ export class ProfileComponent implements OnInit {
           zipCode: this.zipCode,
         };
 
-        const userProfilesCollection = this.afs.collection('UserProfiles');
-        userProfilesCollection.doc(this.userProfileId).update(updatedUserProfile);
+        const userProfilesCollection = collection(this.firestore, 'UserProfiles');
+        const userProfileDoc = doc(this.firestore, this.userProfileId)
+        updateDoc(userProfileDoc, updatedUserProfile);
 
         //user data has been updated we can then revert to edit mode
         this.inEditMode = false;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Firestore, collection, query, collectionData, orderBy } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
 import { AuthService } from '../shared/services/auth/auth.service';
@@ -11,17 +11,18 @@ import { AuthService } from '../shared/services/auth/auth.service';
 })
 export class ServicesComponent implements OnInit {
 
-  services: Observable<any[]>;
-  isLoggedIn$: Observable<boolean>;
+  services$: Observable<any[]>;
 
   constructor(
-    afs: AngularFirestore,
+    firestore: Firestore,
     headerService: HeaderService,
-    authService: AuthService
+    public authService: AuthService
     ) { 
-    this.services = afs.collection('Services', ref => ref.orderBy('price', 'asc')).valueChanges();
+     //ref => ref.orderBy('price', 'asc') 
+    const servicesCollection = collection(firestore, 'Services');
+    const servicesQuery = query(servicesCollection, orderBy('price', 'asc'));
+    this.services$ = collectionData(servicesQuery);
     headerService.setHeader("Services");
-    this.isLoggedIn$ = authService.isLoggedIn();
   }
 
   ngOnInit(): void {
