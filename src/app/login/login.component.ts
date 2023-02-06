@@ -30,8 +30,8 @@ export class LoginComponent {
   }
 
   login(): void {
-    const userPromise = signInWithEmailAndPassword(this.auth, this.email, this.password);
-    userPromise.then((user) => {
+    signInWithEmailAndPassword(this.auth, this.email, this.password)
+      .then((user) => {
       const userCollection = collection(this.firestore, 'UserProfiles')
       const userQuery = query(userCollection, where('userId', '==', user.user.uid));
       const userProfilesObservable: Observable<any> = collectionData(userQuery)
@@ -44,7 +44,7 @@ export class LoginComponent {
         }
       });
     }).catch((error) => {
-      this.toastService.show(`Could not authenticate: ${error}`, 'danger');
+      this.toastService.show(`Could not authenticate: ${error.message}`, 'danger');
     });
   }
 }

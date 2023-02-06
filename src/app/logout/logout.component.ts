@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth } from '@angular/fire/auth';
+import { Auth, signOut } from '@angular/fire/auth';
 import { ToastService } from '../shared/services/toast/toast.service';
 
 @Component({
@@ -16,9 +16,14 @@ export class LogoutComponent implements OnInit {
    ) { }
 
   ngOnInit(): void {
-    this.auth.signOut();
-    this.toastService.show('Logged out successfully.');
-    this.router.navigate(['/']);
+    signOut(this.auth)
+      .then(() => {
+        this.toastService.show('Logged out successfully.');
+        this.router.navigate(['/']);
+      })
+      .catch((err) => {
+        this.toastService.show(`Could not logout: ${err}`);
+      });
   }
 
 }

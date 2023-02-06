@@ -48,32 +48,29 @@ exports.createAppointment = functions.https.onCall(
 */
 
 exports.getTimeSlots = functions.https.onCall(
-  (date: Date) => {
-    const currDateAsString = date.toISOString();
-    date.setDate(date.getDate() + 14);
-    const limit = date;
+  (data: {date: Date}) => {
+    const currDateAsString = data.date.toISOString();
+    data.date.setDate(data.date.getDate() + 14);
+    const limit = data.date;
     const limitDateAsString = limit.toISOString();
     
-    
-    const res =  calendar.freebusy.query({
-      requestBody: {
-        items: [{
-          id: BARBER_SERVICE_CALENDAR_ID
-        }],
-        timeMin: currDateAsString,
-        timeMax: limitDateAsString
-      }
-    });
-    
-    const res$ = from(res);
+    const requestBody = {
+      items: [{
+        id: BARBER_SERVICE_CALENDAR_ID
+      }],
+      timeMin: currDateAsString,
+      timeMax: limitDateAsString,
+      timeZone: 'EST'
+    };
 
-    res$.subscribe({
-      next: (response) => {
-        return response;
-      },
-      error: (err) => {
-        return err
-      },
+    calendar.freebusy.query({ requestBody: requestBody})
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => {
+      console.log(err)
+      return err
     });
   }
 );

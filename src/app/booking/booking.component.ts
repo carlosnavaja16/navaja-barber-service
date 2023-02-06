@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { timingSafeEqual } from 'crypto';
+import { Functions, httpsCallable, httpsCallableData } from '@angular/fire/functions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
@@ -14,9 +15,11 @@ export class BookingComponent {
   currNgbDate: NgbDate;
   limitDate: Date;
   limitNgbDate: NgbDate;
+  getTimeSlotsFunction: (data: any) => Observable<any>;
 
   constructor(
     public headerService: HeaderService,
+    public functions: Functions
   ) {
     headerService.setHeader('Booking');
     this.currDate = new Date();
@@ -25,8 +28,7 @@ export class BookingComponent {
       this.currDate.getMonth() + 1,
       this.currDate.getDate()
     );
-    console.log(this.currDate);
-    console.log(this.currNgbDate);
+
     this.limitDate = new Date();
     this.limitDate.setDate(this.limitDate.getDate() + 14);
     this.limitNgbDate = new NgbDate(
@@ -34,8 +36,7 @@ export class BookingComponent {
       this.limitDate.getMonth() + 1,
       this.limitDate.getDate()
     );
-    console.log(this.limitDate);
-    console.log(this.limitNgbDate);
+    this.getTimeSlotsFunction = httpsCallableData(this.functions, 'getTimeSlots', {timeout: 5000});
   }
 
   sundaysDisabled(date: NgbDate, current?: { year: number; month: number; }): boolean {
@@ -44,6 +45,16 @@ export class BookingComponent {
   }
 
   getTimeSlots(){
-    console.log("time slots returned!")
+    const date = new Date();
+    const timeSlotObservable = this.getTimeSlotsFunction({date: date})
+    timeSlotObservable.subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
+
   }
 }
