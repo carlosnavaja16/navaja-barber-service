@@ -1,0 +1,17 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@include media-breakpoint-down(md);
+
+.inline-calendar-card {
+  max-width: 400px;
+  min-width: 300px;
+}
+
+.booking-stepper {
+  width: 575px;
+}
+
+@include media-breakpoint-down(md) {
+  .booking-stepper {
+    width: 100%;
+  }
+}

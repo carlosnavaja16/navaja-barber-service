@@ -1,49 +1,63 @@
-import { Component, OnInit } from '@angular/core';
-import { HeaderService } from '../shared/services/header/header.service';
-import { Auth, user } from '@angular/fire/auth';
-import { Firestore, collection, collectionData, query, where, doc, updateDoc } from '@angular/fire/firestore';
-import { Observable, take } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+import { HeaderService } from "../shared/services/header/header.service";
+import { Auth, user } from "@angular/fire/auth";
+import {
+  Firestore,
+  collection,
+  collectionData,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from "@angular/fire/firestore";
+import { Observable, take } from "rxjs";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  selector: "app-profile",
+  templateUrl: "./profile.component.html",
+  styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
   //edit mode is initially set to false
   inEditMode = false;
-  btnStatus = 'Edit';
+  btnStatus = "Edit";
 
   //form has not been submitted and it is assumed to be valid
   submitAttempted = false;
   formValid = true;
 
-  userProfileId = '';
-  firstName = '';
-  lastName = '';
-  streetAddr = '';
-  city = '';
-  state = 'FL';
-  zipCode = '';
-  userId = '';
+  userProfileId = "";
+  firstName = "";
+  lastName = "";
+  streetAddr = "";
+  city = "";
+  state = "FL";
+  zipCode = "";
+  userId = "";
 
   constructor(
     public headerService: HeaderService,
     public auth: Auth,
-    public firestore: Firestore
+    public firestore: Firestore,
   ) {
-    headerService.setHeader('Profile');
+    headerService.setHeader("Profile");
   }
 
   ngOnInit(): void {
-
     //get user data from db
     const userObservable = user(this.auth);
     userObservable.subscribe({
       next: (user) => {
-        const userProfilesCollection = collection(this.firestore, 'UserProfiles');
-        const userQuery = query(userProfilesCollection, where('userId', '==', user?.uid));
-        const userProfilesObservable: Observable<any> = collectionData(userQuery)
+        const userProfilesCollection = collection(
+          this.firestore,
+          "UserProfiles",
+        );
+        const userQuery = query(
+          userProfilesCollection,
+          where("userId", "==", user?.uid),
+        );
+        const userProfilesObservable: Observable<any> =
+          collectionData(userQuery);
         userProfilesObservable.pipe(take(1)).subscribe({
           next: (userProfiles) => {
             this.userProfileId = userProfiles[0].userProfileId;
@@ -61,19 +75,18 @@ export class ProfileComponent implements OnInit {
   }
 
   toggleEditMode() {
-    const inputsFields = document.querySelectorAll('input');
+    const inputsFields = document.querySelectorAll("input");
 
     if (!this.inEditMode) {
       this.inEditMode = true;
-      this.btnStatus = 'Submit';
-      document.getElementById('editButton')?.classList.remove('btn-primary');
-      document.getElementById('editButton')?.classList.add('btn-success');
+      this.btnStatus = "Submit";
+      document.getElementById("editButton")?.classList.remove("btn-primary");
+      document.getElementById("editButton")?.classList.add("btn-success");
       inputsFields.forEach((input) => {
-        input.classList.remove('form-control-plaintext');
-        input.classList.add('form-control');
+        input.classList.remove("form-control-plaintext");
+        input.classList.add("form-control");
       });
     } else {
-
       //submission has been attempted so we check that the data is valid
       //before updating the db
       this.submitAttempted = true;
@@ -90,41 +103,48 @@ export class ProfileComponent implements OnInit {
           zipCode: this.zipCode,
         };
 
-        const userProfilesCollection = collection(this.firestore, 'UserProfiles');
-        const userProfileDoc = doc(this.firestore, this.userProfileId)
+        const userProfilesCollection = collection(
+          this.firestore,
+          "UserProfiles",
+        );
+        const userProfileDoc = doc(this.firestore, this.userProfileId);
         updateDoc(userProfileDoc, updatedUserProfile);
 
         //user data has been updated we can then revert to edit mode
         this.inEditMode = false;
-        this.btnStatus = 'Edit';
-        document.getElementById('editButton')?.classList.add('btn-primary');
-        document.getElementById('editButton')?.classList.remove('btn-success');
+        this.btnStatus = "Edit";
+        document.getElementById("editButton")?.classList.add("btn-primary");
+        document.getElementById("editButton")?.classList.remove("btn-success");
         inputsFields.forEach((input) => {
-          input.classList.add('form-control-plaintext');
-          input.classList.remove('form-control');
+          input.classList.add("form-control-plaintext");
+          input.classList.remove("form-control");
         });
       }
-    } 
+    }
   }
 
   validate(): void {
     if (this.submitAttempted) {
       this.formValid = true;
-      this.validateInput(this.firstName, 'firstNameInput', /[a-zA-Z]{2,}/g);
-      this.validateInput(this.lastName, 'lastNameInput', /[a-zA-Z]{2,}/g);
-      this.validateInput(this.streetAddr, 'streetAddrInput', /\d+\s+\w+\s+\w+/g);
-      this.validateInput(this.city, 'cityInput', /[a-zA-Z]{2,}/g);
-      this.validateInput(this.state, 'stateInput', /FL/g);
-      this.validateInput(this.zipCode, 'zipCodeInput', /\d{5}/g);
+      this.validateInput(this.firstName, "firstNameInput", /[a-zA-Z]{2,}/g);
+      this.validateInput(this.lastName, "lastNameInput", /[a-zA-Z]{2,}/g);
+      this.validateInput(
+        this.streetAddr,
+        "streetAddrInput",
+        /\d+\s+\w+\s+\w+/g,
+      );
+      this.validateInput(this.city, "cityInput", /[a-zA-Z]{2,}/g);
+      this.validateInput(this.state, "stateInput", /FL/g);
+      this.validateInput(this.zipCode, "zipCodeInput", /\d{5}/g);
     }
   }
 
   validateInput(input: string, inputField: string, pattern: RegExp): void {
     if (pattern.test(input)) {
-      document.getElementById(inputField)?.classList.remove('is-invalid');
+      document.getElementById(inputField)?.classList.remove("is-invalid");
     } else {
       this.formValid = false;
-      document.getElementById(inputField)?.classList.add('is-invalid');
+      document.getElementById(inputField)?.classList.add("is-invalid");
     }
   }
 }

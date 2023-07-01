@@ -1,60 +1,59 @@
-import { Component } from '@angular/core';
-import { HeaderService } from '../shared/services/header/header.service';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { Functions, httpsCallable, httpsCallableData } from '@angular/fire/functions';
-import { Observable } from 'rxjs';
+import { Component } from "@angular/core";
+import { HeaderService } from "../shared/services/header/header.service";
+import {
+  DocumentData,
+  Firestore,
+  collection,
+  collectionData,
+  orderBy,
+  query,
+} from "@angular/fire/firestore";
+import { Observable } from "rxjs";
+import {
+  Functions,
+  HttpsCallableOptions,
+  httpsCallable,
+} from "@angular/fire/functions";
+import { Auth } from "@angular/fire/auth";
 
 @Component({
-  selector: 'app-booking',
-  templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss']
+  selector: "app-booking",
+  templateUrl: "./booking.component.html",
+  styleUrls: ["./booking.component.scss"],
 })
 export class BookingComponent {
+  getSundaysDisabled = (date: Date) => {
+    return date.getDay() !== 0;
+  };
 
-  currDate: Date;
-  currNgbDate: NgbDate;
-  limitDate: Date;
-  limitNgbDate: NgbDate;
-  getTimeSlotsFunction: (data: any) => Observable<any>;
+  getAvailableSlots = httpsCallable(this.functions, "getHello");
+
+  services$: Observable<DocumentData[]>;
 
   constructor(
     public headerService: HeaderService,
-    public functions: Functions
+    public firestore: Firestore,
+    public functions: Functions,
+    public auth: Auth,
   ) {
-    headerService.setHeader('Booking');
-    this.currDate = new Date();
-    this.currNgbDate = new NgbDate(
-      this.currDate.getFullYear(),
-      this.currDate.getMonth() + 1,
-      this.currDate.getDate()
-    );
-
-    this.limitDate = new Date();
-    this.limitDate.setDate(this.limitDate.getDate() + 14);
-    this.limitNgbDate = new NgbDate(
-      this.limitDate.getFullYear(),
-      this.limitDate.getMonth() + 1,
-      this.limitDate.getDate()
-    );
-    this.getTimeSlotsFunction = httpsCallableData(this.functions, 'getTimeSlots', {timeout: 5000});
+    headerService.setHeader("Booking");
+    const servicesCollection = collection(firestore, "Services");
+    const servicesQuery = query(servicesCollection, orderBy("price", "asc"));
+    this.services$ = collectionData(servicesQuery);
   }
 
-  sundaysDisabled(date: NgbDate, current?: { year: number; month: number; }): boolean {
-    const currDate = new Date(date.year, date.month - 1, date.day);
-    return currDate.getDay() === 0;
-  }
+  getTimeSlots() {
+    const requestData: any = {
+      eventDurationMilliseconds: 1000 * 60 * 60,
+      utcOffset: new Date().getTimezoneOffset(),
+    };
 
-  getTimeSlots(){
-    const date = new Date();
-    const timeSlotObservable = this.getTimeSlotsFunction({date: date})
-    timeSlotObservable.subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (err) => {
-        console.log(err)
-      }
-    });
-
+    this.getAvailableSlots(requestData)
+      .then((timeSlots) => {
+        console.log(JSON.stringify(timeSlots, null, 2));
+      })
+      .catch((err) => {
+        console.log(JSON.stringify(err, null, 2));
+      });
   }
 }
