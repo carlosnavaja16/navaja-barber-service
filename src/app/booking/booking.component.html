@@ -1,7 +1,38 @@
-<div class="container">
+<div
+  class="container d-flex flex-column justify-content-center align-items-center"
+>
   <h3 class="text-center mb-3">Choose a date</h3>
-  <div class="d-flex flex-column justify-content-center align-items-center">
-    <ngb-datepicker #d [minDate]="currNgbDate" [maxDate]="limitNgbDate" [markDisabled]="sundaysDisabled" (dateSelect)="getTimeSlots()"></ngb-datepicker>
-    <button class="btn btn-primary mt-3"(click)="getTimeSlots()">getTimeSlots</button>
-  </div>
+  <button (click)="getTimeSlots()">Next</button>
+  <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
+    <mat-step label="Select a service">
+      <mat-form-field class="w-100 mt-3">
+        <mat-select>
+          <mat-option
+            *ngFor="let service of services$ | async as services"
+            [value]="services[0]"
+            (onSelectionChange)="stepper.selectedIndex = 1"
+          >
+            <b>{{ service["name"] }}</b> ·
+            <small>${{ service["price"] }}</small>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-step>
+    <mat-step label="Select a date">
+      <mat-card class="inline-calendar-card mt-3 mb-3">
+        <mat-calendar [dateFilter]="getSundaysDisabled"></mat-calendar>
+      </mat-card>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      You are now done.
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
 </div>

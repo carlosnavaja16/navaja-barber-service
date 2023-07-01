@@ -1,26 +1,39 @@
 <div class="container">
   <div class="d-flex justify-content-center mb-5">
-    <img src="../../assets/barberPhoto.png" alt="barberPhoto" height="175px">
+    <img src="../../assets/barberPhoto.png" alt="barberPhoto" height="175px" />
   </div>
   <h1 class="text-center">Carlos Rossi</h1>
   <h5 class="text-center">Mobile Barber</h5>
   <p class="text-center">
-  <a class="text-black" href="https://www.myfloridalicense.com/LicenseDetail.asp?SID=&id=E79197D13A9225C488E924A53DD6153F">
-    <small>Licensed by the State of Florida</small>
-  </a>
+    <a
+      class="text-black"
+      href="https://www.myfloridalicense.com/LicenseDetail.asp?SID=&id=E79197D13A9225C488E924A53DD6153F"
+    >
+      <small>Licensed by the State of Florida</small>
+    </a>
   </p>
   <p class="text-center">Book me and I will come to you!</p>
 
   <div class="d-flex justify-content-center">
-    <a 
-      type="button" 
-      class="btn btn-primary book-btn" 
-      [ngbTooltip]=" (this.auth.isLoggedIn() | async) ? '' : 'In order to book you will need to Log In' "
-      [routerLink]=" (this.auth.isLoggedIn() | async) ? '/booking' : '/login' "
+    <a
+      type="button"
+      class="btn btn-primary book-btn"
+      [ngbTooltip]="
+        (this.auth.getIsLoggedIn$() | async)
+          ? ''
+          : 'In order to book you will need to Log In'
+      "
+      [routerLink]="
+        (this.auth.getIsLoggedIn$() | async) ? '/booking' : '/login'
+      "
     >
       <i class="bi bi-calendar-check-fill"></i> &nbsp; Book
     </a>
-    <a type="button" href="tel:19545158474" class="btn btn-primary book-btn ms-3">
+    <a
+      type="button"
+      href="tel:19545158474"
+      class="btn btn-primary book-btn ms-3"
+    >
       <i class="bi bi-telephone-fill"></i> &nbsp; Call
     </a>
   </div>

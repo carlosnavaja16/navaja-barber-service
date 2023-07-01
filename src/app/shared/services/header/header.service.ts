@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class HeaderService {
-    private header = new BehaviorSubject<string>("Vonnegut Barber Service");
+  private titleService: Title = inject(Title);
+  private header = new BehaviorSubject<string>("Vonnegut Barber Service");
 
-    constructor() {
-
-   }
-
-   setHeader(header: string): void{
+  public setHeader(header: string): void {
+    this.titleService.setTitle(header);
     this.header.next(header);
-   }
+  }
 
-   getHeader(): Observable<string>{
+  public getHeader$(): Observable<string> {
     return this.header.asObservable();
-   }
+  }
 }

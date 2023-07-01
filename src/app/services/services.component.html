@@ -1,7 +1,11 @@
 <div class="container">
-  <p  *ngIf="!(this.authService.isLoggedIn()| async)" class="text-center mb-5">
+  <p
+    *ngIf="!(this.authService.getIsLoggedIn$() | async)"
+    class="text-center mb-5"
+  >
     <small>
-      In order to book you will need to <a [routerLink]="'/login'">Log In</a>. Don't have an account? <a [routerLink]="'/signup'">Sign Up.</a>
+      In order to book you will need to <a [routerLink]="'/login'">Log In</a>.
+      Don't have an account? <a [routerLink]="'/signup'">Sign Up.</a>
     </small>
   </p>
   <ul class="list-group">
@@ -10,11 +14,13 @@
       *ngFor="let service of services$ | async"
     >
       <div class="d-flex flex-column">
-        <h5>{{ service.name }}</h5>
-        <small>{{ service.desc }} · {{ service.duration }}mins</small>
+        <h5>{{ service["name"] }}</h5>
+        <small>{{ service["desc"] }} · {{ service["duration"] }}mins</small>
       </div>
       <div>
-        <span class="badge bg-primary rounded-pill">${{ service.price }}</span>
+        <span class="badge bg-primary rounded-pill"
+          >${{ service["price"] }}</span
+        >
       </div>
     </li>
   </ul>

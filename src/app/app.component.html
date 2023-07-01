@@ -1,38 +1,96 @@
 <nav class="fixed-top navbar navbar-expand-lg bg-light mb-5">
   <div class="container">
     <a class="navbar-brand" routerLink="/">
-      <img src="../assets/vonnegutBannerBlack.png" alt="brand banner" height="30px" />
+      <img
+        src="../assets/vonnegutBannerBlack.png"
+        alt="brand banner"
+        height="30px"
+      />
     </a>
-    <button class="navbar-toggler" (click)="isNavCollapsed = !isNavCollapsed">
+    <button class="navbar-toggler" (click)="navBarToggle()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div [ngbCollapse]="isNavCollapsed" class="collapse navbar-collapse">
+    <div
+      [ngbCollapse]="(isNavbarCollapsed$ | async)!"
+      class="collapse navbar-collapse"
+    >
       <ul class="navbar-nav ms-auto">
-        <a 
-        class="nav-link" 
-        [routerLink]="'/'" 
-        (click)="isNavCollapsed = true" 
-        [routerLinkActive]="['active', 'fw-bold']" 
-        [routerLinkActiveOptions]="{exact: true}">
-        Home</a>
-        <a class="nav-link" [routerLink]="'/services'" (click)="isNavCollapsed = true" [routerLinkActive]="['fw-bold']">Services</a>
-        <a class="nav-link" [routerLink]="'/gallery'" (click)="isNavCollapsed = true" [routerLinkActive]="['fw-bold']">Gallery</a>
-        <a *ngIf="!isLoggedIn" class="nav-link" [routerLink]="'/login'" (click)="isNavCollapsed = true" [routerLinkActive]="['fw-bold']">Login</a>
-        <a *ngIf="!isLoggedIn" class="nav-link" [routerLink]="'/signup'" (click)="isNavCollapsed = true" [routerLinkActive]="['fw-bold']">
-          Sign up
-        </a>
-        <a *ngIf="isLoggedIn" class="nav-link" [routerLink]="'/profile'" (click)="isNavCollapsed = true" [routerLinkActive]="['fw-bold']">Profile
-        </a>
-        <a *ngIf="isLoggedIn" class="nav-link" [routerLink]="'/logout'" (click)="isNavCollapsed = true">Logout
-        </a>
+        <a
+          class="nav-link"
+          [routerLink]="'/'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['active', 'fw-bold']"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Home</a
+        >
+        <a
+          class="nav-link"
+          [routerLink]="'/services'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['fw-bold']"
+          >Services</a
+        >
+        <a
+          class="nav-link"
+          [routerLink]="'/gallery'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['fw-bold']"
+          >Gallery</a
+        >
+        <ng-container
+          *ngIf="{ value: authService.getIsLoggedIn$() | async } as isLoggedIn"
+        >
+          <a
+            *ngIf="!isLoggedIn.value"
+            class="nav-link"
+            [routerLink]="'/login'"
+            (click)="collapseNavbar()"
+            [routerLinkActive]="['fw-bold']"
+            >Login</a
+          >
+          <a
+            *ngIf="!isLoggedIn.value"
+            class="nav-link"
+            [routerLink]="'/signup'"
+            (click)="collapseNavbar()"
+            [routerLinkActive]="['fw-bold']"
+          >
+            Sign up
+          </a>
+          <a
+            *ngIf="isLoggedIn.value"
+            class="nav-link"
+            [routerLink]="'/profile'"
+            (click)="collapseNavbar()"
+            [routerLinkActive]="['fw-bold']"
+            >Profile
+          </a>
+          <a
+            *ngIf="isLoggedIn.value"
+            class="nav-link"
+            [routerLink]="'/booking'"
+            (click)="collapseNavbar()"
+            [routerLinkActive]="['fw-bold']"
+            >Book
+          </a>
+          <a
+            *ngIf="isLoggedIn.value"
+            class="nav-link"
+            [routerLink]="'/logout'"
+            (click)="collapseNavbar()"
+            >Logout
+          </a>
+        </ng-container>
       </ul>
     </div>
   </div>
 </nav>
 
 <div class="d-flex flex-column vh-100 justify-content-between">
-
-  <h1 class="display-1 text-center mb-5 mt-5 pt-4 kurt-font">{{ header }}</h1>
+  <h1 class="display-1 text-center mb-5 mt-5 pt-4 kurt-font">
+    {{ headerService.getHeader$() | async }}
+  </h1>
 
   <div>
     <router-outlet></router-outlet>
@@ -42,15 +100,18 @@
     <div class="container">
       <div class="row pt-5 pb-4">
         <div class="col-md-6">
-          <h6 class="text-uppercase fw-bold mb-3">
-            Vonnegut Barber Service
-          </h6>
+          <h6 class="text-uppercase fw-bold mb-3">Vonnegut Barber Service</h6>
           <p>
             <small>
-              This application was developed using the 
+              This application was developed using the
               <a href="https://angular.io/" class="text-reset">Angular</a>,
-              <a href="https://getbootstrap.com/" class="text-reset">Bootstrap</a>
-              and <a href="https://firebase.google.com/" class="text-reset">Firebase</a>.
+              <a href="https://getbootstrap.com/" class="text-reset"
+                >Bootstrap</a
+              >
+              and
+              <a href="https://firebase.google.com/" class="text-reset"
+                >Firebase</a
+              >.
             </small>
           </p>
         </div>
@@ -61,13 +122,21 @@
               <p>
                 <small>
                   <i class="bi bi-linkedin me-3 text-secondary"></i>
-                  <a class="text-reset" href="https://www.linkedin.com/in/carlosnavaja16/">LinkedIn</a>
+                  <a
+                    class="text-reset"
+                    href="https://www.linkedin.com/in/carlosnavaja16/"
+                    >LinkedIn</a
+                  >
                 </small>
               </p>
               <p>
                 <small>
                   <i class="bi bi-github me-3 text-secondary"></i>
-                  <a class="text-reset" href="https://www.github.com/carlosnavaja16/">Github</a>
+                  <a
+                    class="text-reset"
+                    href="https://www.github.com/carlosnavaja16/"
+                    >Github</a
+                  >
                 </small>
               </p>
             </div>
@@ -75,7 +144,9 @@
               <p>
                 <small>
                   <i class="bi bi-envelope-fill me-3 text-secondary"></i>
-                  <a class="text-reset" href="mailto:carlos.rossi16@gmail.com">Email</a>
+                  <a class="text-reset" href="mailto:carlos.rossi16@gmail.com"
+                    >Email</a
+                  >
                 </small>
               </p>
               <p>
@@ -91,5 +162,3 @@
     </div>
   </footer>
 </div>
-
-<app-toast-container></app-toast-container>

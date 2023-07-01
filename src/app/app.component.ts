@@ -1,32 +1,32 @@
-import { Component, ViewChild } from '@angular/core';
-import { AuthService } from './shared/services/auth/auth.service';
-import { HeaderService } from './shared/services/header/header.service';
-import { Title } from '@angular/platform-browser';
-import { ToastService, toast } from './shared/services/toast/toast.service';
+import { Component, ViewChild } from "@angular/core";
+import { AuthService } from "./shared/services/auth/auth.service";
+import { HeaderService } from "./shared/services/header/header.service";
+import { Title } from "@angular/platform-browser";
+import { SnackbarService } from "./shared/services/snackbar/snackbar.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  isLoggedIn = false;
-  isNavCollapsed = true;
-  header = '';
+  public isNavbarCollapsed$ = new BehaviorSubject<boolean>(true);
 
   constructor(
-    authService: AuthService, 
-    headerService: HeaderService, 
-    titleService: Title,
-    public toastService: ToastService
-    ) {
-      authService.isLoggedIn().subscribe( (loggedIn) => {
-        this.isLoggedIn = loggedIn;
-      });
-      headerService.getHeader().subscribe( (header) => {
-        this.header = header;
-        titleService.setTitle(header);
-      });
-    }
-    
+    public authService: AuthService,
+    public headerService: HeaderService,
+    public titleService: Title,
+    public snackbarService: SnackbarService,
+    public matSnackbar: MatSnackBar,
+  ) {}
+
+  public navBarToggle() {
+    this.isNavbarCollapsed$.next(!this.isNavbarCollapsed$.value);
+  }
+
+  public collapseNavbar() {
+    this.isNavbarCollapsed$.next(true);
+  }
 }
