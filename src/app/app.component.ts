@@ -17,9 +17,6 @@ export class AppComponent {
   constructor(
     public authService: AuthService,
     public headerService: HeaderService,
-    public titleService: Title,
-    public snackbarService: SnackbarService,
-    public matSnackbar: MatSnackBar,
   ) {}
 
   public navBarToggle() {

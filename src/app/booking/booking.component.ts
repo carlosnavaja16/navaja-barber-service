@@ -26,7 +26,7 @@ export class BookingComponent {
     return date.getDay() !== 0;
   };
 
-  getAvailableSlots = httpsCallable(this.functions, "getHello");
+  getAvailableSlots = httpsCallable(this.functions, "getAvailableSlots");
 
   services$: Observable<DocumentData[]>;
 
