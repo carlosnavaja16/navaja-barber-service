@@ -11,7 +11,6 @@ import {
 import { Observable } from "rxjs";
 import {
   Functions,
-  HttpsCallableOptions,
   httpsCallable,
 } from "@angular/fire/functions";
 import { Auth } from "@angular/fire/auth";
@@ -26,7 +25,7 @@ export class BookingComponent {
     return date.getDay() !== 0;
   };
 
-  getAvailableSlots = httpsCallable(this.functions, "getHello");
+  getAvailableSlots = httpsCallable(this.functions, "getAvailableSlots");
 
   services$: Observable<DocumentData[]>;
 

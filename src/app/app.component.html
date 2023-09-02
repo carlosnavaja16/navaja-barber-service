@@ -7,15 +7,18 @@
         height="30px"
       />
     </a>
-    <button class="navbar-toggler" (click)="isNavCollapsed = !isNavCollapsed">
+    <button class="navbar-toggler" (click)="navBarToggle()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div [ngbCollapse]="isNavCollapsed" class="collapse navbar-collapse">
+    <div
+      [ngbCollapse]="(isNavbarCollapsed$ | async)!"
+      class="collapse navbar-collapse"
+    >
       <ul class="navbar-nav ms-auto">
         <a
           class="nav-link"
           [routerLink]="'/'"
-          (click)="isNavCollapsed = true"
+          (click)="collapseNavbar()"
           [routerLinkActive]="['active', 'fw-bold']"
           [routerLinkActiveOptions]="{ exact: true }"
         >
@@ -24,57 +27,58 @@
         <a
           class="nav-link"
           [routerLink]="'/services'"
-          (click)="isNavCollapsed = true"
+          (click)="collapseNavbar()"
           [routerLinkActive]="['fw-bold']"
           >Services</a
         >
         <a
           class="nav-link"
           [routerLink]="'/gallery'"
-          (click)="isNavCollapsed = true"
+          (click)="collapseNavbar()"
           [routerLinkActive]="['fw-bold']"
           >Gallery</a
         >
         <ng-container
-          *ngIf="!(authService.getIsLoggedIn$() | async) as isLoggedIn"
+          *ngIf="{ value: authService.getIsLoggedIn$() | async } as isLoggedIn"
         >
           <a
+            *ngIf="!isLoggedIn.value"
             class="nav-link"
             [routerLink]="'/login'"
-            (click)="isNavCollapsed = true"
+            (click)="collapseNavbar()"
             [routerLinkActive]="['fw-bold']"
             >Login</a
           >
           <a
+            *ngIf="!isLoggedIn.value"
             class="nav-link"
             [routerLink]="'/signup'"
-            (click)="isNavCollapsed = true"
+            (click)="collapseNavbar()"
             [routerLinkActive]="['fw-bold']"
           >
             Sign up
           </a>
-        </ng-container>
-        <ng-container
-          *ngIf="authService.getIsLoggedIn$() | async as isLoggedIn"
-        >
           <a
+            *ngIf="isLoggedIn.value"
             class="nav-link"
             [routerLink]="'/profile'"
-            (click)="isNavCollapsed = true"
+            (click)="collapseNavbar()"
             [routerLinkActive]="['fw-bold']"
             >Profile
           </a>
           <a
+            *ngIf="isLoggedIn.value"
             class="nav-link"
             [routerLink]="'/booking'"
-            (click)="isNavCollapsed = true"
+            (click)="collapseNavbar()"
             [routerLinkActive]="['fw-bold']"
             >Book
           </a>
           <a
+            *ngIf="isLoggedIn.value"
             class="nav-link"
             [routerLink]="'/logout'"
-            (click)="isNavCollapsed = true"
+            (click)="collapseNavbar()"
             >Logout
           </a>
         </ng-container>
@@ -99,12 +103,8 @@
           <h6 class="text-uppercase fw-bold mb-3">Vonnegut Barber Service</h6>
           <p>
             <small>
-              This application was developed using the
-              <a href="https://angular.io/" class="text-reset">Angular</a>,
-              <a href="https://getbootstrap.com/" class="text-reset"
-                >Bootstrap</a
-              >
-              and
+              This application was developed using
+              <a href="https://angular.io/" class="text-reset">Angular</a>, and
               <a href="https://firebase.google.com/" class="text-reset"
                 >Firebase</a
               >.
