@@ -15,6 +15,10 @@ import {
 } from "@angular/fire/functions";
 import { Auth } from "@angular/fire/auth";
 
+interface AvailableSlotsResponse {
+  
+}
+
 @Component({
   selector: "app-booking",
   templateUrl: "./booking.component.html",
