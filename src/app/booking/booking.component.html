@@ -20,7 +20,10 @@
     </mat-step>
     <mat-step label="Select a date">
       <mat-card class="inline-calendar-card mt-3 mb-3">
-        <mat-calendar [dateFilter]="getSundaysDisabled"></mat-calendar>
+        <mat-calendar
+          [dateFilter]="getSundaysDisabled"
+          #calendar
+        ></mat-calendar>
       </mat-card>
       <div>
         <button mat-button matStepperNext>Next</button>

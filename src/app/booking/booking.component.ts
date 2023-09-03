@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { HeaderService } from "../shared/services/header/header.service";
 import {
   DocumentData,
@@ -9,15 +9,11 @@ import {
   query,
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import {
-  Functions,
-  httpsCallable,
-} from "@angular/fire/functions";
+import { Functions, httpsCallable } from "@angular/fire/functions";
 import { Auth } from "@angular/fire/auth";
+import { MatCalendar } from "@angular/material/datepicker";
 
-interface AvailableSlotsResponse {
-  
-}
+interface AvailableSlotsResponse {}
 
 @Component({
   selector: "app-booking",
@@ -29,9 +25,12 @@ export class BookingComponent {
     return date.getDay() !== 0;
   };
 
+  dateFilter = (date: Date) => {};
+
   getAvailableSlots = httpsCallable(this.functions, "getAvailableSlots");
 
   services$: Observable<DocumentData[]>;
+  @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
 
   constructor(
     public headerService: HeaderService,
