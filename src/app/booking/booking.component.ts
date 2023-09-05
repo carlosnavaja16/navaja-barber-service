@@ -9,7 +9,11 @@ import {
   query,
 } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
-import { Functions, httpsCallable } from "@angular/fire/functions";
+import {
+  Functions,
+  HttpsCallableOptions,
+  httpsCallable,
+} from "@angular/fire/functions";
 import { Auth } from "@angular/fire/auth";
 import { MatCalendar } from "@angular/material/datepicker";
 
@@ -27,7 +31,11 @@ export class BookingComponent {
 
   dateFilter = (date: Date) => {};
 
-  getAvailableSlots = httpsCallable(this.functions, "getAvailableSlots");
+  getAvailableSlots = httpsCallable(
+    this.functions,
+    "getAvailableTimeSlots",
+    {} as HttpsCallableOptions,
+  );
 
   services$: Observable<DocumentData[]>;
   @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
@@ -38,6 +46,7 @@ export class BookingComponent {
     public functions: Functions,
     public auth: Auth,
   ) {
+    this.functions.region = "us-east1";
     headerService.setHeader("Booking");
     const servicesCollection = collection(firestore, "Services");
     const servicesQuery = query(servicesCollection, orderBy("price", "asc"));
