@@ -1,34 +1,19 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  Firestore,
-  collection,
-  query,
-  collectionData,
-  orderBy,
-  DocumentData,
-} from "@angular/fire/firestore";
+import { DocumentData } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { HeaderService } from "../shared/services/header/header.service";
-import { AuthService } from "../shared/services/auth/auth.service";
+import { ServiceService } from "../shared/services/service/service.service";
 
 @Component({
   selector: "app-services",
   templateUrl: "./services.component.html",
   styleUrls: ["./services.component.scss"],
 })
-export class ServicesComponent implements OnInit {
+export class ServicesComponent {
   services$: Observable<DocumentData[]>;
 
-  constructor(
-    firestore: Firestore,
-    headerService: HeaderService,
-    public authService: AuthService,
-  ) {
+  constructor(serviceService: ServiceService, headerService: HeaderService) {
     headerService.setHeader("Services");
-    const servicesCollection = collection(firestore, "Services");
-    const servicesQuery = query(servicesCollection, orderBy("price", "asc"));
-    this.services$ = collectionData(servicesQuery);
+    this.services$ = serviceService.getServices();
   }
-
-  ngOnInit(): void {}
 }
