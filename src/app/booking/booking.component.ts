@@ -16,7 +16,7 @@ import {
 } from "@angular/fire/functions";
 import { Auth } from "@angular/fire/auth";
 import { MatCalendar } from "@angular/material/datepicker";
-import { Timeslot } from "../shared/types/timeslot";
+import { TimeSlot } from "../shared/types/time-slot";
 import { CalendarService } from "../shared/services/calendar/calendar.service";
 import { ServiceService } from "../shared/services/service/service.service";
 import { LIMIT_DAYS } from "../shared/constants";
@@ -37,7 +37,7 @@ export class BookingComponent {
 
   eventDurationMilliseconds = 1000 * 60 * 60;
   services$: Observable<DocumentData[]>;
-  availableTimeslots$: Observable<Timeslot[]>;
+  availableTimeslots$: Observable<TimeSlot[]>;
   @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
 
   constructor(
