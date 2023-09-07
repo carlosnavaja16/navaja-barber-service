@@ -22,6 +22,8 @@
       <mat-card class="inline-calendar-card mt-3 mb-3">
         <mat-calendar
           [dateFilter]="getSundaysDisabled"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
           #calendar
         ></mat-calendar>
       </mat-card>

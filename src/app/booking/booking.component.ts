@@ -20,6 +20,7 @@ import { Timeslot } from "../shared/types/timeslot";
 import { CalendarService } from "../shared/services/calendar/calendar.service";
 import { ServiceService } from "../shared/services/service/service.service";
 import { LIMIT_DAYS } from "../shared/constants";
+import { DateUtils } from "../shared/utilities/date.util";
 
 @Component({
   selector: "app-booking",
@@ -45,9 +46,8 @@ export class BookingComponent {
     private readonly calendarService: CalendarService,
   ) {
     this.headerService.setHeader("Booking");
-    this.minDate = new Date();
-    this.maxDate = new Date();
-    this.maxDate.setDate(this.maxDate.getDate() + LIMIT_DAYS);
+    this.minDate = DateUtils.getMinDate();
+    this.maxDate = DateUtils.getMaxDate();
     this.services$ = this.serviceService.getServices$();
   }
 
