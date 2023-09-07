@@ -1,8 +1,5 @@
 <div class="container">
-  <p
-    *ngIf="!(this.authService.getIsLoggedIn$() | async)"
-    class="text-center mb-5"
-  >
+  <p *ngIf="!(this.isLoggedIn$ | async)" class="text-center mb-5">
     <small>
       In order to book you will need to <a [routerLink]="'/login'">Log In</a>.
       Don't have an account? <a [routerLink]="'/signup'">Sign Up.</a>

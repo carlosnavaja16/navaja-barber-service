@@ -19,13 +19,13 @@ export class ServiceService {
   servicesQuery: Query<DocumentData>;
 
   constructor(private readonly firestore: Firestore) {
-    this.servicesCollection = collection(firestore, "Services");
+    this.servicesCollection = collection(this.firestore, "Services");
     this.servicesQuery = query(
       this.servicesCollection,
       orderBy("price", "asc"),
     );
   }
-  getServices(): Observable<DocumentData[]> {
+  getServices$(): Observable<DocumentData[]> {
     return collectionData(this.servicesQuery);
   }
 }

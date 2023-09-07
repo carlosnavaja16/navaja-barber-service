@@ -18,8 +18,8 @@ import { Auth } from "@angular/fire/auth";
 import { MatCalendar } from "@angular/material/datepicker";
 import { Timeslot } from "../shared/types/timeslot";
 import { CalendarService } from "../shared/services/calendar/calendar.service";
-
-interface AvailableSlotsResponse {}
+import { ServiceService } from "../shared/services/service/service.service";
+import { LIMIT_DAYS } from "../shared/constants";
 
 @Component({
   selector: "app-booking",
@@ -31,7 +31,6 @@ export class BookingComponent {
     return date.getDay() !== 0;
   };
 
-  dateFilter = (date: Date) => {};
   minDate: Date;
   maxDate: Date;
 
@@ -41,14 +40,15 @@ export class BookingComponent {
   @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
 
   constructor(
-    public headerService: HeaderService,
-    public firestore: Firestore,
-    public calendarService: CalendarService,
+    private readonly headerService: HeaderService,
+    private readonly serviceService: ServiceService,
+    private readonly calendarService: CalendarService,
   ) {
-    headerService.setHeader("Booking");
-    const servicesCollection = collection(firestore, "Services");
-    const servicesQuery = query(servicesCollection, orderBy("price", "asc"));
-    this.services$ = collectionData(servicesQuery);
+    this.headerService.setHeader("Booking");
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.maxDate.setDate(this.maxDate.getDate() + LIMIT_DAYS);
+    this.services$ = this.serviceService.getServices$();
   }
 
   getTimeSlots() {
