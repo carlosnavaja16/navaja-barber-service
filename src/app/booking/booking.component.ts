@@ -16,6 +16,8 @@ import {
 } from "@angular/fire/functions";
 import { Auth } from "@angular/fire/auth";
 import { MatCalendar } from "@angular/material/datepicker";
+import { Timeslot } from "../shared/types/timeslot";
+import { CalendarService } from "../shared/services/calendar/calendar.service";
 
 interface AvailableSlotsResponse {}
 
@@ -31,13 +33,9 @@ export class BookingComponent {
 
   dateFilter = (date: Date) => {};
 
-  getAvailableSlots = httpsCallable(
-    this.functions,
-    "getAvailableTimeSlots",
-    {} as HttpsCallableOptions,
-  );
-
+  eventDurationMilliseconds = 1000 * 60 * 60;
   services$: Observable<DocumentData[]>;
+  availableTimeslots$: Observable<Timeslot[]>;
   @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
 
   constructor(
@@ -45,6 +43,7 @@ export class BookingComponent {
     public firestore: Firestore,
     public functions: Functions,
     public auth: Auth,
+    public calendarService: CalendarService,
   ) {
     this.functions.region = "us-east1";
     headerService.setHeader("Booking");
@@ -54,17 +53,8 @@ export class BookingComponent {
   }
 
   getTimeSlots() {
-    const requestData: any = {
-      eventDurationMilliseconds: 1000 * 60 * 60,
-      utcOffset: new Date().getTimezoneOffset(),
-    };
-
-    this.getAvailableSlots(requestData)
-      .then((timeSlots) => {
-        console.log(JSON.stringify(timeSlots, null, 2));
-      })
-      .catch((err) => {
-        console.log(JSON.stringify(err, null, 2));
-      });
+    this.availableTimeslots$ = this.calendarService.getAvailableTimeslots(
+      this.eventDurationMilliseconds,
+    );
   }
 }

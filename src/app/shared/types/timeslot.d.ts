@@ -8,8 +8,6 @@ export interface TimeslotResponse {
   end: string;
 }
 
-export interface AvailableSlotsResponse {
-  data: {
-    availableTimeslots: TimeslotResponse[];
-  };
+export interface AvailableSlotsRequest {
+  eventDurationMilliseconds: number;
 }
