@@ -8,7 +8,6 @@ import {
   Functions,
   httpsCallable,
   HttpsCallable,
-  HttpsCallableResult,
 } from "@angular/fire/functions";
 import { from, map, Observable } from "rxjs";
 
@@ -19,18 +18,15 @@ export class CalendarService {
   availableTimeslots: HttpsCallable<AvailableSlotsRequest, TimeslotResponse[]>;
 
   constructor(public functions: Functions) {
+    this.functions.region = "us-east1";
     this.availableTimeslots = httpsCallable(functions, "getAvailableTimeSlots");
   }
 
   getAvailableTimeslots(
     eventDurationMilliseconds: number,
   ): Observable<Timeslot[]> {
-    const requestData = {
-      eventDurationMilliseconds,
-    };
-
     const processedAvailableTimeslots$ = from(
-      this.availableTimeslots(requestData),
+      this.availableTimeslots({ eventDurationMilliseconds }),
     ).pipe(
       map((availableTimeslotsResponse) => {
         return availableTimeslotsResponse.data.map((timeslotResponse) => {

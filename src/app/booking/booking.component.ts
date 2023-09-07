@@ -32,6 +32,8 @@ export class BookingComponent {
   };
 
   dateFilter = (date: Date) => {};
+  minDate: Date;
+  maxDate: Date;
 
   eventDurationMilliseconds = 1000 * 60 * 60;
   services$: Observable<DocumentData[]>;
@@ -41,11 +43,8 @@ export class BookingComponent {
   constructor(
     public headerService: HeaderService,
     public firestore: Firestore,
-    public functions: Functions,
-    public auth: Auth,
     public calendarService: CalendarService,
   ) {
-    this.functions.region = "us-east1";
     headerService.setHeader("Booking");
     const servicesCollection = collection(firestore, "Services");
     const servicesQuery = query(servicesCollection, orderBy("price", "asc"));
