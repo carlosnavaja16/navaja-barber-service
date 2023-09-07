@@ -2,10 +2,10 @@ import { LIMIT_DAYS, BUFFER_HOURS } from "../constants";
 
 export class DateUtils {
   /**
-   * Returns a new Date object representing the minimum date allowed for a timeslot.
+   * Returns a new Date object representing the minimum date allowed for a time slot.
    * The minimum date is calculated by adding the specified buffer hours to the current UTC time,
    * rounding up to the nearest hour.
-   * @returns A new Date object representing the minimum date allowed for a timeslot.
+   * @returns A new Date object representing the minimum date allowed for a time slot.
    */
   public static getMinDate() {
     const minDate = new Date();
