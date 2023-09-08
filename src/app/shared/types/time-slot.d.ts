@@ -9,5 +9,21 @@ export interface TimeSlotResponse {
 }
 
 export interface AvailableTimeSlotsRequest {
-  eventDurationMilliseconds: number;
+  eventDuration: number;
+}
+
+export interface AvailabilityResponse {
+  openingHourUTC: number;
+  closingHourUTC: number;
+  minDate: string;
+  maxDate: string;
+  availableTimeSlots: TimeSlotResponse[];
+}
+
+export interface Availability {
+  openingHourUTC: number;
+  closingHourUTC: number;
+  minDate: Date;
+  maxDate: Date;
+  timeSlotsByDate: Map<string, TimeSlot[]>;
 }

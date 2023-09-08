@@ -2,8 +2,12 @@
   class="container d-flex flex-column justify-content-center align-items-center"
 >
   <h3 class="text-center mb-3">Choose a date</h3>
-  <button (click)="getTimeSlots()">Next</button>
-  <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
+  <mat-vertical-stepper
+    [linear]="true"
+    #stepper
+    class="booking-stepper"
+    *ngIf="availability$ | async as availability"
+  >
     <mat-step label="Select a service">
       <mat-form-field class="w-100 mt-3">
         <mat-select>
@@ -21,11 +25,25 @@
     <mat-step label="Select a date">
       <mat-card class="inline-calendar-card mt-3 mb-3">
         <mat-calendar
-          [dateFilter]="getSundaysDisabled"
-          [minDate]="minDate"
-          [maxDate]="maxDate"
           #calendar
+          [dateFilter]="filter"
+          [minDate]="availability.minDate"
+          [maxDate]="availability.maxDate"
+          (selectedChange)="getTimeSlotsByDate($event)"
         ></mat-calendar>
+        <button
+          mat-button
+          *ngFor="
+            let currDateTimeSlot of currDateTimeSlots$ | async as as;
+            currDateTimeSlots
+          "
+        >
+          {{
+            currDateTimeSlot.start.getHours() +
+              ":" +
+              currDateTimeSlot.start.getMinutes()
+          }}
+        </button>
       </mat-card>
       <div>
         <button mat-button matStepperNext>Next</button>

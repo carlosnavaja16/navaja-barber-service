@@ -95,6 +95,7 @@ import { MatSelectModule } from "@angular/material/select";
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatButtonModule,
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent],

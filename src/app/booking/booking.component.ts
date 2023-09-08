@@ -1,25 +1,11 @@
 import { Component, ViewChild } from "@angular/core";
 import { HeaderService } from "../shared/services/header/header.service";
-import {
-  DocumentData,
-  Firestore,
-  collection,
-  collectionData,
-  orderBy,
-  query,
-} from "@angular/fire/firestore";
-import { Observable } from "rxjs";
-import {
-  Functions,
-  HttpsCallableOptions,
-  httpsCallable,
-} from "@angular/fire/functions";
-import { Auth } from "@angular/fire/auth";
+import { DocumentData } from "@angular/fire/firestore";
+import { Observable, Subject, of, tap } from "rxjs";
 import { MatCalendar } from "@angular/material/datepicker";
-import { TimeSlot } from "../shared/types/time-slot";
+import { Availability, TimeSlot } from "../shared/types/time-slot";
 import { CalendarService } from "../shared/services/calendar/calendar.service";
 import { ServiceService } from "../shared/services/service/service.service";
-import { LIMIT_DAYS } from "../shared/constants";
 import { DateUtils } from "../shared/utilities/date.util";
 
 @Component({
@@ -28,16 +14,13 @@ import { DateUtils } from "../shared/utilities/date.util";
   styleUrls: ["./booking.component.scss"],
 })
 export class BookingComponent {
-  getSundaysDisabled = (date: Date) => {
-    return date.getDay() !== 0;
-  };
-
-  minDate: Date;
-  maxDate: Date;
-
-  eventDurationMilliseconds = 1000 * 60 * 60;
+  filter = (date: Date) => true;
+  eventDuration = 1000 * 60 * 60;
+  timeSlotsByDate = new Map<string, TimeSlot[]>();
+  currDateTimeSlots$ = new Subject<TimeSlot[]>();
   services$: Observable<DocumentData[]>;
-  availableTimeslots$: Observable<TimeSlot[]>;
+  availability$: Observable<Availability>;
+  availableTimeSlots: Availability;
   @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
 
   constructor(
@@ -46,14 +29,27 @@ export class BookingComponent {
     private readonly calendarService: CalendarService,
   ) {
     this.headerService.setHeader("Booking");
-    this.minDate = DateUtils.getMinDate();
-    this.maxDate = DateUtils.getMaxDate();
     this.services$ = this.serviceService.getServices$();
+    this.availability$ = this.calendarService
+      .getAvailability(this.eventDuration)
+      .pipe(
+        tap((availability) => {
+          this.timeSlotsByDate = availability.timeSlotsByDate;
+          this.filter = (date: Date) => {
+            return DateUtils.isDateInAvailableDates(date, this.timeSlotsByDate);
+          };
+        }),
+      );
   }
 
-  getTimeSlots() {
-    this.availableTimeslots$ = this.calendarService.getAvailableTimeslots(
-      this.eventDurationMilliseconds,
-    );
+  getTimeSlotsByDate($event: Date | null) {
+    if ($event) {
+      const dateHash = DateUtils.getDateHash($event);
+      this.currDateTimeSlots$.next(
+        this.timeSlotsByDate.has(dateHash)
+          ? this.timeSlotsByDate.get(dateHash)!
+          : [],
+      );
+    }
   }
 }

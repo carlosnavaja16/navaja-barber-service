@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import {
+  Availability,
   AvailableTimeSlotsRequest,
+  AvailabilityResponse,
   TimeSlot,
   TimeSlotResponse,
 } from "../../types/time-slot";
@@ -9,40 +11,52 @@ import {
   httpsCallable,
   HttpsCallable,
 } from "@angular/fire/functions";
-import { from, map, Observable } from "rxjs";
+import { defer, from, map, Observable } from "rxjs";
+import { DateUtils } from "../../utilities/date.util";
 
 @Injectable({
   providedIn: "root",
 })
 export class CalendarService {
-  availableTimeSlotsFunc: HttpsCallable<
+  getAvailabilityFn: HttpsCallable<
     AvailableTimeSlotsRequest,
-    TimeSlotResponse[]
+    AvailabilityResponse
   >;
 
   constructor(public functions: Functions) {
     this.functions.region = "us-east1";
-    this.availableTimeSlotsFunc = httpsCallable(
-      functions,
-      "getAvailableTimeSlots",
-    );
+    this.getAvailabilityFn = httpsCallable(functions, "getAvailabilityFn");
   }
 
-  getAvailableTimeSlots(
-    eventDurationMilliseconds: number,
-  ): Observable<TimeSlot[]> {
-    const processedAvailableTimeSlots$ = from(
-      this.availableTimeSlotsFunc({ eventDurationMilliseconds }),
+  getAvailability(eventDuration: number): Observable<Availability> {
+    const availability$ = defer(() =>
+      this.getAvailabilityFn({ eventDuration }),
     ).pipe(
-      map((availableTimeSlotsResponse) => {
-        return availableTimeSlotsResponse.data.map((timeSlotResponse) => {
-          return {
+      map((result) => result.data),
+      map((data: AvailabilityResponse) => {
+        const timeSlotsByDate = new Map<string, TimeSlot[]>();
+        data.availableTimeSlots.forEach((timeSlotResponse) => {
+          const timeSlot = {
             start: new Date(timeSlotResponse.start),
             end: new Date(timeSlotResponse.end),
           };
+          const dateHash = timeSlotResponse.start.split("T")[0];
+          if (timeSlotsByDate.has(dateHash)) {
+            timeSlotsByDate.get(dateHash)!.push(timeSlot);
+          } else {
+            timeSlotsByDate.set(dateHash, [timeSlot]);
+          }
         });
+        const availability = {
+          openingHourUTC: data.openingHourUTC,
+          closingHourUTC: data.closingHourUTC,
+          minDate: new Date(data.minDate),
+          maxDate: new Date(data.maxDate),
+          timeSlotsByDate,
+        };
+        return availability;
       }),
     );
-    return processedAvailableTimeSlots$;
+    return availability$;
   }
 }
