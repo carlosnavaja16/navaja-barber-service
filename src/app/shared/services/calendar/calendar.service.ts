@@ -1,21 +1,21 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   Availability,
   AvailableTimeSlotsRequest,
   AvailabilityResponse,
   TimeSlot,
   TimeSlotResponse,
-} from "../../types/time-slot";
+} from '../../types/time-slot';
 import {
   Functions,
   httpsCallable,
   HttpsCallable,
-} from "@angular/fire/functions";
-import { defer, from, map, Observable } from "rxjs";
-import { DateUtils } from "../../utilities/date.util";
+} from '@angular/fire/functions';
+import { defer, from, map, Observable } from 'rxjs';
+import { DateUtils } from '../../utilities/date.util';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CalendarService {
   getAvailabilityFn: HttpsCallable<
@@ -24,8 +24,8 @@ export class CalendarService {
   >;
 
   constructor(public functions: Functions) {
-    this.functions.region = "us-east1";
-    this.getAvailabilityFn = httpsCallable(functions, "getAvailabilityFn");
+    this.functions.region = 'us-east1';
+    this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
   }
 
   getAvailability(eventDuration: number): Observable<Availability> {
@@ -40,7 +40,7 @@ export class CalendarService {
             start: new Date(timeSlotResponse.start),
             end: new Date(timeSlotResponse.end),
           };
-          const dateHash = timeSlotResponse.start.split("T")[0];
+          const dateHash = timeSlotResponse.start.split('T')[0];
           if (timeSlotsByDate.has(dateHash)) {
             timeSlotsByDate.get(dateHash)!.push(timeSlot);
           } else {

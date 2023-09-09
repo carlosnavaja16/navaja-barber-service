@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   CollectionReference,
   DocumentData,
@@ -8,21 +8,21 @@ import {
   orderBy,
   query,
   Query,
-} from "@angular/fire/firestore";
-import { Observable } from "rxjs";
+} from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ServiceService {
   servicesCollection: CollectionReference<DocumentData>;
   servicesQuery: Query<DocumentData>;
 
   constructor(private readonly firestore: Firestore) {
-    this.servicesCollection = collection(this.firestore, "Services");
+    this.servicesCollection = collection(this.firestore, 'Services');
     this.servicesQuery = query(
       this.servicesCollection,
-      orderBy("price", "asc"),
+      orderBy('price', 'asc'),
     );
   }
   getServices$(): Observable<DocumentData[]> {

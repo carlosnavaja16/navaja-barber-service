@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Auth, onAuthStateChanged } from "@angular/fire/auth";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   private loggedIn$ = new BehaviorSubject<boolean>(false);

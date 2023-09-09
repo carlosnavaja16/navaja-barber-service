@@ -1,4 +1,4 @@
-import { Service } from "./service";
+import { Service } from './service';
 
 export declare interface AppointmentData {
   userUid: string;

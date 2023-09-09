@@ -1,8 +1,8 @@
-import { TimeSlot } from "../types/time-slot";
+import { TimeSlot } from '../types/time-slot';
 
 export class DateUtils {
   public static getDateHash(date: Date): string {
-    return date.toISOString().split("T")[0];
+    return date.toISOString().split('T')[0];
   }
 
   public static isDateInAvailableDates(
@@ -15,11 +15,11 @@ export class DateUtils {
   public static whichPartOfDay(timeSlot: TimeSlot) {
     const startHour = timeSlot.start.getHours();
     if (startHour >= 0 && startHour < 12) {
-      return "morning";
+      return 'morning';
     } else if (startHour >= 12 && startHour < 18) {
-      return "afternoon";
+      return 'afternoon';
     } else {
-      return "evening";
+      return 'evening';
     }
   }
 }

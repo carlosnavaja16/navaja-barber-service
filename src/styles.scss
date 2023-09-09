@@ -1,15 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face {
-  font-family: "kurt-regular";
-  src: url(./assets/fonts/KURT-Regular.otf) format("opentype");
+  font-family: 'kurt-regular';
+  src: url(./assets/fonts/KURT-Regular.otf) format('opentype');
 }
 
 @font-face {
-  font-family: "kurt-italic";
-  src: url(./assets/fonts/KURT-Italic.otf) format("opentype");
+  font-family: 'kurt-italic';
+  src: url(./assets/fonts/KURT-Italic.otf) format('opentype');
 }
 
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
 
 .small-form {
   width: 575px;
@@ -20,7 +20,7 @@
 }
 
 .kurt-font {
-  font-family: "KURT-italic", sans-serif;
+  font-family: 'KURT-italic', sans-serif;
 }
 
 .mt-6 {

@@ -11,12 +11,12 @@
       *ngFor="let service of services$ | async"
     >
       <div class="d-flex flex-column">
-        <h5>{{ service["name"] }}</h5>
-        <small>{{ service["desc"] }} · {{ service["duration"] }}mins</small>
+        <h5>{{ service['name'] }}</h5>
+        <small>{{ service['desc'] }} · {{ service['duration'] }}mins</small>
       </div>
       <div>
         <span class="badge bg-primary rounded-pill"
-          >${{ service["price"] }}</span
+          >${{ service['price'] }}</span
         >
       </div>
     </li>

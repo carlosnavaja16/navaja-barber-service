@@ -1,12 +1,12 @@
-import { Component } from "@angular/core";
-import { AuthService } from "./shared/services/auth/auth.service";
-import { HeaderService } from "./shared/services/header/header.service";
-import { BehaviorSubject } from "rxjs";
+import { Component } from '@angular/core';
+import { AuthService } from './shared/services/auth/auth.service';
+import { HeaderService } from './shared/services/header/header.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   public isNavbarCollapsed$ = new BehaviorSubject<boolean>(true);

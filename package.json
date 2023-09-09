@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "push": "prettier -w ./ && git add . && git commit -m \"$(date)\" && git push",
+    "push": "prettier -w --single-quote ./ && git add . && git commit -m \"$(date)\" && git push",
     "format": "prettier -w ./"
   },
   "private": true,
