@@ -25,6 +25,7 @@ export interface Availability {
   closingHourUTC: number;
   minDate: Date;
   maxDate: Date;
+  firstAvailableDate: Date;
   timeSlotsByDate: Map<string, TimeSlot[]>;
   dateFilter: (date: Date) => boolean;
 }

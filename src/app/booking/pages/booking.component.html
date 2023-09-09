@@ -27,13 +27,14 @@
         <mat-calendar
           #calendar
           [dateFilter]="availability.dateFilter"
+          [selected]="selectedDate$ | async"
           [minDate]="availability.minDate"
           [maxDate]="availability.maxDate"
-          (selectedChange)="onDateSelected($event)"
+          (selectedChange)="onDateSelected($event!)"
         ></mat-calendar>
         <time-slots
           [timeSlotsByDate]="availability.timeSlotsByDate"
-          [selectedDateHash]="(selectedDateHash$ | async)!"
+          [selectedDate]="selectedDate$ | async"
           (timeSlotSelected)="onTimeSlotSelected($event)"
         >
         </time-slots>

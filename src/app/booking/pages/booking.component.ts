@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
 import { DocumentData } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, Subject, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs';
 import { MatCalendar } from '@angular/material/datepicker';
 import { Availability, TimeSlot } from '../../shared/types/time-slot';
 import { CalendarService } from '../../shared/services/calendar/calendar.service';
@@ -15,13 +15,9 @@ import { DateUtils } from '../../shared/utilities/date.util';
 })
 export class BookingComponent {
   eventDuration = 1000 * 60 * 60;
-  timeSlotsByDate = new Map<string, TimeSlot[]>();
-  currDateTimeSlots$ = new Subject<TimeSlot[]>();
   services$: Observable<DocumentData[]>;
   availability$: Observable<Availability>;
-  selectedDateHash$ = new BehaviorSubject<string>(
-    DateUtils.getDateHash(new Date()),
-  );
+  selectedDate$: BehaviorSubject<Date>;
   @ViewChild(MatCalendar) calendar: MatCalendar<Date> | undefined;
 
   constructor(
@@ -31,15 +27,19 @@ export class BookingComponent {
   ) {
     this.headerService.setHeader('Booking');
     this.services$ = this.serviceService.getServices$();
-    this.availability$ = this.calendarService.getAvailability(
-      this.eventDuration,
-    );
+    this.availability$ = this.calendarService
+      .getAvailability(this.eventDuration)
+      .pipe(
+        tap((availability) => {
+          this.selectedDate$ = new BehaviorSubject<Date>(
+            availability.firstAvailableDate,
+          );
+        }),
+      );
   }
 
-  onDateSelected($event: Date | null) {
-    if ($event) {
-      this.selectedDateHash$.next(DateUtils.getDateHash($event));
-    }
+  onDateSelected($event: Date) {
+    this.selectedDate$.next($event);
   }
 
   onTimeSlotSelected(timeSlot: TimeSlot) {

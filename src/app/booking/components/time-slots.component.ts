@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TimeSlot } from '../../../app/shared/types/time-slot';
 import { DateUtils } from '../../../app/shared/utilities/date.util';
+import { Observable, Subject, map } from 'rxjs';
 
 @Component({
   selector: 'time-slots',
@@ -9,8 +10,7 @@ import { DateUtils } from '../../../app/shared/utilities/date.util';
 })
 export class TimeSlotsComponent {
   @Input() timeSlotsByDate: Map<string, TimeSlot[]>;
-  @Input() selectedDate: Date;
-  @Input() selectedDateHash: string;
+  @Input() selectedDate: Date | null;
   @Output() timeSlotSelected = new EventEmitter<TimeSlot>();
 
   constructor() {}
@@ -19,21 +19,30 @@ export class TimeSlotsComponent {
     this.timeSlotSelected.emit(timeSlot);
   }
 
-  getMorningTimeSlots(timeSlots: TimeSlot[]): TimeSlot[] {
-    return timeSlots.filter((timeSlot) => {
-      return DateUtils.whichPartOfDay(timeSlot) === 'morning';
-    });
+  get morningTimeSlots() {
+    if (this.selectedDate) {
+      return this.timeSlotsByDate
+        .get(DateUtils.getDateHash(this.selectedDate))
+        ?.filter((t) => DateUtils.whichPartOfDay(t) === 'morning');
+    }
+    return [];
   }
 
-  getAfternoonTimeSlots(timeSlots: TimeSlot[]): TimeSlot[] {
-    return timeSlots.filter((timeSlot) => {
-      return DateUtils.whichPartOfDay(timeSlot) === 'afternoon';
-    });
+  get afternoonTimeSlots() {
+    if (this.selectedDate) {
+      return this.timeSlotsByDate
+        .get(DateUtils.getDateHash(this.selectedDate))
+        ?.filter((t) => DateUtils.whichPartOfDay(t) === 'afternoon');
+    }
+    return [];
   }
 
-  getEveningTimeSlots(timeSlots: TimeSlot[]): TimeSlot[] {
-    return timeSlots.filter((timeSlot) => {
-      return DateUtils.whichPartOfDay(timeSlot) === 'evening';
-    });
+  get eveningTimeSlots() {
+    if (this.selectedDate) {
+      return this.timeSlotsByDate
+        .get(DateUtils.getDateHash(this.selectedDate))
+        ?.filter((t) => DateUtils.whichPartOfDay(t) === 'evening');
+    }
+    return [];
   }
 }

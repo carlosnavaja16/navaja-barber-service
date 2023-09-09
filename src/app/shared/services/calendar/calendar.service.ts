@@ -34,13 +34,14 @@ export class CalendarService {
     ).pipe(
       map((result) => result.data),
       map((data: AvailabilityResponse) => {
+        const firstAvailableDate = new Date(data.availableTimeSlots[0].start);
         const timeSlotsByDate = new Map<string, TimeSlot[]>();
         data.availableTimeSlots.forEach((timeSlotResponse) => {
           const timeSlot = {
             start: new Date(timeSlotResponse.start),
             end: new Date(timeSlotResponse.end),
           };
-          const dateHash = timeSlotResponse.start.split('T')[0];
+          const dateHash = DateUtils.getDateHash(timeSlot.start);
           if (timeSlotsByDate.has(dateHash)) {
             timeSlotsByDate.get(dateHash)!.push(timeSlot);
           } else {
@@ -48,6 +49,7 @@ export class CalendarService {
           }
         });
         const availability = {
+          firstAvailableDate,
           openingHourUTC: data.openingHourUTC,
           closingHourUTC: data.closingHourUTC,
           minDate: new Date(data.minDate),
