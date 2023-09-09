@@ -11,4 +11,15 @@ export class DateUtils {
   ): boolean {
     return timeSlotsByDate.has(this.getDateHash(date));
   }
+
+  public static whichPartOfDay(timeSlot: TimeSlot) {
+    const startHour = timeSlot.start.getHours();
+    if (startHour >= 0 && startHour < 12) {
+      return "morning";
+    } else if (startHour >= 12 && startHour < 18) {
+      return "afternoon";
+    } else {
+      return "evening";
+    }
+  }
 }

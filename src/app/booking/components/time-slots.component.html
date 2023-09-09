@@ -1,8 +1,32 @@
-<button
-  *ngFor="let timeSlot of timeSlotsByDate.get(selectedDateHash || '')"
-  type="button"
-  class="btn btn-outline-primary"
-  (click)="onTimeSlotSelected(timeSlot)"
->
-  {{ timeSlot.start | date: "hh    :mm aa" }}
-</button>
+<div *ngIf="timeSlotsByDate.get(selectedDateHash) as timeSlots">
+  <p class="fw-bold">
+    Available on {{ timeSlots[0].start | date: "fullDate" }}
+  </p>
+  <p class="fw-bold">Morning</p>
+  <button
+    *ngFor="let timeSlot of getMorningTimeSlots(timeSlots)"
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="onTimeSlotSelected(timeSlot)"
+  >
+    {{ timeSlot.start | date: "hh:mm aa" }}
+  </button>
+  <p class="fw-bold">Afternoon</p>
+  <button
+    *ngFor="let timeSlot of getAfternoonTimeSlots(timeSlots)"
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="onTimeSlotSelected(timeSlot)"
+  >
+    {{ timeSlot.start | date: "hh:mm aa" }}
+  </button>
+  <p class="fw-bold">Evening</p>
+  <button
+    *ngFor="let timeSlot of getEveningTimeSlots(timeSlots)"
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="onTimeSlotSelected(timeSlot)"
+  >
+    {{ timeSlot.start | date: "hh    :mm aa" }}
+  </button>
+</div>

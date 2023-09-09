@@ -33,7 +33,7 @@
         ></mat-calendar>
         <time-slots
           [timeSlotsByDate]="availability.timeSlotsByDate"
-          [selectedDateHash]="selectedDateHash$ | async"
+          [selectedDateHash]="(selectedDateHash$ | async)!"
           (timeSlotSelected)="onTimeSlotSelected($event)"
         >
         </time-slots>
