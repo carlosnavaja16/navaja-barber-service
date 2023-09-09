@@ -26,4 +26,5 @@ export interface Availability {
   minDate: Date;
   maxDate: Date;
   timeSlotsByDate: Map<string, TimeSlot[]>;
+  dateFilter: (date: Date) => boolean;
 }

@@ -53,6 +53,9 @@ export class CalendarService {
           minDate: new Date(data.minDate),
           maxDate: new Date(data.maxDate),
           timeSlotsByDate,
+          dateFilter: (date: Date) => {
+            return DateUtils.isDateInAvailableDates(date, timeSlotsByDate);
+          },
         };
         return availability;
       }),

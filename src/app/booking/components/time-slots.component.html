@@ -1,0 +1,8 @@
+<button
+  *ngFor="let timeSlot of timeSlotsByDate.get(selectedDateHash || '')"
+  type="button"
+  class="btn btn-outline-primary"
+  (click)="onTimeSlotSelected(timeSlot)"
+>
+  {{ timeSlot.start | date: "hh    :mm aa" }}
+</button>

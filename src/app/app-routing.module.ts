@@ -8,7 +8,7 @@ import { AuthGuard, redirectUnauthorizedTo } from "@angular/fire/auth-guard";
 import { LoginComponent } from "./login/login.component";
 import { LogoutComponent } from "./logout/logout.component";
 import { GalleryComponent } from "./gallery/gallery.component";
-import { BookingComponent } from "./booking/booking.component";
+import { BookingComponent } from "./booking/pages/booking.component";
 
 const redirectUnauthorizedToHome = () => redirectUnauthorizedTo([""]);
 

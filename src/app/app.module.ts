@@ -12,7 +12,8 @@ import { SignupComponent } from "./signup/signup.component";
 import { LoginComponent } from "./login/login.component";
 import { LogoutComponent } from "./logout/logout.component";
 import { GalleryComponent } from "./gallery/gallery.component";
-import { BookingComponent } from "./booking/booking.component";
+import { BookingComponent } from "./booking/pages/booking.component";
+import { TimeSlotsComponent } from "./booking/components/time-slots.component";
 
 import { environment } from "../environments/environment";
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
@@ -52,6 +53,7 @@ import { MatSelectModule } from "@angular/material/select";
     LogoutComponent,
     GalleryComponent,
     BookingComponent,
+    TimeSlotsComponent,
   ],
   imports: [
     BrowserModule,

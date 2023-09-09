@@ -26,24 +26,17 @@
       <mat-card class="inline-calendar-card mt-3 mb-3">
         <mat-calendar
           #calendar
-          [dateFilter]="filter"
+          [dateFilter]="availability.dateFilter"
           [minDate]="availability.minDate"
           [maxDate]="availability.maxDate"
-          (selectedChange)="getTimeSlotsByDate($event)"
+          (selectedChange)="onDateSelected($event)"
         ></mat-calendar>
-        <button
-          mat-button
-          *ngFor="
-            let currDateTimeSlot of currDateTimeSlots$ | async as as;
-            currDateTimeSlots
-          "
+        <time-slots
+          [timeSlotsByDate]="availability.timeSlotsByDate"
+          [selectedDateHash]="selectedDateHash$ | async"
+          (timeSlotSelected)="onTimeSlotSelected($event)"
         >
-          {{
-            currDateTimeSlot.start.getHours() +
-              ":" +
-              currDateTimeSlot.start.getMinutes()
-          }}
-        </button>
+        </time-slots>
       </mat-card>
       <div>
         <button mat-button matStepperNext>Next</button>
