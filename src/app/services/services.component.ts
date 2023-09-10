@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
-import { ServiceService } from '../shared/services/service/service.service';
+import { ServiceService } from '../shared/services/services/services.service';
 import { AuthService } from '../shared/services/auth/auth.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class ServicesComponent {
     private readonly headerService: HeaderService,
   ) {
     this.headerService.setHeader('Services');
-    this.services$ = this.serviceService.getServices$();
+    this.services$ = this.serviceService.getServices();
   }
 
   get isLoggedIn$(): Observable<boolean> {

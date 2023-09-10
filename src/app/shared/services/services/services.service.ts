@@ -25,7 +25,8 @@ export class ServiceService {
       orderBy('price', 'asc'),
     );
   }
-  getServices$(): Observable<DocumentData[]> {
+
+  getServices(): Observable<DocumentData[]> {
     return collectionData(this.servicesQuery);
   }
 }

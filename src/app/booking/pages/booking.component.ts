@@ -8,7 +8,7 @@ import {
   TimeSlot,
 } from '../../shared/types/time-slot';
 import { CalendarService } from '../../shared/services/calendar/calendar.service';
-import { ServiceService } from '../../shared/services/service/service.service';
+import { ServiceService } from '../../shared/services/services/services.service';
 import { MatStepper } from '@angular/material/stepper';
 import { DateUtils } from '../../../app/shared/utilities/date.util';
 
@@ -34,7 +34,7 @@ export class BookingComponent {
     private readonly calendarService: CalendarService,
   ) {
     this.headerService.setHeader('Booking');
-    this.services$ = this.serviceService.getServices$();
+    this.services$ = this.serviceService.getServices();
     this.availability$ = this.selectedService$.pipe(
       switchMap((service) => {
         return this.calendarService.getAvailability(
