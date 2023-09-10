@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TimeSlot } from '../../../shared/types/time-slot';
+import { DateTimeSlots, TimeSlot } from '../../../shared/types/time-slot';
 import { DateUtils } from '../../../shared/utilities/date.util';
 import { Observable, Subject, map } from 'rxjs';
 
@@ -9,8 +9,7 @@ import { Observable, Subject, map } from 'rxjs';
   styleUrls: ['./time-slots.component.scss'],
 })
 export class TimeSlotsComponent {
-  @Input() timeSlotsByDate: Map<string, TimeSlot[]> | null;
-  @Input() selectedDate: Date | null;
+  @Input() dateTimeSlots: DateTimeSlots | null;
   @Output() timeSlotSelected = new EventEmitter<TimeSlot>();
 
   constructor() {}
@@ -20,28 +19,28 @@ export class TimeSlotsComponent {
   }
 
   get morningTimeSlots() {
-    if (this.selectedDate && this.timeSlotsByDate) {
-      return this.timeSlotsByDate
-        .get(DateUtils.getDateHash(this.selectedDate))
-        ?.filter((t) => DateUtils.whichPartOfDay(t) === 'morning');
+    if (this.dateTimeSlots) {
+      return this.dateTimeSlots.timeSlots.filter(
+        (t) => DateUtils.whichPartOfDay(t) === 'morning',
+      );
     }
     return [];
   }
 
   get afternoonTimeSlots() {
-    if (this.selectedDate && this.timeSlotsByDate) {
-      return this.timeSlotsByDate
-        .get(DateUtils.getDateHash(this.selectedDate))
-        ?.filter((t) => DateUtils.whichPartOfDay(t) === 'afternoon');
+    if (this.dateTimeSlots) {
+      return this.dateTimeSlots.timeSlots.filter(
+        (t) => DateUtils.whichPartOfDay(t) === 'afternoon',
+      );
     }
     return [];
   }
 
   get eveningTimeSlots() {
-    if (this.selectedDate && this.timeSlotsByDate) {
-      return this.timeSlotsByDate
-        .get(DateUtils.getDateHash(this.selectedDate))
-        ?.filter((t) => DateUtils.whichPartOfDay(t) === 'evening');
+    if (this.dateTimeSlots) {
+      return this.dateTimeSlots.timeSlots.filter(
+        (t) => DateUtils.whichPartOfDay(t) === 'evening',
+      );
     }
     return [];
   }

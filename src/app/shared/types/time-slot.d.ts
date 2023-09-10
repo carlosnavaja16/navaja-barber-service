@@ -29,3 +29,8 @@ export interface Availability {
   timeSlotsByDate: Map<string, TimeSlot[]>;
   dateFilter: (date: Date) => boolean;
 }
+
+export interface DateTimeSlots {
+  date: Date;
+  timeSlots: TimeSlot[];
+}

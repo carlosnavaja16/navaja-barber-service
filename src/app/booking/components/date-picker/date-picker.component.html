@@ -1,0 +1,10 @@
+<mat-card class="inline-calendar-card mt-3 mb-3">
+  <mat-calendar
+    #calendar
+    [dateFilter]="dateFilter ? dateFilter : unfiltered"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    (selectedChange)="onDateSelected($event)"
+  >
+  </mat-calendar>
+</mat-card>

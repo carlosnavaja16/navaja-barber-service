@@ -43,6 +43,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { ServicePickerComponent } from './booking/components/service-picker/service-picker.component';
 import { DurationPipe } from './shared/pipes/duration.pipe';
+import { DatePickerComponent } from './booking/components/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { DurationPipe } from './shared/pipes/duration.pipe';
     TimeSlotsComponent,
     ServicePickerComponent,
     DurationPipe,
+    DatePickerComponent,
   ],
   imports: [
     BrowserModule,

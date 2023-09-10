@@ -1,4 +1,6 @@
-<p class="fw-bold fs-5">Available on {{ selectedDate | date: 'fullDate' }}</p>
+<p class="fw-bold fs-5">
+  Available on {{ dateTimeSlots?.date | date: 'fullDate' }}
+</p>
 <p class="fw-bold">Morning</p>
 <button
   *ngFor="let timeSlot of morningTimeSlots"

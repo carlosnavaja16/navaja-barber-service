@@ -1,7 +1,6 @@
 <div
   class="container d-flex flex-column justify-content-center align-items-center"
 >
-  <h3 class="text-center mb-3">Choose a date</h3>
   <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
     <mat-step label="Select a service">
       <service-picker
@@ -11,22 +10,25 @@
       </service-picker>
     </mat-step>
     <mat-step label="Select a date">
-      <mat-card class="inline-calendar-card mt-3 mb-3">
-        <mat-calendar
-          *ngIf="availability$ | async as availability"
-          #calendar
-          [dateFilter]="availability.dateFilter"
-          [minDate]="availability.minDate"
-          [maxDate]="availability.maxDate"
-          (selectedChange)="onDateSelected($event)"
-        ></mat-calendar>
-      </mat-card>
+      <date-picker
+        *ngIf="availability$ | async as availability; else availabilityLoading"
+        [dateFilter]="availability.dateFilter"
+        [timeSlotsByDate]="availability.timeSlotsByDate"
+        [minDate]="availability.minDate"
+        [maxDate]="availability.maxDate"
+        (dateSelected)="onDateSelected($event)"
+      >
+      </date-picker>
+      <ng-template #availabilityLoading>
+        <div class="loader">
+          <div class="spinner-grow text-dark"></div>
+        </div>
+      </ng-template>
     </mat-step>
     <mat-step label="Select a time">
       <mat-card class="inline-calendar-card mt-3 mb-3 p-3">
         <time-slots
-          [timeSlotsByDate]="timeSlotsByDate$ | async"
-          [selectedDate]="selectedDate$ | async"
+          [dateTimeSlots]="selectedDateTimeSlots$ | async"
           (timeSlotSelected)="onTimeSlotSelected($event)"
         >
         </time-slots>
