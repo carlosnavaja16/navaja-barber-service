@@ -27,7 +27,7 @@ export class SnackbarService {
   private snackbar$ = new Subject<Snackbar>();
 
   constructor(public matSnackbar: MatSnackBar) {
-    this.snackbar$.asObservable().subscribe((snackbar) => {
+    this.snackbar$.subscribe((snackbar) => {
       matSnackbar.open(snackbar.message, snackbar.action, snackbar.config);
     });
   }
