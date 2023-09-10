@@ -1,13 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
 import { DocumentData } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs';
-import { MatCalendar } from '@angular/material/datepicker';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Availability, TimeSlot } from '../../shared/types/time-slot';
 import { CalendarService } from '../../shared/services/calendar/calendar.service';
 import { ServiceService } from '../../shared/services/service/service.service';
-import { DateUtils } from '../../shared/utilities/date.util';
 import { MatStepper } from '@angular/material/stepper';
+import { DateUtils } from '../../../app/shared/utilities/date.util';
 
 @Component({
   selector: 'app-booking',
@@ -30,8 +29,13 @@ export class BookingComponent {
   ) {
     this.headerService.setHeader('Booking');
     this.services$ = this.serviceService.getServices$();
+  }
+
+  onServiceSelected(service: DocumentData) {
     this.availability$ = this.calendarService
-      .getAvailability(this.eventDuration)
+      .getAvailability(
+        DateUtils.getMillisecondsFromMinutes(service['duration']),
+      )
       .pipe(
         tap((availability) => {
           this.timeSlotsByDate$ = new BehaviorSubject<Map<string, TimeSlot[]>>(
@@ -42,9 +46,6 @@ export class BookingComponent {
           );
         }),
       );
-  }
-
-  onServiceSelected(service: DocumentData) {
     this.MatStepper.selectedIndex = 1;
   }
 

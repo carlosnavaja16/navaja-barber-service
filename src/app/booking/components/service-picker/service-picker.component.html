@@ -1,0 +1,16 @@
+<mat-form-field class="w-100 mt-3">
+  <mat-select>
+    <mat-option
+      *ngFor="let service of services"
+      [value]="services ? services[0] : null"
+      (onSelectionChange)="onServiceSelected(service)"
+    >
+      <p>
+        <b>{{ service['name'] }}</b> ·
+        <small
+          >{{ service['duration'] | duration }} · ${{ service['price'] }}</small
+        >
+      </p>
+    </mat-option>
+  </mat-select>
+</mat-form-field>

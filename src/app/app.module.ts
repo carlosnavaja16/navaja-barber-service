@@ -13,7 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from './booking/pages/booking.component';
-import { TimeSlotsComponent } from './booking/components/time-slots.component';
+import { TimeSlotsComponent } from './booking/components/time-slots/time-slots.component';
 
 import { environment } from '../environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -41,6 +41,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
+import { ServicePickerComponent } from './booking/components/service-picker/service-picker.component';
+import { DurationPipe } from './shared/pipes/duration.pipe';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { MatSelectModule } from '@angular/material/select';
     GalleryComponent,
     BookingComponent,
     TimeSlotsComponent,
+    ServicePickerComponent,
+    DurationPipe,
   ],
   imports: [
     BrowserModule,

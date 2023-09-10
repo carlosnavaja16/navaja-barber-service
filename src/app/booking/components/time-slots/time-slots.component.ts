@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TimeSlot } from '../../../app/shared/types/time-slot';
-import { DateUtils } from '../../../app/shared/utilities/date.util';
+import { TimeSlot } from '../../../shared/types/time-slot';
+import { DateUtils } from '../../../shared/utilities/date.util';
 import { Observable, Subject, map } from 'rxjs';
 
 @Component({

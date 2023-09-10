@@ -2,25 +2,13 @@
   class="container d-flex flex-column justify-content-center align-items-center"
 >
   <h3 class="text-center mb-3">Choose a date</h3>
-  <mat-vertical-stepper
-    [linear]="true"
-    #stepper
-    class="booking-stepper"
-    *ngIf="availability$ | async as availability"
-  >
+  <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
     <mat-step label="Select a service">
-      <mat-form-field class="w-100 mt-3">
-        <mat-select>
-          <mat-option
-            *ngFor="let service of services$ | async as services"
-            [value]="services[0]"
-            (onSelectionChange)="onServiceSelected(service)"
-          >
-            <b>{{ service['name'] }}</b> ·
-            <small>${{ service['price'] }}</small>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <service-picker
+        [services]="services$ | async"
+        (serviceSelected)="onServiceSelected($event)"
+      >
+      </service-picker>
     </mat-step>
     <mat-step label="Select a date">
       <mat-card class="inline-calendar-card mt-3 mb-3">
@@ -28,7 +16,6 @@
           *ngIf="availability$ | async as availability"
           #calendar
           [dateFilter]="availability.dateFilter"
-          [selected]="selectedDate$ | async"
           [minDate]="availability.minDate"
           [maxDate]="availability.maxDate"
           (selectedChange)="onDateSelected($event)"

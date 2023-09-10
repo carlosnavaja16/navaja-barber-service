@@ -22,4 +22,8 @@ export class DateUtils {
       return 'evening';
     }
   }
+
+  public static getMillisecondsFromMinutes(minutes: number) {
+    return minutes * 60 * 1000;
+  }
 }
