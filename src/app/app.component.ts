@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './shared/services/auth/auth.service';
 import { HeaderService } from './shared/services/header/header.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -22,5 +22,9 @@ export class AppComponent {
 
   public collapseNavbar() {
     this.isNavbarCollapsed$.next(true);
+  }
+
+  get isLoggedIn$(): Observable<boolean> {
+    return this.authService.isLoggedIn$;
   }
 }

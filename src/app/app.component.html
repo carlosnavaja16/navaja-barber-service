@@ -38,9 +38,7 @@
           [routerLinkActive]="['fw-bold']"
           >Gallery</a
         >
-        <ng-container
-          *ngIf="{ value: authService.getIsLoggedIn$() | async } as isLoggedIn"
-        >
+        <ng-container *ngIf="{ value: isLoggedIn$ | async } as isLoggedIn">
           <a
             *ngIf="!isLoggedIn.value"
             class="nav-link"

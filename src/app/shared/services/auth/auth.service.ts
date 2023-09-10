@@ -1,24 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private loggedIn$ = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = new Subject<boolean>();
 
   constructor(public auth: Auth) {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.loggedIn$.next(true);
-      } else {
-        this.loggedIn$.next(false);
-      }
+      this.isLoggedIn$.next(!!user);
     });
-  }
-
-  public getIsLoggedIn$(): Observable<boolean> {
-    return this.loggedIn$.asObservable();
   }
 }

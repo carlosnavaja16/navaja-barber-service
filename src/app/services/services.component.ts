@@ -23,6 +23,6 @@ export class ServicesComponent {
   }
 
   get isLoggedIn$(): Observable<boolean> {
-    return this.authService.getIsLoggedIn$();
+    return this.authService.isLoggedIn$;
   }
 }

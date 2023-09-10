@@ -19,13 +19,11 @@
       type="button"
       class="btn btn-primary book-btn"
       [ngbTooltip]="
-        (this.auth.getIsLoggedIn$() | async)
+        (this.auth.isLoggedIn$ | async)
           ? ''
           : 'In order to book you will need to Log In'
       "
-      [routerLink]="
-        (this.auth.getIsLoggedIn$() | async) ? '/booking' : '/login'
-      "
+      [routerLink]="(this.auth.isLoggedIn$ | async) ? '/booking' : '/login'"
     >
       <i class="bi bi-calendar-check-fill"></i> &nbsp; Book
     </a>
