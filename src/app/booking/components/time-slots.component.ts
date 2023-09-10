@@ -9,7 +9,7 @@ import { Observable, Subject, map } from 'rxjs';
   styleUrls: ['./time-slots.component.scss'],
 })
 export class TimeSlotsComponent {
-  @Input() timeSlotsByDate: Map<string, TimeSlot[]>;
+  @Input() timeSlotsByDate: Map<string, TimeSlot[]> | null;
   @Input() selectedDate: Date | null;
   @Output() timeSlotSelected = new EventEmitter<TimeSlot>();
 
@@ -20,7 +20,7 @@ export class TimeSlotsComponent {
   }
 
   get morningTimeSlots() {
-    if (this.selectedDate) {
+    if (this.selectedDate && this.timeSlotsByDate) {
       return this.timeSlotsByDate
         .get(DateUtils.getDateHash(this.selectedDate))
         ?.filter((t) => DateUtils.whichPartOfDay(t) === 'morning');
@@ -29,7 +29,7 @@ export class TimeSlotsComponent {
   }
 
   get afternoonTimeSlots() {
-    if (this.selectedDate) {
+    if (this.selectedDate && this.timeSlotsByDate) {
       return this.timeSlotsByDate
         .get(DateUtils.getDateHash(this.selectedDate))
         ?.filter((t) => DateUtils.whichPartOfDay(t) === 'afternoon');
@@ -38,7 +38,7 @@ export class TimeSlotsComponent {
   }
 
   get eveningTimeSlots() {
-    if (this.selectedDate) {
+    if (this.selectedDate && this.timeSlotsByDate) {
       return this.timeSlotsByDate
         .get(DateUtils.getDateHash(this.selectedDate))
         ?.filter((t) => DateUtils.whichPartOfDay(t) === 'evening');

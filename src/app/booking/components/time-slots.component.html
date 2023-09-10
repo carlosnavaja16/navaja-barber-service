@@ -3,26 +3,26 @@
 <button
   *ngFor="let timeSlot of morningTimeSlots"
   type="button"
-  class="btn btn-outline-primary"
+  class="btn btn-outline-primary m-1"
   (click)="onTimeSlotSelected(timeSlot)"
 >
-  {{ timeSlot.start | date: 'hh:mm aa' }}
+  {{ timeSlot.start | date: 'hh:mm aaa' }}
 </button>
 <p class="fw-bold">Afternoon</p>
 <button
   *ngFor="let timeSlot of afternoonTimeSlots"
   type="button"
-  class="btn btn-outline-primary"
+  class="btn btn-outline-primary m-1"
   (click)="onTimeSlotSelected(timeSlot)"
 >
-  {{ timeSlot.start | date: 'hh:mm aa' }}
+  {{ timeSlot.start | date: 'hh:mm aaa' }}
 </button>
 <p class="fw-bold">Evening</p>
 <button
   *ngFor="let timeSlot of eveningTimeSlots"
   type="button"
-  class="btn btn-outline-primary"
+  class="btn btn-outline-primary m-1"
   (click)="onTimeSlotSelected(timeSlot)"
 >
-  {{ timeSlot.start | date: 'hh:mm aa' }}
+  {{ timeSlot.start | date: 'hh:mm aaa' }}
 </button>

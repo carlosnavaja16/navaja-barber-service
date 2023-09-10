@@ -14,7 +14,7 @@
           <mat-option
             *ngFor="let service of services$ | async as services"
             [value]="services[0]"
-            (onSelectionChange)="stepper.selectedIndex = 1"
+            (onSelectionChange)="onServiceSelected(service)"
           >
             <b>{{ service['name'] }}</b> ·
             <small>${{ service['price'] }}</small>
@@ -25,23 +25,25 @@
     <mat-step label="Select a date">
       <mat-card class="inline-calendar-card mt-3 mb-3">
         <mat-calendar
+          *ngIf="availability$ | async as availability"
           #calendar
           [dateFilter]="availability.dateFilter"
           [selected]="selectedDate$ | async"
           [minDate]="availability.minDate"
           [maxDate]="availability.maxDate"
-          (selectedChange)="onDateSelected($event!)"
+          (selectedChange)="onDateSelected($event)"
         ></mat-calendar>
+      </mat-card>
+    </mat-step>
+    <mat-step label="Select a time">
+      <mat-card class="inline-calendar-card mt-3 mb-3 p-3">
         <time-slots
-          [timeSlotsByDate]="availability.timeSlotsByDate"
+          [timeSlotsByDate]="timeSlotsByDate$ | async"
           [selectedDate]="selectedDate$ | async"
           (timeSlotSelected)="onTimeSlotSelected($event)"
         >
         </time-slots>
       </mat-card>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
