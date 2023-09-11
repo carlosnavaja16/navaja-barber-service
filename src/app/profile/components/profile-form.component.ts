@@ -19,7 +19,6 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
   selector: 'profile-form',
   templateUrl: './profile-form.component.html',
   styleUrls: ['./profile-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
