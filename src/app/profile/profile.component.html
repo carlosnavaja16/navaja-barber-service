@@ -1,9 +1,8 @@
-<div class="container">
-  <div class="d-flex justify-content-center align-items-center">
-    <profile-form
-      *ngIf="userProfile$ | async as userProfile"
-      [userProfile]="userProfile"
-    >
-    </profile-form>
-  </div>
+<div class="container d-flex justify-content-center align-items-center">
+  <profile-form
+    class="form"
+    *ngIf="userProfile$ | async as userProfile"
+    [userProfile]="userProfile"
+  >
+  </profile-form>
 </div>

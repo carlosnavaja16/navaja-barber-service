@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/user/user.service';
 import { UserProfile } from '../../shared/types/user-profile';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({
   selector: 'profile-form',
@@ -18,8 +19,7 @@ import { UserProfile } from '../../shared/types/user-profile';
 })
 export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
-  editButtonMode$ = new BehaviorSubject<string>('Edit');
-  inEditMode$ = new BehaviorSubject<boolean>(false);
+  inEditMode = false;
   userProfileForm: FormGroup;
 
   constructor(
@@ -58,14 +58,20 @@ export class ProfileFormComponent implements OnInit {
     });
   }
 
-  onButtonClicked() {
-    this.editButtonMode$.next(
-      this.editButtonMode$.value === 'Edit' ? 'Cancel' : 'Edit',
-    );
-    this.inEditMode$.next(!this.inEditMode$.value);
+  onEdit() {
+    this.inEditMode = !this.inEditMode;
   }
 
   onSubmit() {
     console.log(this.userProfile);
+  }
+
+  onCancel() {
+    console.log('cancel');
+    this.inEditMode = false;
+  }
+
+  get appearance(): MatFormFieldAppearance {
+    return this.inEditMode ? 'fill' : 'outline';
   }
 }
