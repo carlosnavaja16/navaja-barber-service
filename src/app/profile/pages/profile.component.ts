@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderService } from '../shared/services/header/header.service';
+import { HeaderService } from '../../shared/services/header/header.service';
 import { Auth, user } from '@angular/fire/auth';
 import {
   Firestore,
@@ -12,8 +12,8 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, take, tap } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import { UserService } from '../shared/services/user/user.service';
-import { UserProfile } from '../shared/types/user-profile';
+import { UserService } from '../../shared/services/user/user.service';
+import { UserProfile } from '../../shared/types/user-profile';
 
 @Component({
   selector: 'app-profile',
@@ -29,5 +29,14 @@ export class ProfileComponent {
   ) {
     this.headerService.setHeader('Profile');
     this.userProfile$ = this.userService.getUserProfile();
+  }
+
+  onFormSubmitted(any: any): void {
+    // this.userService
+    //   .updateUserProfile(any)
+    //   .pipe(take(1))
+    //   .subscribe((result) => {
+    //     console.log(result);
+    //   });
   }
 }

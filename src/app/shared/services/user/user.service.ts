@@ -19,6 +19,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
+import { updateDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -49,4 +50,8 @@ export class UserService {
       map((userProfiles) => userProfiles[0] as UserProfile),
     );
   }
+
+  // updateUserProfile(userProfile: UserProfile): string {
+  //   //updateDoc(doc(this.userProfilesCollection, userProfile.id), userProfile);
+  // }
 }

@@ -1,15 +1,22 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
 } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../../shared/services/user/user.service';
 import { UserProfile } from '../../shared/types/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'profile-form',
@@ -21,6 +28,7 @@ export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
   inEditMode = false;
   userProfileForm: FormGroup;
+  formSubmitted = new EventEmitter<UserProfile>();
 
   constructor(
     private readonly fb: FormBuilder,
@@ -31,43 +39,42 @@ export class ProfileFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.userProfileForm = this.fb.group({
-      firstName: [
-        this.userProfile?.firstName,
-        [Validators.required, Validators.pattern(/[a-zA-Z]{2,}/g)],
-      ],
-      lastName: [
-        this.userProfile?.lastName,
-        [Validators.required, Validators.pattern(/[a-zA-Z]{2,}/g)],
-      ],
-      streetAddr: [
-        this.userProfile?.streetAddr,
-        [Validators.required, Validators.pattern(/\d+\s+\w+\s+\w+/g)],
-      ],
-      city: [
-        this.userProfile?.city,
-        [Validators.required, Validators.pattern(/[a-zA-Z]{2,}/g)],
-      ],
-      state: [
-        this.userProfile?.state,
-        [Validators.required, Validators.pattern(/[A-Z]{2}/g)],
-      ],
-      zipCode: [
-        this.userProfile?.zipCode,
-        [Validators.required, Validators.pattern(/\d{5}/g)],
-      ],
+      firstName: new FormControl(this.userProfile?.firstName, [
+        Validators.required,
+        Validators.pattern('[a-zA-Z]{2,}'),
+      ]),
+      lastName: new FormControl(this.userProfile?.lastName, [
+        Validators.required,
+        Validators.pattern('[a-zA-Z]{2,}'),
+      ]),
+      streetAddr: new FormControl(this.userProfile?.streetAddr, [
+        Validators.required,
+      ]),
+      city: new FormControl(this.userProfile?.city, [
+        Validators.required,
+        Validators.pattern('[a-zA-Z]{2,}'),
+      ]),
+      state: new FormControl(this.userProfile?.state, [
+        Validators.required,
+        Validators.pattern('[A-Z]{2}'),
+      ]),
+      zipCode: new FormControl(this.userProfile?.zipCode, [
+        Validators.required,
+        Validators.pattern('[0-9]{5}'),
+      ]),
     });
   }
 
   onEdit() {
-    this.inEditMode = !this.inEditMode;
+    this.inEditMode = true;
   }
 
   onSubmit() {
-    console.log(this.userProfile);
+    this.formSubmitted.emit(this.userProfileForm.value as UserProfile);
   }
 
   onCancel() {
-    console.log('cancel');
+    this.userProfileForm.reset(this.userProfile, { emitEvent: false });
     this.inEditMode = false;
   }
 

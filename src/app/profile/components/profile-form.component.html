@@ -37,7 +37,8 @@
       class="wide-button m-1"
       color="primary"
       mat-flat-button
-      [disabled]="userProfileForm.invalid"
+      [disabled]="userProfileForm.invalid || userProfileForm.pristine"
+      (click)="onSubmit()"
     >
       Submit
     </button>

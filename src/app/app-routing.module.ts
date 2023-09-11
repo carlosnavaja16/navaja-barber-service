@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ServicesComponent } from './services/services.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './profile/pages/profile.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { LoginComponent } from './login/login.component';
