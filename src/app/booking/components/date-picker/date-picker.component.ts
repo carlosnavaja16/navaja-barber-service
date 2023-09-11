@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DocumentData } from '@angular/fire/firestore';
 import {
   DateTimeSlots,
   TimeSlot,
@@ -17,9 +16,7 @@ export class DatePickerComponent {
   @Input() maxDate: Date | null;
   @Input() timeSlotsByDate: Map<string, TimeSlot[]> | null;
   @Output() dateSelected = new EventEmitter<DateTimeSlots>();
-  unfiltered = (date: Date) => true;
-
-  constructor() {}
+  unfiltered = () => true;
 
   onDateSelected($event: Date | null) {
     if ($event && this.timeSlotsByDate) {

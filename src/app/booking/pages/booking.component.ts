@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
 import { DocumentData } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, Subject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, switchMap } from 'rxjs';
 import {
   Availability,
   DateTimeSlots,
@@ -57,6 +57,6 @@ export class BookingComponent {
   }
 
   onTimeSlotSelected(timeSlot: TimeSlot) {
-    return;
+    return timeSlot;
   }
 }

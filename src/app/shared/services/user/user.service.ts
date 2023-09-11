@@ -1,25 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Auth, onAuthStateChanged, user } from '@angular/fire/auth';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { Observable, Subject, map, switchMap } from 'rxjs';
 import { UserProfile } from '../../types/user-profile';
 import {
   CollectionReference,
   DocumentData,
   Firestore,
-  Query,
   collection,
   collectionData,
   query,
   where,
 } from '@angular/fire/firestore';
-import { updateDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
 import {
   Auth,
@@ -15,7 +15,7 @@ import { Observable, catchError, from, take, tap } from 'rxjs';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   firstName = '';
   lastName = '';
   streetAddr = '';
@@ -37,8 +37,6 @@ export class SignupComponent implements OnInit {
   ) {
     headerService.setHeader('Sign Up');
   }
-
-  ngOnInit(): void {}
 
   validate(): void {
     if (this.submitAttempted) {

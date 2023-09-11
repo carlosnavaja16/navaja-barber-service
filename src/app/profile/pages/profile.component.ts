@@ -1,17 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
-import { Auth, user } from '@angular/fire/auth';
-import {
-  Firestore,
-  collection,
-  collectionData,
-  query,
-  where,
-  doc,
-  updateDoc,
-} from '@angular/fire/firestore';
-import { Observable, take, tap } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { UserService } from '../../shared/services/user/user.service';
 import { UserProfile } from '../../shared/types/user-profile';
 
@@ -31,7 +20,8 @@ export class ProfileComponent {
     this.userProfile$ = this.userService.getUserProfile();
   }
 
-  onFormSubmitted(any: any): void {
+  onFormSubmitted(any: Event) {
+    return any;
     // this.userService
     //   .updateUserProfile(any)
     //   .pipe(take(1))

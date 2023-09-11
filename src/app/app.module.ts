@@ -17,13 +17,11 @@ import { TimeSlotsComponent } from './booking/components/time-slots/time-slots.c
 
 import { environment } from '../environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { AngularFireModule } from '@angular/fire/compat';
 import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
 import {
   connectFirestoreEmulator,
   getFirestore,
   provideFirestore,
-  enableMultiTabIndexedDbPersistence,
 } from '@angular/fire/firestore';
 import {
   connectFunctionsEmulator,

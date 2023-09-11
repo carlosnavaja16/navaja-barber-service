@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 const SNACKBAR_DURATION = 5000;

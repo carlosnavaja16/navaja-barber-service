@@ -6,17 +6,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../shared/services/user/user.service';
 import { UserProfile } from '../../shared/types/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
-import { User } from 'firebase/auth';
 
 @Component({
   selector: 'profile-form',

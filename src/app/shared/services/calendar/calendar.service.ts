@@ -4,14 +4,13 @@ import {
   AvailableTimeSlotsRequest,
   AvailabilityResponse,
   TimeSlot,
-  TimeSlotResponse,
 } from '../../types/time-slot';
 import {
   Functions,
   httpsCallable,
   HttpsCallable,
 } from '@angular/fire/functions';
-import { defer, from, map, Observable } from 'rxjs';
+import { defer, map, Observable } from 'rxjs';
 import { DateUtils } from '../../utilities/date.util';
 
 @Injectable({
@@ -42,8 +41,9 @@ export class CalendarService {
             end: new Date(timeSlotResponse.end),
           };
           const dateHash = DateUtils.getDateHash(timeSlot.start);
-          if (timeSlotsByDate.has(dateHash)) {
-            timeSlotsByDate.get(dateHash)!.push(timeSlot);
+          const timeSlots = timeSlotsByDate.get(dateHash);
+          if (timeSlots) {
+            timeSlots.push(timeSlot);
           } else {
             timeSlotsByDate.set(dateHash, [timeSlot]);
           }

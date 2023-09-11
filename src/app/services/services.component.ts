@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';

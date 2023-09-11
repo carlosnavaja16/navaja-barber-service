@@ -10,8 +10,6 @@ export class ServicePickerComponent {
   @Input() services: DocumentData[] | null;
   @Output() serviceSelected = new EventEmitter<DocumentData>();
 
-  constructor() {}
-
   onServiceSelected(service: DocumentData) {
     this.serviceSelected.emit(service);
   }

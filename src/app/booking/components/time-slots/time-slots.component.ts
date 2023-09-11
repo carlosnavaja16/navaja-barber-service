@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DateTimeSlots, TimeSlot } from '../../../shared/types/time-slot';
 import { DateUtils } from '../../../shared/utilities/date.util';
-import { Observable, Subject, map } from 'rxjs';
 
 @Component({
   selector: 'time-slots',
@@ -11,8 +10,6 @@ import { Observable, Subject, map } from 'rxjs';
 export class TimeSlotsComponent {
   @Input() dateTimeSlots: DateTimeSlots | null;
   @Output() timeSlotSelected = new EventEmitter<TimeSlot>();
-
-  constructor() {}
 
   onTimeSlotSelected(timeSlot: TimeSlot) {
     this.timeSlotSelected.emit(timeSlot);

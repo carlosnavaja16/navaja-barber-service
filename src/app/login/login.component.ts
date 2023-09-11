@@ -23,8 +23,8 @@ import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
 
   constructor(
     public headerService: HeaderService,
@@ -35,8 +35,6 @@ export class LoginComponent {
   ) {
     this.headerService.setHeader('Login');
   }
-
-  ngOnInit(): void {}
 
   login(): void {
     const signIn$: Observable<UserCredential> = from(
