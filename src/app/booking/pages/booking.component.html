@@ -4,7 +4,8 @@
   <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
     <mat-step label="Select a service">
       <service-picker
-        [services]="services$ | async"
+        *ngIf="services$ | async as services"
+        [services]="services"
         (serviceSelected)="onServiceSelected($event)"
       >
       </service-picker>
@@ -28,7 +29,8 @@
     <mat-step label="Select a time">
       <mat-card class="inline-calendar-card mt-3 mb-3 p-3">
         <time-slots
-          [dateTimeSlots]="selectedDateTimeSlots$ | async"
+          *ngIf="selectedDateTimeSlots$ | async as selectedDateTimeSlots"
+          [dateTimeSlots]="selectedDateTimeSlots"
           (timeSlotSelected)="onTimeSlotSelected($event)"
         >
         </time-slots>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './shared/services/auth/auth.service';
+import { UserService } from './shared/services/user/user.service';
 import { HeaderService } from './shared/services/header/header.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -12,7 +12,7 @@ export class AppComponent {
   public isNavbarCollapsed$ = new BehaviorSubject<boolean>(true);
 
   constructor(
-    public authService: AuthService,
+    public authService: UserService,
     public headerService: HeaderService,
   ) {}
 

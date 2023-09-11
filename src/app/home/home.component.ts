@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
-import { AuthService } from '../shared/services/auth/auth.service';
+import { UserService } from '../shared/services/user/user.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import { AuthService } from '../shared/services/auth/auth.service';
 export class HomeComponent implements OnInit {
   constructor(
     public headerService: HeaderService,
-    public auth: AuthService,
+    public auth: UserService,
   ) {
     headerService.setHeader('Vonnegut Barber Service');
   }

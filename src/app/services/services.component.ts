@@ -3,7 +3,7 @@ import { DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
 import { ServiceService } from '../shared/services/services/services.service';
-import { AuthService } from '../shared/services/auth/auth.service';
+import { UserService } from '../shared/services/user/user.service';
 
 @Component({
   selector: 'app-services',
@@ -14,7 +14,7 @@ export class ServicesComponent {
   services$: Observable<DocumentData[]>;
 
   constructor(
-    private readonly authService: AuthService,
+    private readonly authService: UserService,
     private readonly serviceService: ServiceService,
     private readonly headerService: HeaderService,
   ) {

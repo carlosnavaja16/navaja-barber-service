@@ -44,6 +44,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ServicePickerComponent } from './booking/components/service-picker/service-picker.component';
 import { DurationPipe } from './shared/pipes/duration.pipe';
 import { DatePickerComponent } from './booking/components/date-picker/date-picker.component';
+import { ProfileFormComponent } from './profile/components/profile-form.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { DatePickerComponent } from './booking/components/date-picker/date-picke
     ServicePickerComponent,
     DurationPipe,
     DatePickerComponent,
+    ProfileFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,6 +106,7 @@ import { DatePickerComponent } from './booking/components/date-picker/date-picke
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
+    ReactiveFormsModule,
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent],
