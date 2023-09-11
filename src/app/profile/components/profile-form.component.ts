@@ -67,7 +67,11 @@ export class ProfileFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.formSubmitted.emit(this.userProfileForm.value as UserProfile);
+    this.formSubmitted.emit({
+      userId: this.userProfile?.userId,
+      userProfileId: this.userProfile?.userProfileId,
+      ...this.userProfileForm.value,
+    } as UserProfile);
   }
 
   onCancel() {
@@ -77,5 +81,29 @@ export class ProfileFormComponent implements OnInit {
 
   get appearance(): MatFormFieldAppearance {
     return this.inEditMode ? 'fill' : 'outline';
+  }
+
+  get firstName() {
+    return this.userProfileForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.userProfileForm.get('lastName');
+  }
+
+  get streetAddr() {
+    return this.userProfileForm.get('streetAddr');
+  }
+
+  get city() {
+    return this.userProfileForm.get('city');
+  }
+
+  get state() {
+    return this.userProfileForm.get('state');
+  }
+
+  get zipCode() {
+    return this.userProfileForm.get('zipCode');
   }
 }

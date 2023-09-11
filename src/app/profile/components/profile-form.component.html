@@ -2,6 +2,7 @@
   <mat-form-field [appearance]="appearance">
     <mat-label>First name</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="firstName" />
+    <mat-error *ngIf="firstName.invalid && firstName.touched"></mat-error>
   </mat-form-field>
   <mat-form-field [appearance]="appearance">
     <mat-label>Last name</mat-label>
