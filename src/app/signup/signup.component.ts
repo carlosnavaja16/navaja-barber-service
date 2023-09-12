@@ -97,6 +97,7 @@ export class SignupComponent {
               'UserProfiles',
             );
             addDoc(userProfilesCollection, newUserProfile);
+            addDoc;
             this.snackbarService.success(
               `Your account has been created ${this.firstName}!`,
             );

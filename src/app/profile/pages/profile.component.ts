@@ -20,13 +20,7 @@ export class ProfileComponent {
     this.userProfile$ = this.userService.getUserProfile();
   }
 
-  onFormSubmitted(any: Event) {
-    return any;
-    // this.userService
-    //   .updateUserProfile(any)
-    //   .pipe(take(1))
-    //   .subscribe((result) => {
-    //     console.log(result);
-    //   });
+  onFormSubmitted($event: UserProfile) {
+    this.userService.updateUserProfile($event);
   }
 }

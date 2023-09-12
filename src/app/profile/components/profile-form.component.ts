@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
 import {
   FormBuilder,
@@ -22,9 +16,9 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 })
 export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
+  @Output() formSubmitted = new EventEmitter<UserProfile>();
   inEditMode = false;
   userProfileForm: FormGroup;
-  formSubmitted = new EventEmitter<UserProfile>();
 
   constructor(
     private readonly fb: FormBuilder,
