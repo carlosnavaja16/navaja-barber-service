@@ -62,7 +62,6 @@ export class ProfileFormComponent implements OnInit {
   onSubmit() {
     this.formSubmitted.emit({
       userId: this.userProfile?.userId,
-      userProfileId: this.userProfile?.userProfileId,
       ...this.userProfileForm.value,
     } as UserProfile);
   }

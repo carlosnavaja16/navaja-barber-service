@@ -5,6 +5,7 @@ import {
   UserCredential,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   user,
 } from '@angular/fire/auth';
 import {
@@ -49,6 +50,20 @@ export class UserService {
 
   get isLoggedIn$(): Observable<boolean> {
     return user(this.auth).pipe(map((user) => !!user));
+  }
+
+  login(email: string, password: string): Observable<UserProfile> {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      switchMap((user: UserCredential) => {
+        return from(
+          getDoc(doc(this.userProfilesCollection, user.user.uid)),
+        ).pipe(
+          map(
+            (userProfileSnapshot) => userProfileSnapshot.data() as UserProfile,
+          ),
+        );
+      }),
+    );
   }
 
   createUser(email: string, password: string, userProfile: UserProfile) {
