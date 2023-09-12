@@ -4,32 +4,19 @@ import {
   User,
   UserCredential,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   user,
 } from '@angular/fire/auth';
-import {
-  Observable,
-  Subject,
-  catchError,
-  from,
-  map,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
+import { Observable, from, map, switchMap } from 'rxjs';
 import { UserProfile } from '../../types/user-profile';
 import {
   CollectionReference,
   DocumentData,
   Firestore,
   collection,
-  collectionData,
   doc,
   getDoc,
-  query,
   updateDoc,
-  where,
 } from '@angular/fire/firestore';
 import { SnackbarService } from '../snackbar/snackbar.service';
 import { setDoc } from 'firebase/firestore';
@@ -49,7 +36,7 @@ export class UserService {
   }
 
   get isLoggedIn$(): Observable<boolean> {
-    return user(this.auth).pipe(map((user) => !!user));
+    return user(this.auth).pipe(map((user: User | null) => !!user));
   }
 
   login(email: string, password: string): Observable<UserProfile> {
