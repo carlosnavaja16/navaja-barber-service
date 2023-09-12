@@ -3,13 +3,23 @@ import {
   Auth,
   User,
   UserCredential,
+  authState,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   user,
 } from '@angular/fire/auth';
-import { Observable, Subject, from, map, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  from,
+  map,
+  of,
+  share,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 import { UserProfile } from '../shared/types/user-profile';
 import {
   CollectionReference,
@@ -33,8 +43,11 @@ export class UserService {
     private readonly auth: Auth,
     private readonly firestore: Firestore,
   ) {
-    onAuthStateChanged(this.auth, (user: User | null) => {
-      this.isLoggedIn$.next(user !== null);
+    onAuthStateChanged(this.auth, (user) => {
+      user ? this.isLoggedIn$.next(true) : this.isLoggedIn$.next(false);
+    });
+    authState(this.auth).subscribe((user) => {
+      console.log(`User: ${user?.uid} is logged in according to authState`);
     });
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
   }

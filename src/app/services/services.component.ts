@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
 import { ServiceService } from '../shared/services/services/services.service';
 import { UserService } from '../user/user.service';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-services',
@@ -14,7 +15,7 @@ export class ServicesComponent {
   services$: Observable<DocumentData[]>;
 
   constructor(
-    private readonly authService: UserService,
+    private readonly userService: UserService,
     private readonly serviceService: ServiceService,
     private readonly headerService: HeaderService,
   ) {
@@ -23,6 +24,6 @@ export class ServicesComponent {
   }
 
   get isLoggedIn$(): Observable<boolean> {
-    return this.authService.isLoggedIn$;
+    return this.userService.isLoggedIn$;
   }
 }
