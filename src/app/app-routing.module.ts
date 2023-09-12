@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ServicesComponent } from './services/services.component';
 import { ProfileComponent } from './profile/pages/profile.component';
-import { SignupComponent } from './signup/signup.component';
+import { SignupComponent } from './user/pages/signup/signup.component';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
-import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
+import { LoginComponent } from './user/pages/login/login.component';
+import { LogoutComponent } from './user/pages/logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from './booking/pages/booking.component';
 

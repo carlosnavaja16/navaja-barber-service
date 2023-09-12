@@ -3,7 +3,7 @@ import { DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
 import { ServiceService } from '../shared/services/services/services.service';
-import { UserService } from '../shared/services/user/user.service';
+import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-services',

@@ -1,52 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-
-const SNACKBAR_DURATION = 5000;
-
-export const successConfig = new MatSnackBarConfig();
-successConfig.duration = SNACKBAR_DURATION;
-successConfig.horizontalPosition = 'start';
-successConfig.panelClass = ['snackbar-success'];
-
-export const dangerConfig = {
-  ...successConfig,
-  panelClass: ['snackbar-warn'],
-};
-
-export interface Snackbar {
-  message: string;
-  action?: string;
-  config: MatSnackBarConfig;
-}
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SnackbarService {
-  private snackbar$ = new Subject<Snackbar>();
+  private snackbar$ = new Subject<string>();
 
   constructor(public matSnackbar: MatSnackBar) {
-    this.snackbar$.subscribe((snackbar) => {
-      matSnackbar.open(snackbar.message, snackbar.action, snackbar.config);
+    this.snackbar$.subscribe((message) => {
+      matSnackbar.open(message);
     });
   }
 
-  public success(message: string): void {
-    this.pushSnackbar({
-      message,
-      config: successConfig,
-    });
-  }
-
-  public warning(message: string): void {
-    this.pushSnackbar({
-      message,
-      config: dangerConfig,
-    });
-  }
-
-  public pushSnackbar(Snackbar: Snackbar): void {
-    this.snackbar$.next(Snackbar);
+  public pushSnackbar(message: string): void {
+    this.snackbar$.next(message);
   }
 }

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { UserService } from './shared/services/user/user.service';
+import { UserService } from './user/user.service';
 import { HeaderService } from './shared/services/header/header.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SnackbarService } from './shared/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-root',
@@ -9,22 +11,42 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  public isNavbarCollapsed$ = new BehaviorSubject<boolean>(true);
+  isNavbarCollapsed$ = new BehaviorSubject<boolean>(true);
 
   constructor(
-    public authService: UserService,
-    public headerService: HeaderService,
+    private readonly userService: UserService,
+    private readonly router: Router,
+    private readonly snackbarService: SnackbarService,
+    private readonly headerService: HeaderService,
   ) {}
 
-  public navBarToggle() {
+  navBarToggle() {
     this.isNavbarCollapsed$.next(!this.isNavbarCollapsed$.value);
   }
 
-  public collapseNavbar() {
+  collapseNavbar() {
     this.isNavbarCollapsed$.next(true);
   }
 
+  logOut() {
+    this.collapseNavbar();
+    this.userService.logOut().subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.snackbarService.pushSnackbar(
+          `Error logging out: ${error.message}`,
+        );
+      },
+    });
+  }
+
   get isLoggedIn$(): Observable<boolean> {
-    return this.authService.isLoggedIn$;
+    return this.userService.isLoggedIn$;
+  }
+
+  get header$(): Observable<string> {
+    return this.headerService.getHeader$();
   }
 }

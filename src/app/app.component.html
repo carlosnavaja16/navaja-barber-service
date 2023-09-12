@@ -76,7 +76,7 @@
             *ngIf="isLoggedIn.value"
             class="nav-link"
             [routerLink]="'/logout'"
-            (click)="collapseNavbar()"
+            (click)="logOut()"
             >Logout
           </a>
         </ng-container>
@@ -87,7 +87,7 @@
 
 <div class="d-flex flex-column vh-100 justify-content-between">
   <h1 class="display-1 text-center mb-5 mt-5 pt-4 kurt-font">
-    {{ headerService.getHeader$() | async }}
+    {{ header$ | async }}
   </h1>
 
   <div>

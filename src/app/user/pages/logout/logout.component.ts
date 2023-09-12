@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, signOut } from '@angular/fire/auth';
-import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
+import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 import { catchError, from, take, tap } from 'rxjs';
 
 @Component({
@@ -22,11 +22,11 @@ export class LogoutComponent implements OnInit {
       .pipe(
         take(1),
         tap(() => {
-          this.snackbarService.success('Logged out successfully.');
+          this.snackbarService.pushSnackbar('Logged out successfully.');
           this.router.navigate(['/']);
         }),
         catchError((error) => {
-          this.snackbarService.warning(`Could not logout: ${error}`);
+          this.snackbarService.pushSnackbar(`Could not logout: ${error}`);
           return error;
         }),
       )

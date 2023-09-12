@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderService } from '../shared/services/header/header.service';
-import { UserService } from '../shared/services/user/user.service';
+import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-home',

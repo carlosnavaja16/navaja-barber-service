@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderService } from '../shared/services/header/header.service';
+import { HeaderService } from '../../../shared/services/header/header.service';
 import {
   Auth,
   UserCredential,
@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/auth';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
+import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 import { Observable, catchError, from, take, tap } from 'rxjs';
 
 @Component({
@@ -98,13 +98,13 @@ export class SignupComponent {
             );
             addDoc(userProfilesCollection, newUserProfile);
             addDoc;
-            this.snackbarService.success(
+            this.snackbarService.pushSnackbar(
               `Your account has been created ${this.firstName}!`,
             );
             this.router.navigate(['/']);
           }),
           catchError((error) => {
-            this.snackbarService.success(
+            this.snackbarService.pushSnackbar(
               `Could not create new user: ${error}. Try again?`,
             );
             return error;

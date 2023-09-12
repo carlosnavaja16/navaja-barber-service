@@ -4,11 +4,13 @@ import {
   User,
   UserCredential,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
   user,
 } from '@angular/fire/auth';
-import { Observable, from, map, switchMap } from 'rxjs';
-import { UserProfile } from '../../types/user-profile';
+import { Observable, Subject, from, map, switchMap } from 'rxjs';
+import { UserProfile } from '../shared/types/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -18,25 +20,23 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { SnackbarService } from '../snackbar/snackbar.service';
 import { setDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  isLoggedIn$ = new Subject<boolean>();
   userProfilesCollection: CollectionReference<DocumentData>;
 
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore,
-    private readonly snackbarService: SnackbarService,
   ) {
+    onAuthStateChanged(this.auth, (user: User | null) => {
+      this.isLoggedIn$.next(user !== null);
+    });
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
-  }
-
-  get isLoggedIn$(): Observable<boolean> {
-    return user(this.auth).pipe(map((user: User | null) => !!user));
   }
 
   login(email: string, password: string): Observable<UserProfile> {
@@ -51,6 +51,10 @@ export class UserService {
         );
       }),
     );
+  }
+
+  logOut() {
+    return from(signOut(this.auth));
   }
 
   createUser(email: string, password: string, userProfile: UserProfile) {
