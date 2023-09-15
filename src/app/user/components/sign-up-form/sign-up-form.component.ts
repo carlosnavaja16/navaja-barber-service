@@ -8,7 +8,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { UserProfile } from '../../types/user-profile';
 import { SignUp } from '../../types/sign-up';
 
 @Component({

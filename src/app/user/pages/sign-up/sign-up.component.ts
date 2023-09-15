@@ -1,25 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
-import {
-  Auth,
-  UserCredential,
-  createUserWithEmailAndPassword,
-} from '@angular/fire/auth';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
-import { Observable, catchError, from, take, tap } from 'rxjs';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
 import { UserService } from '../../user.service';
-import { UserProfile } from '../../types/user-profile';
 import { SignUp } from '../../types/sign-up';
 
 @Component({

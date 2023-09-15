@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
 import { ServiceService } from '../shared/services/services/services.service';
 import { UserService } from '../user/user.service';
-import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-services',
