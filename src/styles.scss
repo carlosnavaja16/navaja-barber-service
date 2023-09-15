@@ -27,14 +27,14 @@
   margin-top: 5rem;
 }
 
-.snackbar-success {
-  --mdc-snackbar-container-color: #{$primary};
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
-}
+.form {
+  width: 100%;
+  max-width: 575px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-.snackbar-warn {
-  --mdc-snackbar-container-color: #{$danger};
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
+  mat-form-field {
+    width: 100%;
+  }
 }

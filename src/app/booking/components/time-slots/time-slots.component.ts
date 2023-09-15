@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DateTimeSlots, TimeSlot } from '../../../shared/types/time-slot';
-import { DateUtils } from '../../../shared/utilities/date.util';
+import { DateTimeSlots, TimeSlot } from '../../types/time-slot';
+import { DateUtils } from '../../utilities/date.util';
 
 @Component({
   selector: 'time-slots',

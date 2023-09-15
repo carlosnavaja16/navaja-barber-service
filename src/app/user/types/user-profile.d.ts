@@ -2,6 +2,7 @@ export declare interface UserProfile {
   userId: string;
   firstName: string;
   lastName: string;
+  phone: string;
   streetAddr: string;
   city: string;
   state: string;

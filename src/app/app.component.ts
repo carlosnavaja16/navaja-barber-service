@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { UserService } from './user/user.service';
 import { HeaderService } from './shared/services/header/header.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { SnackbarService } from './shared/services/snackbar/snackbar.service';
-import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-root',

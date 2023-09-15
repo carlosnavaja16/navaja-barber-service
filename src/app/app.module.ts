@@ -7,8 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ServicesComponent } from './services/services.component';
-import { ProfileComponent } from './profile/pages/profile.component';
-import { SignupComponent } from './user/pages/signup/signup.component';
+import { ProfileComponent } from './user/pages/profile/profile.component';
+import { SignUpComponent } from './user/pages/sign-up/sign-up.component';
 import { LoginComponent } from './user/pages/login/login.component';
 import { LogoutComponent } from './user/pages/logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
@@ -40,9 +40,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { ServicePickerComponent } from './booking/components/service-picker/service-picker.component';
-import { DurationPipe } from './shared/pipes/duration.pipe';
+import { DurationPipe } from './booking/pipes/duration.pipe';
 import { DatePickerComponent } from './booking/components/date-picker/date-picker.component';
-import { ProfileFormComponent } from './profile/components/profile-form.component';
+import { ProfileFormComponent } from './user/components/profile-form/profile-form.component';
+import { SignUpFormComponent } from './user/components/sign-up-form/sign-up-form.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { ProfileFormComponent } from './profile/components/profile-form.componen
     HomeComponent,
     ServicesComponent,
     ProfileComponent,
-    SignupComponent,
+    SignUpComponent,
     LoginComponent,
     LogoutComponent,
     GalleryComponent,
@@ -60,6 +61,7 @@ import { ProfileFormComponent } from './profile/components/profile-form.componen
     DurationPipe,
     DatePickerComponent,
     ProfileFormComponent,
+    SignUpFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,84 @@
+<form [formGroup]="userProfileForm" class="form">
+  <mat-form-field [appearance]="appearance">
+    <mat-label>First name</mat-label>
+    <input [readonly]="!inEditMode" matInput formControlName="firstName" />
+    <mat-error *ngIf="firstName?.invalid && firstName?.touched"
+      >First name must be at least two characters</mat-error
+    >
+  </mat-form-field>
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Last name</mat-label>
+    <input [readonly]="!inEditMode" matInput formControlName="lastName" />
+    <mat-error *ngIf="lastName?.invalid && lastName?.touched"
+      >Last name must be at least two characters</mat-error
+    >
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="mb-3">
+    <mat-label>Email</mat-label>
+    <input readonly matInput [value]="userEmail" />
+    <mat-hint *ngIf="inEditMode">Cannot change email</mat-hint>
+  </mat-form-field>
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Phone</mat-label>
+    <input [readonly]="!inEditMode" matInput formControlName="phone" />
+    <mat-error *ngIf="phone?.invalid && phone?.touched"
+      >Please enter a valid phone number</mat-error
+    >
+  </mat-form-field>
+  <mat-form-field [appearance]="appearance">
+    <mat-label>Street address</mat-label>
+    <input [readonly]="!inEditMode" matInput formControlName="streetAddr" />
+    <mat-error *ngIf="streetAddr?.invalid && streetAddr?.touched"
+      >Address is required</mat-error
+    >
+  </mat-form-field>
+  <div class="row">
+    <div class="col-sm-5">
+      <mat-form-field [appearance]="appearance">
+        <mat-label>City</mat-label>
+        <input [readonly]="!inEditMode" matInput formControlName="city" />
+        <mat-error *ngIf="city?.invalid && city?.touched"
+          >City must be at least two characters.</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="col-sm-3">
+      <mat-form-field [appearance]="appearance">
+        <mat-label>State</mat-label>
+        <input [readonly]="!inEditMode" matInput formControlName="state" />
+        <mat-error *ngIf="state?.invalid && state?.touched"
+          >State must be two letters.</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="col-sm-4">
+      <mat-form-field [appearance]="appearance">
+        <mat-label>Zip code</mat-label>
+        <input [readonly]="!inEditMode" matInput formControlName="zipCode" />
+        <mat-error *ngIf="zipCode?.invalid && zipCode?.touched"
+          >Zip code must be five digits.</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+  <div>
+    <button
+      class="wide-button m-1"
+      color="primary"
+      mat-flat-button
+      (click)="inEditMode ? onCancel() : onEdit()"
+    >
+      {{ inEditMode ? 'Cancel' : 'Edit' }}
+    </button>
+    <button
+      *ngIf="inEditMode"
+      class="wide-button m-1"
+      color="primary"
+      mat-flat-button
+      [disabled]="userProfileForm.invalid || userProfileForm.pristine"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+  </div>
+</form>

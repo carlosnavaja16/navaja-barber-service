@@ -20,7 +20,7 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs';
-import { UserProfile } from '../shared/types/user-profile';
+import { UserProfile } from './types/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -43,11 +43,8 @@ export class UserService {
     private readonly auth: Auth,
     private readonly firestore: Firestore,
   ) {
-    onAuthStateChanged(this.auth, (user) => {
+    authState(auth).subscribe((user) => {
       user ? this.isLoggedIn$.next(true) : this.isLoggedIn$.next(false);
-    });
-    authState(this.auth).subscribe((user) => {
-      console.log(`User: ${user?.uid} is logged in according to authState`);
     });
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
   }
@@ -98,6 +95,17 @@ export class UserService {
         return from(getDoc(doc(this.firestore, 'UserProfiles', user?.uid)));
       }),
       map((userProfileSnapshot) => userProfileSnapshot.data() as UserProfile),
+    );
+  }
+
+  getUserEmail(): Observable<string> {
+    return user(this.auth).pipe(
+      switchMap((user) => {
+        if (!user) {
+          throw new Error('User is not logged in');
+        }
+        return user.email ? of(user.email) : of('');
+      }),
     );
   }
 

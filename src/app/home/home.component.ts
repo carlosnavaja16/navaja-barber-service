@@ -12,6 +12,6 @@ export class HomeComponent {
     public headerService: HeaderService,
     public auth: UserService,
   ) {
-    headerService.setHeader('Vonnegut Barber Service');
+    headerService.setHeader('Navaja Barber Service');
   }
 }

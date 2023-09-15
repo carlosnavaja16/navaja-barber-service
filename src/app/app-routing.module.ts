@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ServicesComponent } from './services/services.component';
-import { ProfileComponent } from './profile/pages/profile.component';
-import { SignupComponent } from './user/pages/signup/signup.component';
+import { ProfileComponent } from './user/pages/profile/profile.component';
+import { SignUpComponent } from './user/pages/sign-up/sign-up.component';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { LoginComponent } from './user/pages/login/login.component';
 import { LogoutComponent } from './user/pages/logout/logout.component';
@@ -25,7 +25,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToHome },
   },
-  { path: 'signup', component: SignupComponent },
+  { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'gallery', component: GalleryComponent },

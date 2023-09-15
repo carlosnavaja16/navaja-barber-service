@@ -1,11 +1,7 @@
 <nav class="fixed-top navbar navbar-expand-lg bg-light mb-5">
   <div class="container">
     <a class="navbar-brand" routerLink="/">
-      <img
-        src="../assets/vonnegutBannerBlack.png"
-        alt="brand banner"
-        height="30px"
-      />
+      <img src="../assets/navajaLogo.png" alt="brand banner" height="30px" />
     </a>
     <button class="navbar-toggler" (click)="navBarToggle()">
       <span class="navbar-toggler-icon"></span>
@@ -89,16 +85,14 @@
   <h1 class="display-1 text-center mb-5 mt-5 pt-4 kurt-font">
     {{ header$ | async }}
   </h1>
-
   <div>
     <router-outlet></router-outlet>
   </div>
-
   <footer class="text-center bg-light text-muted mt-5">
     <div class="container">
       <div class="row pt-5 pb-4">
         <div class="col-md-6">
-          <h6 class="text-uppercase fw-bold mb-3">Vonnegut Barber Service</h6>
+          <h6 class="text-uppercase fw-bold mb-3">Navaja Barber Service</h6>
           <p>
             <small>
               This application was developed using

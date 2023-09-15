@@ -10,7 +10,9 @@ export class SnackbarService {
 
   constructor(public matSnackbar: MatSnackBar) {
     this.snackbar$.subscribe((message) => {
-      matSnackbar.open(message);
+      matSnackbar.open(message, '', {
+        duration: 5000,
+      });
     });
   }
 

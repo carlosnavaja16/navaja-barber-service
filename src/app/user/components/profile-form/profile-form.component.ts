@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HeaderService } from '../../shared/services/header/header.service';
+import { HeaderService } from '../../../shared/services/header/header.service';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { UserProfile } from '../../shared/types/user-profile';
+import { UserProfile } from '../../types/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({
@@ -16,6 +16,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 })
 export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
+  @Input() userEmail: string | null;
   @Output() formSubmitted = new EventEmitter<UserProfile>();
   inEditMode = false;
   userProfileForm: FormGroup;
@@ -36,6 +37,10 @@ export class ProfileFormComponent implements OnInit {
       lastName: new FormControl(this.userProfile?.lastName, [
         Validators.required,
         Validators.pattern('[a-zA-Z]{2,}'),
+      ]),
+      phone: new FormControl(this.userProfile?.phone, [
+        Validators.required,
+        Validators.pattern('[0-9]{10}'),
       ]),
       streetAddr: new FormControl(this.userProfile?.streetAddr, [
         Validators.required,
@@ -64,6 +69,7 @@ export class ProfileFormComponent implements OnInit {
       userId: this.userProfile?.userId,
       ...this.userProfileForm.value,
     } as UserProfile);
+    this.inEditMode = false;
   }
 
   onCancel() {
@@ -81,6 +87,10 @@ export class ProfileFormComponent implements OnInit {
 
   get lastName() {
     return this.userProfileForm.get('lastName');
+  }
+
+  get phone() {
+    return this.userProfileForm.get('phone');
   }
 
   get streetAddr() {

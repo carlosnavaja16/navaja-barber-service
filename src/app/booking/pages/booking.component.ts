@@ -2,15 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { HeaderService } from '../../shared/services/header/header.service';
 import { DocumentData } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, Subject, switchMap } from 'rxjs';
-import {
-  Availability,
-  DateTimeSlots,
-  TimeSlot,
-} from '../../shared/types/time-slot';
-import { CalendarService } from '../../shared/services/calendar/calendar.service';
+import { Availability, DateTimeSlots, TimeSlot } from '../types/time-slot';
+import { CalendarService } from '../services/calendar/calendar.service';
 import { ServiceService } from '../../shared/services/services/services.service';
 import { MatStepper } from '@angular/material/stepper';
-import { DateUtils } from '../../../app/shared/utilities/date.util';
+import { DateUtils } from '../utilities/date.util';
 
 @Component({
   selector: 'app-booking',
