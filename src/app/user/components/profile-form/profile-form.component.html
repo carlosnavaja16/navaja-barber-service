@@ -13,11 +13,6 @@
       >Last name must be at least two characters</mat-error
     >
   </mat-form-field>
-  <mat-form-field appearance="outline" class="mb-3">
-    <mat-label>Email</mat-label>
-    <input readonly matInput [value]="userEmail" />
-    <mat-hint *ngIf="inEditMode">Cannot change email</mat-hint>
-  </mat-form-field>
   <mat-form-field [appearance]="appearance">
     <mat-label>Phone</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="phone" />

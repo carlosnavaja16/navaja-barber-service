@@ -3,7 +3,6 @@
     class="form"
     *ngIf="userProfile$ | async as userProfile"
     [userProfile]="userProfile"
-    [userEmail]="userEmail$ | async"
     (formSubmitted)="onFormSubmitted($event)"
   >
   </profile-form>

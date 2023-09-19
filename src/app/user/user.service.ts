@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
   user,
 } from '@angular/fire/auth';
 import { Observable, Subject, from, map, of, switchMap } from 'rxjs';
@@ -60,15 +61,11 @@ export class UserService {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password),
     ).pipe(
-      switchMap((user: UserCredential) => {
-        const newUserProfile = {
-          ...userProfile,
-          userId: user.user.uid,
-        };
+      switchMap((user) => {
         return from(
           setDoc(
-            doc(this.firestore, 'UserProfiles', newUserProfile.userId),
-            newUserProfile,
+            doc(this.firestore, 'UserProfiles', user.user.uid),
+            userProfile,
           ),
         );
       }),
@@ -98,6 +95,17 @@ export class UserService {
     );
   }
 
+  updateUserEmail(newEmail: string): Observable<void> {
+    return user(this.auth).pipe(
+      switchMap((user) => {
+        if (!user) {
+          throw new Error('User is not logged in');
+        }
+        return from(updateEmail(user, newEmail));
+      }),
+    );
+  }
+
   updateUserProfile(userProfile: UserProfile) {
     return user(this.auth).pipe(
       switchMap((user) => {
@@ -107,7 +115,6 @@ export class UserService {
         return from(
           updateDoc(doc(this.firestore, 'UserProfiles', user.uid), {
             ...userProfile,
-            userId: user.uid,
           }),
         );
       }),

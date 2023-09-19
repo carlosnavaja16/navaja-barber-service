@@ -12,7 +12,6 @@ import { SnackbarService } from '../../../shared/services/snackbar/snackbar.serv
 })
 export class ProfileComponent {
   userProfile$: Observable<UserProfile>;
-  userEmail$: Observable<string>;
 
   constructor(
     private readonly headerService: HeaderService,
@@ -21,7 +20,6 @@ export class ProfileComponent {
   ) {
     this.headerService.setHeader('Profile');
     this.userProfile$ = this.userService.getUserProfile();
-    this.userEmail$ = this.userService.getUserEmail();
   }
 
   onFormSubmitted($event: UserProfile) {

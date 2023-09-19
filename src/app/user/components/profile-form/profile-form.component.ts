@@ -16,7 +16,6 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 })
 export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
-  @Input() userEmail: string | null;
   @Output() formSubmitted = new EventEmitter<UserProfile>();
   inEditMode = false;
   userProfileForm: FormGroup;
@@ -66,7 +65,6 @@ export class ProfileFormComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted.emit({
-      userId: this.userProfile?.userId,
       ...this.userProfileForm.value,
     } as UserProfile);
     this.inEditMode = false;
