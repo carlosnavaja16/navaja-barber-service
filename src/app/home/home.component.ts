@@ -9,9 +9,13 @@ import { UserService } from '../user/user.service';
 })
 export class HomeComponent {
   constructor(
-    public headerService: HeaderService,
-    public auth: UserService,
+    private readonly headerService: HeaderService,
+    private readonly userService: UserService,
   ) {
-    headerService.setHeader('Navaja Barber Service');
+    this.headerService.setHeader('Navaja Barber Service');
+  }
+
+  get isLoggedIn$() {
+    return this.userService.isLoggedIn$;
   }
 }

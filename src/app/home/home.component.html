@@ -18,12 +18,11 @@
     <a
       type="button"
       class="btn btn-primary book-btn"
+      *ngIf="{ value: isLoggedIn$ | async } as isLoggedIn"
       [ngbTooltip]="
-        (this.auth.isLoggedIn$ | async)
-          ? ''
-          : 'In order to book you will need to Log In'
+        isLoggedIn.value ? '' : 'In order to book you will need to Log In'
       "
-      [routerLink]="(this.auth.isLoggedIn$ | async) ? '/booking' : '/login'"
+      [routerLink]="isLoggedIn.value ? '/booking' : '/login'"
     >
       <i class="bi bi-calendar-check-fill"></i> &nbsp; Book
     </a>

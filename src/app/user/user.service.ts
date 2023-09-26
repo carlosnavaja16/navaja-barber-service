@@ -4,12 +4,22 @@ import {
   UserCredential,
   authState,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   updateEmail,
   user,
 } from '@angular/fire/auth';
-import { Observable, Subject, from, map, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  from,
+  map,
+  of,
+  share,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 import { UserProfile } from './types/user-profile';
 import {
   CollectionReference,
@@ -26,17 +36,21 @@ import { setDoc } from 'firebase/firestore';
   providedIn: 'root',
 })
 export class UserService {
-  isLoggedIn$ = new Subject<boolean>();
+  isLoggedIn = new Subject<boolean>();
   userProfilesCollection: CollectionReference<DocumentData>;
 
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore,
   ) {
-    authState(auth).subscribe((user) => {
-      user ? this.isLoggedIn$.next(true) : this.isLoggedIn$.next(false);
+    onAuthStateChanged(this.auth, (user) => {
+      user ? this.isLoggedIn.next(true) : this.isLoggedIn.next(false);
     });
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
+  }
+
+  get isLoggedIn$(): Observable<boolean> {
+    return this.isLoggedIn.asObservable().pipe(shareReplay(1));
   }
 
   login(email: string, password: string): Observable<UserProfile> {
