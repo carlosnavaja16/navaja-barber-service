@@ -21,7 +21,8 @@
     "lib": ["es2020", "dom"],
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "noUnusedLocals": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
