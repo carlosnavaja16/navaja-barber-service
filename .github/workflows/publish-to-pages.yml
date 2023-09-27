@@ -16,6 +16,8 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: npm install
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
       - name: Build
         run: npm run build --prod
       - name: Deploy to Firebase Hosting
