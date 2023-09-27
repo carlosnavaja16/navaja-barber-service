@@ -1,7 +1,6 @@
-import { Component, WritableSignal } from '@angular/core';
+import { Component, WritableSignal, signal } from '@angular/core';
 import { UserService } from './user/user.service';
 import { HeaderService } from './shared/services/header/header.service';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SnackbarService } from './shared/services/snackbar/snackbar.service';
 
@@ -11,7 +10,7 @@ import { SnackbarService } from './shared/services/snackbar/snackbar.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  isNavbarCollapsed$ = new BehaviorSubject<boolean>(true);
+  isNavbarCollapsed = signal(true);
 
   constructor(
     private readonly userService: UserService,
@@ -21,11 +20,11 @@ export class AppComponent {
   ) {}
 
   navBarToggle() {
-    this.isNavbarCollapsed$.next(!this.isNavbarCollapsed$.value);
+    this.isNavbarCollapsed.set(!this.isNavbarCollapsed());
   }
 
   collapseNavbar() {
-    this.isNavbarCollapsed$.next(true);
+    this.isNavbarCollapsed.set(true);
   }
 
   logOut() {
@@ -46,7 +45,7 @@ export class AppComponent {
     return this.userService.isLoggedIn;
   }
 
-  get header$(): Observable<string> {
-    return this.headerService.getHeader$();
+  get header(): WritableSignal<string> {
+    return this.headerService.getHeader();
   }
 }

@@ -6,10 +6,7 @@
     <button class="navbar-toggler" (click)="navBarToggle()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div
-      [ngbCollapse]="(isNavbarCollapsed$ | async)!"
-      class="collapse navbar-collapse"
-    >
+    <div [ngbCollapse]="isNavbarCollapsed()" class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
         <a
           class="nav-link"
@@ -81,7 +78,7 @@
 
 <div class="d-flex flex-column vh-100 justify-content-between">
   <h1 class="display-1 text-center mb-5 mt-5 pt-4 kurt-font">
-    {{ header$ | async }}
+    {{ header() }}
   </h1>
   <div>
     <router-outlet></router-outlet>

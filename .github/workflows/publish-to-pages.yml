@@ -1,1 +1,5 @@
+name: publish-to-pages
 
+on:
+  push:
+    branches: [master]
