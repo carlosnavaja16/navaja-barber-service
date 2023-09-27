@@ -9,8 +9,8 @@ export class HeaderService {
   private header = signal<string>('Navaja Barber Service');
 
   public setHeader(header: string): void {
-    this.titleService.setTitle(this.header());
     this.header.set(header);
+    this.titleService.setTitle(header);
   }
 
   public getHeader(): WritableSignal<string> {

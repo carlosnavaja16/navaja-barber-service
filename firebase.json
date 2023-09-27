@@ -2,5 +2,21 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
-  }
+  },
+  "functions": [
+    {
+      "source": "./",
+      "codebase": "functions",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "rm -rf ./src/functions/lib",
+        "tsc ./src/functions/*.ts --outdir ./src/functions/lib"
+      ]
+    }
+  ]
 }

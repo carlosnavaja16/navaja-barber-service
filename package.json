@@ -7,8 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "push": "ng lint --fix && prettier -w --single-quote ./ && git add . && git commit -m \"$(date)\" && git push",
-    "format": "prettier -w ./",
+    "push": "eslint --fix && prettier -w --single-quote ./ && git add . && git commit -m \"$(date)\" && git push",
+    "deploy": "firebase deploy --only functions",
+    "format": "prettier -w --single-quote ./",
     "lint": "ng lint"
   },
   "private": true,
@@ -31,6 +32,9 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
     "firebase": "~9.23.0",
+    "firebase-functions": "^4.4.1",
+    "googleapis": "^126.0.1",
+    "luxon": "^3.4.3",
     "ng": "^0.0.0",
     "rxfire": "^6.0.0",
     "rxjs": "~7.8.1",
@@ -57,5 +61,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.1.6"
-  }
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "src/functions/lib/index.js"
 }
