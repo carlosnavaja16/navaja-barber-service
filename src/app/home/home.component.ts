@@ -15,7 +15,7 @@ export class HomeComponent {
     this.headerService.setHeader('Navaja Barber Service');
   }
 
-  get isLoggedIn$() {
-    return this.userService.isLoggedIn$;
+  get isLoggedIn() {
+    return this.userService.isLoggedIn;
   }
 }

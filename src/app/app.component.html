@@ -34,48 +34,46 @@
           [routerLinkActive]="['fw-bold']"
           >Gallery</a
         >
-        <ng-container *ngIf="{ value: isLoggedIn$ | async } as isLoggedIn">
-          <a
-            *ngIf="!isLoggedIn.value"
-            class="nav-link"
-            [routerLink]="'/login'"
-            (click)="collapseNavbar()"
-            [routerLinkActive]="['fw-bold']"
-            >Login</a
-          >
-          <a
-            *ngIf="!isLoggedIn.value"
-            class="nav-link"
-            [routerLink]="'/signup'"
-            (click)="collapseNavbar()"
-            [routerLinkActive]="['fw-bold']"
-          >
-            Sign up
-          </a>
-          <a
-            *ngIf="isLoggedIn.value"
-            class="nav-link"
-            [routerLink]="'/profile'"
-            (click)="collapseNavbar()"
-            [routerLinkActive]="['fw-bold']"
-            >Profile
-          </a>
-          <a
-            *ngIf="isLoggedIn.value"
-            class="nav-link"
-            [routerLink]="'/booking'"
-            (click)="collapseNavbar()"
-            [routerLinkActive]="['fw-bold']"
-            >Book
-          </a>
-          <a
-            *ngIf="isLoggedIn.value"
-            class="nav-link"
-            [routerLink]="'/logout'"
-            (click)="logOut()"
-            >Logout
-          </a>
-        </ng-container>
+        <a
+          *ngIf="!isLoggedIn()"
+          class="nav-link"
+          [routerLink]="'/login'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['fw-bold']"
+          >Login</a
+        >
+        <a
+          *ngIf="!isLoggedIn()"
+          class="nav-link"
+          [routerLink]="'/signup'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['fw-bold']"
+        >
+          Sign up
+        </a>
+        <a
+          *ngIf="isLoggedIn()"
+          class="nav-link"
+          [routerLink]="'/profile'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['fw-bold']"
+          >Profile
+        </a>
+        <a
+          *ngIf="isLoggedIn()"
+          class="nav-link"
+          [routerLink]="'/booking'"
+          (click)="collapseNavbar()"
+          [routerLinkActive]="['fw-bold']"
+          >Book
+        </a>
+        <a
+          *ngIf="isLoggedIn()"
+          class="nav-link"
+          [routerLink]="'/logout'"
+          (click)="logOut()"
+          >Logout
+        </a>
       </ul>
     </div>
   </div>

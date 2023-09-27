@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import {
   Auth,
   UserCredential,
@@ -9,7 +9,7 @@ import {
   updateEmail,
   user,
 } from '@angular/fire/auth';
-import { BehaviorSubject, Observable, from, map, of, switchMap } from 'rxjs';
+import { Observable, from, map, of, switchMap } from 'rxjs';
 import { UserProfile } from './types/user-profile';
 import {
   CollectionReference,
@@ -26,7 +26,7 @@ import { setDoc } from 'firebase/firestore';
   providedIn: 'root',
 })
 export class UserService {
-  public isLoggedIn$ = new BehaviorSubject<boolean>(false);
+  public isLoggedIn = signal(false);
   userProfilesCollection: CollectionReference<DocumentData>;
 
   constructor(
@@ -35,7 +35,7 @@ export class UserService {
   ) {
     authState(this.auth)
       .pipe(map((user) => (user ? true : false)))
-      .subscribe(this.isLoggedIn$);
+      .subscribe((val) => this.isLoggedIn.set(val));
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
   }
 

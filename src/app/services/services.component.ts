@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, WritableSignal } from '@angular/core';
 import { DocumentData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../shared/services/header/header.service';
@@ -22,7 +22,7 @@ export class ServicesComponent {
     this.services$ = this.serviceService.getServices();
   }
 
-  get isLoggedIn$(): Observable<boolean> {
-    return this.userService.isLoggedIn$;
+  get isLoggedIn(): WritableSignal<boolean> {
+    return this.userService.isLoggedIn;
   }
 }

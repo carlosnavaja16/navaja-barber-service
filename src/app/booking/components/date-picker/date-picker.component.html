@@ -1,7 +1,7 @@
 <mat-card class="inline-calendar-card mt-3 mb-3">
   <mat-calendar
     #calendar
-    [dateFilter]="dateFilter ? dateFilter : unfiltered"
+    [dateFilter]="dateFilter"
     [minDate]="minDate"
     [maxDate]="maxDate"
     (selectedChange)="onDateSelected($event)"

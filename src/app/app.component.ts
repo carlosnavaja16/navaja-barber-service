@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, WritableSignal } from '@angular/core';
 import { UserService } from './user/user.service';
 import { HeaderService } from './shared/services/header/header.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -42,8 +42,8 @@ export class AppComponent {
     });
   }
 
-  get isLoggedIn$(): Observable<boolean> {
-    return this.userService.isLoggedIn$;
+  get isLoggedIn(): WritableSignal<boolean> {
+    return this.userService.isLoggedIn;
   }
 
   get header$(): Observable<string> {

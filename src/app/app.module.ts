@@ -17,14 +17,9 @@ import { TimeSlotsComponent } from './booking/components/time-slots/time-slots.c
 
 import { environment } from '../environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, connectAuthEmulator, getAuth } from '@angular/fire/auth';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {
-  connectFirestoreEmulator,
-  getFirestore,
-  provideFirestore,
-} from '@angular/fire/firestore';
-import {
-  connectFunctionsEmulator,
   FunctionsModule,
   getFunctions,
   provideFunctions,
@@ -68,29 +63,9 @@ import { SignUpFormComponent } from './user/components/sign-up-form/sign-up-form
     AppRoutingModule,
     FunctionsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => {
-      const auth = getAuth();
-      if (environment.useEmulators) {
-        connectAuthEmulator(auth, 'http://localhost:9099', {
-          disableWarnings: true,
-        });
-      }
-      return auth;
-    }),
-    provideFirestore(() => {
-      const firestore = getFirestore();
-      if (environment.useEmulators) {
-        connectFirestoreEmulator(firestore, 'localhost', 8080);
-      }
-      return firestore;
-    }),
-    provideFunctions(() => {
-      const functions = getFunctions();
-      if (environment.useEmulators) {
-        connectFunctionsEmulator(functions, 'localhost', 5001);
-      }
-      return functions;
-    }),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideFunctions(() => getFunctions()),
     FormsModule,
     NgbModule,
     BrowserAnimationsModule,
