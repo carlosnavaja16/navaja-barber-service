@@ -13,10 +13,17 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": [
-        "rm -rf ./src/functions/lib",
-        "tsc ./src/functions/*.ts --outdir ./src/functions/lib"
-      ]
+      "predeploy": ["tsc ./functions/*.ts --outdir ./functions/lib"]
     }
-  ]
+  ],
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }

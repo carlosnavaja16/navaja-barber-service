@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "push": "eslint --fix && prettier -w --single-quote ./ && git add . && git commit -m \"$(date)\" && git push",
-    "deploy": "firebase deploy --only functions",
+    "deploy:functions": "rm -rf ./functions/lib && firebase deploy --only functions && rm -rf ./functions/lib",
+    "deploy:hosting": "rm -rf dist && firebase deploy --only hosting && rm -rf dist",
     "format": "prettier -w --single-quote ./",
     "lint": "ng lint"
   },
@@ -65,5 +66,5 @@
   "engines": {
     "node": "18"
   },
-  "main": "src/functions/lib/index.js"
+  "main": "functions/lib/index.js"
 }
