@@ -23,17 +23,17 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build --prod
+        run: npm run build --omit=dev
 
       - name: Install Firebase CLI
         if: success()
         run: npm install -g firebase-tools
 
-      - name: Write gcloud service account key to a file
-        run: echo $GOOGLE_SERVICE_ACCOUNT_KEY > ./credentials.json
-
-      - name: Set path to gcloud service account key as a env variable
-        run: export GOOGLE_APPLICATION_CREDENTIALS="./credentials.json"
+      - name: Authenticate with Google
+        uses: 'google-github-actions/auth@V1'
+        with:
+          workload_identity_provider: '/projects/624790222178/locations/global/workloadIdentityPools/github-actions/providers/github'
+          service_account: 'firebase-adminsdk-fx3q0@barber-service-45e86.iam.gserviceaccount.com'
 
       - name: Deploy to app Firebase hosting
         if: success()
