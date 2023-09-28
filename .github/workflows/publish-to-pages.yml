@@ -35,6 +35,7 @@ jobs:
       - name: Authenticate with Google
         uses: 'google-github-actions/auth@v1'
         with:
+          create_credentials_file: true
           workload_identity_provider: '/projects/624790222178/locations/global/workloadIdentityPools/github-actions/providers/github'
           service_account: 'firebase-adminsdk-fx3q0@barber-service-45e86.iam.gserviceaccount.com'
 
