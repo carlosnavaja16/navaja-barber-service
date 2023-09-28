@@ -3,8 +3,6 @@ name: Build and deploy
 on:
   push:
     branches: [main]
-env:
-  GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
 jobs:
   build-and-deploy:
@@ -21,13 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Authenticate with Google
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-          # create_credentials_file: true
-          # workload_identity_provider: '/projects/624790222178/locations/global/workloadIdentityPools/github-actions/providers/github'
-          # service_account: 'firebase-adminsdk-fx3q0@barber-service-45e86.iam.gserviceaccount.com'
 
       - name: Install dependencies
         if: success()
@@ -43,7 +34,7 @@ jobs:
       - name: Authenticate with Google
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: $GOOGLE_APPLICATION_CREDENTIALS
+          credentials_json: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
           # create_credentials_file: true
           # workload_identity_provider: '/projects/624790222178/locations/global/workloadIdentityPools/github-actions/providers/github'
           # service_account: 'firebase-adminsdk-fx3q0@barber-service-45e86.iam.gserviceaccount.com'
