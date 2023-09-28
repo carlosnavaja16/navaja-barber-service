@@ -39,7 +39,7 @@ jobs:
           workload_identity_provider: '/projects/624790222178/locations/global/workloadIdentityPools/github-actions/providers/github'
           service_account: 'firebase-adminsdk-fx3q0@barber-service-45e86.iam.gserviceaccount.com'
       - name: echo GOOGLE_APPLICATION_CREDENTIALS
-        run: echo echo $GOOGLE_APPLICATION_CREDENTIALS
+        run: echo $GOOGLE_APPLICATION_CREDENTIALS | cat
 
       - name: Deploy to app Firebase hosting
         if: success()
