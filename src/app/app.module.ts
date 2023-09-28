@@ -39,6 +39,8 @@ import { DurationPipe } from './booking/pipes/duration.pipe';
 import { DatePickerComponent } from './booking/components/date-picker/date-picker.component';
 import { ProfileFormComponent } from './user/components/profile-form/profile-form.component';
 import { SignUpFormComponent } from './user/components/sign-up-form/sign-up-form.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,8 @@ import { SignUpFormComponent } from './user/components/sign-up-form/sign-up-form
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent],

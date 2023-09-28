@@ -84,7 +84,7 @@
     <router-outlet></router-outlet>
   </div>
   <footer class="text-center bg-light text-muted mt-5">
-    <div class="container">
+    <div class="wide-footer container">
       <div class="row pt-5 pb-4">
         <div class="col-md-6">
           <h6 class="text-uppercase fw-bold mb-3">Navaja Barber Service</h6>
@@ -143,5 +143,48 @@
         </div>
       </div>
     </div>
+    <mat-toolbar class="bottom-toolbar">
+      <button
+        mat-flat-button
+        [routerLink]="'/'"
+        [routerLinkActive]="['fw-bold']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <mat-icon class="material-symbols-outlined"> home</mat-icon>
+        <span>Home</span>
+      </button>
+      <button
+        mat-flat-button
+        [routerLink]="'/services'"
+        [routerLinkActive]="['fw-bold']"
+      >
+        <mat-icon class="material-symbols-outlined">cut</mat-icon>
+        <span>Services</span>
+      </button>
+      <button
+        mat-flat-button
+        [routerLink]="'/gallery'"
+        [routerLinkActive]="['fw-bold']"
+      >
+        <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
+        <span>Gallery</span>
+      </button>
+      <button
+        mat-flat-button
+        [routerLink]="'/booking'"
+        [routerLinkActive]="['fw-bold']"
+      >
+        <mat-icon class="material-symbols-outlined">calendar_month</mat-icon>
+        <span>Book</span>
+      </button>
+      <button
+        mat-flat-button
+        [routerLink]="'/login'"
+        [routerLinkActive]="['fw-bold']"
+      >
+        <mat-icon class="material-symbols-outlined">person</mat-icon>
+        <span>Login</span>
+      </button>
+    </mat-toolbar>
   </footer>
 </div>
