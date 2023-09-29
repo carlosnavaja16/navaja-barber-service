@@ -7,7 +7,7 @@ import { HeaderService } from '../shared/services/header/header.service';
   styleUrls: ['./gallery.component.scss'],
 })
 export class GalleryComponent {
-  constructor(public headerService: HeaderService) {
-    headerService.setHeader('Gallery');
+  constructor(private readonly headerService: HeaderService) {
+    this.headerService.setHeader('Gallery');
   }
 }
