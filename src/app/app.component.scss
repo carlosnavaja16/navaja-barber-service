@@ -1,45 +1,19 @@
-.navbar-logo {
-  font-size: xx-large;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-  justify-self: center;
-  line-height: 1;
+.nav-bar {
+  @apply fixed top-0 w-screen h-14 bg-slate-200 py-1 md:py-2 px-3 flex align-middle justify-center z-50 shadow;
 }
 
-.wide-footer {
-  display: none;
-
-  @media (min-width: 768px) {
-    display: block;
-  }
+.nav-link {
+  @apply hover:font-bold transition-all duration-100;
 }
 
-.bottom-toolbar {
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  justify-content: space-around;
-  background-color: white;
+.sidenav-link {
+  @apply w-full py-3 px-4 hover:font-bold transition-all duration-100;
+}
 
-  @media (min-width: 768px) {
-    display: none;
-  }
+.burger {
+  @apply flex p-2 items-center md:hidden hover:bg-slate-300 rounded-full transition-all duration-200;
+}
 
-  button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: max-content;
-    padding: 0.5rem 0;
-
-    mat-icon {
-      margin: 0;
-    }
-  }
+.user-icon {
+  @apply flex p-2 items-center hover:bg-slate-300 rounded-full transition-all duration-200;
 }

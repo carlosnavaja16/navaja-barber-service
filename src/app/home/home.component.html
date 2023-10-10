@@ -1,6 +1,6 @@
 <div class="container">
   <div class="d-flex justify-content-center mb-5">
-    <img src="../../assets/barberPhoto.png" alt="barberPhoto" height="175px" />
+    <img src="../../assets/barber2Photo.png" alt="barberPhoto" height="175px" />
   </div>
   <h1 class="text-center">Carlos Rossi</h1>
   <h5 class="text-center">Mobile Barber</h5>
@@ -18,7 +18,7 @@
     <a
       type="button"
       class="btn btn-primary book-btn"
-      [ngbTooltip]="
+      tooltip="
         isLoggedIn() ? '' : 'In order to book you will need to Log In'
       "
       [routerLink]="isLoggedIn() ? '/booking' : '/login'"

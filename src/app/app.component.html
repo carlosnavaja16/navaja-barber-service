@@ -1,18 +1,23 @@
-<nav class="fixed-top navbar navbar-expand-lg bg-light mb-5">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">
-      <img src="../assets/navajaLogo.png" alt="brand banner" height="30px" />
-    </a>
-    <button class="navbar-toggler" (click)="navBarToggle()">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div [ngbCollapse]="isNavbarCollapsed()" class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
+<div class="nav-bar">
+  <div class="flex justify-start w-full md:container md:justify-between">
+    <div class="flex items-center gap-1">
+      <a class="burger" (click)="toggleSidenav()">
+        <ng-icon class="text-2xl" name="heroBars3"></ng-icon>
+      </a>
+      <a routerLink="/">
+        <img
+          class="h-8 hover:h-9 transition-all duration-200"
+          src="../assets/navajaLogo.png"
+          alt="brand banner"
+        />
+      </a>
+    </div>
+    <div class="flex">
+      <div class="hidden md:flex items-center gap-3">
         <a
           class="nav-link"
           [routerLink]="'/'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['active', 'fw-bold']"
+          [routerLinkActive]="['font-bold']"
           [routerLinkActiveOptions]="{ exact: true }"
         >
           Home</a
@@ -20,31 +25,27 @@
         <a
           class="nav-link"
           [routerLink]="'/services'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['fw-bold']"
+          [routerLinkActive]="['font-bold']"
           >Services</a
         >
         <a
           class="nav-link"
           [routerLink]="'/gallery'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['fw-bold']"
+          [routerLinkActive]="['font-bold']"
           >Gallery</a
         >
         <a
           *ngIf="!isLoggedIn()"
           class="nav-link"
           [routerLink]="'/login'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['fw-bold']"
+          [routerLinkActive]="['font-bold']"
           >Login</a
         >
         <a
           *ngIf="!isLoggedIn()"
           class="nav-link"
           [routerLink]="'/signup'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['fw-bold']"
+          [routerLinkActive]="['font-bold']"
         >
           Sign up
         </a>
@@ -52,16 +53,14 @@
           *ngIf="isLoggedIn()"
           class="nav-link"
           [routerLink]="'/profile'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['fw-bold']"
+          [routerLinkActive]="['font-bold']"
           >Profile
         </a>
         <a
           *ngIf="isLoggedIn()"
           class="nav-link"
           [routerLink]="'/booking'"
-          (click)="collapseNavbar()"
-          [routerLinkActive]="['fw-bold']"
+          [routerLinkActive]="['font-bold']"
           >Book
         </a>
         <a
@@ -71,120 +70,144 @@
           (click)="logOut()"
           >Logout
         </a>
-      </ul>
+      </div>
     </div>
   </div>
-</nav>
-
-<div class="d-flex flex-column vh-100 justify-content-between">
-  <h1 class="display-1 text-center mb-5 mt-5 pt-4 kurt-font">
-    {{ header() }}
-  </h1>
-  <div>
-    <router-outlet></router-outlet>
-  </div>
-  <footer class="text-center bg-light text-muted mt-5">
-    <div class="wide-footer container">
-      <div class="row pt-5 pb-4">
-        <div class="col-md-6">
-          <h6 class="text-uppercase fw-bold mb-3">Navaja Barber Service</h6>
-          <p>
-            <small>
-              This application was developed using
-              <a href="https://angular.io/" class="text-reset">Angular</a>, and
-              <a href="https://firebase.google.com/" class="text-reset"
-                >Firebase</a
-              >.
-            </small>
-          </p>
-        </div>
-        <div class="col-md-6">
-          <h6 class="text-uppercase fw-bold mb-3">Contact</h6>
-          <div class="row">
-            <div class="col-md-6">
+</div>
+<mat-drawer-container hasBackdrop="true">
+  <mat-drawer #sidenav class="w-80" mode="over">
+    <div class="pt-14 flex flex-col">
+      <a
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/'"
+        [routerLinkActive]="['font-bold']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Home</a
+      >
+      <a
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/services'"
+        [routerLinkActive]="['font-bold']"
+        >Services</a
+      >
+      <a
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/gallery'"
+        [routerLinkActive]="['font-bold']"
+        >Gallery</a
+      >
+      <a
+        *ngIf="!isLoggedIn()"
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/login'"
+        [routerLinkActive]="['font-bold']"
+        >Login</a
+      >
+      <a
+        *ngIf="!isLoggedIn()"
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/signup'"
+        [routerLinkActive]="['font-bold']"
+      >
+        Sign up
+      </a>
+      <a
+        *ngIf="isLoggedIn()"
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/profile'"
+        [routerLinkActive]="['font-bold']"
+        >Profile
+      </a>
+      <a
+        *ngIf="isLoggedIn()"
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/booking'"
+        [routerLinkActive]="['font-bold']"
+        >Book
+      </a>
+      <a
+        *ngIf="isLoggedIn()"
+        class="sidenav-link"
+        (click)="sidenav.toggle()"
+        [routerLink]="'/logout'"
+        (click)="logOut()"
+        >Logout
+      </a>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="h-screen pt-14">
+      <div class="">
+        <h1 class="kurt-font">
+          {{ header() }}
+        </h1>
+        <router-outlet></router-outlet>
+      </div>
+      <footer class="">
+        <div class="">
+          <div class="">
+            <div class="">
+              <h6 class="">Navaja Barber Service</h6>
               <p>
                 <small>
-                  <i class="bi bi-linkedin me-3 text-secondary"></i>
-                  <a
-                    class="text-reset"
-                    href="https://www.linkedin.com/in/carlosnavaja16/"
-                    >LinkedIn</a
-                  >
-                </small>
-              </p>
-              <p>
-                <small>
-                  <i class="bi bi-github me-3 text-secondary"></i>
-                  <a
-                    class="text-reset"
-                    href="https://www.github.com/carlosnavaja16/"
-                    >Github</a
-                  >
+                  This application was developed using
+                  <a href="https://angular.io/" class="">Angular</a>, and
+                  <a href="https://firebase.google.com/" class="">Firebase</a>.
                 </small>
               </p>
             </div>
-            <div class="col-md-6">
-              <p>
-                <small>
-                  <i class="bi bi-envelope-fill me-3 text-secondary"></i>
-                  <a class="text-reset" href="mailto:carlos.rossi16@gmail.com"
-                    >Email</a
-                  >
-                </small>
-              </p>
-              <p>
-                <small>
-                  <i class="bi bi-telephone-fill me-3 text-secondary"></i>
-                  <a class="text-reset" href="tel:19545158474">Phone</a>
-                </small>
-              </p>
+            <div class="">
+              <h6 class="">Contact</h6>
+              <div class="row">
+                <div class="">
+                  <p>
+                    <small>
+                      <i class=""></i>
+                      <a
+                        class=""
+                        href="https://www.linkedin.com/in/carlosnavaja16/"
+                        >LinkedIn</a
+                      >
+                    </small>
+                  </p>
+                  <p>
+                    <small>
+                      <i class=""></i>
+                      <a class="" href="https://www.github.com/carlosnavaja16/"
+                        >Github</a
+                      >
+                    </small>
+                  </p>
+                </div>
+                <div class="">
+                  <p>
+                    <small>
+                      <i class=""></i>
+                      <a class="" href="mailto:carlos.rossi16@gmail.com"
+                        >Email</a
+                      >
+                    </small>
+                  </p>
+                  <p>
+                    <small>
+                      <i class=""></i>
+                      <a class="" href="tel:19545158474">Phone</a>
+                    </small>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
-    <mat-toolbar class="bottom-toolbar">
-      <button
-        mat-flat-button
-        [routerLink]="'/'"
-        [routerLinkActive]="['fw-bold']"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <mat-icon class="material-symbols-outlined"> home</mat-icon>
-        <span>Home</span>
-      </button>
-      <button
-        mat-flat-button
-        [routerLink]="'/services'"
-        [routerLinkActive]="['fw-bold']"
-      >
-        <mat-icon class="material-symbols-outlined">cut</mat-icon>
-        <span>Services</span>
-      </button>
-      <button
-        mat-flat-button
-        [routerLink]="'/gallery'"
-        [routerLinkActive]="['fw-bold']"
-      >
-        <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
-        <span>Gallery</span>
-      </button>
-      <button
-        mat-flat-button
-        [routerLink]="'/booking'"
-        [routerLinkActive]="['fw-bold']"
-      >
-        <mat-icon class="material-symbols-outlined">calendar_month</mat-icon>
-        <span>Book</span>
-      </button>
-      <button
-        mat-flat-button
-        [routerLink]="'/login'"
-        [routerLinkActive]="['fw-bold']"
-      >
-        <mat-icon class="material-symbols-outlined">person</mat-icon>
-        <span>Login</span>
-      </button>
-    </mat-toolbar>
-  </footer>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>

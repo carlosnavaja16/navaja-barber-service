@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @font-face {
   font-family: 'kurt-regular';
   src: url(./assets/fonts/KURT-Regular.otf) format('opentype');
@@ -9,32 +13,6 @@
   src: url(./assets/fonts/KURT-Italic.otf) format('opentype');
 }
 
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
-
-.small-form {
-  width: 575px;
-}
-
-.wide-button {
-  width: 115px;
-}
-
 .kurt-font {
   font-family: 'KURT-italic', sans-serif;
-}
-
-.mt-6 {
-  margin-top: 5rem;
-}
-
-.form {
-  width: 100%;
-  max-width: 575px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  mat-form-field {
-    width: 100%;
-  }
 }

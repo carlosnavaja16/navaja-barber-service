@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -25,22 +23,28 @@ import {
   provideFunctions,
 } from '@angular/fire/functions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatSelectModule } from '@angular/material/select';
 import { ServicePickerComponent } from './booking/components/service-picker/service-picker.component';
 import { DurationPipe } from './booking/pipes/duration.pipe';
 import { DatePickerComponent } from './booking/components/date-picker/date-picker.component';
 import { ProfileFormComponent } from './user/components/profile-form/profile-form.component';
 import { SignUpFormComponent } from './user/components/sign-up-form/sign-up-form.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
+
+// material design
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+// icons
+import { NgIconsModule } from '@ng-icons/core';
+import { heroBars3 } from '@ng-icons/heroicons/outline';
+import { heroUserCircle } from '@ng-icons/heroicons/outline';
 
 @NgModule({
   declarations: [
@@ -69,7 +73,6 @@ import { MatIconModule } from '@angular/material/icon';
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
     FormsModule,
-    NgbModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatCardModule,
@@ -84,8 +87,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatToolbarModule,
-    MatIconModule,
+    NgIconsModule.withIcons({ heroBars3, heroUserCircle }),
+    MatSidenavModule,
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent],
