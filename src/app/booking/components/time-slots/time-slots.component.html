@@ -6,8 +6,7 @@
   *ngFor="let timeSlot of morningTimeSlots"
   type="button"
   class="btn btn-outline-primary m-1"
-  (click)="onTimeSlotSelected(timeSlot)"
->
+  (click)="onTimeSlotSelected(timeSlot)">
   {{ timeSlot.start | date: 'hh:mm aaa' }}
 </button>
 <p class="fw-bold">Afternoon</p>
@@ -15,8 +14,7 @@
   *ngFor="let timeSlot of afternoonTimeSlots"
   type="button"
   class="btn btn-outline-primary m-1"
-  (click)="onTimeSlotSelected(timeSlot)"
->
+  (click)="onTimeSlotSelected(timeSlot)">
   {{ timeSlot.start | date: 'hh:mm aaa' }}
 </button>
 <p class="fw-bold">Evening</p>
@@ -24,7 +22,6 @@
   *ngFor="let timeSlot of eveningTimeSlots"
   type="button"
   class="btn btn-outline-primary m-1"
-  (click)="onTimeSlotSelected(timeSlot)"
->
+  (click)="onTimeSlotSelected(timeSlot)">
   {{ timeSlot.start | date: 'hh:mm aaa' }}
 </button>

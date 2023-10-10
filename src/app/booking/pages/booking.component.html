@@ -1,13 +1,11 @@
 <div
-  class="container d-flex flex-column justify-content-center align-items-center"
->
+  class="container d-flex flex-column justify-content-center align-items-center">
   <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
     <mat-step label="Select a service">
       <service-picker
         *ngIf="services$ | async as services"
         [services]="services"
-        (serviceSelected)="onServiceSelected($event)"
-      >
+        (serviceSelected)="onServiceSelected($event)">
       </service-picker>
     </mat-step>
     <mat-step label="Select a date">
@@ -17,8 +15,7 @@
         [timeSlotsByDate]="availability.timeSlotsByDate"
         [minDate]="availability.minDate"
         [maxDate]="availability.maxDate"
-        (dateSelected)="onDateSelected($event)"
-      >
+        (dateSelected)="onDateSelected($event)">
       </date-picker>
       <ng-template #availabilityLoading>
         <div class="loader">
@@ -31,8 +28,7 @@
         <time-slots
           *ngIf="selectedDateTimeSlots$ | async as selectedDateTimeSlots"
           [dateTimeSlots]="selectedDateTimeSlots"
-          (timeSlotSelected)="onTimeSlotSelected($event)"
-        >
+          (timeSlotSelected)="onTimeSlotSelected($event)">
         </time-slots>
       </mat-card>
     </mat-step>

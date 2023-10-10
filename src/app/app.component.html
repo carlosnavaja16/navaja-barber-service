@@ -8,8 +8,7 @@
         <img
           class="h-8 hover:h-9 transition-all duration-200"
           src="../assets/navajaLogo.png"
-          alt="brand banner"
-        />
+          alt="brand banner" />
       </a>
     </div>
     <div class="flex">
@@ -18,8 +17,7 @@
           class="nav-link"
           [routerLink]="'/'"
           [routerLinkActive]="['font-bold']"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+          [routerLinkActiveOptions]="{ exact: true }">
           Home</a
         >
         <a
@@ -45,8 +43,7 @@
           *ngIf="!isLoggedIn()"
           class="nav-link"
           [routerLink]="'/signup'"
-          [routerLinkActive]="['font-bold']"
-        >
+          [routerLinkActive]="['font-bold']">
           Sign up
         </a>
         <a
@@ -82,8 +79,7 @@
         (click)="sidenav.toggle()"
         [routerLink]="'/'"
         [routerLinkActive]="['font-bold']"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+        [routerLinkActiveOptions]="{ exact: true }">
         Home</a
       >
       <a
@@ -113,8 +109,7 @@
         class="sidenav-link"
         (click)="sidenav.toggle()"
         [routerLink]="'/signup'"
-        [routerLinkActive]="['font-bold']"
-      >
+        [routerLinkActive]="['font-bold']">
         Sign up
       </a>
       <a

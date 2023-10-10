@@ -3,7 +3,6 @@
     class="form"
     *ngIf="userProfile$ | async as userProfile"
     [userProfile]="userProfile"
-    (formSubmitted)="onFormSubmitted($event)"
-  >
+    (formSubmitted)="onFormSubmitted($event)">
   </profile-form>
 </div>
