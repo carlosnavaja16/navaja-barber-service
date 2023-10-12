@@ -1,4 +1,4 @@
-<div class="nav-bar">
+<nav class="nav-bar">
   <div class="flex justify-start w-full md:container md:justify-between">
     <div class="flex items-center gap-1">
       <a class="burger" (click)="toggleSidenav()">
@@ -8,7 +8,8 @@
         <img
           class="h-8 hover:h-9 transition-all duration-200"
           src="../assets/navajaLogo.png"
-          alt="brand banner" />
+          alt="brand banner"
+        />
       </a>
     </div>
     <div class="flex">
@@ -17,15 +18,17 @@
           class="nav-link"
           [routerLink]="'/'"
           [routerLinkActive]="['font-bold']"
-          [routerLinkActiveOptions]="{ exact: true }">
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           Home
         </a>
         <a
           class="nav-link"
           [routerLink]="'/services'"
           [routerLinkActive]="['font-bold']"
-          >Services</a
         >
+          Services
+        </a>
         <a
           class="nav-link"
           [routerLink]="'/gallery'"
@@ -37,13 +40,15 @@
           class="nav-link"
           [routerLink]="'/login'"
           [routerLinkActive]="['font-bold']"
-          >Login</a
         >
+          Login
+        </a>
         <a
           *ngIf="!isLoggedIn()"
           class="nav-link"
           [routerLink]="'/signup'"
-          [routerLinkActive]="['font-bold']">
+          [routerLinkActive]="['font-bold']"
+        >
           Sign up
         </a>
         <a
@@ -70,7 +75,7 @@
       </div>
     </div>
   </div>
-</div>
+</nav>
 <mat-drawer-container hasBackdrop="true">
   <mat-drawer #sidenav class="w-80" mode="over">
     <div class="pt-14 flex flex-col">
@@ -79,37 +84,42 @@
         (click)="sidenav.toggle()"
         [routerLink]="'/'"
         [routerLinkActive]="['font-bold']"
-        [routerLinkActiveOptions]="{ exact: true }">
-        Home</a
+        [routerLinkActiveOptions]="{ exact: true }"
       >
+        Home
+      </a>
       <a
         class="sidenav-link"
         (click)="sidenav.toggle()"
         [routerLink]="'/services'"
         [routerLinkActive]="['font-bold']"
-        >Services</a
       >
+        Services
+      </a>
       <a
         class="sidenav-link"
         (click)="sidenav.toggle()"
         [routerLink]="'/gallery'"
         [routerLinkActive]="['font-bold']"
-        >Gallery</a
       >
+        Gallery
+      </a>
       <a
         *ngIf="!isLoggedIn()"
         class="sidenav-link"
         (click)="sidenav.toggle()"
         [routerLink]="'/login'"
         [routerLinkActive]="['font-bold']"
-        >Login</a
       >
+        Login
+      </a>
       <a
         *ngIf="!isLoggedIn()"
         class="sidenav-link"
         (click)="sidenav.toggle()"
         [routerLink]="'/signup'"
-        [routerLinkActive]="['font-bold']">
+        [routerLinkActive]="['font-bold']"
+      >
         Sign up
       </a>
       <a
@@ -118,7 +128,8 @@
         (click)="sidenav.toggle()"
         [routerLink]="'/profile'"
         [routerLinkActive]="['font-bold']"
-        >Profile
+      >
+        Profile
       </a>
       <a
         *ngIf="isLoggedIn()"
@@ -126,7 +137,8 @@
         (click)="sidenav.toggle()"
         [routerLink]="'/booking'"
         [routerLinkActive]="['font-bold']"
-        >Book
+      >
+        Book
       </a>
       <a
         *ngIf="isLoggedIn()"
@@ -134,71 +146,70 @@
         (click)="sidenav.toggle()"
         [routerLink]="'/logout'"
         (click)="logOut()"
-        >Logout
+      >
+        Logout
       </a>
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <div class="h-screen pt-14">
-      <div class="">
-        <h1 class="kurt-font">
+    <div class="h-screen pt-14 flex flex-col justify-between">
+      <div class="md:container md:mx-auto px-5">
+        <h1 class="py-14 kurt-font text-5xl md:text-6xl text-center">
           {{ header() }}
         </h1>
         <router-outlet></router-outlet>
       </div>
-      <footer class="">
-        <div class="">
-          <div class="">
-            <div class="">
-              <h6 class="">Navaja Barber Service</h6>
-              <p>
-                <small>
-                  This application was developed using
-                  <a href="https://angular.io/" class="">Angular</a>, and
-                  <a href="https://firebase.google.com/" class="">Firebase</a>.
-                </small>
-              </p>
-            </div>
-            <div class="">
-              <h6 class="">Contact</h6>
-              <div class="row">
-                <div class="">
-                  <p>
-                    <small>
-                      <i class=""></i>
-                      <a
-                        class=""
-                        href="https://www.linkedin.com/in/carlosnavaja16/"
-                        >LinkedIn</a
-                      >
-                    </small>
-                  </p>
-                  <p>
-                    <small>
-                      <i class=""></i>
-                      <a class="" href="https://www.github.com/carlosnavaja16/"
-                        >Github</a
-                      >
-                    </small>
-                  </p>
-                </div>
-                <div class="">
-                  <p>
-                    <small>
-                      <i class=""></i>
-                      <a class="" href="mailto:carlos.rossi16@gmail.com"
-                        >Email</a
-                      >
-                    </small>
-                  </p>
-                  <p>
-                    <small>
-                      <i class=""></i>
-                      <a class="" href="tel:19545158474">Phone</a>
-                    </small>
-                  </p>
-                </div>
-              </div>
+      <footer class="bg-slate-200 p-5 text-gray-700">
+        <div
+          class="md:container mx-auto flex flex-col justify-center align-middle gap-3"
+        >
+          <div
+            class="flex flex-col align-middle justify-center text-center w-full"
+          >
+            <h6 class="font-bold pb-3">Navaja Barber Service</h6>
+            <p>
+              <small>
+                This application was developed using
+                <a href="https://angular.io/" class="">Angular</a>, and
+                <a href="https://firebase.google.com/" class="">Firebase</a>.
+              </small>
+            </p>
+          </div>
+          <div
+            class="flex flex-col align-middle justify-center text-center w-full"
+          >
+            <h6 class="font-bold text-center pb-3">Contact</h6>
+            <div class="flex justify-center align-middle gap-3">
+              <a
+                matTooltip="LinkedIn"
+                class="footer-link"
+                href="https://www.linkedin.com/in/carlosnavaja16/"
+              >
+                <ng-icon
+                  class="text-lg hover:text-xl transition-all duration-100"
+                  name="bootstrapLinkedin"
+                ></ng-icon>
+              </a>
+              <a
+                matTooltip="Github"
+                class="footer-link"
+                href="https://www.github.com/carlosnavaja16/"
+              >
+                <ng-icon
+                  class="text-lg hover:text-xl transition-all duration-100"
+                  name="bootstrapGithub"
+                ></ng-icon>
+              </a>
+              <a
+                matTooltip="Email"
+                class="footer-link"
+                href="mailto:carlos.rossi16@gmail.com"
+              >
+                <ng-icon
+                  class="text-lg hover:text-xl transition-all duration-100"
+                  name="heroEnvelopeSolid"
+                ></ng-icon>
+              </a>
             </div>
           </div>
         </div>

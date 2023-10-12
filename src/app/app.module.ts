@@ -40,11 +40,17 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // icons
 import { NgIconsModule } from '@ng-icons/core';
 import { heroBars3 } from '@ng-icons/heroicons/outline';
 import { heroUserCircle } from '@ng-icons/heroicons/outline';
+import { bootstrapGithub } from '@ng-icons/bootstrap-icons';
+import { bootstrapLinkedin } from '@ng-icons/bootstrap-icons';
+import { heroEnvelopeSolid } from '@ng-icons/heroicons/solid';
+import { heroPhoneSolid, heroCalendarSolid } from '@ng-icons/heroicons/solid';
+import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
 
 @NgModule({
   declarations: [
@@ -82,12 +88,23 @@ import { heroUserCircle } from '@ng-icons/heroicons/outline';
     MatInputModule,
     MatFormFieldModule,
     MatStepperModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
-    NgIconsModule.withIcons({ heroBars3, heroUserCircle }),
+    NgIconsModule.withIcons({
+      heroBars3,
+      heroUserCircle,
+      bootstrapGithub,
+      bootstrapLinkedin,
+      heroEnvelopeSolid,
+      heroPhoneSolid,
+      heroCalendarDays,
+      heroCalendarSolid,
+      heroCalendar,
+    }),
     MatSidenavModule,
   ],
   providers: [MatSnackBar],

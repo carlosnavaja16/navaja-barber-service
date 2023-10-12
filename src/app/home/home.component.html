@@ -1,33 +1,40 @@
-<div class="container">
-  <div class="d-flex justify-content-center mb-5">
-    <img src="../../assets/barber2Photo.png" alt="barberPhoto" height="175px" />
-  </div>
-  <h1 class="text-center">Carlos Rossi</h1>
+<div class="flex flex-col justify-center items-center">
+  <img class="w-40" src="../../assets/barberPhoto.png" alt="barberPhoto" />
+  <h1 class="font-bold text-xl text-center py-1">Carlos Rossi</h1>
   <h5 class="text-center">Mobile Barber</h5>
   <p class="text-center">
     <a
-      class="text-black"
-      href="https://www.myfloridalicense.com/LicenseDetail.asp?SID=&id=E79197D13A9225C488E924A53DD6153F">
-      <small>Licensed by the State of Florida</small>
+      class="text-xs"
+      href="https://www.myfloridalicense.com/LicenseDetail.asp?SID=&id=E79197D13A9225C488E924A53DD6153F"
+    >
+      Licensed by the State of Florida
     </a>
   </p>
-  <p class="text-center">Book me and I will come to you!</p>
-
-  <div class="d-flex justify-content-center">
-    <a
-      type="button"
-      class="btn btn-primary book-btn"
-      tooltip="
+  <div class="flex justify-content-center items-center gap-3">
+    <button
+      color="primary"
+      mat-flat-button
+      [matTooltip]="
         isLoggedIn() ? '' : 'In order to book you will need to Log In'
       "
-      [routerLink]="isLoggedIn() ? '/booking' : '/login'">
-      <i class="bi bi-calendar-check-fill"></i> &nbsp; Book
-    </a>
-    <a
-      type="button"
-      href="tel:19545158474"
-      class="btn btn-primary book-btn ms-3">
-      <i class="bi bi-telephone-fill"></i> &nbsp; Call
-    </a>
+      [routerLink]="isLoggedIn() ? '/booking' : '/login'"
+    >
+      <div class="flex justify-center items-center gap-1">
+        <ng-icon
+          class="text-lg hover:text-xl transition-all duration-100"
+          name="heroCalendarSolid"
+        ></ng-icon>
+        <span>Book</span>
+      </div>
+    </button>
+    <button color="primary" mat-flat-button href="tel:19545158474">
+      <div class="flex justify-center items-center gap-1">
+        <ng-icon
+          class="text-lg hover:text-xl transition-all duration-100"
+          name="heroPhoneSolid"
+        ></ng-icon>
+        <span>Call</span>
+      </div>
+    </button>
   </div>
 </div>

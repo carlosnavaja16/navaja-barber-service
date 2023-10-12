@@ -61,7 +61,8 @@
       class="wide-button m-1"
       color="primary"
       mat-flat-button
-      (click)="inEditMode ? onCancel() : onEdit()">
+      (click)="inEditMode ? onCancel() : onEdit()"
+    >
       {{ inEditMode ? 'Cancel' : 'Edit' }}
     </button>
     <button
@@ -70,7 +71,8 @@
       color="primary"
       mat-flat-button
       [disabled]="userProfileForm.invalid || userProfileForm.pristine"
-      (click)="onSubmit()">
+      (click)="onSubmit()"
+    >
       Submit
     </button>
   </div>
