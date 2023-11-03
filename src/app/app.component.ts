@@ -45,7 +45,7 @@ export class AppComponent {
   }
 
   get isLoggedIn(): WritableSignal<boolean> {
-    return this.userService.isLoggedIn;
+    return this.userService.getIsLoggedIn();
   }
 
   get header(): WritableSignal<string> {

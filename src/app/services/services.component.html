@@ -1,23 +1,30 @@
-<div class="container">
-  <p *ngIf="this.isLoggedIn" class="text-center mb-5">
+<div class="mx-auto md:max-w-screen-md">
+  <p *ngIf="!isLoggedIn()" class="text-center mb-5">
     <small>
-      In order to book you will need to <a [routerLink]="'/login'">Log In</a>.
-      Don't have an account? <a [routerLink]="'/signup'">Sign Up.</a>
+      In order to book you will need to
+      <a [routerLink]="'/login'" class="link-text">Log In</a>. Don't have an
+      account? <a [routerLink]="'/signup'" class="link-text">Sign Up.</a>
     </small>
   </p>
-  <ul class="list-group">
+  <ul class="flex flex-col gap-5">
     <li
-      class="list-group-item d-flex justify-content-between align-items-center"
+      class="flex justify-between items-center"
       *ngFor="let service of services$ | async"
     >
-      <div class="d-flex flex-column">
-        <h5>{{ service['name'] }}</h5>
-        <small>{{ service['desc'] }} · {{ service['duration'] }}mins</small>
+      <div class="flex w-fit flex-col">
+        <p
+          class="font-bold hover:font-extrabold text-l transition-all duration-100 ease-in-out"
+        >
+          {{ service['name'] }}
+        </p>
+        <span class="text-xs"
+          >{{ service['desc'] }} · {{ service['duration'] }}mins · ${{
+            service['price']
+          }}</span
+        >
       </div>
       <div>
-        <span class="badge bg-primary rounded-pill"
-          >${{ service['price'] }}</span
-        >
+        <button mat-stroked-button color="primary">Book</button>
       </div>
     </li>
   </ul>

@@ -152,14 +152,14 @@
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <div class="h-screen pt-14 flex flex-col justify-between">
-      <div class="md:container md:mx-auto px-5">
+    <div class="h-screen pt-14 md:flex flex-col justify-between">
+      <div>
         <h1 class="py-14 kurt-font text-5xl md:text-6xl text-center">
           {{ header() }}
         </h1>
         <router-outlet></router-outlet>
       </div>
-      <footer class="bg-slate-200 p-5 text-gray-700">
+      <footer class="hidden md:block bg-slate-200 p-5 text-gray-700">
         <div
           class="md:container mx-auto flex flex-col justify-center align-middle gap-3"
         >

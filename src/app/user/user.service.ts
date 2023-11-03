@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import {
   Auth,
   UserCredential,
@@ -26,7 +26,7 @@ import { setDoc } from 'firebase/firestore';
   providedIn: 'root',
 })
 export class UserService {
-  public isLoggedIn = signal(false);
+  private isLoggedIn = signal(false);
   userProfilesCollection: CollectionReference<DocumentData>;
 
   constructor(
@@ -37,6 +37,10 @@ export class UserService {
       .pipe(map((user) => (user ? true : false)))
       .subscribe((val) => this.isLoggedIn.set(val));
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
+  }
+
+  public getIsLoggedIn(): WritableSignal<boolean> {
+    return this.isLoggedIn;
   }
 
   login(email: string, password: string): Observable<UserProfile> {

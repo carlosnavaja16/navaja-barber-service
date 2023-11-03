@@ -17,3 +17,15 @@
 .kurt-font {
   font-family: 'KURT-italic', sans-serif;
 }
+
+.link-text {
+  @apply text-blue-700 hover:text-blue-900 transition-all duration-300;
+}
+
+/* 
+ * set material button color
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: #0284c7;
+  --mdc-protected-button-label-text-color: white;
+}
+*/

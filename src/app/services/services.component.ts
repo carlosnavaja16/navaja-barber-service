@@ -23,6 +23,6 @@ export class ServicesComponent {
   }
 
   get isLoggedIn(): WritableSignal<boolean> {
-    return this.userService.isLoggedIn;
+    return this.userService.getIsLoggedIn();
   }
 }

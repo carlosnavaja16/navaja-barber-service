@@ -3,17 +3,17 @@
 }
 
 .nav-link {
-  @apply hover:font-bold transition-all duration-100;
+  @apply hover:font-bold transition-all duration-100 ease-in-out;
 }
 
 .sidenav-link {
-  @apply w-full py-3 px-4 hover:font-bold transition-all duration-100;
+  @apply w-full py-3 px-4 hover:font-bold transition-all duration-100 ease-in-out;
 }
 
 .burger {
-  @apply flex p-2 items-center md:hidden hover:bg-slate-300 rounded-full transition-all duration-200;
+  @apply flex p-2 items-center md:hidden hover:bg-slate-300 rounded-full transition-all duration-100 ease-in-out;
 }
 
 .user-icon {
-  @apply flex p-2 items-center hover:bg-slate-300 rounded-full transition-all duration-200;
+  @apply flex p-2 items-center hover:bg-slate-300 rounded-full transition-all duration-100 ease-in-out;
 }

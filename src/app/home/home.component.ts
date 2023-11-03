@@ -16,6 +16,6 @@ export class HomeComponent {
   }
 
   get isLoggedIn() {
-    return this.userService.isLoggedIn;
+    return this.userService.getIsLoggedIn();
   }
 }
