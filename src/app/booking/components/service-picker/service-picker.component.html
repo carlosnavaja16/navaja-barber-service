@@ -6,10 +6,8 @@
       (onSelectionChange)="onServiceSelected(service)"
     >
       <p>
-        <b>{{ service['name'] }}</b> ·
-        <small
-          >{{ service['duration'] | duration }} · ${{ service['price'] }}</small
-        >
+        <b>{{ service.name }}</b> ·
+        <small>{{ service.duration | duration }} · ${{ service.price }}</small>
       </p>
     </mat-option>
   </mat-select>

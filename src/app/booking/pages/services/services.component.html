@@ -1,4 +1,4 @@
-<div class="mx-auto md:max-w-screen-md">
+<div class="mx-auto container md:max-w-screen-md">
   <p *ngIf="!isLoggedIn()" class="text-center mb-5">
     <small>
       In order to book you will need to
@@ -15,16 +15,22 @@
         <p
           class="font-bold hover:font-extrabold text-l transition-all duration-100 ease-in-out"
         >
-          {{ service['name'] }}
+          {{ service.name }}
         </p>
         <span class="text-xs"
-          >{{ service['desc'] }} · {{ service['duration'] }}mins · ${{
-            service['price']
+          >{{ service.desc }} · {{ service.duration }}mins · ${{
+            service.price
           }}</span
         >
       </div>
       <div>
-        <button mat-stroked-button color="primary">Book</button>
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="bookService(service)"
+        >
+          Book
+        </button>
       </div>
     </li>
   </ul>

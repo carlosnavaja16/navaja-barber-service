@@ -4,13 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ServicesComponent } from './services/services.component';
+import { ServicesComponent } from './booking/pages/services/services.component';
 import { ProfileComponent } from './user/pages/profile/profile.component';
 import { SignUpComponent } from './user/pages/sign-up/sign-up.component';
 import { LoginComponent } from './user/pages/login/login.component';
 import { LogoutComponent } from './user/pages/logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
-import { BookingComponent } from './booking/pages/booking.component';
+import { BookingComponent } from './booking/pages/booking/booking.component';
 import { TimeSlotsComponent } from './booking/components/time-slots/time-slots.component';
 
 import { environment } from '../environments/environment';

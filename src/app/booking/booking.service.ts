@@ -4,32 +4,59 @@ import {
   AvailableTimeSlotsRequest,
   AvailabilityResponse,
   TimeSlot,
-} from '../../types/time-slot';
+} from './types/time-slot';
 import {
   Functions,
   httpsCallable,
   HttpsCallable,
 } from '@angular/fire/functions';
 import { defer, map, Observable } from 'rxjs';
-import { DateUtils } from '../../utilities/date.util';
+import { DateUtils } from './utilities/date.util';
+import {
+  CollectionReference,
+  DocumentData,
+  Firestore,
+  Query,
+  collection,
+  collectionData,
+  orderBy,
+  query,
+} from '@angular/fire/firestore';
+import { Service } from './types/service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CalendarService {
+export class BookingService {
   getAvailabilityFn: HttpsCallable<
     AvailableTimeSlotsRequest,
     AvailabilityResponse
   >;
+  servicesCollection: CollectionReference<DocumentData>;
+  servicesQuery: Query<DocumentData>;
 
-  constructor(public functions: Functions) {
+  constructor(
+    private readonly functions: Functions,
+    private readonly firestore: Firestore,
+  ) {
     this.functions.region = 'us-east1';
     this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
+    this.servicesCollection = collection(this.firestore, 'Services');
+    this.servicesQuery = query(
+      this.servicesCollection,
+      orderBy('price', 'asc'),
+    );
   }
 
-  getAvailability(eventDuration: number): Observable<Availability> {
+  getServices(): Observable<Service[]> {
+    return collectionData(this.servicesQuery) as Observable<Service[]>;
+  }
+
+  getAvailability(service: Service): Observable<Availability> {
     const availability$ = defer(() =>
-      this.getAvailabilityFn({ eventDuration }),
+      this.getAvailabilityFn({
+        eventDuration: DateUtils.getMillisecondsFromMinutes(service.duration),
+      }),
     ).pipe(
       map((result) => result.data),
       map((data: AvailabilityResponse) => {

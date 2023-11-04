@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DocumentData } from '@angular/fire/firestore';
+import { Service } from '../../types/service';
 
 @Component({
   selector: 'service-picker',
@@ -7,10 +7,10 @@ import { DocumentData } from '@angular/fire/firestore';
   styleUrls: ['./service-picker.component.scss'],
 })
 export class ServicePickerComponent {
-  @Input() services: DocumentData[] | null;
-  @Output() serviceSelected = new EventEmitter<DocumentData>();
+  @Input() services: Service[] | null;
+  @Output() serviceSelected = new EventEmitter<Service>();
 
-  onServiceSelected(service: DocumentData) {
+  onServiceSelected(service: Service) {
     this.serviceSelected.emit(service);
   }
 }

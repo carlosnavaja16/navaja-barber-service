@@ -1,4 +1,4 @@
-import { Service } from '../../shared/types/service';
+import { Service } from './service';
 
 export declare interface AppointmentData {
   userUid: string;
