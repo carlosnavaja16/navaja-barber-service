@@ -2,7 +2,7 @@ import { getAvailability } from './functions/get-availability.function';
 import { CallableRequest } from 'firebase-functions/lib/common/providers/https';
 import { CallableOptions, onCall } from 'firebase-functions/v2/https';
 import { ServiceAccountCredentials } from './types/service-account-credentials';
-import { bookAppointment } from './functions/book-appointment.functiont';
+import { bookAppointment } from './functions/book-appointment.function';
 const CALENDAR_SERVICE_ACC_CREDENTIALS: ServiceAccountCredentials = JSON.parse(
   process.env['CALENDAR_SERVICE_ACC_CREDENTIALS'] || '{}',
 );
