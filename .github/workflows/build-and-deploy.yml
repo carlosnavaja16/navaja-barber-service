@@ -34,6 +34,10 @@ jobs:
           touch .env
           echo CALENDAR_SERVICE_ACC_CREDENTIALS=${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS}} >> .env
 
+      - name: Read .env file
+        run: |
+          cat .env
+
       - name: Build
         run: npm run build --omit=dev
 

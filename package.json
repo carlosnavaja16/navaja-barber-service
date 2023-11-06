@@ -9,7 +9,7 @@
     "test": "ng test",
     "push": "eslint --fix ./ && prettier -w --single-quote ./ && git add . && git commit -m \"$(date)\" && git push",
     "deploy:functions": "rm -rf ./functions/lib && firebase deploy --only functions && rm -rf ./functions/lib",
-    "deploy:hosting": "rm -rf dist && firebase deploy --only hosting && rm -rf dist",
+    "deploy:hosting": "rm -rf dist && ng build && firebase deploy --only hosting && rm -rf dist",
     "format": "prettier -w --single-quote ./",
     "lint": "ng lint"
   },
