@@ -42,10 +42,10 @@ export const bookAppointmentFn = onCall(
       );
     } catch (error) {
       console.error(
-        `Failed to inser event: ${request.data.event.summary} due to error: ${error}`,
+        `Failed to insert event: ${request.data.event.summary} due to error: ${error}`,
       );
       throw new Error(
-        `Failed to inser event: ${request.data.event.summary} due to error: ${error}`,
+        `Failed to insert event: ${request.data.event.summary} due to error: ${error}`,
       );
     }
   },
