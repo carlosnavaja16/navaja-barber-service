@@ -32,7 +32,7 @@ jobs:
       - name: Write .env file
         run: |
           touch .env
-          echo CALENDAR_SERVICE_ACC_CREDENTIALS=${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS}} >> .env
+          echo CALENDAR_SERVICE_ACC_CREDENTIALS="${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS}}" >> .env
 
       - name: Read .env file
         run: |
