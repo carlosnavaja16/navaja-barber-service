@@ -3,9 +3,9 @@ import { CallableRequest } from 'firebase-functions/lib/common/providers/https';
 import { CallableOptions, onCall } from 'firebase-functions/v2/https';
 import { ServiceAccountCredentials } from './types/service-account-credentials';
 import { bookAppointment } from './functions/book-appointment.function';
-const CALENDAR_SERVICE_ACC_CREDENTIALS: ServiceAccountCredentials = JSON.parse(
-  process.env['CALENDAR_SERVICE_ACC_CREDENTIALS'] || '{}',
-);
+
+const CALENDAR_SERVICE_ACC_CREDENTIALS =
+  process.env.CALENDAR_SERVICE_ACC_CREDENTIALS || '';
 
 export const getAvailabilityFn = onCall(
   {
@@ -13,11 +13,11 @@ export const getAvailabilityFn = onCall(
     region: 'us-east1',
   } as CallableOptions,
   async (request: CallableRequest) => {
+    const credentials: ServiceAccountCredentials = JSON.parse(
+      CALENDAR_SERVICE_ACC_CREDENTIALS,
+    );
     try {
-      return await getAvailability(
-        CALENDAR_SERVICE_ACC_CREDENTIALS,
-        request.data.eventDuration,
-      );
+      return await getAvailability(credentials, request.data.eventDuration);
     } catch (error) {
       console.error(
         `Failed to get availability for event duration: ${request.data.eventDuration} due to error: ${error}`,
@@ -35,11 +35,11 @@ export const bookAppointmentFn = onCall(
     region: 'us-east1',
   } as CallableOptions,
   async (request: CallableRequest) => {
+    const credentials: ServiceAccountCredentials = JSON.parse(
+      CALENDAR_SERVICE_ACC_CREDENTIALS,
+    );
     try {
-      return await bookAppointment(
-        CALENDAR_SERVICE_ACC_CREDENTIALS,
-        request.data.event,
-      );
+      return await bookAppointment(credentials, request.data.event);
     } catch (error) {
       console.error(
         `Failed to insert event: ${request.data.event.summary} due to error: ${error}`,

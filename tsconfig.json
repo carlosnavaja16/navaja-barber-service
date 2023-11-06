@@ -22,7 +22,8 @@
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
     "noUnusedParameters": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "noPropertyAccessFromIndexSignature": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

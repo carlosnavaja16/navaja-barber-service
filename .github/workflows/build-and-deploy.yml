@@ -6,7 +6,6 @@ on:
 
 env:
   FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
-  CALENDAR_SERVICE_ACC_CREDENTIALS: ${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS}}
 
 jobs:
   build-and-deploy:
@@ -27,6 +26,13 @@ jobs:
       - name: Install dependencies
         if: success()
         run: npm install
+
+        # The env directive above works for defining environment variables for steps in the job
+        # but not for the variables that will be used by the functions below.
+      - name: Write .env file
+        run: |
+          touch .env
+          echo CALENDAR_SERVICE_ACC_CREDENTIALS=${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS}} >> .env
 
       - name: Build
         run: npm run build --omit=dev
