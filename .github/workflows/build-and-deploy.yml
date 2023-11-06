@@ -6,6 +6,7 @@ on:
 
 env:
   FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+  CALENDAR_SERVICE_ACC_CREDENTIALS: ${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS}}
 
 jobs:
   build-and-deploy:
