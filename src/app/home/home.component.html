@@ -15,24 +15,18 @@
       color="primary"
       mat-raised-button
       [matTooltip]="
-        isLoggedIn() ? '' : 'In order to book you will need to Log In'
+        isLoggedIn() ? '' : 'In order to book you will need to log In'
       "
       [routerLink]="isLoggedIn() ? '/booking' : '/login'"
     >
       <div class="flex justify-center items-center gap-1">
-        <ng-icon
-          class="text-lg hover:text-xl transition-all duration-100"
-          name="heroCalendarSolid"
-        ></ng-icon>
+        <ng-icon class="text-lg" name="heroCalendarSolid"></ng-icon>
         <span>Book</span>
       </div>
     </button>
-    <button color="primary" mat-raised-button href="tel:19545158474">
+    <button color="success" mat-raised-button href="tel:19545158474">
       <div class="flex justify-center items-center gap-1">
-        <ng-icon
-          class="text-lg hover:text-xl transition-all duration-100"
-          name="heroPhoneSolid"
-        ></ng-icon>
+        <ng-icon class="text-lg" name="heroPhoneSolid"></ng-icon>
         <span>Call</span>
       </div>
     </button>

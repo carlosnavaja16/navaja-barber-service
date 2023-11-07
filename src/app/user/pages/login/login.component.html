@@ -1,18 +1,18 @@
-<div class="container d-flex flex-column align-items-center">
-  <p class="text-center mb-5">
+<div class="mx-auto max-w-lg">
+  <p class="text-center pb-5">
     <small>
       Already have an account? <a [routerLink]="'/login'">Login</a>
     </small>
   </p>
-  <form [formGroup]="loginForm" class="form">
-    <mat-form-field>
+  <form [formGroup]="loginForm" class="flex flex-col items-center">
+    <mat-form-field class="w-full">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" />
       <mat-error *ngIf="email?.invalid && email?.touched"
         >Please enter a valid email</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="w-full">
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password" />
       <mat-error *ngIf="password?.invalid && email?.touched">

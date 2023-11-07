@@ -36,7 +36,7 @@
     "bootstrap-icons": "^1.11.1",
     "dotenv": "^16.3.1",
     "firebase": "~9.23.0",
-    "firebase-functions": "^4.4.1",
+    "firebase-functions": "^4.5.0",
     "googleapis": "^126.0.1",
     "luxon": "^3.4.3",
     "ng": "^0.0.0",

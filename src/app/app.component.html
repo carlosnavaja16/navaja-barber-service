@@ -153,8 +153,8 @@
   </mat-drawer>
   <mat-drawer-content>
     <div class="h-screen pt-14 md:flex flex-col justify-between">
-      <div>
-        <h1 class="py-14 kurt-font text-5xl md:text-6xl text-center">
+      <div class="mx-auto container px-5 pt-10 pb-14">
+        <h1 class="pb-14 kurt-font text-5xl md:text-6xl text-center">
           {{ header() }}
         </h1>
         <router-outlet></router-outlet>
@@ -185,30 +185,21 @@
                 class="footer-link"
                 href="https://www.linkedin.com/in/carlosnavaja16/"
               >
-                <ng-icon
-                  class="text-lg hover:text-xl transition-all duration-100"
-                  name="bootstrapLinkedin"
-                ></ng-icon>
+                <ng-icon class="text-lg" name="bootstrapLinkedin"></ng-icon>
               </a>
               <a
                 matTooltip="Github"
                 class="footer-link"
                 href="https://www.github.com/carlosnavaja16/"
               >
-                <ng-icon
-                  class="text-lg hover:text-xl transition-all duration-100"
-                  name="bootstrapGithub"
-                ></ng-icon>
+                <ng-icon class="text-lg" name="bootstrapGithub"></ng-icon>
               </a>
               <a
                 matTooltip="Email"
                 class="footer-link"
                 href="mailto:carlos.rossi16@gmail.com"
               >
-                <ng-icon
-                  class="text-lg hover:text-xl transition-all duration-100"
-                  name="heroEnvelopeSolid"
-                ></ng-icon>
+                <ng-icon class="text-lg" name="heroEnvelopeSolid"></ng-icon>
               </a>
             </div>
           </div>

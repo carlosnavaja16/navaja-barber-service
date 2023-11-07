@@ -1,4 +1,4 @@
-<div class="mx-auto container md:max-w-screen-md">
+<div class="mx-auto max-w-screen-md">
   <p *ngIf="!isLoggedIn()" class="text-center mb-5">
     <small>
       In order to book you will need to
@@ -25,9 +25,13 @@
       </div>
       <div>
         <button
+          [disabled]="!isLoggedIn()"
           mat-stroked-button
           color="primary"
           (click)="bookService(service)"
+          [matTooltip]="
+            !isLoggedIn() ? 'In order to book you will need to log in.' : ''
+          "
         >
           Book
         </button>
