@@ -17,6 +17,13 @@ export const getAvailabilityFn = onCall(
   } as CallableOptions,
   async (request: CallableRequest) => {
     try {
+      console.info(
+        `CREDENTIALS: ${JSON.stringify(
+          CALENDAR_SERVICE_ACC_CREDENTIALS,
+          null,
+          2,
+        )}`,
+      );
       return await getAvailability(
         CALENDAR_SERVICE_ACC_CREDENTIALS,
         request.data.eventDuration,
