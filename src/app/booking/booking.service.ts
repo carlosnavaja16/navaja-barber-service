@@ -10,7 +10,7 @@ import {
   httpsCallable,
   HttpsCallable,
 } from '@angular/fire/functions';
-import { defer, map, Observable } from 'rxjs';
+import { catchError, defer, map, NEVER, Observable } from 'rxjs';
 import { DateUtils } from './utilities/date.util';
 import {
   CollectionReference,
@@ -23,6 +23,7 @@ import {
   query,
 } from '@angular/fire/firestore';
 import { Service } from './types/service';
+import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,7 @@ export class BookingService {
   constructor(
     private readonly functions: Functions,
     private readonly firestore: Firestore,
+    private readonly snackbarService: SnackbarService,
   ) {
     this.functions.region = 'us-east1';
     this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
@@ -49,7 +51,17 @@ export class BookingService {
   }
 
   getServices(): Observable<Service[]> {
-    return collectionData(this.servicesQuery) as Observable<Service[]>;
+    const services$: Observable<Service[]> = collectionData(
+      this.servicesQuery,
+    ) as Observable<Service[]>;
+    return services$.pipe(
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Could not load services due to error: ${error}`,
+        );
+        return NEVER;
+      }),
+    );
   }
 
   getAvailability(service: Service): Observable<Availability> {
@@ -87,6 +99,12 @@ export class BookingService {
           },
         };
         return availability;
+      }),
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Could not load availability due to error: ${error}`,
+        );
+        return NEVER;
       }),
     );
     return availability$;
