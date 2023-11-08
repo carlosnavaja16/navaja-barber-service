@@ -22,13 +22,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Install dependencies
-        if: success()
-        run: npm install
-
-        # The env directive above works for defining environment variables for steps in the job
-        # but not for the variables that will be used by the functions below.
+      # The env directive above works for defining environment variables for steps in the job
+      # but not for the variables that will be used by the functions below.
       - name: Write .env file
         run: |
           touch .env
@@ -37,6 +32,10 @@ jobs:
       - name: Read .env file
         run: |
           cat .env
+
+      - name: Install dependencies
+        if: success()
+        run: npm install
 
       - name: Build
         run: npm run build --omit=dev
