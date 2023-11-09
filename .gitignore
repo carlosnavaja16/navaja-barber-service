@@ -48,3 +48,6 @@ Thumbs.db
 
 # env
 *.env
+
+# functions credentials
+./functions/credentials.ts

@@ -22,18 +22,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      # The env directive above works for defining environment variables for steps in the job
-      # but not for the variables that will be used by the functions below. Because of this, We
-      # write store the contents of a .env file as a secret and then write the .env file here
-      - name: Write .env file
+      - name: Decode Google service account credentials
         run: |
-          touch .env
-          echo CALENDAR_SERVICE_ACC_CREDENTIALS_CLIENT_EMAIL=${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_CLIENT_EMAIL}} >> .env
-          echo CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY="${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY}}" >> .env
-
-      - name: Read .env file
-        run: cat .env
+          echo ${{ secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_BASE64 }} | base64 --decode > ./functions/credentials.ts
 
       - name: Install dependencies
         if: success()
