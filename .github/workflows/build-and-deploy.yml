@@ -29,7 +29,8 @@ jobs:
       - name: Write .env file
         run: |
           touch .env
-          echo "${{secrets.ENV}}" > .env
+          echo "CALENDAR_SERVICE_ACC_CREDENTIALS_CLIENT_EMAIL={{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_CLIENT_EMAIL}}" >> .env
+          echo "CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY={{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY}}" >> .env
 
       - name: Read .env file
         run: cat .env
