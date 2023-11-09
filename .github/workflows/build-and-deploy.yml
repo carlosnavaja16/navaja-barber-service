@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
       # The google service account credentials were written as an object in a .ts file.
       # the file was encoded in base64 and stored in a secret this all is to avoid problems
       # related to new line characters in the private key. Below we decode the base64 string
