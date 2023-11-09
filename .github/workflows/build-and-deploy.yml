@@ -30,7 +30,7 @@ jobs:
         run: |
           touch .env
           echo "CALENDAR_SERVICE_ACC_CREDENTIALS_CLIENT_EMAIL="${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_CLIENT_EMAIL}} >> .env
-          echo "CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY="${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY}} | sed 's/\n/\\n/' >> .env
+          echo "CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY="${{secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_PRIVATE_KEY}} | sed 's/\n/\\n/g' >> .env
 
       - name: Read .env file
         run: cat .env
