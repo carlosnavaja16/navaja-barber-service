@@ -26,6 +26,10 @@ jobs:
         run: |
           echo ${{ secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_BASE64 }} | base64 --decode > ./functions/credentials.ts
 
+      - name: Read decoded document
+        run: |
+          cat ./functions/credentials.ts
+
       - name: Install dependencies
         if: success()
         run: npm install
