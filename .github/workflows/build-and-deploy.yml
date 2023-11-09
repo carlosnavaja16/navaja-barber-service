@@ -32,8 +32,7 @@ jobs:
           echo ${{ENV}} > .env
 
       - name: Read .env file
-        run: |
-          cat .env
+        run: cat .env
 
       - name: Install dependencies
         if: success()
