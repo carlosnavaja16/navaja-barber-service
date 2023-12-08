@@ -35,6 +35,7 @@ export class BookingService {
   >;
   servicesCollection: CollectionReference<DocumentData>;
   servicesQuery: Query<DocumentData>;
+  selectedService: Service | null;
 
   constructor(
     private readonly functions: Functions,

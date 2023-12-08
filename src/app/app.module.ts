@@ -41,6 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // icons
 import { NgIconsModule } from '@ng-icons/core';
@@ -89,6 +90,7 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
     MatFormFieldModule,
     MatStepperModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,

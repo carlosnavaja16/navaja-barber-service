@@ -22,14 +22,19 @@
   @apply text-blue-700 hover:text-blue-900 transition-all duration-300;
 }
 
-/* 
- * set material button color
-.mat-mdc-raised-button.mat-primary {
-  --mdc-protected-button-container-color: #0284c7;
-  --mdc-protected-button-label-text-color: white;
-}
+/* this is to add an extra option color to the mat-raised-button
+ * after defining a new class with mat-<name>
+ * you can use it in the html like this:
+ * <button mat-raised-button class="mat-<name>">Button</button>
 */
 .mat-mdc-raised-button.mat-success {
   --mdc-protected-button-container-color: green;
   --mdc-protected-button-label-text-color: white;
+}
+
+/* this is to reflect a conflict between tailwind and angular material
+ * when using a 'outline' appearance on a mat-form-field
+ */
+.mdc-notched-outline__notch {
+  border-right: none;
 }

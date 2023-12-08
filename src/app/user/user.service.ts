@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import {
   Auth,
   UserCredential,
@@ -21,29 +21,31 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { setDoc } from 'firebase/firestore';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private isLoggedIn = signal(false);
+  private isLoggedIn: Signal<boolean>;
   userProfilesCollection: CollectionReference<DocumentData>;
 
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore,
   ) {
-    authState(this.auth)
-      .pipe(map((user) => (user ? true : false)))
-      .subscribe((val) => this.isLoggedIn.set(val));
+    this.isLoggedIn = toSignal(
+      authState(this.auth).pipe(map((user) => (user ? true : false))),
+      { initialValue: false },
+    );
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
   }
 
-  public getIsLoggedIn(): WritableSignal<boolean> {
+  public getIsLoggedIn(): Signal<boolean> {
     return this.isLoggedIn;
   }
 
-  login(email: string, password: string): Observable<UserProfile> {
+  public login(email: string, password: string): Observable<UserProfile> {
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       switchMap((user: UserCredential) => {
         return from(
@@ -57,11 +59,15 @@ export class UserService {
     );
   }
 
-  logOut() {
+  public logOut(): Observable<void> {
     return from(signOut(this.auth));
   }
 
-  createUser(email: string, password: string, userProfile: UserProfile) {
+  public createUser(
+    email: string,
+    password: string,
+    userProfile: UserProfile,
+  ): Observable<void> {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password),
     ).pipe(
@@ -88,7 +94,7 @@ export class UserService {
     );
   }
 
-  getUserEmail(): Observable<string> {
+  public getUserEmail(): Observable<string> {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
@@ -99,7 +105,7 @@ export class UserService {
     );
   }
 
-  updateUserEmail(newEmail: string): Observable<void> {
+  public updateUserEmail(newEmail: string): Observable<void> {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
@@ -110,7 +116,7 @@ export class UserService {
     );
   }
 
-  updateUserProfile(userProfile: UserProfile) {
+  public updateUserProfile(userProfile: UserProfile): Observable<void> {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {

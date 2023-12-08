@@ -1,7 +1,8 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
+  Signal,
   ViewChild,
 } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
@@ -10,16 +11,17 @@ import { Availability, DateTimeSlots, TimeSlot } from '../../types/time-slot';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
 import { Service } from '../../types/service';
-import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss'],
 })
-export class BookingComponent implements AfterViewInit {
+export class BookingComponent implements AfterViewInit, OnDestroy {
   eventDuration = 1000 * 60 * 60;
-  services$: Observable<Service[]>;
+  services: Signal<Service[]>;
   availability$: Observable<Availability>;
   dateTimeSlots$ = new Subject<DateTimeSlots>();
   selectedService$ = new Subject<Service>();
@@ -31,11 +33,12 @@ export class BookingComponent implements AfterViewInit {
   constructor(
     private readonly headerService: HeaderService,
     private readonly bookingService: BookingService,
-    private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
   ) {
     this.headerService.setHeader('Booking');
-    this.services$ = this.bookingService.getServices();
+    this.services = toSignal(this.bookingService.getServices(), {
+      initialValue: [],
+    });
     this.availability$ = this.selectedService$.pipe(
       switchMap((service) => {
         return this.bookingService.getAvailability(service);
@@ -43,18 +46,15 @@ export class BookingComponent implements AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {
-    this.route.queryParams.subscribe((params) => {
-      if (params['duration'] != null) {
-        this.onServiceSelected({
-          name: params['name'],
-          duration: params['duration'],
-          price: params['price'],
-          desc: params['desc'],
-        });
-      }
-    });
+  ngAfterViewInit(): void {
+    if (this.bookingService.selectedService) {
+      this.onServiceSelected(this.bookingService.selectedService);
+    }
     this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.bookingService.selectedService = null;
   }
 
   onServiceSelected(service: Service) {

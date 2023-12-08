@@ -9,7 +9,7 @@
   <ul class="flex flex-col gap-5">
     <li
       class="flex justify-between items-center"
-      *ngFor="let service of services$ | async"
+      *ngFor="let service of services()"
     >
       <div class="flex w-fit flex-col">
         <p

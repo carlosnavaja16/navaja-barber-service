@@ -1,5 +1,5 @@
-import { Component, WritableSignal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '../../../shared/services/header/header.service';
 import { UserService } from '../../../user/user.service';
 import { BookingService } from '../../booking.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./services.component.scss'],
 })
 export class ServicesComponent {
-  services$: Observable<Service[]>;
+  services: Signal<Service[]>;
 
   constructor(
     private readonly userService: UserService,
@@ -21,14 +21,18 @@ export class ServicesComponent {
     private readonly router: Router,
   ) {
     this.headerService.setHeader('Services');
-    this.services$ = this.bookingService.getServices();
+    this.services = toSignal(this.bookingService.getServices(), {
+      initialValue: [],
+    });
+    this.bookingService.selectedService = null;
   }
 
-  get isLoggedIn(): WritableSignal<boolean> {
+  get isLoggedIn(): Signal<boolean> {
     return this.userService.getIsLoggedIn();
   }
 
   bookService(service: Service) {
-    this.router.navigate(['/booking'], { queryParams: service });
+    this.bookingService.selectedService = service;
+    this.router.navigate(['/booking']);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild, WritableSignal } from '@angular/core';
+import { Component, Signal, ViewChild, WritableSignal } from '@angular/core';
 import { UserService } from './user/user.service';
 import { HeaderService } from './shared/services/header/header.service';
 import { Router } from '@angular/router';
@@ -44,7 +44,7 @@ export class AppComponent {
     });
   }
 
-  get isLoggedIn(): WritableSignal<boolean> {
+  get isLoggedIn(): Signal<boolean> {
     return this.userService.getIsLoggedIn();
   }
 

@@ -1,35 +1,35 @@
-<form [formGroup]="userProfileForm" class="form">
-  <mat-form-field [appearance]="appearance">
+<form [formGroup]="userProfileForm" class="flex flex-col items-center">
+  <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>First name</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="firstName" />
     <mat-error *ngIf="firstName?.invalid && firstName?.touched"
       >First name must be at least two characters</mat-error
     >
   </mat-form-field>
-  <mat-form-field [appearance]="appearance">
+  <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>Last name</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="lastName" />
     <mat-error *ngIf="lastName?.invalid && lastName?.touched"
       >Last name must be at least two characters</mat-error
     >
   </mat-form-field>
-  <mat-form-field [appearance]="appearance">
+  <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>Phone</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="phone" />
     <mat-error *ngIf="phone?.invalid && phone?.touched"
       >Please enter a valid phone number</mat-error
     >
   </mat-form-field>
-  <mat-form-field [appearance]="appearance">
+  <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>Street address</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="streetAddr" />
     <mat-error *ngIf="streetAddr?.invalid && streetAddr?.touched"
       >Address is required</mat-error
     >
   </mat-form-field>
-  <div class="row">
-    <div class="col-sm-5">
-      <mat-form-field [appearance]="appearance">
+  <div class="w-full flex flex-col md:flex-row">
+    <div class="md:w-5/12 md:pr-3">
+      <mat-form-field [appearance]="appearance" class="w-full">
         <mat-label>City</mat-label>
         <input [readonly]="!inEditMode" matInput formControlName="city" />
         <mat-error *ngIf="city?.invalid && city?.touched"
@@ -37,8 +37,8 @@
         >
       </mat-form-field>
     </div>
-    <div class="col-sm-3">
-      <mat-form-field [appearance]="appearance">
+    <div class="md:w-1/4 md:pr-3">
+      <mat-form-field [appearance]="appearance" class="w-full">
         <mat-label>State</mat-label>
         <input [readonly]="!inEditMode" matInput formControlName="state" />
         <mat-error *ngIf="state?.invalid && state?.touched"
@@ -46,8 +46,8 @@
         >
       </mat-form-field>
     </div>
-    <div class="col-sm-4">
-      <mat-form-field [appearance]="appearance">
+    <div class="md:w-1/3">
+      <mat-form-field [appearance]="appearance" class="w-full">
         <mat-label>Zip code</mat-label>
         <input [readonly]="!inEditMode" matInput formControlName="zipCode" />
         <mat-error *ngIf="zipCode?.invalid && zipCode?.touched"
@@ -56,9 +56,8 @@
       </mat-form-field>
     </div>
   </div>
-  <div>
+  <div class="flex flex-col sm:flex-row gap-3">
     <button
-      class="wide-button m-1"
       color="primary"
       mat-flat-button
       (click)="inEditMode ? onCancel() : onEdit()"
@@ -67,7 +66,6 @@
     </button>
     <button
       *ngIf="inEditMode"
-      class="wide-button m-1"
       color="primary"
       mat-flat-button
       [disabled]="userProfileForm.invalid || userProfileForm.pristine"

@@ -1,48 +1,49 @@
-<div
-  class="container d-flex flex-column justify-content-center align-items-center"
+<mat-vertical-stepper
+  [linear]="true"
+  #stepper
+  class="booking-stepper mx-auto max-w-lg"
 >
-  <mat-vertical-stepper [linear]="true" #stepper class="booking-stepper">
-    <mat-step label="Select a service">
-      <service-picker
-        *ngIf="services$ | async as services"
-        [services]="services"
-        (serviceSelected)="onServiceSelected($event)"
-      >
-      </service-picker>
-    </mat-step>
-    <mat-step label="Select a date">
-      <date-picker
-        *ngIf="availability$ | async as availability; else availabilityLoading"
-        [dateFilter]="availability.dateFilter"
-        [timeSlotsByDate]="availability.timeSlotsByDate"
-        [minDate]="availability.minDate"
-        [maxDate]="availability.maxDate"
-        (dateSelected)="onDateSelected($event)"
-      >
-      </date-picker>
-      <ng-template #availabilityLoading>
-        <div class="loader">
-          <div class="spinner-grow text-dark"></div>
-        </div>
-      </ng-template>
-    </mat-step>
-    <mat-step label="Select a time">
-      <mat-card class="inline-calendar-card mt-3 mb-3 p-3">
-        <time-slots
-          *ngIf="selectedDateTimeSlots$ | async as selectedDateTimeSlots"
-          [dateTimeSlots]="selectedDateTimeSlots"
-          (timeSlotSelected)="onTimeSlotSelected($event)"
-        >
-        </time-slots>
-      </mat-card>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      You are now done.
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+  <mat-step label="Select a service">
+    <service-picker
+      *ngIf="services() as services"
+      [services]="services"
+      (serviceSelected)="onServiceSelected($event)"
+    >
+    </service-picker>
+  </mat-step>
+  <mat-step label="Select a date">
+    <date-picker
+      *ngIf="availability$ | async as availability; else availabilityLoading"
+      [dateFilter]="availability.dateFilter"
+      [timeSlotsByDate]="availability.timeSlotsByDate"
+      [minDate]="availability.minDate"
+      [maxDate]="availability.maxDate"
+      (dateSelected)="onDateSelected($event)"
+    >
+    </date-picker>
+    <ng-template #availabilityLoading>
+      <div class="w-full flex flex-col items-center justify-center h-8">
+        <mat-progress-spinner color="primary" mode="indeterminate">
+        </mat-progress-spinner>
       </div>
-    </mat-step>
-  </mat-vertical-stepper>
-</div>
+    </ng-template>
+  </mat-step>
+  <mat-step label="Select a time">
+    <mat-card class="inline-calendar-card mt-3 mb-3 p-3">
+      <time-slots
+        *ngIf="selectedDateTimeSlots$ | async as selectedDateTimeSlots"
+        [dateTimeSlots]="selectedDateTimeSlots"
+        (timeSlotSelected)="onTimeSlotSelected($event)"
+      >
+      </time-slots>
+    </mat-card>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
