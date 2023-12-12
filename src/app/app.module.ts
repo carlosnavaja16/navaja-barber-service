@@ -12,6 +12,7 @@ import { LogoutComponent } from './user/pages/logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from './booking/pages/booking/booking.component';
 import { TimeSlotsComponent } from './booking/components/time-slots/time-slots.component';
+import { AppointmentSummaryComponent } from './booking/components/appointment-summary/appointment-summary.component';
 
 import { environment } from '../environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
@@ -70,6 +71,7 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
     DatePickerComponent,
     ProfileFormComponent,
     SignUpFormComponent,
+    AppointmentSummaryComponent,
   ],
   imports: [
     BrowserModule,

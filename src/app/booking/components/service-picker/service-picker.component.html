@@ -3,7 +3,7 @@
     <mat-option
       *ngFor="let service of services"
       [value]="service"
-      (onSelectionChange)="onServiceSelected(service)"
+      (onSelectionChange)="onServiceSelected(service, $event)"
     >
       <p>
         <b>{{ service.name }}</b> ·

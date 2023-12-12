@@ -13,21 +13,21 @@
   <div class="flex justify-content-center items-center gap-3 pt-5">
     <button
       color="primary"
-      mat-raised-button
+      mat-flat-button
       [matTooltip]="
         isLoggedIn() ? '' : 'In order to book you will need to log In'
       "
       [routerLink]="isLoggedIn() ? '/booking' : '/login'"
     >
-      <div class="flex justify-center items-center gap-1">
+      <div class="flex justify-center items-center gap-3">
         <ng-icon class="text-lg" name="heroCalendarSolid"></ng-icon>
-        <span>Book</span>
+        <p class="font-bold">Book</p>
       </div>
     </button>
-    <button color="success" mat-raised-button href="tel:19545158474">
-      <div class="flex justify-center items-center gap-1">
+    <button color="primary" mat-flat-button href="tel:19545158474">
+      <div class="flex justify-center items-center gap-3">
         <ng-icon class="text-lg" name="heroPhoneSolid"></ng-icon>
-        <span>Call</span>
+        <p class="font-bold">Call</p>
       </div>
     </button>
   </div>

@@ -1,30 +1,44 @@
-<p class="fw-bold fs-5">
-  Available on {{ dateTimeSlots?.date | date: 'fullDate' }}
-</p>
-<p class="fw-bold">Morning</p>
-<button
-  *ngFor="let timeSlot of morningTimeSlots"
-  type="button"
-  class="btn btn-outline-primary m-1"
-  (click)="onTimeSlotSelected(timeSlot)"
->
-  {{ timeSlot.start | date: 'hh:mm aaa' }}
-</button>
-<p class="fw-bold">Afternoon</p>
-<button
-  *ngFor="let timeSlot of afternoonTimeSlots"
-  type="button"
-  class="btn btn-outline-primary m-1"
-  (click)="onTimeSlotSelected(timeSlot)"
->
-  {{ timeSlot.start | date: 'hh:mm aaa' }}
-</button>
-<p class="fw-bold">Evening</p>
-<button
-  *ngFor="let timeSlot of eveningTimeSlots"
-  type="button"
-  class="btn btn-outline-primary m-1"
-  (click)="onTimeSlotSelected(timeSlot)"
->
-  {{ timeSlot.start | date: 'hh:mm aaa' }}
-</button>
+<div class="py-3">
+  <p class="text-lg font-bold">
+    Available on {{ dateTimeSlots?.date | date: 'fullDate' }}
+  </p>
+</div>
+<div class="pb-3">
+  <p class="font-bold">Morning</p>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+    <button
+      *ngFor="let timeSlot of morningTimeSlots"
+      mat-flat-button
+      color="primary"
+      (click)="onTimeSlotSelected(timeSlot)"
+    >
+      {{ timeSlot.start | date: 'hh:mm aaa' }}
+    </button>
+  </div>
+</div>
+<div class="pb-3">
+  <p class="font-bold">Afternoon</p>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+    <button
+      *ngFor="let timeSlot of afternoonTimeSlots"
+      mat-flat-button
+      color="primary"
+      (click)="onTimeSlotSelected(timeSlot)"
+    >
+      {{ timeSlot.start | date: 'hh:mm aaa' }}
+    </button>
+  </div>
+</div>
+<div class="pb-3">
+  <p class="font-bold">Evening</p>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+    <button
+      *ngFor="let timeSlot of eveningTimeSlots"
+      mat-flat-button
+      color="primary"
+      (click)="onTimeSlotSelected(timeSlot)"
+    >
+      {{ timeSlot.start | date: 'hh:mm aaa' }}
+    </button>
+  </div>
+</div>

@@ -66,6 +66,7 @@ export class BookingService {
   }
 
   getAvailability(service: Service): Observable<Availability> {
+    //defer() will wait until we subscribe to the observable to execute the request
     const availability$ = defer(() =>
       this.getAvailabilityFn({
         eventDuration: DateUtils.getMillisecondsFromMinutes(service.duration),

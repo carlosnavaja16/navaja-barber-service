@@ -1,15 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Service } from '../../types/service';
 import { TimeSlot } from 'functions/types/time-slot';
 @Component({
   selector: 'appointment-summary',
   templateUrl: './appointment-summary.component.html',
   styleUrls: ['./appointment-summary.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeSlotsComponent {
-  @Input() service: Service | null;
-  @Input() date: Date | null;
+export class AppointmentSummaryComponent {
+  @Input() service: Service;
+  @Input() date: Date | undefined;
   @Input() timeSlot: TimeSlot | null;
+  @Input() timeZone: string | undefined;
 
   constructor() {}
+
+  get bookDisabled(): boolean {
+    return !this.service || !this.date || !this.timeSlot ? true : false;
+  }
 }

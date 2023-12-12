@@ -26,4 +26,10 @@ export class DateUtils {
   public static getMillisecondsFromMinutes(minutes: number) {
     return minutes * 60 * 1000;
   }
+
+  public static getTimeZoneAbbr(): string {
+    return new Date()
+      .toLocaleTimeString('en-us', { timeZoneName: 'short' })
+      .split(' ')[2];
+  }
 }
