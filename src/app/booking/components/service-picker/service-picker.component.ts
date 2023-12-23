@@ -11,8 +11,9 @@ export class ServicePickerComponent {
   @Input() services: Service[] | null;
   @Output() serviceSelected = new EventEmitter<Service>();
 
-  /** We add this here to only emit the service selected by the user
-   * the (onSelectionChange) event fires twice when an option is selected
+  /**
+   * We add this here to only emit the service selected by the user.
+   * The (onSelectionChange) event fires twice: when an option is selected
    * and when the last option is unselected
    */
   onServiceSelected(service: Service, $event: MatOptionSelectionChange) {
