@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
-import { BehaviorSubject, Observable, Subject, switchMap } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 import { Availability, DateTimeSlots, TimeSlot } from '../../types/time-slot';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
@@ -19,8 +19,8 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
   availability$: Observable<Availability>;
   dateTimeSlots$ = new Subject<DateTimeSlots>();
   selectedService$ = new Subject<Service>();
-  selectedDateTimeSlots$ = new Subject<DateTimeSlots>();
-  selectedTimeSlot$: BehaviorSubject<TimeSlot>;
+  selectedDateTimeSlots$ = new Subject<DateTimeSlots | null>();
+  selectedTimeSlot$ = new Subject<TimeSlot | null>();
 
   @ViewChild('stepper') MatStepper: MatStepper;
 
@@ -58,23 +58,31 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
 
   onServiceSelected(service: Service | null) {
     if (service) {
-      console.log(`selected service: ${service.name}`);
       this.selectedService$.next(service);
-      this.MatStepper.selectedIndex = 1;
+      this.selectedDateTimeSlots$.next(null);
+      this.selectedTimeSlot$.next(null);
+      setTimeout(() => {
+        this.MatStepper.next();
+      }, 1);
     }
   }
 
   onDateSelected(dateTimeSlots: DateTimeSlots | null) {
     if (dateTimeSlots) {
       this.selectedDateTimeSlots$.next(dateTimeSlots);
-      this.MatStepper.selectedIndex = 2;
+      this.selectedTimeSlot$.next(null);
+      setTimeout(() => {
+        this.MatStepper.next();
+      }, 1);
     }
   }
 
   onTimeSlotSelected(timeSlot: TimeSlot | null) {
     if (timeSlot) {
-      this.selectedTimeSlot$ = new BehaviorSubject<TimeSlot>(timeSlot);
-      this.MatStepper.selectedIndex = 3;
+      this.selectedTimeSlot$.next(timeSlot);
+      setTimeout(() => {
+        this.MatStepper.next();
+      }, 1);
     }
   }
 }

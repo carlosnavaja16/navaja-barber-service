@@ -1,10 +1,9 @@
 <div class="w-full flex items-center justify-center gap-3">
-  <mat-vertical-stepper
-    [linear]="true"
-    #stepper
-    class="booking-stepper grow max-w-lg"
-  >
-    <mat-step label="Select a service">
+  <mat-vertical-stepper linear #stepper class="booking-stepper grow max-w-lg">
+    <mat-step
+      label="Select a service"
+      [completed]="(selectedService$ | async) ? true : false"
+    >
       <service-picker
         *ngIf="services$ | async as services"
         [services]="services"
@@ -12,7 +11,10 @@
       >
       </service-picker>
     </mat-step>
-    <mat-step label="Select a date">
+    <mat-step
+      label="Select a date"
+      [completed]="(selectedDateTimeSlots$ | async) ? true : false"
+    >
       <date-picker
         *ngIf="availability$ | async as availability; else availabilityLoading"
         [dateFilter]="availability.dateFilter"
@@ -29,7 +31,10 @@
         </div>
       </ng-template>
     </mat-step>
-    <mat-step label="Select a time">
+    <mat-step
+      label="Select a time"
+      [completed]="(selectedTimeSlot$ | async) ? true : false"
+    >
       <time-slots
         *ngIf="selectedDateTimeSlots$ | async as selectedDateTimeSlots"
         [dateTimeSlots]="selectedDateTimeSlots"
