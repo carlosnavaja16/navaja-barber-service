@@ -8,12 +8,11 @@ import { DateUtils } from '../../utilities/date.util';
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent {
-  @Input() dateFilter: (date: Date) => boolean;
   @Input() minDate: Date | null;
   @Input() maxDate: Date | null;
   @Input() timeSlotsByDate: Map<string, TimeSlot[]> | null;
+  @Input() dateFilter: (date: Date) => boolean = () => true;
   @Output() dateSelected = new EventEmitter<DateTimeSlots>();
-  unfiltered = () => true;
 
   onDateSelected($event: Date | null) {
     if ($event && this.timeSlotsByDate) {

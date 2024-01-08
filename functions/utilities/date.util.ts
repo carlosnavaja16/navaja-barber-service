@@ -24,17 +24,6 @@ export class DateUtils {
     ).toUTC().hour;
   }
 
-  /**
-   * Determines if a given date falls on a day that the business is closed in the Eastern Standard Time (EST) timezone.
-   * @param date The date to check.
-   * @returns A boolean indicating whether the date falls on a closed day.
-   */
-  public static isDateOnClosedDaysEST(date: Date): boolean {
-    return DAYS_CLOSED.includes(
-      DateTime.fromMillis(date.getTime(), { zone: 'America/New_York' }).weekday,
-    );
-  }
-
   public static getDateHash(date: Date): string {
     return date.toISOString().split('T')[0];
   }
@@ -78,6 +67,8 @@ export class DateUtils {
     maxDate: Date,
   ) {
     const allTimeSlots: TimeSlot[] = [];
+    const openingHourUtc = this.getOpeningHourUtc();
+    const closingHourUtc = this.getClosingHourUtc();
     const currStart = new Date(minDate);
     const currEnd = new Date(minDate.getTime() + eventDuration);
 
@@ -86,7 +77,9 @@ export class DateUtils {
         start: new Date(currStart),
         end: new Date(currEnd),
       };
-      if (this.isWithinOpenHours(currTimeSlot)) {
+      if (
+        this.isWithinOpenHours(currTimeSlot, openingHourUtc, closingHourUtc)
+      ) {
         allTimeSlots.push(currTimeSlot);
       }
       currStart.setTime(currStart.getTime() + INCREMENT_MILLISECONDS);
@@ -95,12 +88,15 @@ export class DateUtils {
     return allTimeSlots;
   }
 
-  public static isWithinOpenHours(timeSlot: TimeSlot): boolean {
+  public static isWithinOpenHours(
+    timeSlot: TimeSlot,
+    openingHourUtc: number,
+    closingHourUtc: number,
+  ) {
     if (this.isDateOnClosedDaysEST(timeSlot.start)) {
       return false;
     }
-    const openingHourUtc = this.getOpeningHourUtc();
-    const closingHourUtc = this.getClosingHourUtc();
+
     if (openingHourUtc > closingHourUtc) {
       return (
         ((timeSlot.start.getHours() >= openingHourUtc &&
@@ -120,5 +116,16 @@ export class DateUtils {
         timeSlot.end.getUTCHours() <= closingHourUtc
       );
     }
+  }
+
+  /**
+   * Determines if a given date falls on a day that the business is closed in the Eastern Standard Time (EST) timezone.
+   * @param date The date to check.
+   * @returns A boolean indicating whether the date falls on a closed day.
+   */
+  public static isDateOnClosedDaysEST(date: Date): boolean {
+    return DAYS_CLOSED.includes(
+      DateTime.fromMillis(date.getTime(), { zone: 'America/New_York' }).weekday,
+    );
   }
 }
