@@ -21,7 +21,7 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
   selectedService$ = new Subject<Service>();
   selectedDateTimeSlots$ = new Subject<DateTimeSlots | null>();
   selectedTimeSlot$ = new Subject<TimeSlot | null>();
-
+  dateFiltered = () => true;
   @ViewChild('stepper') MatStepper: MatStepper;
 
   constructor(
