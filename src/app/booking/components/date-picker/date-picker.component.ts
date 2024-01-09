@@ -11,7 +11,7 @@ export class DatePickerComponent {
   @Input() minDate: Date | null;
   @Input() maxDate: Date | null;
   @Input() timeSlotsByDate: Map<string, TimeSlot[]> | null;
-  @Input() dateFilter: (date: Date) => boolean = () => true;
+  @Input() dateFilter: (date: Date) => boolean;
   @Output() dateSelected = new EventEmitter<DateTimeSlots>();
 
   onDateSelected($event: Date | null) {

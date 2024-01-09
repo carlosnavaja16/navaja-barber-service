@@ -20,6 +20,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {
   FunctionsModule,
+  connectFunctionsEmulator,
   getFunctions,
   provideFunctions,
 } from '@angular/fire/functions';
@@ -80,7 +81,13 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideFunctions(() => getFunctions()),
+    provideFunctions(() => {
+      const functions = getFunctions();
+      if (environment.useEmulators) {
+        connectFunctionsEmulator(functions, 'localhost', 5001);
+      }
+      return functions;
+    }),
     FormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,

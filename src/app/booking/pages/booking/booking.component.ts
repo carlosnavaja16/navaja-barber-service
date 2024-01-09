@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
-import { Observable, Subject, switchMap, tap } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 import { Availability, DateTimeSlots, TimeSlot } from '../../types/time-slot';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
@@ -35,9 +35,6 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
     this.availability$ = this.selectedService$.pipe(
       switchMap((service) => {
         return this.bookingService.getAvailability(service);
-      }),
-      tap((availability) => {
-        console.log(availability);
       }),
     );
   }

@@ -2,7 +2,7 @@ import { TimeSlot } from '../types/time-slot';
 
 export class DateUtils {
   public static getDateHash(date: Date): string {
-    return date.toISOString().split('T')[0];
+    return date.toLocaleDateString();
   }
 
   public static isDateInAvailableDates(
