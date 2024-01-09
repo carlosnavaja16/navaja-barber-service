@@ -42,17 +42,9 @@
       >
       </time-slots>
     </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      You are now done.
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
-    </mat-step>
   </mat-vertical-stepper>
   <appointment-summary
-    class="fixed bottom-5 w-full max-w-sm mx-auto md:static md:grow"
+    class="fixed bottom-5 w-full max-w-sm mx-auto md:static"
     *ngIf="selectedService$ | async as service"
     [service]="service"
     [date]="(selectedDateTimeSlots$ | async)?.date"
