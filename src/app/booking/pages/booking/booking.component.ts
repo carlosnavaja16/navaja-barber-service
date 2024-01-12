@@ -1,11 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
 import { BehaviorSubject, Observable, Subject, of, switchMap } from 'rxjs';
-import {
-  Availability,
-  DateTimeSlots,
-  TimeSlot,
-} from '../../../../../types/time-slot';
+import { DateTimeSlots, TimeSlot } from '../../../../../types/time-slot';
+import { Availability } from '../../../../../types/availability';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
 import { Service } from '../../../../../types/service';
