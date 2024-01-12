@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { Service } from '../../../../../types/service';
-import { TimeSlot } from 'functions/types/time-slot';
+import { TimeSlot } from '../../../../../types/time-slot';
 @Component({
   selector: 'appointment-summary',
   templateUrl: './appointment-summary.component.html',

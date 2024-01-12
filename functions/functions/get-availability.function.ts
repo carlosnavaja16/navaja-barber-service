@@ -1,4 +1,4 @@
-import { AvailabilityResponse } from '../types/time-slot';
+import { AvailabilityResponse } from '../../types/availability';
 import { BARBER_SERVICE_CALENDAR_ID } from '../constants/barber-service.constants';
 import { getCalendarBusy } from '../utilities/google-calendar.util';
 import { ServiceAccountCredentials } from '../../types/service-account-credentials';

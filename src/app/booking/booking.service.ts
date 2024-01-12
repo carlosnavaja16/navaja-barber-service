@@ -25,6 +25,7 @@ import { Service } from '../../../types/service';
 import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
 import { calendar_v3 } from 'googleapis';
 import { UserService } from '../user/user.service';
+import { AppointmentUtils } from './utilities/appointment.util';
 
 @Injectable({
   providedIn: 'root',
@@ -96,7 +97,7 @@ export class BookingService {
             timeSlotsByDate.set(dateHash, [timeSlot]);
           }
         });
-        const availability = {
+        const availability: Availability = {
           firstAvailableDate,
           openingHourUTC: data.openingHourUTC,
           closingHourUTC: data.closingHourUTC,
@@ -124,26 +125,23 @@ export class BookingService {
       .getUserProfile()
       .pipe(
         switchMap((userProfile) => {
-          const event: calendar_v3.Schema$Event = {
-            summary: `${userProfile.firstName} ${userProfile.lastName}`,
-            description: `
-              Service: ${service.name}\n
-              Phone: ${userProfile.phone}\n
-              Email: ${userProfile.email}
-            `,
-            start: {
-              dateTime: timeSlot.start.toISOString(),
-            },
-            end: {
-              dateTime: timeSlot.end.toISOString(),
-            },
-          };
-
+          const event: calendar_v3.Schema$Event =
+            AppointmentUtils.getAppointmentEvent(
+              userProfile,
+              service,
+              timeSlot,
+            );
           return defer(() => {
             return this.getBookAppointmentFn(event);
           });
         }),
         map((result) => result.data),
+        catchError((error) => {
+          this.snackbarService.pushSnackbar(
+            `Could not book appointment due to error: ${error}`,
+          );
+          return NEVER;
+        }),
       )
       .subscribe();
   }
