@@ -1,7 +1,7 @@
 import { AvailabilityResponse } from '../types/time-slot';
 import { BARBER_SERVICE_CALENDAR_ID } from '../constants/barber-service.constants';
 import { getCalendarBusy } from '../utilities/google-calendar.util';
-import { ServiceAccountCredentials } from '../types/service-account-credentials';
+import { ServiceAccountCredentials } from '../../types/service-account-credentials';
 import { calendar_v3 } from 'googleapis';
 import { DateUtils } from '../utilities/date.util';
 

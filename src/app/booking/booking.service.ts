@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
+import { AvailableTimeSlotsRequest, TimeSlot } from '../../../types/time-slot';
 import {
   Availability,
-  AvailableTimeSlotsRequest,
   AvailabilityResponse,
-  TimeSlot,
-} from './types/time-slot';
+} from '../../../types/availability';
 import {
   Functions,
   httpsCallable,
   HttpsCallable,
 } from '@angular/fire/functions';
-import { catchError, defer, map, NEVER, Observable } from 'rxjs';
+import { catchError, defer, map, NEVER, Observable, switchMap } from 'rxjs';
 import { DateUtils } from './utilities/date.util';
 import {
   CollectionReference,
@@ -22,8 +21,10 @@ import {
   orderBy,
   query,
 } from '@angular/fire/firestore';
-import { Service } from './types/service';
+import { Service } from '../../../types/service';
 import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
+import { calendar_v3 } from 'googleapis';
+import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,10 @@ export class BookingService {
     AvailableTimeSlotsRequest,
     AvailabilityResponse
   >;
+  getBookAppointmentFn: HttpsCallable<
+    calendar_v3.Schema$Event,
+    calendar_v3.Schema$Event
+  >;
   servicesCollection: CollectionReference<DocumentData>;
   servicesQuery: Query<DocumentData>;
   selectedService: Service | null;
@@ -41,9 +46,11 @@ export class BookingService {
     private readonly functions: Functions,
     private readonly firestore: Firestore,
     private readonly snackbarService: SnackbarService,
+    private readonly userService: UserService,
   ) {
     this.functions.region = 'us-east1';
     this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
+    this.getBookAppointmentFn = httpsCallable(functions, 'bookAppointmentFn');
     this.servicesCollection = collection(this.firestore, 'Services');
     this.servicesQuery = query(
       this.servicesCollection,
@@ -51,7 +58,7 @@ export class BookingService {
     );
   }
 
-  getServices(): Observable<Service[]> {
+  public getServices(): Observable<Service[]> {
     const services$: Observable<Service[]> = collectionData(
       this.servicesQuery,
     ) as Observable<Service[]>;
@@ -65,7 +72,7 @@ export class BookingService {
     );
   }
 
-  getAvailability(service: Service): Observable<Availability> {
+  public getAvailability(service: Service): Observable<Availability> {
     //defer() will wait until we subscribe to the observable to execute the request
     const availability$ = defer(() =>
       this.getAvailabilityFn({
@@ -110,5 +117,34 @@ export class BookingService {
       }),
     );
     return availability$;
+  }
+
+  public bookAppointment(service: Service, timeSlot: TimeSlot): void {
+    this.userService
+      .getUserProfile()
+      .pipe(
+        switchMap((userProfile) => {
+          const event: calendar_v3.Schema$Event = {
+            summary: `${userProfile.firstName} ${userProfile.lastName}`,
+            description: `
+              Service: ${service.name}\n
+              Phone: ${userProfile.phone}\n
+              Email: ${userProfile.email}
+            `,
+            start: {
+              dateTime: timeSlot.start.toISOString(),
+            },
+            end: {
+              dateTime: timeSlot.end.toISOString(),
+            },
+          };
+
+          return defer(() => {
+            return this.getBookAppointmentFn(event);
+          });
+        }),
+        map((result) => result.data),
+      )
+      .subscribe();
   }
 }

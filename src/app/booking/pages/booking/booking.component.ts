@@ -1,10 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
-import { Observable, Subject, switchMap } from 'rxjs';
-import { Availability, DateTimeSlots, TimeSlot } from '../../types/time-slot';
+import { BehaviorSubject, Observable, Subject, of, switchMap } from 'rxjs';
+import {
+  Availability,
+  DateTimeSlots,
+  TimeSlot,
+} from '../../../../../types/time-slot';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
-import { Service } from '../../types/service';
+import { Service } from '../../../../../types/service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DateUtils } from '../../utilities/date.util';
 
@@ -16,11 +20,11 @@ import { DateUtils } from '../../utilities/date.util';
 export class BookingComponent implements AfterViewInit, OnDestroy {
   timeZone: string;
   services$: Observable<Service[]>;
-  availability$: Observable<Availability>;
+  availability$: Observable<Availability | null>;
   dateTimeSlots$ = new Subject<DateTimeSlots>();
-  selectedService$ = new Subject<Service>();
-  selectedDateTimeSlots$ = new Subject<DateTimeSlots | null>();
-  selectedTimeSlot$ = new Subject<TimeSlot | null>();
+  selectedService$ = new BehaviorSubject<Service | null>(null);
+  selectedDateTimeSlots$ = new BehaviorSubject<DateTimeSlots | null>(null);
+  selectedTimeSlot$ = new BehaviorSubject<TimeSlot | null>(null);
   dateFilter$: Observable<(date: Date) => boolean>;
   @ViewChild('stepper') MatStepper: MatStepper;
 
@@ -34,7 +38,9 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
     this.services$ = this.bookingService.getServices();
     this.availability$ = this.selectedService$.pipe(
       switchMap((service) => {
-        return this.bookingService.getAvailability(service);
+        return service
+          ? this.bookingService.getAvailability(service)
+          : of(null);
       }),
     );
   }
@@ -61,6 +67,14 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
       this.selectedService$.next(service);
       this.selectedDateTimeSlots$.next(null);
       this.selectedTimeSlot$.next(null);
+      /**
+       * We need setTimeout() here because in order to move the
+       * stepper we need a value for selectedService$. We are pushing
+       * a value in the lines above but the stepper doesn't recognize it
+       * until the next change detection cycle. setTimeout() forces the
+       * stepper to wait until the next change detection cycle.
+       * Same is true for onDateSelected() and onTimeSlotSelected() below.
+       */
       setTimeout(() => {
         this.MatStepper.next();
       }, 1);
@@ -83,6 +97,16 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
       setTimeout(() => {
         this.MatStepper.next();
       }, 1);
+    }
+  }
+
+  onBook() {
+    console.log('onBook');
+    if (this.selectedService$.value && this.selectedTimeSlot$.value) {
+      this.bookingService.bookAppointment(
+        this.selectedService$.value,
+        this.selectedTimeSlot$.value,
+      );
     }
   }
 }

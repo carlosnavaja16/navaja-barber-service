@@ -50,5 +50,6 @@
     [date]="(selectedDateTimeSlots$ | async)?.date"
     [timeSlot]="selectedTimeSlot$ | async"
     [timeZone]="timeZone"
+    (book)="onBook()"
   ></appointment-summary>
 </div>

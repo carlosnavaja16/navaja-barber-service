@@ -10,7 +10,7 @@
     "push": "rm -rf dist && rm -rf ./functions/lib && eslint --fix ./ && prettier -w --single-quote ./ && git add . && git commit -m \"$(date)\" && git push",
     "deploy:functions": "rm -rf ./functions/lib && firebase deploy --only functions && rm -rf ./functions/lib",
     "deploy:hosting": "rm -rf dist && ng build && firebase deploy --only hosting && rm -rf dist",
-    "emulate:functions": "tsc ./functions/*.ts --outdir ./functions/lib && firebase emulators:start --only functions",
+    "emulate:functions": "rm -rf ./functions/lib && tsc ./functions/*.ts --outdir ./functions/lib && firebase emulators:start --only functions",
     "format": "prettier -w --single-quote ./",
     "lint": "ng lint"
   },
@@ -37,6 +37,7 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
     "firebase": "~9.23.0",
+    "firebase-admin": "^12.0.0",
     "firebase-functions": "^4.6.0",
     "googleapis": "^126.0.1",
     "luxon": "^3.4.3",

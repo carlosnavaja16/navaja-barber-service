@@ -10,7 +10,7 @@ import {
   user,
 } from '@angular/fire/auth';
 import { Observable, from, map, of, switchMap } from 'rxjs';
-import { UserProfile } from './types/user-profile';
+import { UserProfile } from '../../../types/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -28,7 +28,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class UserService {
   private isLoggedIn: Signal<boolean>;
-  userProfilesCollection: CollectionReference<DocumentData>;
+  private userProfilesCollection: CollectionReference<DocumentData>;
 
   constructor(
     private readonly auth: Auth,
@@ -73,16 +73,18 @@ export class UserService {
     ).pipe(
       switchMap((user) => {
         return from(
-          setDoc(
-            doc(this.firestore, 'UserProfiles', user.user.uid),
-            userProfile,
-          ),
+          setDoc(doc(this.firestore, 'UserProfiles', user.user.uid), {
+            ...userProfile,
+            email: user.user.email,
+            idAdmin: false,
+            userId: user.user.uid,
+          }),
         );
       }),
     );
   }
 
-  getUserProfile(): Observable<UserProfile> {
+  public getUserProfile(): Observable<UserProfile> {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {

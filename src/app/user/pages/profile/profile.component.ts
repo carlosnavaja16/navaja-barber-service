@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
 import { Observable } from 'rxjs';
 import { UserService } from '../../user.service';
-import { UserProfile } from '../../types/user-profile';
+import { UserProfile } from '../../../../../types/user-profile';
 import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 
 @Component({

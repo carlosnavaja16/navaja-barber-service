@@ -1,16 +1,4 @@
-export interface TimeSlot {
-  start: Date;
-  end: Date;
-}
-
-export interface TimeSlotResponse {
-  start: string;
-  end: string;
-}
-
-export interface AvailableTimeSlotsRequest {
-  eventDuration: number;
-}
+import { TimeSlot, TimeSlotResponse } from './time-slot';
 
 export interface AvailabilityResponse {
   openingHourUTC: number;
@@ -28,9 +16,4 @@ export interface Availability {
   firstAvailableDate: Date;
   timeSlotsByDate: Map<string, TimeSlot[]>;
   dateFilter: (date: Date) => boolean;
-}
-
-export interface DateTimeSlots {
-  date: Date;
-  timeSlots: TimeSlot[];
 }

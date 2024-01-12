@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { UserProfile } from '../../types/user-profile';
+import { UserProfile } from '../../../../../types/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({

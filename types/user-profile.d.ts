@@ -6,5 +6,7 @@ export declare interface UserProfile {
   city: string;
   state: string;
   zipCode: string;
-  isAdmin: boolean;
+  isAdmin?: boolean;
+  userId?: string;
+  email?: string;
 }
