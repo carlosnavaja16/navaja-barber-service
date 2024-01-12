@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
-import { BehaviorSubject, Observable, Subject, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { DateTimeSlots, TimeSlot } from '../../../../../types/time-slot';
 import { Availability } from '../../../../../types/availability';
 import { BookingService } from '../../booking.service';
@@ -18,11 +18,9 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
   timeZone: string;
   services$: Observable<Service[]>;
   availability$: Observable<Availability | null>;
-  dateTimeSlots$ = new Subject<DateTimeSlots>();
   selectedService$ = new BehaviorSubject<Service | null>(null);
   selectedDateTimeSlots$ = new BehaviorSubject<DateTimeSlots | null>(null);
   selectedTimeSlot$ = new BehaviorSubject<TimeSlot | null>(null);
-  dateFilter$: Observable<(date: Date) => boolean>;
   @ViewChild('stepper') MatStepper: MatStepper;
 
   constructor(

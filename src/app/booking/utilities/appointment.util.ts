@@ -11,7 +11,7 @@ export class AppointmentUtils {
   ): calendar_v3.Schema$Event {
     return {
       summary: `${userProfile.firstName} ${userProfile.lastName}`,
-      description: `<b>Service:</b> ${service.name}\nDuration: ${service.duration} minutes\nPrice: $${service.price}\nPhone: ${userProfile.phone}\nEmail: ${userProfile.email}`,
+      description: `<b>Service:</b> ${service.name}\n<b>Duration:</b> ${service.duration} minutes\n<b>Price:</b> $${service.price}\n<b>Phone:</b> ${userProfile.phone}\n<b>Email:</b> ${userProfile.email}`,
       location: `${userProfile.streetAddr}, ${userProfile.city}, ${userProfile.state} ${userProfile.zipCode}`,
       start: {
         dateTime: timeSlot.start.toISOString(),

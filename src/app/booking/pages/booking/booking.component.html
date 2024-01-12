@@ -8,8 +8,7 @@
         *ngIf="services$ | async as services"
         [services]="services"
         (serviceSelected)="onServiceSelected($event)"
-      >
-      </service-picker>
+      />
     </mat-step>
     <mat-step
       label="Select a date"
@@ -22,8 +21,7 @@
         [minDate]="availability.minDate"
         [maxDate]="availability.maxDate"
         (dateSelected)="onDateSelected($event)"
-      >
-      </date-picker>
+      />
       <ng-template #availabilityLoading>
         <div class="w-full flex flex-col items-center justify-center h-8">
           <mat-progress-spinner color="primary" mode="indeterminate">
@@ -39,17 +37,19 @@
         *ngIf="selectedDateTimeSlots$ | async as selectedDateTimeSlots"
         [dateTimeSlots]="selectedDateTimeSlots"
         (timeSlotSelected)="onTimeSlotSelected($event)"
-      >
-      </time-slots>
+      />
     </mat-step>
   </mat-vertical-stepper>
-  <appointment-summary
-    class="fixed bottom-5 w-full max-w-sm mx-auto md:static"
+  <div
+    class="fixed bottom-5 w-full max-w-lg px-5 md:grow md:static md:p-0"
     *ngIf="selectedService$ | async as service"
-    [service]="service"
-    [date]="(selectedDateTimeSlots$ | async)?.date"
-    [timeSlot]="selectedTimeSlot$ | async"
-    [timeZone]="timeZone"
-    (book)="onBook()"
-  ></appointment-summary>
+  >
+    <appointment-summary
+      [service]="service"
+      [date]="(selectedDateTimeSlots$ | async)?.date"
+      [timeSlot]="selectedTimeSlot$ | async"
+      [timeZone]="timeZone"
+      (book)="onBook()"
+    />
+  </div>
 </div>

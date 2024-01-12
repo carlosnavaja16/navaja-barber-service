@@ -1,5 +1,4 @@
 import { AvailabilityResponse } from '../../types/availability';
-import { BARBER_SERVICE_CALENDAR_ID } from '../constants/barber-service.constants';
 import { getCalendarBusy } from '../utilities/google-calendar.util';
 import { ServiceAccountCredentials } from '../../types/service-account-credentials';
 import { calendar_v3 } from 'googleapis';
@@ -25,18 +24,11 @@ export async function getAvailability(
     maxDate,
   );
 
-  let busyTimes: calendar_v3.Schema$TimePeriod[];
-
-  try {
-    busyTimes = await getCalendarBusy(credentials, minDate, maxDate);
-  } catch (error) {
-    console.error(
-      `Failed to get calendar busy times for calendarId: ${BARBER_SERVICE_CALENDAR_ID} due to error: ${error}`,
-    );
-    throw new Error(
-      `Failed to get calendar busy times for calendarId: ${BARBER_SERVICE_CALENDAR_ID} due to error: ${error}`,
-    );
-  }
+  const busyTimes: calendar_v3.Schema$TimePeriod[] = await getCalendarBusy(
+    credentials,
+    minDate,
+    maxDate,
+  );
 
   //convert from maps of strings to maps of Dates
   const busyTimeSlots = busyTimes

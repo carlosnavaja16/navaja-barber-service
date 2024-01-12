@@ -118,10 +118,12 @@ export class BookingService {
     return availability$;
   }
 
-  public bookAppointment(service: Service, timeSlot: TimeSlot): void {
-    this.userService
-      .getUserProfile()
-      .pipe(
+  public bookAppointment(
+    service: Service,
+    timeSlot: TimeSlot,
+  ): Observable<calendar_v3.Schema$Event> {
+    const appointmentBooked$: Observable<calendar_v3.Schema$Event> =
+      this.userService.getUserProfile().pipe(
         switchMap((userProfile) => {
           const event: calendar_v3.Schema$Event =
             AppointmentUtils.getAppointmentEvent(
@@ -129,9 +131,7 @@ export class BookingService {
               service,
               timeSlot,
             );
-          return defer(() => {
-            return this.getBookAppointmentFn(event);
-          });
+          return this.getBookAppointmentFn(event);
         }),
         map((result) => result.data),
         catchError((error) => {
@@ -140,7 +140,7 @@ export class BookingService {
           );
           return NEVER;
         }),
-      )
-      .subscribe();
+      );
+    return appointmentBooked$;
   }
 }
