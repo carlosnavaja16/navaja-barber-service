@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SignUp } from '../../../../../types/sign-up';
+import { SignUpDetails } from '../../../../../types/sign-up-details';
 
 @Component({
   selector: 'sign-up-form',
@@ -17,7 +17,7 @@ import { SignUp } from '../../../../../types/sign-up';
 })
 export class SignUpFormComponent implements OnInit {
   signUpForm: FormGroup;
-  @Output() formSubmitted = new EventEmitter<SignUp>();
+  @Output() formSubmitted = new EventEmitter<SignUpDetails>();
 
   constructor(private readonly fb: FormBuilder) {}
 
@@ -75,7 +75,7 @@ export class SignUpFormComponent implements OnInit {
         zipCode: this.signUpForm.value.zipCode,
         isAdmin: false,
       },
-    } as SignUp);
+    } as SignUpDetails);
   }
 
   get firstName() {

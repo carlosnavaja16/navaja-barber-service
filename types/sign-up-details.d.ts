@@ -1,6 +1,6 @@
 import { UserProfile } from './user-profile';
 
-export interface SignUp {
+export interface SignUpDetails {
   email: string;
   password: string;
   userProfile: UserProfile;
