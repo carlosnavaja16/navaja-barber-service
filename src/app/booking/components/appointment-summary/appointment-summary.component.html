@@ -8,7 +8,7 @@
         </div>
         <div class="text-sm text-black">{{ date | date: 'fullDate' }}</div>
         <div *ngIf="timeSlot" class="text-sm text-black">
-          @ {{ timeSlot.start | date: 'shortTime' }} {{ timeZone }}
+          &#64; {{ timeSlot.start | date: 'shortTime' }} {{ timeZone }}
         </div>
       </div>
       <div class="flex justify-center items-center">

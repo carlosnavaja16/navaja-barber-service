@@ -13,7 +13,6 @@ import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from './booking/pages/booking/booking.component';
 import { TimeSlotsComponent } from './booking/components/time-slots/time-slots.component';
 import { AppointmentSummaryComponent } from './booking/components/appointment-summary/appointment-summary.component';
-
 import { environment } from '../environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';

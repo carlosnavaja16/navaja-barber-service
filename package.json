@@ -16,18 +16,18 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.2.6",
+    "@angular/animations": "^17.0.9",
     "@angular/cdk": "^16.2.5",
-    "@angular/common": "^16.2.6",
-    "@angular/compiler": "^16.2.6",
-    "@angular/core": "^16.2.6",
+    "@angular/common": "^17.0.9",
+    "@angular/compiler": "^17.0.9",
+    "@angular/core": "^17.0.9",
     "@angular/fire": "^7.6.1",
-    "@angular/forms": "^16.2.6",
-    "@angular/localize": "^16.2.6",
+    "@angular/forms": "^17.0.9",
+    "@angular/localize": "^17.0.9",
     "@angular/material": "^16.2.5",
-    "@angular/platform-browser": "^16.2.6",
-    "@angular/platform-browser-dynamic": "^16.2.6",
-    "@angular/router": "^16.2.6",
+    "@angular/platform-browser": "^17.0.9",
+    "@angular/platform-browser-dynamic": "^17.0.9",
+    "@angular/router": "^17.0.9",
     "@ng-icons/core": "^25.3.1",
     "@ng-icons/heroicons": "^25.3.1",
     "@popperjs/core": "^2.11.8",
@@ -44,13 +44,13 @@
     "zone.js": "^0.14.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.3",
+    "@angular-devkit/build-angular": "^17.0.10",
     "@angular-eslint/builder": "16.2.0",
     "@angular-eslint/eslint-plugin": "16.2.0",
     "@angular-eslint/eslint-plugin-template": "16.2.0",
     "@angular-eslint/template-parser": "16.2.0",
-    "@angular/cli": "~16.2.3",
-    "@angular/compiler-cli": "^16.2.6",
+    "@angular/cli": "~17.0.10",
+    "@angular/compiler-cli": "^17.0.9",
     "@ng-icons/bootstrap-icons": "^25.4.0",
     "@types/jasmine": "~4.3.6",
     "@typescript-eslint/eslint-plugin": "6.7.3",
@@ -66,7 +66,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
-    "typescript": "~5.1.6"
+    "typescript": "~5.2.2"
   },
   "engines": {
     "node": "18"
