@@ -2,7 +2,7 @@
 
 <img src="./src/assets/navajaLogo.png" width="300px">
 
-Navaja Barber Service is a web application used for booking mobile barber appointments.
+Navaja Barber Service is a web application used for booking barber appointments.
 
 ## Core Technologies
 

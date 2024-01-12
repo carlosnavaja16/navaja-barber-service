@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AvailableTimeSlotsRequest, TimeSlot } from '../../../types/time-slot';
+import { TimeSlot } from '../../../types/time-slot';
 import {
+  AvailabilityRequest,
   Availability,
   AvailabilityResponse,
 } from '../../../types/availability';
@@ -31,10 +32,7 @@ import { AppointmentUtils } from './utilities/appointment.util';
   providedIn: 'root',
 })
 export class BookingService {
-  getAvailabilityFn: HttpsCallable<
-    AvailableTimeSlotsRequest,
-    AvailabilityResponse
-  >;
+  getAvailabilityFn: HttpsCallable<AvailabilityRequest, AvailabilityResponse>;
   getBookAppointmentFn: HttpsCallable<
     calendar_v3.Schema$Event,
     calendar_v3.Schema$Event

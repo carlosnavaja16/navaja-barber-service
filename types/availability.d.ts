@@ -1,5 +1,9 @@
 import { TimeSlot, TimeSlotResponse } from './time-slot';
 
+export interface AvailabilityRequest {
+  eventDuration: number;
+}
+
 export interface AvailabilityResponse {
   openingHourUTC: number;
   closingHourUTC: number;
