@@ -7,7 +7,7 @@ import {
   LIMIT_DAYS,
   DAYS_CLOSED,
 } from '../constants/barber-service.constants';
-import { TimeSlot } from '../types/time-slot';
+import { TimeSlot } from '../../types/time-slot';
 
 export class DateUtils {
   public static getOpeningHourUtc(): number {
