@@ -1,0 +1,20 @@
+{
+  "name": "firebase-functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {},
+  "author": "Carlos Rossi",
+  "license": "MIT",
+  "dependencies": {
+    "firebase-functions": "^4.6.0",
+    "googleapis": "^130.0.0",
+    "luxon": "^3.4.4"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.4.1"
+  },
+  "engines": {
+    "node": "18"
+  }
+}

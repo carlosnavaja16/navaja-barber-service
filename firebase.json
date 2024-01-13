@@ -5,15 +5,15 @@
   },
   "functions": [
     {
-      "source": "./",
-      "codebase": "functions",
+      "source": "./firebase-functions",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": ["tsc ./functions/*.ts --outdir ./functions/lib"]
+      "predeploy": ["cd ./firebase functions && tsc --include ./functions/*.ts --outdir ./functions/lib"],
+      "runtime": "nodejs18"
     }
   ],
   "hosting": {
@@ -21,7 +21,7 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "**",
+        "source": "./angular/**",
         "destination": "/index.html"
       }
     ]

@@ -1,0 +1,32 @@
+<div class="mx-auto max-w-lg">
+  <p class="text-center pb-5">
+    <small>
+      Already have an account? <a [routerLink]="'/login'">Login</a>
+    </small>
+  </p>
+  <form [formGroup]="loginForm" class="flex flex-col items-center">
+    <mat-form-field class="w-full">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      @if (email?.invalid && email?.touched) {
+      <mat-error>Please enter a valid email</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+      @if (password?.invalid && password?.touched) {
+      <mat-error> Password is required </mat-error>
+      }
+    </mat-form-field>
+    <button
+      class="wide-button m-1"
+      color="primary"
+      mat-flat-button
+      [disabled]="loginForm.invalid"
+      (click)="onLogin()"
+    >
+      Login
+    </button>
+  </form>
+</div>

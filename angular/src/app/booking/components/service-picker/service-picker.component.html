@@ -1,0 +1,15 @@
+<mat-form-field class="w-full pt-3">
+  <mat-select>
+    @for (service of services; track service.name) {
+    <mat-option
+      [value]="service"
+      (onSelectionChange)="onServiceSelected(service, $event)"
+    >
+      <p>
+        <b>{{ service.name }}</b> ·
+        <small>{{ service.duration | duration }} · ${{ service.price }}</small>
+      </p>
+    </mat-option>
+    }
+  </mat-select>
+</mat-form-field>

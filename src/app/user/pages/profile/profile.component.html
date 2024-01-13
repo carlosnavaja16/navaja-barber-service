@@ -1,9 +1,0 @@
-<div class="mx-auto max-w-lg">
-  <profile-form
-    class="form"
-    *ngIf="userProfile$ | async as userProfile"
-    [userProfile]="userProfile"
-    (formSubmitted)="onFormSubmitted($event)"
-  >
-  </profile-form>
-</div>

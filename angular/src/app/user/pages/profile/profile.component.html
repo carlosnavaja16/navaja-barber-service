@@ -1,0 +1,9 @@
+<div class="mx-auto max-w-lg">
+  @if (userProfile$ | async; as userProfile) {
+  <profile-form
+    class="form"
+    [userProfile]="userProfile"
+    (formSubmitted)="onFormSubmitted($event)"
+  />
+  }
+</div>

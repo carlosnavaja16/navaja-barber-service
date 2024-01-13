@@ -1,0 +1,42 @@
+<div class="mx-auto max-w-screen-md">
+  @if (!isLoggedIn()) {
+  <p class="text-center mb-5">
+    <small>
+      In order to book you will need to
+      <a [routerLink]="'/login'" class="link-text">Log In</a>. Don't have an
+      account? <a [routerLink]="'/signup'" class="link-text">Sign Up.</a>
+    </small>
+  </p>
+  }
+  <ul class="flex flex-col gap-5">
+    @for (service of services(); track service.name) {
+    <li class="flex justify-between items-center">
+      <div class="flex w-fit flex-col">
+        <p
+          class="font-bold hover:font-extrabold text-l transition-all duration-100 ease-in-out"
+        >
+          {{ service.name }}
+        </p>
+        <span class="text-xs"
+          >{{ service.desc }} · {{ service.duration }}mins · ${{
+            service.price
+          }}</span
+        >
+      </div>
+      <div>
+        <button
+          [disabled]="!isLoggedIn()"
+          mat-stroked-button
+          color="primary"
+          (click)="bookService(service)"
+          [matTooltip]="
+            !isLoggedIn() ? 'In order to book you will need to log in.' : ''
+          "
+        >
+          Book
+        </button>
+      </div>
+    </li>
+    }
+  </ul>
+</div>
