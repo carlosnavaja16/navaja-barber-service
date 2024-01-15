@@ -1,10 +1,11 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
-/dist
+./angular/dist
 /tmp
 /out-tsc
 /bazel-out
+./firebase-functions/lib
 
 # Node
 /node_modules
@@ -31,7 +32,7 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
+./angular/.angular/cache
 .sass-cache/
 /connect.lock
 /coverage
@@ -45,6 +46,7 @@ Thumbs.db
 
 # Firebase
 .firebase
+./firebase-functions/.firebase
 *-debug.log
 .runtimeconfig.json
 
