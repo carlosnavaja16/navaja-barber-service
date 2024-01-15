@@ -29,14 +29,18 @@ jobs:
       # and reconstruct the credentials.ts file.
       - name: Decode Google service account credentials
         run: |
-          echo ${{ secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_BASE64 }} | base64 --decode > ./functions/credentials.ts
+          echo ${{ secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_BASE64 }} | base64 --decode > ./firebase-functions/credentials.ts
 
-      - name: Install dependencies
+      - name: Install firebase functions dependencies
         if: success()
-        run: npm install
+        run: cd ./firebase-functions && npm install && cd ../
 
-      - name: Build
-        run: npm run build --omit=dev
+      - name: Install Angular app dependencies
+        if: success()
+        run: cd ./angular && npm install && cd ../
+
+      - name: Build Angular app
+        run: cd ./angular && npm run build --omit=dev && cd ../
 
       - name: Install Firebase CLI
         if: success()
