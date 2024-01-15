@@ -54,4 +54,4 @@ firebase-functions/.firebase
 *.env
 
 # functions credentials
-./functions/credentials.ts
+firebase-functions/credentials.ts
