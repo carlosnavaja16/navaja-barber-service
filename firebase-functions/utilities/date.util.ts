@@ -5,22 +5,22 @@ import {
   OPENING_HOUR_EST,
   CLOSING_HOUR_EST,
   LIMIT_DAYS,
-  DAYS_CLOSED,
+  DAYS_CLOSED
 } from '../constants/barber-service.constants';
-import { TimeSlot } from '../../types/time-slot';
+import { TimeSlot } from '@type/time-slot';
 
 export class DateUtils {
   public static getOpeningHourUtc(): number {
     return DateTime.fromObject(
       { hour: OPENING_HOUR_EST },
-      { zone: 'America/New_York' },
+      { zone: 'America/New_York' }
     ).toUTC().hour;
   }
 
   public static getClosingHourUtc(): number {
     return DateTime.fromObject(
       { hour: CLOSING_HOUR_EST },
-      { zone: 'America/New_York' },
+      { zone: 'America/New_York' }
     ).toUTC().hour;
   }
 
@@ -38,7 +38,7 @@ export class DateUtils {
     const minDate = new Date();
     minDate.setUTCHours(
       minDate.getUTCHours() + BUFFER_HOURS,
-      minDate.getUTCMinutes() + 30,
+      minDate.getUTCMinutes() + 30
     );
     minDate.setUTCMinutes(0, 0, 0);
     return minDate;
@@ -64,7 +64,7 @@ export class DateUtils {
   public static getAllTimeSlots(
     eventDuration: number,
     minDate: Date,
-    maxDate: Date,
+    maxDate: Date
   ) {
     const allTimeSlots: TimeSlot[] = [];
     const openingHourUtc = this.getOpeningHourUtc();
@@ -75,7 +75,7 @@ export class DateUtils {
     while (currEnd <= maxDate) {
       const currTimeSlot = {
         start: new Date(currStart),
-        end: new Date(currEnd),
+        end: new Date(currEnd)
       };
       if (
         this.isWithinOpenHours(currTimeSlot, openingHourUtc, closingHourUtc)
@@ -91,7 +91,7 @@ export class DateUtils {
   public static isWithinOpenHours(
     timeSlot: TimeSlot,
     openingHourUtc: number,
-    closingHourUtc: number,
+    closingHourUtc: number
   ) {
     if (this.isDateOnClosedDaysEST(timeSlot.start)) {
       return false;
@@ -125,7 +125,7 @@ export class DateUtils {
    */
   public static isDateOnClosedDaysEST(date: Date): boolean {
     return DAYS_CLOSED.includes(
-      DateTime.fromMillis(date.getTime(), { zone: 'America/New_York' }).weekday,
+      DateTime.fromMillis(date.getTime(), { zone: 'America/New_York' }).weekday
     );
   }
 }

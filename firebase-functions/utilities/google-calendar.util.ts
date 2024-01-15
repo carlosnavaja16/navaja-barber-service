@@ -1,10 +1,10 @@
 import { google, calendar_v3 } from 'googleapis';
 import { GaxiosResponse } from 'gaxios';
 import { JWT } from 'google-auth-library';
-import { ServiceAccountCredentials } from '../../types/service-account-credentials';
+import { ServiceAccountCredentials } from '@type/service-account-credentials';
 import {
   SCOPE,
-  BARBER_SERVICE_CALENDAR_ID,
+  BARBER_SERVICE_CALENDAR_ID
 } from '../constants/barber-service.constants';
 
 /**
@@ -18,15 +18,15 @@ import {
 export async function getCalendarBusy(
   credentials: ServiceAccountCredentials,
   minDate: Date,
-  maxDate: Date,
+  maxDate: Date
 ) {
   const calendar = google.calendar({
     version: 'v3',
     auth: new JWT({
       email: credentials.client_email,
       key: credentials.private_key,
-      scopes: [SCOPE],
-    }),
+      scopes: [SCOPE]
+    })
   });
 
   let freebusyResponse: GaxiosResponse<calendar_v3.Schema$FreeBusyResponse>;
@@ -36,15 +36,15 @@ export async function getCalendarBusy(
       requestBody: {
         items: [{ id: BARBER_SERVICE_CALENDAR_ID }],
         timeMin: minDate.toISOString(),
-        timeMax: maxDate.toISOString(),
-      },
+        timeMax: maxDate.toISOString()
+      }
     });
   } catch (error) {
     console.error(
-      `Failed to get freebusy response for calendarId: ${BARBER_SERVICE_CALENDAR_ID} due to error: ${error}`,
+      `Failed to get freebusy response for calendarId: ${BARBER_SERVICE_CALENDAR_ID} due to error: ${error}`
     );
     throw new Error(
-      `Failed to get freebusy response for calendarId: ${BARBER_SERVICE_CALENDAR_ID} due to error: ${error}`,
+      `Failed to get freebusy response for calendarId: ${BARBER_SERVICE_CALENDAR_ID} due to error: ${error}`
     );
   }
 
@@ -53,10 +53,10 @@ export async function getCalendarBusy(
     !freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID]
   ) {
     console.error(
-      `No calendar found for calendarId: ${BARBER_SERVICE_CALENDAR_ID}`,
+      `No calendar found for calendarId: ${BARBER_SERVICE_CALENDAR_ID}`
     );
     throw new Error(
-      `No calendar found for calendarId: ${BARBER_SERVICE_CALENDAR_ID}`,
+      `No calendar found for calendarId: ${BARBER_SERVICE_CALENDAR_ID}`
     );
   }
 
@@ -72,15 +72,15 @@ export async function getCalendarBusy(
  */
 export async function createEvent(
   credentials: ServiceAccountCredentials,
-  event: calendar_v3.Schema$Event,
+  event: calendar_v3.Schema$Event
 ) {
   const calendar = google.calendar({
     version: 'v3',
     auth: new JWT({
       email: credentials.client_email,
       key: credentials.private_key,
-      scopes: [SCOPE],
-    }),
+      scopes: [SCOPE]
+    })
   });
 
   let createEventResponse: GaxiosResponse<calendar_v3.Schema$Event>;
@@ -88,14 +88,14 @@ export async function createEvent(
   try {
     createEventResponse = await calendar.events.insert({
       calendarId: BARBER_SERVICE_CALENDAR_ID,
-      requestBody: event,
+      requestBody: event
     });
   } catch (error) {
     console.error(
-      `Failed to inser event: ${event.summary} due to error: ${error}`,
+      `Failed to inser event: ${event.summary} due to error: ${error}`
     );
     throw new Error(
-      `Failed to inser event: ${event.summary} due to error: ${error}`,
+      `Failed to inser event: ${event.summary} due to error: ${error}`
     );
   }
 

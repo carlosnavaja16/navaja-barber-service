@@ -3,16 +3,16 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
+  Output
 } from '@angular/core';
-import { Service } from '../../../../../../types/service';
-import { TimeSlot } from '../../../../../../types/time-slot';
+import { Service } from '@type/service';
+import { TimeSlot } from '@type/time-slot';
 
 @Component({
   selector: 'appointment-preview',
   templateUrl: './appointment-preview.component.html',
   styleUrls: ['./appointment-preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppointmentPreviewComponent {
   @Input() service: Service;

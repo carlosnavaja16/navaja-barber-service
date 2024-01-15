@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DateTimeSlots, TimeSlot } from '../../../../../../types/time-slot';
+import { DateTimeSlots, TimeSlot } from '@type/time-slot';
 import { DateUtils } from '../../utilities/date.util';
 
 @Component({
   selector: 'date-picker',
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.scss'],
+  styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent {
   @Input() minDate: Date | null;
@@ -18,8 +18,7 @@ export class DatePickerComponent {
     if ($event && this.timeSlotsByDate) {
       const dateTimeSlots = {
         date: $event,
-        timeSlots:
-          this.timeSlotsByDate.get(DateUtils.getDateHash($event)) || [],
+        timeSlots: this.timeSlotsByDate.get(DateUtils.getDateHash($event)) || []
       };
       this.dateSelected.emit(dateTimeSlots);
     }

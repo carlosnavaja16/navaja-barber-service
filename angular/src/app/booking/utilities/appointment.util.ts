@@ -1,8 +1,8 @@
 import { calendar_v3 } from 'googleapis';
-import { UserProfile } from '../../../../../types/user-profile';
-import { Service } from '../../../../../types/service';
-import { TimeSlot } from '../../../../../types/time-slot';
-import { Appointment } from 'types/appointment';
+import { UserProfile } from '@type/user-profile';
+import { Service } from '@type/service';
+import { TimeSlot } from '@type/time-slot';
+import { Appointment } from '@type/appointment';
 
 export class AppointmentUtils {
   public static getAppointmentEvent(
@@ -15,11 +15,11 @@ export class AppointmentUtils {
       description: `<b>Service:</b> ${service.name}\n<b>Duration:</b> ${service.duration} minutes\n<b>Price:</b> $${service.price}\n<b>Phone:</b> ${userProfile.phone}\n<b>Email:</b> ${userProfile.email}`,
       location: `${userProfile.streetAddr}, ${userProfile.city}, ${userProfile.state} ${userProfile.zipCode}`,
       start: {
-        dateTime: timeSlot.start.toISOString(),
+        dateTime: timeSlot.start.toISOString()
       },
       end: {
-        dateTime: timeSlot.end.toISOString(),
-      },
+        dateTime: timeSlot.end.toISOString()
+      }
     };
   }
 
@@ -34,7 +34,7 @@ export class AppointmentUtils {
       service: Service,
       location: event.location || '',
       start: new Date(event.start?.dateTime || ''),
-      end: new Date(event.end?.dateTime || ''),
+      end: new Date(event.end?.dateTime || '')
     };
   }
 }

@@ -7,13 +7,13 @@ import { catchError, from, take, tap } from 'rxjs';
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',
-  styleUrls: ['./logout.component.scss'],
+  styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
   constructor(
     public auth: Auth,
     public router: Router,
-    public snackbarService: SnackbarService,
+    public snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -28,7 +28,7 @@ export class LogoutComponent implements OnInit {
         catchError((error) => {
           this.snackbarService.pushSnackbar(`Could not logout: ${error}`);
           return error;
-        }),
+        })
       )
       .subscribe();
   }

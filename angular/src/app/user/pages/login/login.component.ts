@@ -7,13 +7,13 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private readonly router: Router,
     private readonly snackbarService: SnackbarService,
     private readonly userService: UserService,
-    private readonly fb: FormBuilder,
+    private readonly fb: FormBuilder
   ) {
     this.headerService.setHeader('Login');
   }
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
@@ -41,15 +41,15 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (userProfile) => {
           this.snackbarService.pushSnackbar(
-            `Login successful. Welcome back ${userProfile.firstName}!`,
+            `Login successful. Welcome back ${userProfile.firstName}!`
           );
           this.router.navigate(['/']);
         },
         error: (error) => {
           this.snackbarService.pushSnackbar(
-            `Login not successful: ${error.message}`,
+            `Login not successful: ${error.message}`
           );
-        },
+        }
       });
   }
 

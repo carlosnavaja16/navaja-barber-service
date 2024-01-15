@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DateTimeSlots, TimeSlot } from '../../../../../../types/time-slot';
+import { DateTimeSlots, TimeSlot } from '@type/time-slot';
 import { DateUtils } from '../../utilities/date.util';
 
 @Component({
   selector: 'time-slots',
   templateUrl: './time-slots.component.html',
-  styleUrls: ['./time-slots.component.scss'],
+  styleUrls: ['./time-slots.component.scss']
 })
 export class TimeSlotsComponent {
   @Input() dateTimeSlots: DateTimeSlots | null;

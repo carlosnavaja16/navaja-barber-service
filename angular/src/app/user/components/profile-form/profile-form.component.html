@@ -3,28 +3,28 @@
     <mat-label>First name</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="firstName" />
     @if (firstName?.invalid && firstName?.touched) {
-    <mat-error>First name must be at least two characters</mat-error>
+      <mat-error>First name must be at least two characters</mat-error>
     }
   </mat-form-field>
   <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>Last name</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="lastName" />
     @if (lastName?.invalid && lastName?.touched) {
-    <mat-error>Last name must be at least two characters</mat-error>
+      <mat-error>Last name must be at least two characters</mat-error>
     }
   </mat-form-field>
   <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>Phone</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="phone" />
     @if (phone?.invalid && phone?.touched) {
-    <mat-error>Please enter a valid phone number</mat-error>
+      <mat-error>Please enter a valid phone number</mat-error>
     }
   </mat-form-field>
   <mat-form-field [appearance]="appearance" class="w-full">
     <mat-label>Street address</mat-label>
     <input [readonly]="!inEditMode" matInput formControlName="streetAddr" />
     @if (streetAddr?.invalid && streetAddr?.touched) {
-    <mat-error>Address is required</mat-error>
+      <mat-error>Address is required</mat-error>
     }
   </mat-form-field>
   <div class="w-full flex flex-col md:flex-row">
@@ -33,7 +33,7 @@
         <mat-label>City</mat-label>
         <input [readonly]="!inEditMode" matInput formControlName="city" />
         @if (city?.invalid && city?.touched) {
-        <mat-error>City must be at least two characters.</mat-error>
+          <mat-error>City must be at least two characters.</mat-error>
         }
       </mat-form-field>
     </div>
@@ -42,7 +42,7 @@
         <mat-label>State</mat-label>
         <input [readonly]="!inEditMode" matInput formControlName="state" />
         @if (state?.invalid && state?.touched) {
-        <mat-error>State must be two letters.</mat-error>
+          <mat-error>State must be two letters.</mat-error>
         }
       </mat-form-field>
     </div>
@@ -51,7 +51,7 @@
         <mat-label>Zip code</mat-label>
         <input [readonly]="!inEditMode" matInput formControlName="zipCode" />
         @if (zipCode?.invalid && zipCode?.touched) {
-        <mat-error>Zip code must be five digits.</mat-error>
+          <mat-error>Zip code must be five digits.</mat-error>
         }
       </mat-form-field>
     </div>
@@ -65,14 +65,14 @@
       {{ inEditMode ? 'Cancel' : 'Edit' }}
     </button>
     @if (inEditMode) {
-    <button
-      color="primary"
-      mat-flat-button
-      [disabled]="userProfileForm.invalid || userProfileForm.pristine"
-      (click)="onSubmit()"
-    >
-      Submit
-    </button>
+      <button
+        color="primary"
+        mat-flat-button
+        [disabled]="userProfileForm.invalid || userProfileForm.pristine"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
     }
   </div>
 </form>

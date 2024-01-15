@@ -17,13 +17,13 @@ const routes: Routes = [
   {
     path: 'services',
     component: ServicesComponent,
-    data: { title: 'Services' },
+    data: { title: 'Services' }
   },
   {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToHome },
+    data: { authGuardPipe: redirectUnauthorizedToHome }
   },
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
@@ -33,13 +33,13 @@ const routes: Routes = [
     path: 'booking',
     component: BookingComponent,
     canActivate: [AuthGuard],
-    data: { authGuardPipe: redirectUnauthorizedToHome },
-  },
+    data: { authGuardPipe: redirectUnauthorizedToHome }
+  }
 ];
 
 @NgModule({
   declarations: [],
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

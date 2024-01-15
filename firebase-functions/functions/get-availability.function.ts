@@ -1,6 +1,6 @@
-import { AvailabilityResponse } from '../../types/availability';
+import { AvailabilityResponse } from '@type/availability';
 import { getCalendarBusy } from '../utilities/google-calendar.util';
-import { ServiceAccountCredentials } from '../../types/service-account-credentials';
+import { ServiceAccountCredentials } from '@type/service-account-credentials';
 import { calendar_v3 } from 'googleapis';
 import { DateUtils } from '../utilities/date.util';
 
@@ -12,7 +12,7 @@ import { DateUtils } from '../utilities/date.util';
  */
 export async function getAvailability(
   credentials: ServiceAccountCredentials,
-  eventDuration: number,
+  eventDuration: number
 ): Promise<AvailabilityResponse> {
   const openingHourUTC = DateUtils.getOpeningHourUtc();
   const closingHourUTC = DateUtils.getClosingHourUtc();
@@ -21,13 +21,13 @@ export async function getAvailability(
   const allTimeSlots = DateUtils.getAllTimeSlots(
     eventDuration,
     minDate,
-    maxDate,
+    maxDate
   );
 
   const busyTimes: calendar_v3.Schema$TimePeriod[] = await getCalendarBusy(
     credentials,
     minDate,
-    maxDate,
+    maxDate
   );
 
   //convert from maps of strings to maps of Dates
@@ -36,7 +36,7 @@ export async function getAvailability(
     .map((busyTime) => {
       return {
         start: new Date(busyTime.start!),
-        end: new Date(busyTime.end!),
+        end: new Date(busyTime.end!)
       };
     });
 
@@ -56,7 +56,7 @@ export async function getAvailability(
     .map((timeSlot) => {
       return {
         start: timeSlot.start.toISOString(),
-        end: timeSlot.end.toISOString(),
+        end: timeSlot.end.toISOString()
       };
     });
 
@@ -65,6 +65,6 @@ export async function getAvailability(
     closingHourUTC,
     minDate: minDate.toISOString(),
     maxDate: maxDate.toISOString(),
-    availableTimeSlots,
+    availableTimeSlots
   };
 }

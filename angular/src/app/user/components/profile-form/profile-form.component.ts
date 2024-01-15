@@ -4,15 +4,15 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { UserProfile } from '../../../../../../types/user-profile';
+import { UserProfile } from '@type/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({
   selector: 'profile-form',
   templateUrl: './profile-form.component.html',
-  styleUrls: ['./profile-form.component.scss'],
+  styleUrls: ['./profile-form.component.scss']
 })
 export class ProfileFormComponent implements OnInit {
   @Input() userProfile: UserProfile | null;
@@ -31,31 +31,31 @@ export class ProfileFormComponent implements OnInit {
     this.userProfileForm = this.fb.group({
       firstName: new FormControl(this.userProfile?.firstName, [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}'),
+        Validators.pattern('[a-zA-Z]{2,}')
       ]),
       lastName: new FormControl(this.userProfile?.lastName, [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}'),
+        Validators.pattern('[a-zA-Z]{2,}')
       ]),
       phone: new FormControl(this.userProfile?.phone, [
         Validators.required,
-        Validators.pattern('[0-9]{10}'),
+        Validators.pattern('[0-9]{10}')
       ]),
       streetAddr: new FormControl(this.userProfile?.streetAddr, [
-        Validators.required,
+        Validators.required
       ]),
       city: new FormControl(this.userProfile?.city, [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}'),
+        Validators.pattern('[a-zA-Z]{2,}')
       ]),
       state: new FormControl(this.userProfile?.state, [
         Validators.required,
-        Validators.pattern('[A-Z]{2}'),
+        Validators.pattern('[A-Z]{2}')
       ]),
       zipCode: new FormControl(this.userProfile?.zipCode, [
         Validators.required,
-        Validators.pattern('[0-9]{5}'),
-      ]),
+        Validators.pattern('[0-9]{5}')
+      ])
     });
   }
 
@@ -65,7 +65,7 @@ export class ProfileFormComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted.emit({
-      ...this.userProfileForm.value,
+      ...this.userProfileForm.value
     } as UserProfile);
     this.inEditMode = false;
   }

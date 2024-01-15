@@ -3,13 +3,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '../../../shared/services/header/header.service';
 import { UserService } from '../../../user/user.service';
 import { BookingService } from '../../booking.service';
-import { Service } from '../../../../../../types/service';
+import { Service } from '@type/service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.scss'],
+  styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent {
   services: Signal<Service[]>;
@@ -22,7 +22,7 @@ export class ServicesComponent {
   ) {
     this.headerService.setHeader('Services');
     this.services = toSignal(this.bookingService.getServices(), {
-      initialValue: [],
+      initialValue: []
     });
     this.bookingService.selectedService = null;
   }

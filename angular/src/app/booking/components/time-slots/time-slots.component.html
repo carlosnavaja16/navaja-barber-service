@@ -7,13 +7,13 @@
   <p class="font-bold">Morning</p>
   <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
     @for (timeSlot of morningTimeSlots; track timeSlot.start) {
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="onTimeSlotSelected(timeSlot)"
-    >
-      {{ timeSlot.start | date: 'hh:mm aaa' }}
-    </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="onTimeSlotSelected(timeSlot)"
+      >
+        {{ timeSlot.start | date: 'hh:mm aaa' }}
+      </button>
     }
   </div>
 </div>
@@ -21,13 +21,13 @@
   <p class="font-bold">Afternoon</p>
   <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
     @for (timeSlot of afternoonTimeSlots; track timeSlot.start) {
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="onTimeSlotSelected(timeSlot)"
-    >
-      {{ timeSlot.start | date: 'hh:mm aaa' }}
-    </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="onTimeSlotSelected(timeSlot)"
+      >
+        {{ timeSlot.start | date: 'hh:mm aaa' }}
+      </button>
     }
   </div>
 </div>
@@ -35,13 +35,13 @@
   <p class="font-bold">Evening</p>
   <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
     @for (timeSlot of eveningTimeSlots; track timeSlot.start) {
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="onTimeSlotSelected(timeSlot)"
-    >
-      {{ timeSlot.start | date: 'hh:mm aaa' }}
-    </button>
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="onTimeSlotSelected(timeSlot)"
+      >
+        {{ timeSlot.start | date: 'hh:mm aaa' }}
+      </button>
     }
   </div>
 </div>

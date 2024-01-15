@@ -6,14 +6,14 @@ import {
   FormGroup,
   ValidationErrors,
   ValidatorFn,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { SignUpDetails } from '../../../../../../types/sign-up-details';
+import { SignUpDetails } from '@type/sign-up-details';
 
 @Component({
   selector: 'sign-up-form',
   templateUrl: './sign-up-form.component.html',
-  styleUrls: ['./sign-up-form.component.scss'],
+  styleUrls: ['./sign-up-form.component.scss']
 })
 export class SignUpFormComponent implements OnInit {
   signUpForm: FormGroup;
@@ -25,38 +25,38 @@ export class SignUpFormComponent implements OnInit {
     this.signUpForm = this.fb.group({
       firstName: new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}'),
+        Validators.pattern('[a-zA-Z]{2,}')
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}'),
+        Validators.pattern('[a-zA-Z]{2,}')
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl('', [
         Validators.required,
-        Validators.pattern('[0-9]{10}'),
+        Validators.pattern('[0-9]{10}')
       ]),
       streetAddr: new FormControl('', [Validators.required]),
       city: new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}'),
+        Validators.pattern('[a-zA-Z]{2,}')
       ]),
       state: new FormControl('', [
         Validators.required,
-        Validators.pattern('[A-Z]{2}'),
+        Validators.pattern('[A-Z]{2}')
       ]),
       zipCode: new FormControl('', [
         Validators.required,
-        Validators.pattern('[0-9]{5}'),
+        Validators.pattern('[0-9]{5}')
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
+        Validators.minLength(6)
       ]),
       confirmPassword: new FormControl('', [
         Validators.required,
-        this.confirmPasswordValidator,
-      ]),
+        this.confirmPasswordValidator
+      ])
     });
   }
 
@@ -73,8 +73,8 @@ export class SignUpFormComponent implements OnInit {
         city: this.signUpForm.value.city,
         state: this.signUpForm.value.state,
         zipCode: this.signUpForm.value.zipCode,
-        isAdmin: false,
-      },
+        isAdmin: false
+      }
     } as SignUpDetails);
   }
 

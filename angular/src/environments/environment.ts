@@ -12,9 +12,9 @@ export const environment = {
     apiKey: 'AIzaSyBmY4Vw_1iLYJA0DJ60eNpHadbCEf5IGhE',
     authDomain: 'barber-service-45e86.firebaseapp.com',
     messagingSenderId: '624790222178',
-    measurementId: 'G-94TSRFXMXE',
+    measurementId: 'G-94TSRFXMXE'
   },
-  useEmulators: true,
+  useEmulators: true
 };
 
 /*

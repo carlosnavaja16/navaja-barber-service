@@ -8,14 +8,16 @@
           <b>Duration: </b>{{ service.duration | duration }}
         </div>
         <div class="text-sm text-black"><b>Price: </b>${{ service.price }}</div>
-        @if(date) {
-        <div class="text-sm text-black">
-          <b>Date: </b>{{ date | date: 'fullDate' }}
-        </div>
-        } @if (timeSlot) {
-        <div class="text-sm text-black">
-          <b>Time: </b> {{ timeSlot.start | date: 'shortTime' }} {{ timeZone }}
-        </div>
+        @if (date) {
+          <div class="text-sm text-black">
+            <b>Date: </b>{{ date | date: 'fullDate' }}
+          </div>
+        }
+        @if (timeSlot) {
+          <div class="text-sm text-black">
+            <b>Time: </b> {{ timeSlot.start | date: 'shortTime' }}
+            {{ timeZone }}
+          </div>
         }
       </div>
       <div class="flex justify-center items-center">

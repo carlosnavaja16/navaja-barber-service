@@ -9,7 +9,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   @ViewChild('sidenav') sidenav: MatSidenav;
@@ -19,7 +19,7 @@ export class AppComponent {
     private readonly router: Router,
     private readonly snackbarService: SnackbarService,
     private readonly headerService: HeaderService,
-    private readonly breakpointObserver: BreakpointObserver,
+    private readonly breakpointObserver: BreakpointObserver
   ) {
     this.breakpointObserver
       .observe('(min-width: 768px)')
@@ -38,9 +38,9 @@ export class AppComponent {
       },
       error: (error) => {
         this.snackbarService.pushSnackbar(
-          `Error logging out: ${error.message}`,
+          `Error logging out: ${error.message}`
         );
-      },
+      }
     });
   }
 

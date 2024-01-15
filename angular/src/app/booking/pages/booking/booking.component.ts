@@ -3,24 +3,24 @@ import {
   Component,
   OnDestroy,
   ViewChild,
-  signal,
+  signal
 } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
 import { Observable, of, switchMap } from 'rxjs';
-import { DateTimeSlots, TimeSlot } from '../../../../../../types/time-slot';
-import { Availability } from '../../../../../../types/availability';
+import { DateTimeSlots, TimeSlot } from '@type/time-slot';
+import { Availability } from '@type/availability';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
-import { Service } from '../../../../../../types/service';
+import { Service } from '@type/service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DateUtils } from '../../utilities/date.util';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { Appointment } from 'types/appointment';
+import { Appointment } from '@type/appointment';
 
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss'],
+  styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements AfterViewInit, OnDestroy {
   timeZone: string;

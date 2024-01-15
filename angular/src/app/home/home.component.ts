@@ -5,12 +5,12 @@ import { UserService } from '../user/user.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   constructor(
     private readonly headerService: HeaderService,
-    private readonly userService: UserService,
+    private readonly userService: UserService
   ) {
     this.headerService.setHeader('Navaja Barber Service');
   }

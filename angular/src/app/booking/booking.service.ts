@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { TimeSlot } from '../../../../types/time-slot';
+import { TimeSlot } from '@type/time-slot';
 import {
   AvailabilityRequest,
   Availability,
-  AvailabilityResponse,
-} from '../../../../types/availability';
+  AvailabilityResponse
+} from '@type/availability';
 import {
   Functions,
   httpsCallable,
-  HttpsCallable,
+  HttpsCallable
 } from '@angular/fire/functions';
 import {
   catchError,
@@ -18,7 +18,7 @@ import {
   NEVER,
   Observable,
   of,
-  switchMap,
+  switchMap
 } from 'rxjs';
 import { DateUtils } from './utilities/date.util';
 import {
@@ -31,18 +31,18 @@ import {
   doc,
   orderBy,
   query,
-  setDoc,
+  setDoc
 } from '@angular/fire/firestore';
-import { Service } from '../../../../types/service';
+import { Service } from '@type/service';
 import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
 import { calendar_v3 } from 'googleapis';
 import { UserService } from '../user/user.service';
 import { AppointmentUtils } from './utilities/appointment.util';
-import { Appointment } from 'types/appointment';
-import { UserProfile } from 'types/user-profile';
+import { Appointment } from '@type/appointment';
+import { UserProfile } from '@type/user-profile';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BookingService {
   getAvailabilityFn: HttpsCallable<AvailabilityRequest, AvailabilityResponse>;
@@ -88,7 +88,7 @@ export class BookingService {
     //defer() will wait until we subscribe to the observable to execute the request
     const availability$ = defer(() =>
       this.getAvailabilityFn({
-        eventDuration: DateUtils.getMillisecondsFromMinutes(service.duration),
+        eventDuration: DateUtils.getMillisecondsFromMinutes(service.duration)
       })
     ).pipe(
       map((result) => result.data),
@@ -98,7 +98,7 @@ export class BookingService {
         data.availableTimeSlots.forEach((timeSlotResponse) => {
           const timeSlot = {
             start: new Date(timeSlotResponse.start),
-            end: new Date(timeSlotResponse.end),
+            end: new Date(timeSlotResponse.end)
           };
           const dateHash = DateUtils.getDateHash(timeSlot.start);
           const timeSlots = timeSlotsByDate.get(dateHash);
@@ -117,7 +117,7 @@ export class BookingService {
           timeSlotsByDate,
           dateFilter: (date: Date) => {
             return DateUtils.isDateInAvailableDates(date, timeSlotsByDate);
-          },
+          }
         };
         return availability;
       }),

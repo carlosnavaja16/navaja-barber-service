@@ -12,5 +12,5 @@ export const CREDENTIALS = {
   auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
   client_x509_cert_url:
     'https://www.googleapis.com/robot/v1/metadata/x509/calendar-service-account%40barber-service-45e86.iam.gserviceaccount.com',
-  universe_domain: 'googleapis.com',
+  universe_domain: 'googleapis.com'
 };

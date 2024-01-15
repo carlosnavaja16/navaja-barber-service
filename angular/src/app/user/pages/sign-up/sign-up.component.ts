@@ -3,12 +3,12 @@ import { HeaderService } from '../../../shared/services/header/header.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 import { UserService } from '../../user.service';
-import { SignUpDetails } from '../../../../../../types/sign-up-details';
+import { SignUpDetails } from '@type/sign-up-details';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
   constructor(
@@ -34,7 +34,7 @@ export class SignUpComponent {
           this.snackbarService.pushSnackbar(
             `Sign up failed due to error: ${error}`
           );
-        },
+        }
       });
   }
 }

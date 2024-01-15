@@ -3,35 +3,35 @@
     <mat-label>First Name</mat-label>
     <input matInput formControlName="firstName" />
     @if (firstName?.invalid && firstName?.touched) {
-    <mat-error>First Name is required</mat-error>
+      <mat-error>First Name is required</mat-error>
     }
   </mat-form-field>
   <mat-form-field class="w-full">
     <mat-label>Last Name</mat-label>
     <input matInput formControlName="lastName" />
     @if (lastName?.invalid && lastName?.touched) {
-    <mat-error>Last Name is required</mat-error>
+      <mat-error>Last Name is required</mat-error>
     }
   </mat-form-field>
   <mat-form-field class="w-full">
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" />
     @if (email?.invalid && email?.touched) {
-    <mat-error>Please enter a valid email</mat-error>
+      <mat-error>Please enter a valid email</mat-error>
     }
   </mat-form-field>
   <mat-form-field class="w-full">
     <mat-label>Phone Number</mat-label>
     <input matInput maxlength="10" formControlName="phone" />
     @if (phone?.invalid && phone?.touched) {
-    <mat-error>Please enter a valid phone</mat-error>
+      <mat-error>Please enter a valid phone</mat-error>
     }
   </mat-form-field>
   <mat-form-field class="w-full">
     <mat-label>Street Address</mat-label>
     <input matInput formControlName="streetAddr" />
     @if (streetAddr?.invalid && streetAddr?.touched) {
-    <mat-error>Please enter a street address</mat-error>
+      <mat-error>Please enter a street address</mat-error>
     }
   </mat-form-field>
   <div class="w-full flex flex-col md:flex-row">
@@ -40,7 +40,7 @@
         <mat-label>City</mat-label>
         <input matInput formControlName="city" />
         @if (city?.invalid && city?.touched) {
-        <mat-error>Please enter a city</mat-error>
+          <mat-error>Please enter a city</mat-error>
         }
       </mat-form-field>
     </div>
@@ -61,16 +61,16 @@
     <mat-label>Password</mat-label>
     <input matInput type="password" formControlName="password" />
     @if (password?.invalid && password?.touched) {
-    <mat-error
-      >Password is required and must have at least 6 characters</mat-error
-    >
+      <mat-error
+        >Password is required and must have at least 6 characters</mat-error
+      >
     }
   </mat-form-field>
   <mat-form-field class="w-full">
     <mat-label>Confirm Password</mat-label>
     <input matInput type="password" formControlName="confirmPassword" />
     @if (confirmPassword?.invalid && confirmPassword?.touched) {
-    <mat-error>Passwords must match</mat-error>
+      <mat-error>Passwords must match</mat-error>
     }
   </mat-form-field>
   <button

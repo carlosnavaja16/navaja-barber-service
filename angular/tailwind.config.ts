@@ -4,9 +4,9 @@ export default {
   content: ['./src/**/*.{html,ts}'],
   theme: {
     fontFamily: {
-      sans: ['Roboto', 'sans-serif'],
+      sans: ['Roboto', 'sans-serif']
     },
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 } satisfies Config;

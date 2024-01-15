@@ -73,8 +73,8 @@ $navaja-blue-palette: (
     A100: #000000,
     A200: #000000,
     A400: #000000,
-    A700: #000000,
-  ),
+    A700: #000000
+  )
 );
 
 $navaja-blue: mat.define-palette($navaja-blue-palette);
@@ -84,10 +84,10 @@ $light-theme: mat.define-light-theme(
   (
     color: (
       primary: $navaja-blue,
-      accent: $mat-green,
+      accent: $mat-green
     ),
     typography: mat.define-typography-config(),
-    density: 0,
+    density: 0
   )
 );
 

@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { HeaderService } from '../../../shared/services/header/header.service';
 import { Observable } from 'rxjs';
 import { UserService } from '../../user.service';
-import { UserProfile } from '../../../../../../types/user-profile';
+import { UserProfile } from '@type/user-profile';
 import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
   userProfile$: Observable<UserProfile>;
@@ -29,7 +29,7 @@ export class ProfileComponent {
       },
       error: (error) => {
         this.snackbarService.pushSnackbar(`Error updating profile: ${error}`);
-      },
+      }
     });
   }
 }

@@ -2,7 +2,7 @@ import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HeaderService {
   private titleService: Title = inject(Title);

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Service } from '../../../../../../types/service';
+import { Service } from '@type/service';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
   selector: 'service-picker',
   templateUrl: './service-picker.component.html',
-  styleUrls: ['./service-picker.component.scss'],
+  styleUrls: ['./service-picker.component.scss']
 })
 export class ServicePickerComponent {
   @Input() services: Service[] | null;

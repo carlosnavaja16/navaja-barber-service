@@ -36,36 +36,36 @@
           >Gallery</a
         >
         @if (!isLoggedIn()) {
-        <a
-          class="nav-link"
-          [routerLink]="'/login'"
-          [routerLinkActive]="['font-bold']"
-        >
-          Login
-        </a>
-        <a
-          class="nav-link"
-          [routerLink]="'/signup'"
-          [routerLinkActive]="['font-bold']"
-        >
-          Sign up
-        </a>
+          <a
+            class="nav-link"
+            [routerLink]="'/login'"
+            [routerLinkActive]="['font-bold']"
+          >
+            Login
+          </a>
+          <a
+            class="nav-link"
+            [routerLink]="'/signup'"
+            [routerLinkActive]="['font-bold']"
+          >
+            Sign up
+          </a>
         } @else {
-        <a
-          class="nav-link"
-          [routerLink]="'/profile'"
-          [routerLinkActive]="['font-bold']"
-          >Profile
-        </a>
-        <a
-          class="nav-link"
-          [routerLink]="'/booking'"
-          [routerLinkActive]="['font-bold']"
-          >Book
-        </a>
-        <a class="nav-link" [routerLink]="'/logout'" (click)="logOut()"
-          >Logout
-        </a>
+          <a
+            class="nav-link"
+            [routerLink]="'/profile'"
+            [routerLinkActive]="['font-bold']"
+            >Profile
+          </a>
+          <a
+            class="nav-link"
+            [routerLink]="'/booking'"
+            [routerLinkActive]="['font-bold']"
+            >Book
+          </a>
+          <a class="nav-link" [routerLink]="'/logout'" (click)="logOut()"
+            >Logout
+          </a>
         }
       </div>
     </div>
@@ -100,47 +100,47 @@
         Gallery
       </a>
       @if (!isLoggedIn()) {
-      <a
-        class="sidenav-link"
-        (click)="sidenav.toggle()"
-        [routerLink]="'/login'"
-        [routerLinkActive]="['font-bold']"
-      >
-        Login
-      </a>
-      <a
-        class="sidenav-link"
-        (click)="sidenav.toggle()"
-        [routerLink]="'/signup'"
-        [routerLinkActive]="['font-bold']"
-      >
-        Sign up
-      </a>
+        <a
+          class="sidenav-link"
+          (click)="sidenav.toggle()"
+          [routerLink]="'/login'"
+          [routerLinkActive]="['font-bold']"
+        >
+          Login
+        </a>
+        <a
+          class="sidenav-link"
+          (click)="sidenav.toggle()"
+          [routerLink]="'/signup'"
+          [routerLinkActive]="['font-bold']"
+        >
+          Sign up
+        </a>
       } @else {
-      <a
-        class="sidenav-link"
-        (click)="sidenav.toggle()"
-        [routerLink]="'/profile'"
-        [routerLinkActive]="['font-bold']"
-      >
-        Profile
-      </a>
-      <a
-        class="sidenav-link"
-        (click)="sidenav.toggle()"
-        [routerLink]="'/booking'"
-        [routerLinkActive]="['font-bold']"
-      >
-        Book
-      </a>
-      <a
-        class="sidenav-link"
-        (click)="sidenav.toggle()"
-        [routerLink]="'/logout'"
-        (click)="logOut()"
-      >
-        Logout
-      </a>
+        <a
+          class="sidenav-link"
+          (click)="sidenav.toggle()"
+          [routerLink]="'/profile'"
+          [routerLinkActive]="['font-bold']"
+        >
+          Profile
+        </a>
+        <a
+          class="sidenav-link"
+          (click)="sidenav.toggle()"
+          [routerLink]="'/booking'"
+          [routerLinkActive]="['font-bold']"
+        >
+          Book
+        </a>
+        <a
+          class="sidenav-link"
+          (click)="sidenav.toggle()"
+          [routerLink]="'/logout'"
+          (click)="logOut()"
+        >
+          Logout
+        </a>
       }
     </div>
   </mat-drawer>

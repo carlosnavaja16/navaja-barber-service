@@ -22,7 +22,7 @@ import {
   FunctionsModule,
   connectFunctionsEmulator,
   getFunctions,
-  provideFunctions,
+  provideFunctions
 } from '@angular/fire/functions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServicePickerComponent } from './booking/components/service-picker/service-picker.component';
@@ -73,7 +73,7 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
     ProfileFormComponent,
     SignUpFormComponent,
     AppointmentPreviewComponent,
-    AppointmentSummaryComponent,
+    AppointmentSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -115,11 +115,11 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
       heroPhoneSolid,
       heroCalendarDays,
       heroCalendarSolid,
-      heroCalendar,
+      heroCalendar
     }),
-    MatSidenavModule,
+    MatSidenavModule
   ],
   providers: [MatSnackBar],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

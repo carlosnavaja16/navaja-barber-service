@@ -7,10 +7,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateEmail,
-  user,
+  user
 } from '@angular/fire/auth';
 import { Observable, from, map, of, switchMap, tap } from 'rxjs';
-import { UserProfile } from '../../../../types/user-profile';
+import { UserProfile } from '@type/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -18,13 +18,13 @@ import {
   collection,
   doc,
   getDoc,
-  updateDoc,
+  updateDoc
 } from '@angular/fire/firestore';
 import { setDoc } from 'firebase/firestore';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
   private isLoggedIn: Signal<boolean>;
@@ -85,7 +85,7 @@ export class UserService {
             ...userProfile,
             email: user.user.email,
             idAdmin: false,
-            userId: user.user.uid,
+            userId: user.user.uid
           })
         );
       }),
@@ -135,7 +135,7 @@ export class UserService {
         }
         return from(
           updateDoc(doc(this.firestore, 'UserProfiles', user.uid), {
-            ...userProfile,
+            ...userProfile
           })
         );
       }),

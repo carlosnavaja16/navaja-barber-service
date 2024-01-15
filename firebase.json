@@ -12,7 +12,7 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": ["cd ./firebase functions && tsc --include ./functions/*.ts --outdir ./functions/lib"],
+      "predeploy": ["cd ./firebase-functions && tsc --outdir ./lib && cd ../"],
       "runtime": "nodejs18"
     }
   ],

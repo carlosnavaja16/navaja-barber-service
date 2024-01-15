@@ -3,21 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "devDependencies": {
-    "@angular-eslint/builder": "16.2.0",
-    "@angular-eslint/eslint-plugin": "16.2.0",
-    "@angular-eslint/eslint-plugin-template": "16.2.0",
-    "@angular-eslint/template-parser": "16.2.0",
-    "@typescript-eslint/eslint-plugin": "6.7.3",
-    "@typescript-eslint/parser": "6.7.3",
-    "eslint": "^8.50.0",
-    "eslint-config-prettier": "^9.0.0"
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.1.3"
   },
   "scripts": {
+    "start": "cd ./angular && ng serve --port 4201",
     "push": "rm -rf ./angular/dist && rm -rf ./firebase-functions/lib && npm run format && git add . && git commit -m \"$(date)\" && git push",
     "deploy:functions": "rm -rf ./firebase-functions/lib && firebase deploy --only functions && rm -rf ./firebase-functions/lib",
     "deploy:hosting": "rm -rf ./angular/dist && cd ./angular && ng build && cd ../ && firebase deploy --only hosting && rm -rf ./angular/dist",
-    "emulate:functions": "cd ./firebase-functions && rm -rf ./lib && tsc --outdir ./lib && cd ../ && firebase emulators:start --only functions",
-    "format" : "eslint --fix"
+    "emulate:functions": "cd ./firebase-functions && rm -rf ./lib && tsc --outdir ./lib && cd ../ && firebase emulators:start --only functions && rm -rf ./firebase-functions/lib",
+    "format": "prettier -w . && eslint . --fix"
   },
   "author": "Carlos Rossi",
   "license": "MIT"

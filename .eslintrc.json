@@ -1,22 +1,14 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "@angular-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@angular-eslint/recommended",
-    "plugin:@angular-eslint/template/process-inline-templates",
     "prettier"
   ],
   "rules": {
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "prettier/prettier": "warn"
   },
-  "overrides": [
-    {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"]
-    }
-  ],
   "ignorePatterns": ["karma.conf.js"]
 }
