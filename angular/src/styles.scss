@@ -19,7 +19,7 @@
 }
 
 .link-text {
-  @apply text-blue-700 hover:text-blue-900 transition-all duration-300;
+  @apply text-blue-700 hover:text-blue-900 transition-all duration-300 underline;
 }
 
 /* this is to add an extra option color to the mat-raised-button

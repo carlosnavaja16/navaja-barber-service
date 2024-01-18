@@ -1,8 +1,8 @@
 import { Component, Signal, ViewChild, WritableSignal } from '@angular/core';
 import { UserService } from './user/user.service';
-import { HeaderService } from './shared/services/header/header.service';
+import { HeaderService } from './common/services/header/header.service';
 import { Router } from '@angular/router';
-import { SnackbarService } from './shared/services/snackbar/snackbar.service';
+import { SnackbarService } from './common/services/snackbar/snackbar.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 

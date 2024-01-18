@@ -5,17 +5,18 @@ import {
   ViewChild,
   signal
 } from '@angular/core';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { HeaderService } from '@app/common/services/header/header.service';
 import { Observable, of, switchMap } from 'rxjs';
-import { DateTimeSlots, TimeSlot } from '@type/time-slot';
-import { Availability } from '@type/availability';
+import { DateTimeSlots, TimeSlot } from '@shared/types/time-slot';
+import { Availability } from '@shared/types/availability';
 import { BookingService } from '../../booking.service';
 import { MatStepper } from '@angular/material/stepper';
-import { Service } from '@type/service';
+import { Service } from '@shared/types/service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DateUtils } from '../../utilities/date.util';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { Appointment } from '@type/appointment';
+import { Appointment } from '@shared/types/appointment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking',
@@ -36,7 +37,8 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
   constructor(
     private readonly headerService: HeaderService,
     private readonly bookingService: BookingService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router
   ) {
     this.headerService.setHeader('Booking');
     this.timeZone = DateUtils.getTimeZoneAbbr();
@@ -115,5 +117,9 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
         selectedTimeSlot
       );
     }
+  }
+
+  onGoToAppointments() {
+    this.router.navigate(['/appointments']);
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderService } from '../shared/services/header/header.service';
+import { HeaderService } from '@app/common/services/header/header.service';
 
 @Component({
   selector: 'app-gallery',

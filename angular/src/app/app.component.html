@@ -63,6 +63,12 @@
             [routerLinkActive]="['font-bold']"
             >Book
           </a>
+          <a
+            class="nav-link"
+            [routerLink]="'/appointments'"
+            [routerLinkActive]="['font-bold']"
+            >Appointments
+          </a>
           <a class="nav-link" [routerLink]="'/logout'" (click)="logOut()"
             >Logout
           </a>
@@ -136,8 +142,17 @@
         <a
           class="sidenav-link"
           (click)="sidenav.toggle()"
+          [routerLink]="'/appointments'"
+          [routerLinkActive]="['font-bold']"
+        >
+          Appointments
+        </a>
+        <a
+          class="sidenav-link"
+          (click)="sidenav.toggle()"
           [routerLink]="'/logout'"
           (click)="logOut()"
+          [routerLinkActive]="['font-bold']"
         >
           Logout
         </a>

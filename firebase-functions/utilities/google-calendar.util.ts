@@ -1,7 +1,7 @@
 import { google, calendar_v3 } from 'googleapis';
 import { GaxiosResponse } from 'gaxios';
 import { JWT } from 'google-auth-library';
-import { ServiceAccountCredentials } from '@type/service-account-credentials';
+import { ServiceAccountCredentials } from '@shared/types/service-account-credentials';
 import {
   SCOPE,
   BARBER_SERVICE_CALENDAR_ID
@@ -50,7 +50,8 @@ export async function getCalendarBusy(
 
   if (
     !freebusyResponse.data.calendars ||
-    !freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID]
+    !freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID] ||
+    !freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy
   ) {
     console.error(
       `No calendar found for calendarId: ${BARBER_SERVICE_CALENDAR_ID}`
@@ -60,7 +61,7 @@ export async function getCalendarBusy(
     );
   }
 
-  return freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy!;
+  return freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy;
 }
 
 /**

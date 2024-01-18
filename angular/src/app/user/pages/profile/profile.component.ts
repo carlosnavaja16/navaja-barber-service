@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { HeaderService } from '@app/common/services/header/header.service';
 import { Observable } from 'rxjs';
 import { UserService } from '../../user.service';
-import { UserProfile } from '@type/user-profile';
-import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
+import { UserProfile } from '@shared/types/user-profile';
+import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-profile',

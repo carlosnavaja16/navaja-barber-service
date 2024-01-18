@@ -6,5 +6,4 @@ export interface Appointment {
   service: Service;
   location: string;
   start: Date;
-  end: Date;
 }

@@ -3,6 +3,7 @@
     <appointment-summary
       [appointment]="appointmentResponse"
       [timeZone]="timeZone"
+      (goToAppointments)="onGoToAppointments()"
     />
   } @else {
     <div class="w-full flex flex-col items-center justify-center h-16">
@@ -11,7 +12,11 @@
   }
 } @else {
   <div class="w-full flex items-center justify-center gap-3">
-    <mat-vertical-stepper linear #stepper class="booking-stepper grow max-w-lg">
+    <mat-vertical-stepper
+      linear
+      #stepper
+      class="booking-stepper w-full max-w-lg"
+    >
       <mat-step
         label="Select a service"
         [completed]="selectedService() ? true : false"
@@ -54,7 +59,9 @@
       </mat-step>
     </mat-vertical-stepper>
     @if (selectedService(); as service) {
-      <div class="fixed bottom-5 w-full max-w-xs px-5 md:grow md:static md:p-0">
+      <div
+        class="fixed bottom-5 px-5 z-10 w-full md:max-w-lg md:grow md:static md:p-0"
+      >
         <appointment-preview
           [service]="service"
           [date]="selectedDateTimeSlots()?.date"

@@ -1,0 +1,39 @@
+<div class="mx-auto max-w-screen-md">
+  @if (!appointments()) {
+    <p class="text-center pb-5">
+      <small>
+        You have not booked any appointments yet.
+        <a [routerLink]="'/booking'" class="link-text">Book now</a>
+      </small>
+    </p>
+  } @else {
+    <ul class="flex flex-col gap-5">
+      @for (appointment of appointments(); track appointment.eventId) {
+        <li class="flex justify-between items-center">
+          <div class="flex w-fit flex-col">
+            <p
+              class="font-bold hover:font-extrabold text-l transition-all duration-100 ease-in-out"
+            >
+              {{ appointment.service.name }}
+            </p>
+            <span class="text-xs"
+              >{{ appointment.service.desc }} ·
+              {{ appointment.service.duration }}mins · ${{
+                appointment.service.price
+              }}</span
+            >
+          </div>
+          <div>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="cancelAppointment(appointment)"
+            >
+              Cancel
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

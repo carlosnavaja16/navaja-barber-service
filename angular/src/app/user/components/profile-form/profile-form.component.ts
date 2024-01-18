@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HeaderService } from '../../../shared/services/header/header.service';
+import { HeaderService } from '@app/common/services/header/header.service';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators
 } from '@angular/forms';
-import { UserProfile } from '@type/user-profile';
+import { UserProfile } from '@shared/types/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({

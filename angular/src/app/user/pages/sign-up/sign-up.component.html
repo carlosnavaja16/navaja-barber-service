@@ -1,7 +1,8 @@
 <div class="mx-auto max-w-lg">
   <p class="text-center pb-5">
     <small>
-      Already have an account? <a [routerLink]="'/login'">Login</a>
+      Already have an account?
+      <a [routerLink]="'/login'" class="link-text">Login</a>
     </small>
   </p>
   <sign-up-form (formSubmitted)="onSignUp($event)"></sign-up-form>

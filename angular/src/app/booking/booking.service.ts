@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { TimeSlot } from '@type/time-slot';
+import { TimeSlot } from '../../../../shared/types/time-slot';
 import {
   AvailabilityRequest,
   Availability,
   AvailabilityResponse
-} from '@type/availability';
+} from '../../../../shared/types/availability';
 import {
   Functions,
   httpsCallable,
@@ -33,13 +33,15 @@ import {
   query,
   setDoc
 } from '@angular/fire/firestore';
-import { Service } from '@type/service';
-import { SnackbarService } from '../shared/services/snackbar/snackbar.service';
+import { Service } from '../../../../shared/types/service';
+import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { calendar_v3 } from 'googleapis';
 import { UserService } from '../user/user.service';
 import { AppointmentUtils } from './utilities/appointment.util';
-import { Appointment } from '@type/appointment';
-import { UserProfile } from '@type/user-profile';
+import { Appointment } from '@shared/types/appointment';
+import { UserProfile } from '../../../../shared/types/user-profile';
+import { where } from 'firebase/firestore';
+import { Auth, user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -53,17 +55,21 @@ export class BookingService {
   servicesCollection: CollectionReference<DocumentData>;
   servicesQuery: Query<DocumentData>;
   selectedService: Service | null;
+  appointmentsCollection: CollectionReference<DocumentData>;
+  appointmentsQuery: Query<DocumentData>;
 
   constructor(
     private readonly functions: Functions,
     private readonly firestore: Firestore,
     private readonly snackbarService: SnackbarService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly auth: Auth
   ) {
     this.functions.region = 'us-east1';
     this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
     this.getBookAppointmentFn = httpsCallable(functions, 'bookAppointmentFn');
     this.servicesCollection = collection(this.firestore, 'Services');
+    this.appointmentsCollection = collection(this.firestore, 'Appointments');
     this.servicesQuery = query(
       this.servicesCollection,
       orderBy('price', 'asc')
@@ -82,6 +88,31 @@ export class BookingService {
         return NEVER;
       })
     );
+  }
+
+  public getAppointments(): Observable<Appointment[]> {
+    const appointments$ = user(this.auth).pipe(
+      switchMap((user) => {
+        if (!user) {
+          throw new Error('User is not logged in');
+        }
+        return collectionData(
+          query(
+            this.appointmentsCollection,
+            where('userId', '==', user.uid),
+            orderBy('start', 'asc')
+          )
+        ) as Observable<Appointment[]>;
+      }),
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Could not load appointments due to error: ${error}`
+        );
+        return NEVER;
+      })
+    );
+
+    return appointments$;
   }
 
   public getAvailability(service: Service): Observable<Availability> {

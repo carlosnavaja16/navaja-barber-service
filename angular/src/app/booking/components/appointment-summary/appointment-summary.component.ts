@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  Signal
+} from '@angular/core';
 import { UserService } from 'src/app/user/user.service';
-import { Appointment } from '@type/appointment';
-import { UserProfile } from '@type/user-profile';
+import { Appointment } from '../../../../../../shared/types/appointment';
+import { UserProfile } from '../../../../../../shared/types/user-profile';
 @Component({
   selector: 'appointment-summary',
   templateUrl: './appointment-summary.component.html',
@@ -11,10 +18,15 @@ import { UserProfile } from '@type/user-profile';
 export class AppointmentSummaryComponent {
   @Input() appointment: Appointment;
   @Input() timeZone: string | undefined;
+  @Output() goToAppointments: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private readonly userService: UserService) {}
 
-  get userProfileSnapshot(): UserProfile | null {
-    return this.userService.getUserProfileSnapshot();
+  get currUserProfile(): Signal<UserProfile | null> {
+    return this.userService.getCurrUserProfile();
+  }
+
+  onGoToAppointments(): void {
+    this.goToAppointments.emit();
   }
 }

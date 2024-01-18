@@ -1,10 +1,10 @@
 import { getAvailability } from './functions/get-availability.function';
 import { CallableRequest } from 'firebase-functions/lib/common/providers/https';
 import { CallableOptions, onCall } from 'firebase-functions/v2/https';
-import { ServiceAccountCredentials } from '@type/service-account-credentials';
+import { ServiceAccountCredentials } from '@shared/types/service-account-credentials';
 import { bookAppointment } from './functions/book-appointment.function';
 import { CREDENTIALS } from './credentials';
-import { AvailabilityRequest } from '@type/availability';
+import { AvailabilityRequest } from '@shared/types/availability';
 import { calendar_v3 } from 'googleapis';
 
 const CALENDAR_SERVICE_ACC_CREDENTIALS: ServiceAccountCredentials = CREDENTIALS;

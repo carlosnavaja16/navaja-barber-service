@@ -9,8 +9,8 @@ import {
   updateEmail,
   user
 } from '@angular/fire/auth';
-import { Observable, from, map, of, switchMap, tap } from 'rxjs';
-import { UserProfile } from '@type/user-profile';
+import { Observable, from, map, of, switchMap } from 'rxjs';
+import { UserProfile } from '../../../../shared/types/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -29,25 +29,34 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class UserService {
   private isLoggedIn: Signal<boolean>;
   private userProfilesCollection: CollectionReference<DocumentData>;
-  private userProfileSnapshot: UserProfile | null = null;
+  private currUserProfile: Signal<UserProfile | null>;
 
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore
   ) {
+    this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
     this.isLoggedIn = toSignal(
       authState(this.auth).pipe(map((user) => (user ? true : false))),
       { initialValue: false }
     );
-    this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
+    this.currUserProfile = toSignal(
+      authState(this.auth).pipe(
+        map((user) => (user ? true : false)),
+        switchMap((user) => {
+          return user ? this.getUserProfile() : of(null);
+        })
+      ),
+      { initialValue: null }
+    );
   }
 
   public getIsLoggedIn(): Signal<boolean> {
     return this.isLoggedIn;
   }
 
-  public getUserProfileSnapshot(): UserProfile | null {
-    return this.userProfileSnapshot;
+  public getCurrUserProfile(): Signal<UserProfile | null> {
+    return this.currUserProfile;
   }
 
   public login(email: string, password: string): Observable<UserProfile> {
@@ -58,17 +67,14 @@ export class UserService {
         ).pipe(
           map(
             (userProfileSnapshot) => userProfileSnapshot.data() as UserProfile
-          ),
-          tap((userProfile) => (this.userProfileSnapshot = userProfile))
+          )
         );
       })
     );
   }
 
   public logOut(): Observable<void> {
-    return from(signOut(this.auth)).pipe(
-      tap(() => (this.userProfileSnapshot = null))
-    );
+    return from(signOut(this.auth));
   }
 
   public createUser(
@@ -88,8 +94,7 @@ export class UserService {
             userId: user.user.uid
           })
         );
-      }),
-      tap(() => (this.userProfileSnapshot = userProfile))
+      })
     );
   }
 
@@ -138,8 +143,7 @@ export class UserService {
             ...userProfile
           })
         );
-      }),
-      tap(() => (this.userProfileSnapshot = userProfile))
+      })
     );
   }
 }

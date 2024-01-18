@@ -1,5 +1,5 @@
 import { createEvent } from '../utilities/google-calendar.util';
-import { ServiceAccountCredentials } from '@type/service-account-credentials';
+import { ServiceAccountCredentials } from '@shared/types/service-account-credentials';
 import { calendar_v3 } from 'googleapis';
 
 export async function bookAppointment(

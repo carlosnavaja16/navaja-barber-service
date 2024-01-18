@@ -17,11 +17,11 @@
     }
   ],
   "hosting": {
-    "public": "./angular/dist",
+    "public": "./angular/dist/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "./angular/**",
+        "source": "**",
         "destination": "/index.html"
       }
     ]

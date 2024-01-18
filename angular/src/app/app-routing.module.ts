@@ -9,6 +9,7 @@ import { LoginComponent } from './user/pages/login/login.component';
 import { LogoutComponent } from './user/pages/logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from './booking/pages/booking/booking.component';
+import { AppointmentsComponent } from './booking/pages/appointments/appointments.component';
 
 const redirectUnauthorizedToHome = () => redirectUnauthorizedTo(['']);
 
@@ -32,6 +33,12 @@ const routes: Routes = [
   {
     path: 'booking',
     component: BookingComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToHome }
+  },
+  {
+    path: 'appointments',
+    component: AppointmentsComponent,
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToHome }
   }

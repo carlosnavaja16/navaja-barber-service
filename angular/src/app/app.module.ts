@@ -30,6 +30,7 @@ import { DurationPipe } from './booking/pipes/duration.pipe';
 import { DatePickerComponent } from './booking/components/date-picker/date-picker.component';
 import { ProfileFormComponent } from './user/components/profile-form/profile-form.component';
 import { SignUpFormComponent } from './user/components/sign-up-form/sign-up-form.component';
+import { AppointmentsComponent } from './booking/pages/appointments/appointments.component';
 
 // material design
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -73,7 +74,8 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
     ProfileFormComponent,
     SignUpFormComponent,
     AppointmentPreviewComponent,
-    AppointmentSummaryComponent
+    AppointmentSummaryComponent,
+    AppointmentsComponent
   ],
   imports: [
     BrowserModule,

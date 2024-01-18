@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, signOut } from '@angular/fire/auth';
-import { SnackbarService } from '../../../shared/services/snackbar/snackbar.service';
+import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { catchError, from, take, tap } from 'rxjs';
 
 @Component({
