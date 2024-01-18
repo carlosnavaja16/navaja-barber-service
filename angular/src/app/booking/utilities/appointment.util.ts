@@ -1,8 +1,8 @@
 import { calendar_v3 } from 'googleapis';
-import { UserProfile } from '../../../../../shared/types/user-profile';
-import { Service } from '../../../../../shared/types/service';
-import { TimeSlot } from '../../../../../shared/types/time-slot';
-import { Appointment } from '../../../../../shared/types/appointment';
+import { UserProfile } from '@shared/types/user-profile';
+import { Service } from '@shared/types/service';
+import { TimeSlot } from '@shared/types/time-slot';
+import { Appointment } from '@shared/types/appointment';
 
 export class AppointmentUtils {
   public static getAppointmentEvent(

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Service } from '../../../../../../shared/types/service';
+import { Service } from '@shared/types/service';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({

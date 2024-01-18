@@ -1,4 +1,4 @@
-import { TimeSlot } from '../../../../../shared/types/time-slot';
+import { TimeSlot } from '@shared/types/time-slot';
 
 export class DateUtils {
   public static getDateHash(date: Date): string {

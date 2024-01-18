@@ -5,8 +5,8 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { Service } from '../../../../../../shared/types/service';
-import { TimeSlot } from '../../../../../../shared/types/time-slot';
+import { Service } from '@shared/types/service';
+import { TimeSlot } from '@shared/types/time-slot';
 
 @Component({
   selector: 'appointment-preview',

@@ -5,8 +5,12 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "paths": {
+      "@src/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
-      "@shared/*": ["../shared/*"]
+      "@shared/*": ["../shared/*"],
+      "@booking/*": ["./src/app/booking/*"],
+      "@common/*": ["./src/app/common/*"],
+      "@user/*": ["./src/app/user/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true,

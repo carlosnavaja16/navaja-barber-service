@@ -1,8 +1,8 @@
 import { Component, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '@app/common/services/header/header.service';
-import { BookingService } from '../../booking.service';
-import { Appointment } from '../../../../../../shared/types/appointment';
+import { BookingService } from '@booking/booking.service';
+import { Appointment } from '@shared/types/appointment';
 
 @Component({
   selector: 'app-appointments',

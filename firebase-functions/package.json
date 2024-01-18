@@ -12,7 +12,8 @@
     "luxon": "^3.4.4"
   },
   "devDependencies": {
-    "@types/luxon": "^3.4.1"
+    "@types/luxon": "^3.4.1",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": "18"

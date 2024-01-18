@@ -1,8 +1,8 @@
 import { Component, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '@app/common/services/header/header.service';
-import { UserService } from '../../../user/user.service';
-import { BookingService } from '../../booking.service';
+import { UserService } from '@user/user.service';
+import { BookingService } from '@booking/booking.service';
 import { Service } from '@shared/types/service';
 import { Router } from '@angular/router';
 

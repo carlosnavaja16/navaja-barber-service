@@ -1,6 +1,6 @@
-import { AvailabilityResponse } from '@shared/types/availability';
+import { AvailabilityResponse } from '../../../shared/types/availability';
 import { getCalendarBusy } from '../utilities/google-calendar.util';
-import { ServiceAccountCredentials } from '@shared/types/service-account-credentials';
+import { ServiceAccountCredentials } from '../../../shared/types/service-account-credentials';
 import { calendar_v3 } from 'googleapis';
 import { DateUtils } from '../utilities/date.util';
 

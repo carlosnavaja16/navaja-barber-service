@@ -10,7 +10,7 @@ import {
   user
 } from '@angular/fire/auth';
 import { Observable, from, map, of, switchMap } from 'rxjs';
-import { UserProfile } from '../../../../shared/types/user-profile';
+import { UserProfile } from '@shared/types/user-profile';
 import {
   CollectionReference,
   DocumentData,

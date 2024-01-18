@@ -7,8 +7,8 @@ import {
   Signal
 } from '@angular/core';
 import { UserService } from 'src/app/user/user.service';
-import { Appointment } from '../../../../../../shared/types/appointment';
-import { UserProfile } from '../../../../../../shared/types/user-profile';
+import { Appointment } from '@shared/types/appointment';
+import { UserProfile } from '@shared/types/user-profile';
 @Component({
   selector: 'appointment-summary',
   templateUrl: './appointment-summary.component.html',

@@ -1,7 +1,7 @@
 import { google, calendar_v3 } from 'googleapis';
 import { GaxiosResponse } from 'gaxios';
 import { JWT } from 'google-auth-library';
-import { ServiceAccountCredentials } from '@shared/types/service-account-credentials';
+import { ServiceAccountCredentials } from '../../../shared/types/service-account-credentials';
 import {
   SCOPE,
   BARBER_SERVICE_CALENDAR_ID

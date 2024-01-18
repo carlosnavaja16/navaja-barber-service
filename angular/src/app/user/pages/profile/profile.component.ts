@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderService } from '@app/common/services/header/header.service';
 import { Observable } from 'rxjs';
-import { UserService } from '../../user.service';
+import { UserService } from '@user/user.service';
 import { UserProfile } from '@shared/types/user-profile';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { TimeSlot } from '../../../../shared/types/time-slot';
+import { TimeSlot } from '@shared/types/time-slot';
 import {
   AvailabilityRequest,
   Availability,
   AvailabilityResponse
-} from '../../../../shared/types/availability';
+} from '@shared/types/availability';
 import {
   Functions,
   httpsCallable,
@@ -20,7 +20,7 @@ import {
   of,
   switchMap
 } from 'rxjs';
-import { DateUtils } from './utilities/date.util';
+import { DateUtils } from '@booking/utilities/date.util';
 import {
   CollectionReference,
   DocumentData,
@@ -33,13 +33,13 @@ import {
   query,
   setDoc
 } from '@angular/fire/firestore';
-import { Service } from '../../../../shared/types/service';
+import { Service } from '@shared/types/service';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { calendar_v3 } from 'googleapis';
-import { UserService } from '../user/user.service';
-import { AppointmentUtils } from './utilities/appointment.util';
+import { UserService } from '@user/user.service';
+import { AppointmentUtils } from '@booking/utilities/appointment.util';
 import { Appointment } from '@shared/types/appointment';
-import { UserProfile } from '../../../../shared/types/user-profile';
+import { UserProfile } from '@shared/types/user-profile';
 import { where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
 
