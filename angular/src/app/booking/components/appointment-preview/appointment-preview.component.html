@@ -13,9 +13,9 @@
             <b>Date: </b>{{ date | date: 'fullDate' }}
           </div>
         }
-        @if (timeSlot) {
+        @if (time) {
           <div class="text-sm text-black">
-            <b>Time: </b> {{ timeSlot.start | date: 'shortTime' }}
+            <b>Time: </b> {{ time | date: 'shortTime' }}
             {{ timeZone }}
           </div>
         }
@@ -26,7 +26,7 @@
           color="primary"
           class="w-full"
           [disabled]="bookDisabled"
-          (click)="onBookingSubmitted()"
+          (click)="onBook()"
         >
           Book
         </button>

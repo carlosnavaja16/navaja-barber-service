@@ -12,8 +12,8 @@ import { LogoutComponent } from '@user/pages/logout/logout.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { BookingComponent } from '@booking/pages/booking/booking.component';
 import { TimeSlotsComponent } from '@booking/components/time-slots/time-slots.component';
+import { AppointmentSummaryComponent } from '@src/app/booking/components/appointment-summary/appointment-summary.component';
 import { AppointmentPreviewComponent } from '@booking/components/appointment-preview/appointment-preview.component';
-import { AppointmentSummaryComponent } from '@booking/components/appointment-summary/appointment-summary.component';
 import { environment } from '@src/environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -45,6 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // icons
 import { NgIconsModule } from '@ng-icons/core';
@@ -55,6 +56,11 @@ import { bootstrapLinkedin } from '@ng-icons/bootstrap-icons';
 import { heroEnvelopeSolid } from '@ng-icons/heroicons/solid';
 import { heroPhoneSolid, heroCalendarSolid } from '@ng-icons/heroicons/solid';
 import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
+import {
+  heroHomeModernMini,
+  heroCalendarMini,
+  heroClockMini
+} from '@ng-icons/heroicons/mini';
 
 @NgModule({
   declarations: [
@@ -103,6 +109,7 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
     MatStepperModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
@@ -117,7 +124,10 @@ import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
       heroPhoneSolid,
       heroCalendarDays,
       heroCalendarSolid,
-      heroCalendar
+      heroCalendar,
+      heroHomeModernMini,
+      heroCalendarMini,
+      heroClockMini
     }),
     MatSidenavModule
   ],

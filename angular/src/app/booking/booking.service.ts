@@ -38,11 +38,18 @@ import { SnackbarService } from '@app/common/services/snackbar/snackbar.service'
 import { calendar_v3 } from 'googleapis';
 import { UserService } from '@user/user.service';
 import { AppointmentUtils } from '@booking/utilities/appointment.util';
-import { Appointment } from '@shared/types/appointment';
+import { Appointment, AppointmentAddress } from '@shared/types/appointment';
 import { UserProfile } from '@shared/types/user-profile';
-import { where } from 'firebase/firestore';
+import { Timestamp, where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
 
+interface AppointmentResponse {
+  eventId: string;
+  userId: string;
+  service: Service;
+  address: AppointmentAddress;
+  start: Timestamp;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -102,7 +109,23 @@ export class BookingService {
             where('userId', '==', user.uid),
             orderBy('start', 'asc')
           )
-        ) as Observable<Appointment[]>;
+        ) as Observable<AppointmentResponse[]>;
+      }),
+      map((appointmentResponses) => {
+        return appointmentResponses.map((appointmentResponse) => {
+          return {
+            eventId: appointmentResponse.eventId,
+            userId: appointmentResponse.userId,
+            service: appointmentResponse.service,
+            address: {
+              streetAddr: appointmentResponse.address.streetAddr,
+              city: appointmentResponse.address.city,
+              state: appointmentResponse.address.state,
+              zip: appointmentResponse.address.zip
+            },
+            start: appointmentResponse.start.toDate()
+          };
+        });
       }),
       catchError((error) => {
         this.snackbarService.pushSnackbar(

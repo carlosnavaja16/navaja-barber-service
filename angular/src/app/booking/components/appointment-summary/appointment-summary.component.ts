@@ -3,12 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
-  Signal
+  Output
 } from '@angular/core';
-import { UserService } from 'src/app/user/user.service';
 import { Appointment } from '@shared/types/appointment';
-import { UserProfile } from '@shared/types/user-profile';
+
 @Component({
   selector: 'appointment-summary',
   templateUrl: './appointment-summary.component.html',
@@ -18,15 +16,16 @@ import { UserProfile } from '@shared/types/user-profile';
 export class AppointmentSummaryComponent {
   @Input() appointment: Appointment;
   @Input() timeZone: string | undefined;
-  @Output() goToAppointments: EventEmitter<void> = new EventEmitter<void>();
+  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reschedule: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private readonly userService: UserService) {}
+  constructor() {}
 
-  get currUserProfile(): Signal<UserProfile | null> {
-    return this.userService.getCurrUserProfile();
+  onCancel(): void {
+    this.cancel.emit();
   }
 
-  onGoToAppointments(): void {
-    this.goToAppointments.emit();
+  onReschedule(): void {
+    this.reschedule.emit();
   }
 }

@@ -3,7 +3,7 @@
     <appointment-summary
       [appointment]="appointmentResponse"
       [timeZone]="timeZone"
-      (goToAppointments)="onGoToAppointments()"
+      (myAppointments)="onMyAppointments()"
     />
   } @else {
     <div class="w-full flex flex-col items-center justify-center h-16">
@@ -65,9 +65,9 @@
         <appointment-preview
           [service]="service"
           [date]="selectedDateTimeSlots()?.date"
-          [timeSlot]="selectedTimeSlot()"
+          [time]="selectedTimeSlot()?.start"
           [timeZone]="timeZone"
-          (bookingSubmitted)="onBookingSubmitted()"
+          (book)="onBook()"
         />
       </div>
     }

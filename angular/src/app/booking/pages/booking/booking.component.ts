@@ -107,7 +107,7 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onBookingSubmitted() {
+  onBook() {
     const selectedService = this.selectedService();
     const selectedTimeSlot = this.selectedTimeSlot();
     if (selectedService && selectedTimeSlot) {
@@ -119,7 +119,7 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onGoToAppointments() {
+  onMyAppointments() {
     this.router.navigate(['/appointments']);
   }
 }

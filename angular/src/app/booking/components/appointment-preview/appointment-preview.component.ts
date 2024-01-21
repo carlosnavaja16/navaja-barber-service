@@ -6,28 +6,27 @@ import {
   Output
 } from '@angular/core';
 import { Service } from '@shared/types/service';
-import { TimeSlot } from '@shared/types/time-slot';
 
 @Component({
   selector: 'appointment-preview',
   templateUrl: './appointment-preview.component.html',
-  styleUrls: ['./appointment-preview.component.scss'],
+  styleUrl: './appointment-preview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppointmentPreviewComponent {
   @Input() service: Service;
   @Input() date: Date | undefined;
-  @Input() timeSlot: TimeSlot | null;
+  @Input() time: Date | undefined;
   @Input() timeZone: string | undefined;
-  @Output() bookingSubmitted: EventEmitter<void> = new EventEmitter<void>();
+  @Output() book: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
   get bookDisabled(): boolean {
-    return !this.service || !this.date || !this.timeSlot ? true : false;
+    return !this.service || !this.date || !this.time ? true : false;
   }
 
-  onBookingSubmitted(): void {
-    this.bookingSubmitted.emit();
+  onBook(): void {
+    this.book.emit();
   }
 }

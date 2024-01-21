@@ -32,7 +32,12 @@ export class AppointmentUtils {
       eventId: event.id || '',
       userId: userProfile.userId || '',
       service: Service,
-      location: event.location || '',
+      address: {
+        streetAddr: userProfile.streetAddr,
+        city: userProfile.city,
+        state: userProfile.state,
+        zip: userProfile.zipCode
+      },
       start: new Date(event.start?.dateTime || '')
     };
   }
