@@ -1,6 +1,5 @@
 import { AvailabilityResponse } from '../../../shared/types/availability';
 import { getCalendarBusy } from '../utilities/google-calendar.util';
-import { ServiceAccountCredentials } from '../../../shared/types/service-account-credentials';
 import { calendar_v3 } from 'googleapis';
 import { DateUtils } from '../utilities/date.util';
 
@@ -11,7 +10,6 @@ import { DateUtils } from '../utilities/date.util';
  * @returns an Availability object.
  */
 export async function getAvailability(
-  credentials: ServiceAccountCredentials,
   eventDuration: number
 ): Promise<AvailabilityResponse> {
   const openingHourUTC = DateUtils.getOpeningHourUtc();
@@ -25,7 +23,6 @@ export async function getAvailability(
   );
 
   const busyTimes: calendar_v3.Schema$TimePeriod[] = await getCalendarBusy(
-    credentials,
     minDate,
     maxDate
   );

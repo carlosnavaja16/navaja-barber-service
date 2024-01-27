@@ -29,6 +29,7 @@ import {
   collection,
   collectionData,
   doc,
+  limit,
   orderBy,
   query,
   setDoc
@@ -42,6 +43,8 @@ import { Appointment, AppointmentAddress } from '@shared/types/appointment';
 import { UserProfile } from '@shared/types/user-profile';
 import { Timestamp, where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
+
+const appointmentsLimit = 10;
 
 interface AppointmentResponse {
   eventId: string;
@@ -107,7 +110,8 @@ export class BookingService {
           query(
             this.appointmentsCollection,
             where('userId', '==', user.uid),
-            orderBy('start', 'asc')
+            orderBy('start', 'asc'),
+            limit(appointmentsLimit)
           )
         ) as Observable<AppointmentResponse[]>;
       }),

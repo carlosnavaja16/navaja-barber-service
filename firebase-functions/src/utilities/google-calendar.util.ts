@@ -1,11 +1,11 @@
 import { google, calendar_v3 } from 'googleapis';
 import { GaxiosResponse } from 'gaxios';
 import { JWT } from 'google-auth-library';
-import { ServiceAccountCredentials } from '../../../shared/types/service-account-credentials';
 import {
   SCOPE,
   BARBER_SERVICE_CALENDAR_ID
 } from '../constants/barber-service.constants';
+import { CREDENTIALS } from '../../credentials';
 
 /**
  * Retrieves busy time slots from a Google Calendar for a specific date range.
@@ -15,16 +15,12 @@ import {
  * @returns An array of busy time slots for the specified date range.
  * @throws An error if the freebusy query fails or if no calendar is found for the specified calendar ID.
  */
-export async function getCalendarBusy(
-  credentials: ServiceAccountCredentials,
-  minDate: Date,
-  maxDate: Date
-) {
+export async function getCalendarBusy(minDate: Date, maxDate: Date) {
   const calendar = google.calendar({
     version: 'v3',
     auth: new JWT({
-      email: credentials.client_email,
-      key: credentials.private_key,
+      email: CREDENTIALS.client_email,
+      key: CREDENTIALS.private_key,
       scopes: [SCOPE]
     })
   });
@@ -71,15 +67,12 @@ export async function getCalendarBusy(
  * @returns The created event data.
  * @throws An error if the event could not be created.
  */
-export async function createEvent(
-  credentials: ServiceAccountCredentials,
-  event: calendar_v3.Schema$Event
-) {
+export async function createEvent(event: calendar_v3.Schema$Event) {
   const calendar = google.calendar({
     version: 'v3',
     auth: new JWT({
-      email: credentials.client_email,
-      key: credentials.private_key,
+      email: CREDENTIALS.client_email,
+      key: CREDENTIALS.private_key,
       scopes: [SCOPE]
     })
   });
@@ -101,4 +94,31 @@ export async function createEvent(
   }
 
   return createEventResponse.data;
+}
+
+export async function cancelEvent(eventId: string) {
+  const calendar = google.calendar({
+    version: 'v3',
+    auth: new JWT({
+      email: CREDENTIALS.client_email,
+      key: CREDENTIALS.private_key,
+      scopes: [SCOPE]
+    })
+  });
+  let cancelEventResponse: GaxiosResponse<void>;
+  try {
+    cancelEventResponse = await calendar.events.delete({
+      calendarId: BARBER_SERVICE_CALENDAR_ID,
+      eventId
+    });
+  } catch (error) {
+    console.error(
+      `Failed to cancel event with Id: ${eventId} due to error: ${error}`
+    );
+    throw new Error(
+      `Failed to cancel event with Id: ${eventId} due to error: ${error}`
+    );
+  }
+
+  return cancelEventResponse.data;
 }
