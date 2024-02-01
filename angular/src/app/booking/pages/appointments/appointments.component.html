@@ -1,46 +1,59 @@
 <div class="mx-auto max-w-screen-md">
-  @if (!appointments().length) {
-    <p class="text-center pb-5">
-      <small>
-        You have not booked any appointments yet.
-        <a [routerLink]="'/booking'" class="link-text">Book now</a>
-      </small>
-    </p>
+  @if (appointments() === null) {
+    <div class="w-full flex flex-col items-center justify-center h-16">
+      <mat-progress-spinner color="primary" mode="indeterminate" />
+    </div>
   } @else {
-    @if (nextAppointment) {
-      <p class="text-2xl">Your next appointment</p>
-      <appointment-summary
-        [appointment]="nextAppointment"
-        [timeZone]="timeZone"
-        class="pb-3"
-      />
-    }
-    @if (upcomingAppointments.length || pastAppointments.length) {
-      <mat-tab-group class="py-3" animationDuration="0ms">
-        @if (upcomingAppointments.length) {
-          <mat-tab label="Upcoming">
-            @for (
-              appointment of upcomingAppointments;
-              track appointment.eventId
-            ) {
-              <appointment-summary
-                [appointment]="appointment"
-                [timeZone]="timeZone"
-              />
-            }
-          </mat-tab>
-        }
-        @if (pastAppointments.length) {
-          <mat-tab label="Past">
-            @for (appointment of pastAppointments; track appointment.eventId) {
-              <appointment-summary
-                [appointment]="appointment"
-                [timeZone]="timeZone"
-              />
-            }
-          </mat-tab>
-        }
-      </mat-tab-group>
+    @if (noAppointments()) {
+      <p class="text-center pb-5">
+        <small>
+          You have not booked any appointments yet.
+          <a [routerLink]="'/booking'" class="link-text">Book now</a>
+        </small>
+      </p>
+    } @else {
+      @if (nextAppointment()) {
+        <p class="text-2xl">Your next appointment</p>
+        <appointment-summary
+          [appointment]="nextAppointment()!"
+          [timeZone]="timeZone"
+          class="pb-3"
+          editable
+          (cancel)="onCancel(nextAppointment()!)"
+        />
+      }
+      @if (upcomingAppointments()?.length || pastAppointments()?.length) {
+        <mat-tab-group class="py-3" animationDuration="0ms">
+          @if (upcomingAppointments()?.length) {
+            <mat-tab label="Upcoming">
+              @for (
+                appointment of upcomingAppointments();
+                track appointment.eventId
+              ) {
+                <appointment-summary
+                  [appointment]="appointment"
+                  [timeZone]="timeZone"
+                  editable
+                  (cancel)="onCancel(appointment)"
+                />
+              }
+            </mat-tab>
+          }
+          @if (pastAppointments()?.length) {
+            <mat-tab label="Past">
+              @for (
+                appointment of pastAppointments();
+                track appointment.eventId
+              ) {
+                <appointment-summary
+                  [appointment]="appointment"
+                  [timeZone]="timeZone"
+                />
+              }
+            </mat-tab>
+          }
+        </mat-tab-group>
+      }
     }
   }
 </div>

@@ -16,23 +16,24 @@
       <p>{{ appointment.start | date: 'shortTime' }} {{ timeZone }}</p>
     </div>
   </div>
-  <div class="flex flex-col justify-center items-center gap-3 md:flex-row">
-    <button
-      mat-raised-button
-      color="primary"
-      class="w-full"
-      disabled
-      (click)="onReschedule()"
-    >
-      Reschedule
-    </button>
-    <button
-      mat-stroked-button
-      color="primary"
-      class="w-full"
-      (click)="onCancel()"
-    >
-      Cancel
-    </button>
-  </div>
+  @if (upcoming && editable) {
+    <div class="flex flex-col justify-center items-center gap-3 md:flex-row">
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-full"
+        (click)="onReschedule()"
+      >
+        Reschedule
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        class="w-full"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  }
 </div>

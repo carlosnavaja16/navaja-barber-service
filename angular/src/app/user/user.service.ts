@@ -55,8 +55,8 @@ export class UserService {
     return this.isLoggedIn;
   }
 
-  public getCurrUserProfile(): Signal<UserProfile | null> {
-    return this.currUserProfile;
+  public getCurrUserProfile(): UserProfile | null {
+    return this.currUserProfile();
   }
 
   public login(email: string, password: string): Observable<UserProfile> {

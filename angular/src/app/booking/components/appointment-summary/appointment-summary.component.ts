@@ -3,7 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  booleanAttribute
 } from '@angular/core';
 import { Appointment } from '@shared/types/appointment';
 
@@ -16,6 +17,7 @@ import { Appointment } from '@shared/types/appointment';
 export class AppointmentSummaryComponent {
   @Input() appointment: Appointment;
   @Input() timeZone: string | undefined;
+  @Input({ transform: booleanAttribute }) editable: boolean;
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
   @Output() reschedule: EventEmitter<void> = new EventEmitter<void>();
 
@@ -27,5 +29,9 @@ export class AppointmentSummaryComponent {
 
   onReschedule(): void {
     this.reschedule.emit();
+  }
+
+  get upcoming() {
+    return this.appointment.start.getTime() > Date.now();
   }
 }

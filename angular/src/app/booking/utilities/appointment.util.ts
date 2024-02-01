@@ -23,7 +23,7 @@ export class AppointmentUtils {
     };
   }
 
-  public static getAppointment(
+  public static getAppointmentFromEvent(
     userProfile: UserProfile,
     event: calendar_v3.Schema$Event,
     Service: Service
@@ -38,7 +38,8 @@ export class AppointmentUtils {
         state: userProfile.state,
         zip: userProfile.zipCode
       },
-      start: new Date(event.start?.dateTime || '')
+      start: new Date(event.start?.dateTime || ''),
+      cancelled: null
     };
   }
 }

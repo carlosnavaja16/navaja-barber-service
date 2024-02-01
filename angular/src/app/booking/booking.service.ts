@@ -18,7 +18,8 @@ import {
   NEVER,
   Observable,
   of,
-  switchMap
+  switchMap,
+  tap
 } from 'rxjs';
 import { DateUtils } from '@booking/utilities/date.util';
 import {
@@ -43,8 +44,9 @@ import { Appointment, AppointmentAddress } from '@shared/types/appointment';
 import { UserProfile } from '@shared/types/user-profile';
 import { Timestamp, where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
+import { formatDate } from '@angular/common';
 
-const appointmentsLimit = 10;
+const appointmentsLimit = 25;
 
 interface AppointmentResponse {
   eventId: string;
@@ -52,6 +54,7 @@ interface AppointmentResponse {
   service: Service;
   address: AppointmentAddress;
   start: Timestamp;
+  cancelled: Timestamp | null;
 }
 @Injectable({
   providedIn: 'root'
@@ -62,6 +65,7 @@ export class BookingService {
     calendar_v3.Schema$Event,
     calendar_v3.Schema$Event
   >;
+  cancelAppointmentFn: HttpsCallable<string, void>;
   servicesCollection: CollectionReference<DocumentData>;
   servicesQuery: Query<DocumentData>;
   selectedService: Service | null;
@@ -78,6 +82,7 @@ export class BookingService {
     this.functions.region = 'us-east1';
     this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
     this.getBookAppointmentFn = httpsCallable(functions, 'bookAppointmentFn');
+    this.cancelAppointmentFn = httpsCallable(functions, 'cancelAppointmentFn');
     this.servicesCollection = collection(this.firestore, 'Services');
     this.appointmentsCollection = collection(this.firestore, 'Appointments');
     this.servicesQuery = query(
@@ -110,7 +115,8 @@ export class BookingService {
           query(
             this.appointmentsCollection,
             where('userId', '==', user.uid),
-            orderBy('start', 'asc'),
+            where('cancelled', '==', null),
+            orderBy('start', 'desc'),
             limit(appointmentsLimit)
           )
         ) as Observable<AppointmentResponse[]>;
@@ -127,7 +133,8 @@ export class BookingService {
               state: appointmentResponse.address.state,
               zip: appointmentResponse.address.zip
             },
-            start: appointmentResponse.start.toDate()
+            start: appointmentResponse.start.toDate(),
+            cancelled: appointmentResponse.cancelled?.toDate() || null
           };
         });
       }),
@@ -143,7 +150,11 @@ export class BookingService {
   }
 
   public getAvailability(service: Service): Observable<Availability> {
-    //defer() will wait until we subscribe to the observable to execute the request
+    /**
+     * getAvailabilityFn returns a promise which execute immediately
+     * since we are turning said promise into an observable, we use defer
+     * in order to delay the execution of the promise until the observable is subscribed to
+     */
     const availability$ = defer(() =>
       this.getAvailabilityFn({
         eventDuration: DateUtils.getMillisecondsFromMinutes(service.duration)
@@ -227,7 +238,7 @@ export class BookingService {
         if (!event.id) {
           throw new Error('Could not book appointment');
         }
-        appointment = AppointmentUtils.getAppointment(
+        appointment = AppointmentUtils.getAppointmentFromEvent(
           userProfile,
           event,
           service
@@ -247,5 +258,39 @@ export class BookingService {
       })
     );
     return appointment$;
+  }
+
+  /**
+   * Cancels an appointment for a given event id.
+   * It also sets a cancelled date on the appointment in Firestore.
+   * @param eventId - The event id for the appointment.
+   * @returns An Observable that emits the cancelled appointment.
+   */
+  public cancelAppointment(appointment: Appointment): Observable<void> {
+    const cancelAppointment$ = defer(() =>
+      this.cancelAppointmentFn(appointment.eventId)
+    ).pipe(
+      switchMap(() => {
+        return from(
+          setDoc(doc(this.firestore, 'Appointments', appointment.eventId), {
+            ...appointment,
+            cancelled: new Date()
+          })
+        );
+      }),
+      tap(() =>
+        this.snackbarService.pushSnackbar(
+          `Your appointment for ${formatDate(appointment.start, "EEE, MMM d 'at' h:mm a", 'en-US')} has been cancelled.`
+        )
+      ),
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Could not cancel appointment due to error: ${error}`
+        );
+        return NEVER;
+      })
+    );
+
+    return cancelAppointment$;
   }
 }

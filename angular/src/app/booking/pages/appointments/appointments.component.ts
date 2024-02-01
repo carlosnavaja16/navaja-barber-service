@@ -1,9 +1,10 @@
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '@app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Appointment } from '@shared/types/appointment';
 import { DateUtils } from '@booking/utilities/date.util';
+import { Observable, Subject, merge, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-appointments',
@@ -12,7 +13,14 @@ import { DateUtils } from '@booking/utilities/date.util';
 })
 export class AppointmentsComponent {
   timeZone: string;
-  appointments: Signal<Appointment[]>;
+  appointments$: Observable<Appointment[]>;
+  appointments: Signal<Appointment[] | null>;
+  noAppointments: Signal<boolean | null>;
+  nextAppointment: Signal<Appointment | null>;
+  pastAppointments: Signal<Appointment[] | null>;
+  upcomingAppointments: Signal<Appointment[] | null>;
+  refetchAppointments = new Subject<void>();
+  refetchAppointments$: Observable<Appointment[]>;
 
   constructor(
     private readonly bookingService: BookingService,
@@ -20,41 +28,57 @@ export class AppointmentsComponent {
   ) {
     this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
-    //TURN THIS BACK INTO AN OBSERVABLE SO YOU CAN SHOW LOADING SPINNER
-    this.appointments = toSignal(this.bookingService.getAppointments(), {
-      initialValue: []
+    this.appointments$ = this.bookingService.getAppointments();
+    this.refetchAppointments$ = this.refetchAppointments
+      .asObservable()
+      .pipe(switchMap(() => this.bookingService.getAppointments()));
+    this.appointments = toSignal(
+      merge(this.appointments$, this.refetchAppointments$),
+      { initialValue: null }
+    );
+    this.noAppointments = computed(() => {
+      const appointments = this.appointments();
+      if (appointments == null) {
+        return null;
+      } else {
+        return appointments.length === 0;
+      }
+    });
+    this.nextAppointment = computed(() => {
+      const appointments = this.appointments();
+      if (appointments == null) {
+        return null;
+      } else {
+        return appointments.filter(
+          (appointment) => appointment.start.getTime() > Date.now()
+        )[0];
+      }
+    });
+    this.pastAppointments = computed(() => {
+      const appointments = this.appointments();
+      if (appointments == null) {
+        return null;
+      } else {
+        return appointments.filter(
+          (appointment) => appointment.start.getTime() < Date.now()
+        );
+      }
+    });
+    this.upcomingAppointments = computed(() => {
+      const appointments = this.appointments();
+      if (appointments == null) {
+        return null;
+      } else {
+        return appointments
+          .filter((appointment) => appointment.start.getTime() > Date.now())
+          .slice(1);
+      }
     });
     this.bookingService.selectedService = null;
   }
 
-  get noAppointments(): boolean {
-    return this.appointments().length === 0;
-  }
-
-  get nextAppointment(): Appointment | null {
-    return this.appointments()
-      .filter((appointment) => appointment.start.getTime() > Date.now())
-      .sort((a, b) => {
-        return a.start.getTime() - b.start.getTime();
-      })[0];
-  }
-
-  get pastAppointments(): Appointment[] {
-    return this.appointments().filter(
-      (appointment) => appointment.start.getTime() < Date.now()
-    );
-  }
-
-  get upcomingAppointments(): Appointment[] {
-    return this.appointments()
-      .filter((appointment) => appointment.start.getTime() > Date.now())
-      .sort((a, b) => {
-        return a.start.getTime() - b.start.getTime();
-      })
-      .slice(1);
-  }
-
-  onCancel(eventId: string): string {
-    return eventId;
+  onCancel(appointment: Appointment): void {
+    this.bookingService.cancelAppointment(appointment).subscribe();
+    this.refetchAppointments.next();
   }
 }

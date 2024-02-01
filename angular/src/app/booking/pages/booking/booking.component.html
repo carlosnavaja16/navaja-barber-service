@@ -1,10 +1,16 @@
 @if (bookingSubmitted) {
   @if (appointmentResponse$ | async; as appointmentResponse) {
-    <appointment-summary
-      [appointment]="appointmentResponse"
-      [timeZone]="timeZone"
-      (myAppointments)="onMyAppointments()"
-    />
+    <p class="text-xl text-center">Your appointment summary</p>
+    <div class="flex flex-col items-center justify-between sm:flex-row">
+      <appointment-summary
+        [appointment]="appointmentResponse"
+        [timeZone]="timeZone"
+        class="py-5 sm:py-0"
+      />
+      <button mat-raised-button color="primary" (click)="onMyAppointments()">
+        My appointments
+      </button>
+    </div>
   } @else {
     <div class="w-full flex flex-col items-center justify-center h-16">
       <mat-progress-spinner color="primary" mode="indeterminate" />

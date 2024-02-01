@@ -13,4 +13,5 @@ export interface Appointment {
   service: Service;
   address: AppointmentAddress;
   start: Date;
+  cancelled: Date | null;
 }
