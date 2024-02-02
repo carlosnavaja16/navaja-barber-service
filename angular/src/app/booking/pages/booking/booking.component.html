@@ -1,7 +1,7 @@
 @if (bookingSubmitted) {
   @if (appointmentResponse$ | async; as appointmentResponse) {
     <p class="text-xl text-center">Your appointment summary</p>
-    <div class="flex flex-col items-center justify-between sm:flex-row">
+    <div class="flex flex-col items-center justify-between">
       <appointment-summary
         [appointment]="appointmentResponse"
         [timeZone]="timeZone"

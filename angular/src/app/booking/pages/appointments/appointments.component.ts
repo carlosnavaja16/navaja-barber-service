@@ -78,7 +78,8 @@ export class AppointmentsComponent {
   }
 
   onCancel(appointment: Appointment): void {
-    this.bookingService.cancelAppointment(appointment).subscribe();
-    this.refetchAppointments.next();
+    this.bookingService.cancelAppointment(appointment).subscribe({
+      next: () => this.refetchAppointments.next()
+    });
   }
 }
