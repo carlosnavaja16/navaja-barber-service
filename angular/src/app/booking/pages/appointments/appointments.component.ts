@@ -19,8 +19,8 @@ export class AppointmentsComponent {
   nextAppointment: Signal<Appointment | null>;
   pastAppointments: Signal<Appointment[] | null>;
   upcomingAppointments: Signal<Appointment[] | null>;
-  refetchAppointments = new Subject<void>();
-  refetchAppointments$: Observable<Appointment[]>;
+  cancelledAppointment = new Subject<Appointment>();
+  refreshedAppointments$: Observable<Appointment[]>;
 
   constructor(
     private readonly bookingService: BookingService,
@@ -29,11 +29,14 @@ export class AppointmentsComponent {
     this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
     this.appointments$ = this.bookingService.getAppointments();
-    this.refetchAppointments$ = this.refetchAppointments
-      .asObservable()
-      .pipe(switchMap(() => this.bookingService.getAppointments()));
+    this.refreshedAppointments$ = this.cancelledAppointment.asObservable().pipe(
+      switchMap((appointment) =>
+        this.bookingService.cancelAppointment(appointment)
+      ),
+      switchMap(() => this.bookingService.getAppointments())
+    );
     this.appointments = toSignal(
-      merge(this.appointments$, this.refetchAppointments$),
+      merge(this.appointments$, this.refreshedAppointments$),
       { initialValue: null }
     );
     this.noAppointments = computed(() => {
