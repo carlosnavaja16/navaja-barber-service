@@ -4,7 +4,7 @@ import { HeaderService } from '@app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Appointment } from '@shared/types/appointment';
 import { DateUtils } from '@booking/utilities/date.util';
-import { Observable, Subject, merge, switchMap } from 'rxjs';
+import { Observable, Subject, merge, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-appointments',
@@ -19,9 +19,10 @@ export class AppointmentsComponent {
   nextAppointment: Signal<Appointment | null>;
   pastAppointments: Signal<Appointment[] | null>;
   upcomingAppointments: Signal<Appointment[] | null>;
-  cancelledAppointment = new Subject<Appointment>();
+  cancelledAppointments$: Subject<Appointment>;
   refreshedAppointments$: Observable<Appointment[]>;
-
+  setLoadingStatus$: Subject<void>;
+  appointmentsLoading$: Observable<null>;
   constructor(
     private readonly bookingService: BookingService,
     private readonly headerService: HeaderService
@@ -29,16 +30,31 @@ export class AppointmentsComponent {
     this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
     this.appointments$ = this.bookingService.getAppointments();
-    this.refreshedAppointments$ = this.cancelledAppointment.asObservable().pipe(
-      switchMap((appointment) =>
-        this.bookingService.cancelAppointment(appointment)
-      ),
-      switchMap(() => this.bookingService.getAppointments())
-    );
+    this.cancelledAppointments$ = new Subject();
+    this.setLoadingStatus$ = new Subject();
+
+    this.appointmentsLoading$ = this.setLoadingStatus$
+      .asObservable()
+      .pipe(switchMap(() => of(null)));
+
+    this.refreshedAppointments$ = this.cancelledAppointments$
+      .asObservable()
+      .pipe(
+        switchMap((appointment) =>
+          this.bookingService.cancelAppointment(appointment)
+        ),
+        switchMap(() => this.bookingService.getAppointments())
+      );
+
     this.appointments = toSignal(
-      merge(this.appointments$, this.refreshedAppointments$),
+      merge(
+        this.appointments$,
+        this.refreshedAppointments$,
+        this.appointmentsLoading$
+      ),
       { initialValue: null }
     );
+
     this.noAppointments = computed(() => {
       const appointments = this.appointments();
       if (appointments == null) {
@@ -47,6 +63,7 @@ export class AppointmentsComponent {
         return appointments.length === 0;
       }
     });
+
     this.nextAppointment = computed(() => {
       const appointments = this.appointments();
       if (appointments == null) {
@@ -57,6 +74,7 @@ export class AppointmentsComponent {
         )[0];
       }
     });
+
     this.pastAppointments = computed(() => {
       const appointments = this.appointments();
       if (appointments == null) {
@@ -67,6 +85,7 @@ export class AppointmentsComponent {
         );
       }
     });
+
     this.upcomingAppointments = computed(() => {
       const appointments = this.appointments();
       if (appointments == null) {
@@ -77,12 +96,10 @@ export class AppointmentsComponent {
           .slice(1);
       }
     });
-    this.bookingService.selectedService = null;
   }
 
   onCancel(appointment: Appointment): void {
-    this.bookingService.cancelAppointment(appointment).subscribe({
-      next: () => this.refetchAppointments.next()
-    });
+    this.setLoadingStatus$.next();
+    this.cancelledAppointments$.next(appointment);
   }
 }
