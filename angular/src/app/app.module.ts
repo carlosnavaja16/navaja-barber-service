@@ -61,6 +61,7 @@ import {
   heroCalendarMini,
   heroClockMini
 } from '@ng-icons/heroicons/mini';
+import { FIREBASE_FUNCTIONS_PORT } from '@shared/constants';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,11 @@ import {
     provideFunctions(() => {
       const functions = getFunctions();
       if (environment.useEmulators) {
-        connectFunctionsEmulator(functions, 'localhost', 5001);
+        connectFunctionsEmulator(
+          functions,
+          'localhost',
+          FIREBASE_FUNCTIONS_PORT
+        );
       }
       return functions;
     }),

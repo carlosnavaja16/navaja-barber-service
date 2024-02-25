@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TimeSlot } from '@shared/types/time-slot';
-import {
-  AvailabilityRequest,
-  Availability,
-  AvailabilityResponse
-} from '@shared/types/availability';
-import {
-  Functions,
-  httpsCallable,
-  HttpsCallable
-} from '@angular/fire/functions';
+import { Availability, AvailabilityResponse } from '@shared/types/availability';
 import {
   catchError,
   defer,
@@ -37,16 +28,19 @@ import {
 } from '@angular/fire/firestore';
 import { Service } from '@shared/types/service';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
-import { calendar_v3 } from 'googleapis';
 import { UserService } from '@user/user.service';
 import { AppointmentUtils } from '@booking/utilities/appointment.util';
-import { Appointment, AppointmentAddress } from '@shared/types/appointment';
+import {
+  Appointment,
+  AppointmentAddress,
+  AppointmentEvent
+} from '@shared/types/appointment';
 import { UserProfile } from '@shared/types/user-profile';
 import { Timestamp, where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
 import { formatDate } from '@angular/common';
-
-const appointmentsLimit = 25;
+import { APPOINTMENTS_LIMIT } from '@shared/constants';
+import { TRPCService } from '../trpc/trpc.service';
 
 interface AppointmentResponse {
   eventId: string;
@@ -60,12 +54,6 @@ interface AppointmentResponse {
   providedIn: 'root'
 })
 export class BookingService {
-  getAvailabilityFn: HttpsCallable<AvailabilityRequest, AvailabilityResponse>;
-  getBookAppointmentFn: HttpsCallable<
-    calendar_v3.Schema$Event,
-    calendar_v3.Schema$Event
-  >;
-  cancelAppointmentFn: HttpsCallable<string, void>;
   servicesCollection: CollectionReference<DocumentData>;
   servicesQuery: Query<DocumentData>;
   selectedService: Service | null;
@@ -73,16 +61,12 @@ export class BookingService {
   appointmentsQuery: Query<DocumentData>;
 
   constructor(
-    private readonly functions: Functions,
     private readonly firestore: Firestore,
     private readonly snackbarService: SnackbarService,
     private readonly userService: UserService,
-    private readonly auth: Auth
+    private readonly auth: Auth,
+    private readonly trpcService: TRPCService
   ) {
-    this.functions.region = 'us-east1';
-    this.getAvailabilityFn = httpsCallable(functions, 'getAvailabilityFn');
-    this.getBookAppointmentFn = httpsCallable(functions, 'bookAppointmentFn');
-    this.cancelAppointmentFn = httpsCallable(functions, 'cancelAppointmentFn');
     this.servicesCollection = collection(this.firestore, 'Services');
     this.appointmentsCollection = collection(this.firestore, 'Appointments');
     this.servicesQuery = query(
@@ -117,7 +101,7 @@ export class BookingService {
             where('userId', '==', user.uid),
             where('cancelled', '==', null),
             orderBy('start', 'desc'),
-            limit(appointmentsLimit)
+            limit(APPOINTMENTS_LIMIT)
           )
         ) as Observable<AppointmentResponse[]>;
       }),
@@ -156,11 +140,10 @@ export class BookingService {
      * in order to delay the execution of the promise until the observable is subscribed to
      */
     const availability$ = defer(() =>
-      this.getAvailabilityFn({
-        eventDuration: DateUtils.getMillisecondsFromMinutes(service.duration)
-      })
+      this.trpcService.client.getAvailability.query(
+        DateUtils.getMillisecondsFromMinutes(service.duration)
+      )
     ).pipe(
-      map((result) => result.data),
       map((data: AvailabilityResponse) => {
         const firstAvailableDate = new Date(data.availableTimeSlots[0].start);
         const timeSlotsByDate = new Map<string, TimeSlot[]>();
@@ -212,7 +195,7 @@ export class BookingService {
     timeSlot: TimeSlot
   ): Observable<Appointment> {
     let userProfile: UserProfile;
-    let event: calendar_v3.Schema$Event;
+    let event: AppointmentEvent;
     let appointment: Appointment;
     const event$ = this.userService.getUserProfile().pipe(
       switchMap((user) => {
@@ -222,9 +205,8 @@ export class BookingService {
           service,
           timeSlot
         );
-        return this.getBookAppointmentFn(event);
+        return this.trpcService.client.bookAppointment.mutate(event);
       }),
-      map((result) => result.data),
       catchError((error) => {
         this.snackbarService.pushSnackbar(
           `Could not book appointment due to error: ${error}`
@@ -268,7 +250,7 @@ export class BookingService {
    */
   public cancelAppointment(appointment: Appointment): Observable<void> {
     const cancelAppointment$ = defer(() =>
-      this.cancelAppointmentFn(appointment.eventId)
+      this.trpcService.client.cancelAppointment.mutate(appointment.eventId)
     ).pipe(
       switchMap(() => {
         return from(

@@ -15,3 +15,15 @@ export interface Appointment {
   start: Date;
   cancelled: Date | null;
 }
+
+export interface AppointmentEvent {
+  summary: string;
+  description: string;
+  location: string;
+  start: {
+    dateTime: string;
+  };
+  end: {
+    dateTime: string;
+  };
+}

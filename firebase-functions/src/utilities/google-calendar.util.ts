@@ -1,10 +1,7 @@
 import { google, calendar_v3 } from 'googleapis';
 import { GaxiosResponse } from 'gaxios';
 import { JWT } from 'google-auth-library';
-import {
-  SCOPE,
-  BARBER_SERVICE_CALENDAR_ID
-} from '../constants/barber-service.constants';
+import { SCOPE, BARBER_SERVICE_CALENDAR_ID } from '../../../shared/constants';
 import { CREDENTIALS } from '../../credentials';
 
 /**
@@ -57,7 +54,7 @@ export async function getCalendarBusy(minDate: Date, maxDate: Date) {
     );
   }
 
-  return freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy;
+  return freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy!;
 }
 
 /**

@@ -6,7 +6,7 @@ import {
   CLOSING_HOUR_EST,
   LIMIT_DAYS,
   DAYS_CLOSED
-} from '../../../shared/constants';
+} from '../constants';
 import { TimeSlot } from '../../../shared/types/time-slot';
 
 export class DateUtils {
