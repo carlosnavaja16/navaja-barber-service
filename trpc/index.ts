@@ -14,6 +14,6 @@ app.use(cors(corsOptions));
 
 app.use('/trpc', createExpressMiddleware({ router: barberServiceRouter }));
 
-app.listen(Number(TRPC_SERVER_PORT), '0.0.0.0', () =>
+app.listen(TRPC_SERVER_PORT, '0.0.0.0', () =>
   console.log(`💈 tRPC barber service ready`)
 );
