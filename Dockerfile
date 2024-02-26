@@ -5,5 +5,5 @@ ENV HOST 0.0.0.0
 COPY ./trpc ./
 COPY ./shared ../shared
 RUN npm install
-RUN npm install -g ts-node
+RUN npm install -g ts-node@latest
 CMD ["ts-node", "index.ts"]
