@@ -1,5 +1,6 @@
 FROM node:20.11.0
 WORKDIR /trpc
+EXPOSE 8080
 COPY trpc/package*.json .
 RUN npm install
 RUN npm install -g ts-node
