@@ -6,6 +6,7 @@ angular/dist
 /out-tsc
 /bazel-out
 firebase-functions/lib
+trpc/dist
 
 # Node
 /node_modules
