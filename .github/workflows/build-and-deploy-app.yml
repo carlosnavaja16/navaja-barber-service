@@ -6,6 +6,11 @@ on:
 
 env:
   FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
+  PROJECT_ID: barber-service-45e86 # Google Cloud project id
+  GAR_LOCATION: us-east1 # TODO: update Artifact Registry location
+  REPOSITORY: barber-service-repo # TODO: update Artifact Registry repository name
+  SERVICE: barber-service # TODO: update Cloud Run service name
+  REGION: us-east1 # TODO: update Cloud Run service region
 
 jobs:
   build-and-deploy-firebase-functions:
@@ -68,14 +73,57 @@ jobs:
         if: success()
         run: npm install -g firebase-tools@latest
 
-      #- name: Authenticate with Google
-      #  uses: 'google-github-actions/auth@v1'
-      #  with:
-      #    credentials_json: ${{secrets.GOOGLE_APPLICATION_CREDENTIALS}}
-      # create_credentials_file: true
-      # workload_identity_provider: '/projects/624790222178/locations/global/workloadIdentityPools/github-actions/providers/github'
-      # service_account: 'firebase-adminsdk-fx3q0@barber-service-45e86.iam.gserviceaccount.com'
-
       - name: Deploy to app Firebase hosting
         if: success()
         run: firebase deploy --only hosting
+
+  build-and-deploy-trpc-server:
+    # Add 'id-token' with the intended permissions for workload identity federation
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+
+      # Authenticate Docker to Google Cloud Artifact Registry
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+
+      # END - Docker auth and build
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          # NOTE: If using a pre-built image, update the image name here
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}
+          # NOTE: You can also set env variables here:
+          #  env_vars: |
+          #  NODE_ENV=production
+          #  TOKEN_EXPIRE=6400
+
+      # If required, use the Cloud Run url output in later steps
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}

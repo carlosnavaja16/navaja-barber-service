@@ -1,7 +1,7 @@
 import { google, calendar_v3 } from 'googleapis';
 import { SCOPE, BARBER_SERVICE_CALENDAR_ID } from '../constants';
 import { CREDENTIALS } from '../credentials';
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 /**
  * Retrieves busy time slots from a Google Calendar for a specific date range.
@@ -16,8 +16,7 @@ export default async function getCalendarBusy(
   maxDate: Date
 ): Promise<calendar_v3.Schema$TimePeriod[]> {
   const calendar = getCalendar();
-
-  const freebusyResponse = await calendar.freebusy.query({
+  const response = await calendar.freebusy.query({
     requestBody: {
       items: [{ id: BARBER_SERVICE_CALENDAR_ID }],
       timeMin: minDate.toISOString(),
@@ -26,16 +25,16 @@ export default async function getCalendarBusy(
   });
 
   if (
-    freebusyResponse.status !== StatusCodes.OK ||
-    !freebusyResponse.data.calendars ||
-    !freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID] ||
-    !freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy
+    response.status !== StatusCodes.OK ||
+    !response.data.calendars ||
+    !response.data.calendars[BARBER_SERVICE_CALENDAR_ID] ||
+    !response.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy
   ) {
     throw new Error(
       `No calendar found with calendarId: ${BARBER_SERVICE_CALENDAR_ID}`
     );
   }
-  return freebusyResponse.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy!;
+  return response.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy!;
 }
 
 /**
@@ -47,16 +46,17 @@ export default async function getCalendarBusy(
  */
 export async function createEvent(event: calendar_v3.Schema$Event) {
   const calendar = getCalendar();
-
-  const createEventResponse = await calendar.events.insert({
+  const response = await calendar.events.insert({
     calendarId: BARBER_SERVICE_CALENDAR_ID,
     requestBody: event
   });
 
-  if (createEventResponse.status !== StatusCodes.OK) {
-    throw new Error(`Failed to insert event: ${event.summary} due to error`);
+  if (response.status !== StatusCodes.OK) {
+    throw new Error(
+      `Inserting event failed with status code ${response.status}:  ${getReasonPhrase(response.status)}`
+    );
   }
-  return createEventResponse.data;
+  return response.data;
 }
 
 /**
@@ -67,15 +67,14 @@ export async function createEvent(event: calendar_v3.Schema$Event) {
  */
 export async function cancelEvent(eventId: string) {
   const calendar = getCalendar();
-
-  const cancelEventResponse = await calendar.events.delete({
+  const response = await calendar.events.delete({
     calendarId: BARBER_SERVICE_CALENDAR_ID,
     eventId
   });
 
-  if (cancelEventResponse.status !== StatusCodes.NO_CONTENT) {
+  if (response.status !== StatusCodes.NO_CONTENT) {
     throw new Error(
-      `Request to cancel event: ${eventId} failed with status code ${cancelEventResponse.status} with message: ${cancelEventResponse.statusText}`
+      `Canceling event failed with status code ${response.status}: ${getReasonPhrase(response.status)}`
     );
   }
 
