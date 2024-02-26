@@ -2,7 +2,7 @@ export const ANGULAR_DEV_PORT = 4201;
 export const APPOINTMENTS_LIMIT = 25;
 
 // barber-service
-export const TRPC_SERVER_PORT = 4001;
+export const TRPC_SERVER_PORT = 8080;
 export const FIREBASE_FUNCTIONS_PORT = 5001;
 export const SCOPE = 'https://www.googleapis.com/auth/calendar';
 export const BARBER_SERVICE_CALENDAR_ID =
