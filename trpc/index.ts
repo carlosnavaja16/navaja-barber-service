@@ -1,18 +1,16 @@
 import express, { Application } from 'express';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import { barberServiceRouter } from './src/router';
-import cors from 'cors';
-import { ANGULAR_DEV_PORT } from '../shared/constants';
 
 const TRPC_SERVER_PORT = parseInt(process.env.PORT!) || 8080;
 const app: Application = express();
-
+/*
 const corsOptions = {
   origin: [`http://localhost:${ANGULAR_DEV_PORT}`]
 };
 
 app.use(cors(corsOptions));
-
+*/
 app.use('/trpc', createExpressMiddleware({ router: barberServiceRouter }));
 
 app.listen(TRPC_SERVER_PORT, '0.0.0.0', () =>
