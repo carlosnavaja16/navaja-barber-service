@@ -100,6 +100,14 @@ jobs:
           workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
           service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
 
+        # The google service account credentials were written as an object in a .ts file.
+        # the file was encoded in base64 and stored in a secret this all is to avoid problems
+        # related to new line characters in the private key. Below we decode the base64 string
+        # and reconstruct the credentials.ts file.
+      - name: Decode Google service account credentials
+        run: |
+          echo ${{ secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_BASE64 }} | base64 --decode > ./trpc/src/credentials.ts
+
       # Authenticate Docker to Google Cloud Artifact Registry
       # - name: Docker Auth
       #   id: docker-auth
