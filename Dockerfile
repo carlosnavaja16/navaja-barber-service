@@ -1,4 +1,4 @@
-FROM 20-alpine
+FROM node:alpine
 WORKDIR /app
 EXPOSE 8080
 COPY ./trpc ./
