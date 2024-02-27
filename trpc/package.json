@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "rm -rf ./dist && tsc --outdir ./dist && node ./dist/trpc/index.js"
+    "start": "rm -rf ./dist && tsc --outdir ./dist && node ./dist/index.js"
   },
   "author": "Carlos Rossi",
   "license": "ISC",

@@ -1,18 +1,19 @@
 import express, { Application } from 'express';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import { barberServiceRouter } from './src/router';
+import cors from 'cors';
 
-const TRPC_SERVER_PORT = parseInt(process.env.PORT!) || 8080;
+const PORT = parseInt(process.env.PORT!) || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
+
 const app: Application = express();
-/*
-const corsOptions = {
-  origin: [`http://localhost:${ANGULAR_DEV_PORT}`]
-};
 
-app.use(cors(corsOptions));
-*/
+app.use(cors());
 app.use('/trpc', createExpressMiddleware({ router: barberServiceRouter }));
-
-app.listen(TRPC_SERVER_PORT, '0.0.0.0', () =>
-  console.log(`💈 tRPC barber service ready on port ${TRPC_SERVER_PORT}`)
-);
+try {
+  app.listen(PORT, HOST, () =>
+    console.log(`💈 tRPC barber service ready on port ${PORT}`)
+  );
+} catch (error) {
+  console.error('Error starting server:', error);
+}
