@@ -39,7 +39,7 @@ import { UserProfile } from '@shared/types/user-profile';
 import { Timestamp, where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
 import { formatDate } from '@angular/common';
-import { APPOINTMENTS_LIMIT } from '@shared/constants';
+import { APPOINTMENTS_LIMIT } from '@src/constants';
 import { TRPCService } from '../trpc/trpc.service';
 
 interface AppointmentResponse {

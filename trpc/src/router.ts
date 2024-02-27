@@ -3,7 +3,7 @@ import { getAvailability } from './functions/get-availability.function';
 import { bookAppointment } from './functions/book-appointment.function';
 import { cancelAppointment } from './functions/cancel-appointment.function';
 import { z } from 'zod';
-import { BookAppointmentRequest } from './schema/book-appointment-request';
+import { BookAppointmentRequest } from './schema/book-appointment-request.z';
 
 const t = initTRPC.create();
 export const publicProcedure = t.procedure;

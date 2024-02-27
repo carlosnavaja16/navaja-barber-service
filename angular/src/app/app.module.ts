@@ -61,7 +61,7 @@ import {
   heroCalendarMini,
   heroClockMini
 } from '@ng-icons/heroicons/mini';
-import { FIREBASE_FUNCTIONS_PORT } from '@shared/constants';
+import { FIREBASE_FUNCTIONS_PORT } from '@src/constants';
 
 @NgModule({
   declarations: [

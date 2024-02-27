@@ -5,7 +5,7 @@ import {
   createTRPCProxyClient,
   httpBatchLink
 } from '@trpc/client';
-import { TRPC_SERVER_PORT } from '@shared/constants';
+import { TRPC_SERVER_PORT } from '@src/constants';
 import { Injectable } from '@angular/core';
 
 @Injectable({

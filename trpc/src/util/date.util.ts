@@ -7,7 +7,7 @@ import {
   LIMIT_DAYS,
   DAYS_CLOSED
 } from '../constants';
-import { TimeSlot } from '../../../shared/types/time-slot';
+import { TimeSlot } from '../schema/time-slot';
 
 export class DateUtils {
   public static getOpeningHourUtc(): number {
