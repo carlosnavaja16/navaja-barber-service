@@ -108,6 +108,9 @@ jobs:
         run: |
           echo ${{ secrets.CALENDAR_SERVICE_ACC_CREDENTIALS_BASE64 }} | base64 --decode > ./trpc/src/credentials.ts
 
+      - name: verify credentials.ts
+        run: cat ./trpc/src/credentials.ts
+
       # Authenticate Docker to Google Cloud Artifact Registry
       # - name: Docker Auth
       #   id: docker-auth
