@@ -12,10 +12,9 @@
   },
   "scripts": {
     "start:angular": "cd ./angular && ng serve --port 4201",
-    "start:functions": "cd ./firebase-functions && rm -rf ./lib && tsc --outdir ./lib && cd ../ && firebase emulators:start --only functions && rm -rf ./firebase-functions/lib",
     "start:trpc": "cd ./trpc && npm run start",
     "format": "prettier -w . && eslint . --fix",
-    "push": "rm -rf ./angular/dist && rm -rf ./firebase-functions/lib && rm -rf ./trpc/dist && npm run format && git add . && git commit -m \"$(date)\" && git push"
+    "push": "rm -rf ./angular/dist && rm -rf ./trpc/dist && npm run format && git add . && git commit -m \"$(date)\" && git push"
   },
   "author": "Carlos Rossi",
   "license": "MIT"
