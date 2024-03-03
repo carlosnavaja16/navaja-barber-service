@@ -11,7 +11,10 @@ trpc/dist
 /node_modules
 angular/node_modules
 trpc/node_modules
+
+# Logs
 npm-debug.log
+ui-debug.log
 
 # IDEs and editors
 .idea/
