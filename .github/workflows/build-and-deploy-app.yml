@@ -1,10 +1,11 @@
-name: Build and deploy tRPC server
+name: Build and deploy app
 
 on:
   push:
     branches: [main]
 
 env:
+  FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
   PROJECT_ID: barber-service-45e86 # Google Cloud project id
   GAR_LOCATION: us-east1 # TODO: update Artifact Registry location
   REPOSITORY: barber-service-repo # TODO: update Artifact Registry repository name
@@ -69,3 +70,33 @@ jobs:
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
+
+  build-and-deploy-angular-app:
+    name: Build and deploy Angular app
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Angular app dependencies
+        if: success()
+        run: cd ./angular && npm install && cd ../
+
+      - name: Build Angular app
+        run: cd ./angular && npm run build --omit=dev && cd ../
+
+      - name: Install Firebase CLI
+        if: success()
+        run: npm install -g firebase-tools@latest
+
+      - name: Deploy to app Firebase hosting
+        if: success()
+        run: firebase deploy --only hosting
