@@ -2,7 +2,7 @@ import { Component, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '@app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
-import { Appointment } from '@shared/types/appointment';
+import { Appointment } from '@schema/appointment';
 import { DateUtils } from '@booking/utilities/date.util';
 import { Observable, Subject, merge, of, switchMap } from 'rxjs';
 

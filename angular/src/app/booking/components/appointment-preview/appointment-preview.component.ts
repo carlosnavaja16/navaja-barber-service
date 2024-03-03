@@ -5,7 +5,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { Service } from '@shared/types/service';
+import { Service } from '@schema/service';
 
 @Component({
   selector: 'appointment-preview',

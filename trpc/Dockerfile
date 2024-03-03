@@ -1,7 +1,7 @@
 FROM node:alpine
-WORKDIR /app
+WORKDIR /server
 ENV PORT 8080
 ENV HOST 0.0.0.0
-COPY ./trpc ./
+COPY ./ ./
 RUN npm install
 CMD ["npm", "run", "start"]

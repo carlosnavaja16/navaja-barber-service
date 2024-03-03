@@ -1,3 +1,5 @@
+export const PORT = 8080;
+export const HOST = '0.0.0.0';
 export const SCOPE = 'https://www.googleapis.com/auth/calendar';
 export const BARBER_SERVICE_CALENDAR_ID =
   'em574fr0cq5l93vdnmo91hjsv0@group.calendar.google.com';

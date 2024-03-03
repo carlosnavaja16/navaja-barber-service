@@ -6,7 +6,7 @@ import {
   Output,
   booleanAttribute
 } from '@angular/core';
-import { Appointment } from '@shared/types/appointment';
+import { Appointment } from '@schema/appointment';
 
 @Component({
   selector: 'appointment-summary',

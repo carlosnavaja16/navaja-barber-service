@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DateTimeSlots, TimeSlot } from '@shared/types/time-slot';
+import { DateTimeSlots, TimeSlot } from '@schema/time-slot';
 import { DateUtils } from '@booking/utilities/date.util';
 
 @Component({

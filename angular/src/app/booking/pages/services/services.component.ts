@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderService } from '@app/common/services/header/header.service';
 import { UserService } from '@user/user.service';
 import { BookingService } from '@booking/booking.service';
-import { Service } from '@shared/types/service';
+import { Service } from '@schema/service';
 import { Router } from '@angular/router';
 
 @Component({

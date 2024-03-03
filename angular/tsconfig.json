@@ -7,7 +7,8 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
-      "@shared/*": ["../shared/*"],
+      "@schema/*": ["../trpc/src/schema/*"],
+      "@tRPC/*": ["../trpc/src/*"],
       "@booking/*": ["./src/app/booking/*"],
       "@common/*": ["./src/app/common/*"],
       "@user/*": ["./src/app/user/*"]

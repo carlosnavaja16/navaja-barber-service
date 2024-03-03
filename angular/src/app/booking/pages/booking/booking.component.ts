@@ -7,15 +7,15 @@ import {
 } from '@angular/core';
 import { HeaderService } from '@app/common/services/header/header.service';
 import { Observable, of, switchMap } from 'rxjs';
-import { DateTimeSlots, TimeSlot } from '@shared/types/time-slot';
-import { Availability } from '@shared/types/availability';
+import { DateTimeSlots, TimeSlot } from '@schema/time-slot';
+import { Availability } from '@schema/availability';
 import { BookingService } from '@booking//booking.service';
 import { MatStepper } from '@angular/material/stepper';
-import { Service } from '@shared/types/service';
+import { Service } from '@schema/service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DateUtils } from '@booking/utilities/date.util';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { Appointment } from '@shared/types/appointment';
+import { Appointment } from '@schema/appointment';
 import { Router } from '@angular/router';
 
 @Component({

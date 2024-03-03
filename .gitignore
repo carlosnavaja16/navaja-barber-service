@@ -5,16 +5,13 @@ angular/dist
 /tmp
 /out-tsc
 /bazel-out
-firebase-functions/lib
 trpc/dist
 
 # Node
 /node_modules
 angular/node_modules
-firebase-functions/node_modules
 trpc/node_modules
 npm-debug.log
-yarn-error.log
 
 # IDEs and editors
 .idea/
@@ -26,7 +23,7 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
+.vscode
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -48,7 +45,6 @@ Thumbs.db
 
 # Firebase
 .firebase
-firebase-functions/.firebase
 *-debug.log
 .runtimeconfig.json
 
@@ -56,5 +52,4 @@ firebase-functions/.firebase
 *.env
 
 # credentials
-firebase-functions/credentials.ts
 trpc/src/credentials.ts

@@ -10,6 +10,9 @@ Navaja Barber Service is a web application used for booking barber appointments.
 - Firebase
 - Tailwind CSS
 - Angular Material Components
+- Hono
+- tRPC
+- Docker
 - Typescript
 - Github Actions
 

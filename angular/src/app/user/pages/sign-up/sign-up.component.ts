@@ -3,7 +3,7 @@ import { HeaderService } from '@app/common/services/header/header.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { UserService } from '@user/user.service';
-import { SignUpDetails } from '@shared/types/sign-up-details';
+import { SignUpDetails } from '@schema/sign-up-details';
 
 @Component({
   selector: 'app-signup',

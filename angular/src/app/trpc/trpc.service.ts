@@ -1,12 +1,12 @@
 import { environment } from '@src/environments/environment';
-import type { BarberServiceRouter } from '../../../../trpc/src/router';
+import type { BarberServiceRouter } from '@tRPC/router';
 import {
   CreateTRPCProxyClient,
   createTRPCProxyClient,
   httpBatchLink
 } from '@trpc/client';
-import { TRPC_SERVER_PORT } from '@src/constants';
 import { Injectable } from '@angular/core';
+import { PORT } from '@tRPC/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class TRPCService {
     this.client = createTRPCProxyClient<BarberServiceRouter>({
       links: [
         httpBatchLink({
-          url: `${this.getTRPCHost()}:${TRPC_SERVER_PORT}/trpc`
+          url: `${this.getTRPCHost()}:${PORT}/trpc`
         })
       ]
     });

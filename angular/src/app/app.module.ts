@@ -18,12 +18,6 @@ import { environment } from '@src/environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import {
-  FunctionsModule,
-  connectFunctionsEmulator,
-  getFunctions,
-  provideFunctions
-} from '@angular/fire/functions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServicePickerComponent } from '@booking/components/service-picker/service-picker.component';
 import { DurationPipe } from '@booking/pipes/duration.pipe';
@@ -61,7 +55,6 @@ import {
   heroCalendarMini,
   heroClockMini
 } from '@ng-icons/heroicons/mini';
-import { FIREBASE_FUNCTIONS_PORT } from '@src/constants';
 
 @NgModule({
   declarations: [
@@ -87,22 +80,9 @@ import { FIREBASE_FUNCTIONS_PORT } from '@src/constants';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FunctionsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideFunctions(() => {
-      const functions = getFunctions();
-      if (environment.useEmulators) {
-        connectFunctionsEmulator(
-          functions,
-          'localhost',
-          FIREBASE_FUNCTIONS_PORT
-        );
-      }
-      return functions;
-    }),
-    FormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatCardModule,

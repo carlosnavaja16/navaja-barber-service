@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TimeSlot } from '@shared/types/time-slot';
-import { Availability, AvailabilityResponse } from '@shared/types/availability';
+import { TimeSlot } from '@schema/time-slot';
+import { Availability, AvailabilityResponse } from '@schema/availability';
 import {
   catchError,
   defer,
@@ -26,7 +26,7 @@ import {
   query,
   setDoc
 } from '@angular/fire/firestore';
-import { Service } from '@shared/types/service';
+import { Service } from '@schema/service';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { UserService } from '@user/user.service';
 import { AppointmentUtils } from '@booking/utilities/appointment.util';
@@ -34,8 +34,8 @@ import {
   Appointment,
   AppointmentAddress,
   AppointmentEvent
-} from '@shared/types/appointment';
-import { UserProfile } from '@shared/types/user-profile';
+} from '@schema/appointment';
+import { UserProfile } from '@schema/user-profile';
 import { Timestamp, where } from 'firebase/firestore';
 import { Auth, user } from '@angular/fire/auth';
 import { formatDate } from '@angular/common';

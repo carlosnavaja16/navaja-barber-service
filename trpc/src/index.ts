@@ -3,9 +3,7 @@ import { cors } from 'hono/cors';
 import { serve } from '@hono/node-server';
 import { trpcServer } from '@hono/trpc-server';
 import { barberServiceRouter } from './router';
-
-const PORT = parseInt(process.env.PORT!) || 8080;
-const HOST = process.env.HOST || '0.0.0.0';
+import { HOST, PORT } from './constants';
 
 const app = new Hono();
 
