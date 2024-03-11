@@ -5,3 +5,4 @@ ENV HOST 0.0.0.0
 COPY ./ ./
 RUN npm install
 CMD ["npm", "run", "start"]
+
