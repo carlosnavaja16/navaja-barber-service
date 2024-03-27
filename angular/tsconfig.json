@@ -31,7 +31,8 @@
     "strictPropertyInitialization": false,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

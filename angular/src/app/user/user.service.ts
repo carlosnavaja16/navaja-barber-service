@@ -10,7 +10,7 @@ import {
   user
 } from '@angular/fire/auth';
 import { Observable, from, map, of, switchMap } from 'rxjs';
-import { UserProfile } from '@schema/user-profile';
+import { CreateUserProfileRequest, UserProfile } from '@schema/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -30,6 +30,7 @@ export class UserService {
   private isLoggedIn: Signal<boolean>;
   private userProfilesCollection: CollectionReference<DocumentData>;
   private currUserProfile: Signal<UserProfile | null>;
+  private currUserToken: Signal<string>;
 
   constructor(
     private readonly auth: Auth,
@@ -42,13 +43,24 @@ export class UserService {
     );
     this.currUserProfile = toSignal(
       authState(this.auth).pipe(
-        map((user) => (user ? true : false)),
         switchMap((user) => {
           return user ? this.getUserProfile() : of(null);
         })
       ),
       { initialValue: null }
     );
+    this.currUserToken = toSignal(
+      authState(this.auth).pipe(
+        switchMap((user) => {
+          return user ? user.getIdToken() : of('');
+        })
+      ),
+      { initialValue: '' }
+    );
+  }
+
+  public getCurrUserToken(): string {
+    return this.currUserToken();
   }
 
   public getIsLoggedIn(): Signal<boolean> {
@@ -80,7 +92,7 @@ export class UserService {
   public createUser(
     email: string,
     password: string,
-    userProfile: UserProfile
+    createUserProfileRequest: CreateUserProfileRequest
   ): Observable<void> {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
@@ -88,7 +100,7 @@ export class UserService {
       switchMap((user) => {
         return from(
           setDoc(doc(this.firestore, 'UserProfiles', user.user.uid), {
-            ...userProfile,
+            ...createUserProfileRequest,
             email: user.user.email,
             idAdmin: false,
             userId: user.user.uid

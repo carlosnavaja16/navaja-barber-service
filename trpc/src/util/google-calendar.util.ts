@@ -1,6 +1,6 @@
 import { google, calendar_v3 } from 'googleapis';
 import { SCOPE, BARBER_SERVICE_CALENDAR_ID } from '../constants';
-import { CREDENTIALS } from '../credentials';
+import { googleCalendarSvcAccCreds } from '../credentials';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 /**
@@ -85,7 +85,7 @@ function getCalendar() {
   return google.calendar({
     version: 'v3',
     auth: new google.auth.GoogleAuth({
-      credentials: CREDENTIALS,
+      credentials: googleCalendarSvcAccCreds,
       scopes: SCOPE
     })
   });

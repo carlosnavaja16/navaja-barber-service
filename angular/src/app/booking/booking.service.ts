@@ -4,7 +4,6 @@ import { Availability, AvailabilityResponse } from '@schema/availability';
 import {
   catchError,
   defer,
-  from,
   map,
   NEVER,
   Observable,
@@ -18,38 +17,15 @@ import {
   DocumentData,
   Firestore,
   Query,
-  collection,
-  collectionData,
-  doc,
-  limit,
-  orderBy,
-  query,
-  setDoc
+  collection
 } from '@angular/fire/firestore';
 import { Service } from '@schema/service';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { UserService } from '@user/user.service';
-import { AppointmentUtils } from '@booking/utilities/appointment.util';
-import {
-  Appointment,
-  AppointmentAddress,
-  AppointmentEvent
-} from '@schema/appointment';
-import { UserProfile } from '@schema/user-profile';
-import { Timestamp, where } from 'firebase/firestore';
-import { Auth, user } from '@angular/fire/auth';
+import { Appointment } from '@schema/appointment';
 import { formatDate } from '@angular/common';
-import { APPOINTMENTS_LIMIT } from '@src/constants';
 import { TRPCService } from '../trpc/trpc.service';
 
-interface AppointmentResponse {
-  eventId: string;
-  userId: string;
-  service: Service;
-  address: AppointmentAddress;
-  start: Timestamp;
-  cancelled: Timestamp | null;
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -64,21 +40,14 @@ export class BookingService {
     private readonly firestore: Firestore,
     private readonly snackbarService: SnackbarService,
     private readonly userService: UserService,
-    private readonly auth: Auth,
     private readonly trpcService: TRPCService
   ) {
     this.servicesCollection = collection(this.firestore, 'Services');
     this.appointmentsCollection = collection(this.firestore, 'Appointments');
-    this.servicesQuery = query(
-      this.servicesCollection,
-      orderBy('price', 'asc')
-    );
   }
 
   public getServices(): Observable<Service[]> {
-    const services$: Observable<Service[]> = collectionData(
-      this.servicesQuery
-    ) as Observable<Service[]>;
+    const services$ = defer(() => this.trpcService.client.getServices.query());
     return services$.pipe(
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -90,37 +59,14 @@ export class BookingService {
   }
 
   public getAppointments(): Observable<Appointment[]> {
-    const appointments$ = user(this.auth).pipe(
+    const appointments$ = of(this.userService.getCurrUserProfile()).pipe(
       switchMap((user) => {
         if (!user) {
           throw new Error('User is not logged in');
         }
-        return collectionData(
-          query(
-            this.appointmentsCollection,
-            where('userId', '==', user.uid),
-            where('cancelled', '==', null),
-            orderBy('start', 'desc'),
-            limit(APPOINTMENTS_LIMIT)
-          )
-        ) as Observable<AppointmentResponse[]>;
-      }),
-      map((appointmentResponses) => {
-        return appointmentResponses.map((appointmentResponse) => {
-          return {
-            eventId: appointmentResponse.eventId,
-            userId: appointmentResponse.userId,
-            service: appointmentResponse.service,
-            address: {
-              streetAddr: appointmentResponse.address.streetAddr,
-              city: appointmentResponse.address.city,
-              state: appointmentResponse.address.state,
-              zip: appointmentResponse.address.zip
-            },
-            start: appointmentResponse.start.toDate(),
-            cancelled: appointmentResponse.cancelled?.toDate() || null
-          };
-        });
+        return defer(() =>
+          this.trpcService.client.getAppointments.query(user.userId)
+        );
       }),
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -129,7 +75,6 @@ export class BookingService {
         return NEVER;
       })
     );
-
     return appointments$;
   }
 
@@ -140,38 +85,18 @@ export class BookingService {
      * in order to delay the execution of the promise until the observable is subscribed to
      */
     const availability$ = defer(() =>
-      this.trpcService.client.getAvailability.query(
-        DateUtils.getMillisecondsFromMinutes(service.duration)
-      )
+      this.trpcService.client.getAvailability.query(service.duration)
     ).pipe(
-      map((data: AvailabilityResponse) => {
-        const firstAvailableDate = new Date(data.availableTimeSlots[0].start);
-        const timeSlotsByDate = new Map<string, TimeSlot[]>();
-        data.availableTimeSlots.forEach((timeSlotResponse) => {
-          const timeSlot = {
-            start: new Date(timeSlotResponse.start),
-            end: new Date(timeSlotResponse.end)
-          };
-          const dateHash = DateUtils.getDateHash(timeSlot.start);
-          const timeSlots = timeSlotsByDate.get(dateHash);
-          if (timeSlots) {
-            timeSlots.push(timeSlot);
-          } else {
-            timeSlotsByDate.set(dateHash, [timeSlot]);
-          }
-        });
-        const availability: Availability = {
-          firstAvailableDate,
-          openingHourUTC: data.openingHourUTC,
-          closingHourUTC: data.closingHourUTC,
-          minDate: new Date(data.minDate),
-          maxDate: new Date(data.maxDate),
-          timeSlotsByDate,
+      map((AvailabilityResponse: AvailabilityResponse) => {
+        return {
+          ...AvailabilityResponse,
           dateFilter: (date: Date) => {
-            return DateUtils.isDateInAvailableDates(date, timeSlotsByDate);
+            return DateUtils.isDateInAvailableDates(
+              date,
+              AvailabilityResponse.timeSlotsByDate
+            );
           }
         };
-        return availability;
       }),
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -194,18 +119,18 @@ export class BookingService {
     service: Service,
     timeSlot: TimeSlot
   ): Observable<Appointment> {
-    let userProfile: UserProfile;
-    let event: AppointmentEvent;
-    let appointment: Appointment;
-    const event$ = this.userService.getUserProfile().pipe(
-      switchMap((user) => {
-        userProfile = user;
-        event = AppointmentUtils.getAppointmentEvent(
-          userProfile,
-          service,
-          timeSlot
+    const appointment$ = of(this.userService.getCurrUserProfile()).pipe(
+      switchMap((userProfile) => {
+        if (!userProfile) {
+          throw Error('user is not logged in');
+        }
+        return defer(() =>
+          this.trpcService.client.bookAppointment.mutate({
+            userProfile,
+            service,
+            timeSlot
+          })
         );
-        return this.trpcService.client.bookAppointment.mutate(event);
       }),
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -215,30 +140,6 @@ export class BookingService {
       })
     );
 
-    const appointment$ = event$.pipe(
-      switchMap((event) => {
-        if (!event.id) {
-          throw new Error('Could not book appointment');
-        }
-        appointment = AppointmentUtils.getAppointmentFromEvent(
-          userProfile,
-          event,
-          service
-        );
-        return from(
-          setDoc(doc(this.firestore, 'Appointments', event.id), appointment)
-        );
-      }),
-      switchMap(() => {
-        return of(appointment);
-      }),
-      catchError((error) => {
-        this.snackbarService.pushSnackbar(
-          `Could not book appointment due to error: ${error}`
-        );
-        return NEVER;
-      })
-    );
     return appointment$;
   }
 
@@ -252,14 +153,6 @@ export class BookingService {
     const cancelAppointment$ = defer(() =>
       this.trpcService.client.cancelAppointment.mutate(appointment.eventId)
     ).pipe(
-      switchMap(() => {
-        return from(
-          setDoc(doc(this.firestore, 'Appointments', appointment.eventId), {
-            ...appointment,
-            cancelled: new Date()
-          })
-        );
-      }),
       tap(() =>
         this.snackbarService.pushSnackbar(
           `Your appointment for ${formatDate(appointment.start, "EEE, MMM d 'at' h:mm a", 'en-US')} has been cancelled.`

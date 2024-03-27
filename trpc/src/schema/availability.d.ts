@@ -1,15 +1,17 @@
-import { TimeSlot, TimeSlotResponse } from './time-slot';
+import { TimeSlot } from './time-slot';
 
 export interface AvailabilityRequest {
   eventDuration: number;
 }
 
 export interface AvailabilityResponse {
+  firstAvailableDate: Date;
   openingHourUTC: number;
   closingHourUTC: number;
-  minDate: string;
-  maxDate: string;
-  availableTimeSlots: TimeSlotResponse[];
+  minDate: Date;
+  maxDate: Date;
+  timeSlotsByDate: Map<string, TimeSlot[]>;
+  availableTimeSlots: TimeSlot[];
 }
 
 export interface Availability {

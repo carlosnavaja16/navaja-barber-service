@@ -7,18 +7,25 @@ import {
 } from '@trpc/client';
 import { Injectable } from '@angular/core';
 import { PORT } from '@tRPC/constants';
+import { UserService } from '@app/user/user.service';
+import superjson from 'superjson';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TRPCService {
   client: CreateTRPCProxyClient<BarberServiceRouter>;
+  userToken: string | undefined = undefined;
 
-  constructor() {
+  constructor(private readonly userService: UserService) {
     this.client = createTRPCProxyClient<BarberServiceRouter>({
+      transformer: superjson,
       links: [
         httpBatchLink({
-          url: `${this.getTRPCHost()}:${PORT}/trpc`
+          url: `${this.getTRPCHost()}:${PORT}/trpc`,
+          headers: {
+            Authorization: this.userService.getCurrUserToken()
+          }
         })
       ]
     });

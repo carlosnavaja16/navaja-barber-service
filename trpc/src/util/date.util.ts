@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
 import {
-  INCREMENT_MILLISECONDS,
   BUFFER_HOURS,
   OPENING_HOUR_EST,
   CLOSING_HOUR_EST,
@@ -53,39 +52,6 @@ export class DateUtils {
     maxDate.setUTCDate(maxDate.getUTCDate() + LIMIT_DAYS);
     maxDate.setUTCHours(this.getClosingHourUtc(), 0, 0, 0);
     return maxDate;
-  }
-
-  /**
-   * Returns an array of available time slots between the minimum and maximum dates,
-   * with the specified event duration and opening/closing hours.
-   * @param eventDuration The duration of the event in milliseconds.
-   * @returns An array of available time slots.
-   */
-  public static getAllTimeSlots(
-    eventDuration: number,
-    minDate: Date,
-    maxDate: Date
-  ) {
-    const allTimeSlots: TimeSlot[] = [];
-    const openingHourUtc = this.getOpeningHourUtc();
-    const closingHourUtc = this.getClosingHourUtc();
-    const currStart = new Date(minDate);
-    const currEnd = new Date(minDate.getTime() + eventDuration);
-
-    while (currEnd <= maxDate) {
-      const currTimeSlot = {
-        start: new Date(currStart),
-        end: new Date(currEnd)
-      };
-      if (
-        this.isWithinOpenHours(currTimeSlot, openingHourUtc, closingHourUtc)
-      ) {
-        allTimeSlots.push(currTimeSlot);
-      }
-      currStart.setTime(currStart.getTime() + INCREMENT_MILLISECONDS);
-      currEnd.setTime(currEnd.getTime() + INCREMENT_MILLISECONDS);
-    }
-    return allTimeSlots;
   }
 
   public static isWithinOpenHours(

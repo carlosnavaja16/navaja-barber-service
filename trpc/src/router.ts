@@ -3,10 +3,17 @@ import { getAvailability } from './functions/get-availability.function';
 import { bookAppointment } from './functions/book-appointment.function';
 import { cancelAppointment } from './functions/cancel-appointment.function';
 import { z } from 'zod';
-import { BookAppointmentRequest } from './schema/book-appointment-request.z';
+import { BarberContext, getProtectedProcedure } from './context';
+import { getServices } from './functions/get-services.function';
+import { getAppointments } from './functions/get-appointments.function';
+import { AppointmentRequestZod } from './schema/appointment';
+import superjson from 'superjson';
 
-const t = initTRPC.create();
+const t = initTRPC.context<BarberContext>().create({
+  transformer: superjson
+});
 export const publicProcedure = t.procedure;
+export const protectedProcedure = getProtectedProcedure();
 
 export const barberServiceRouter = t.router({
   getAvailability: publicProcedure.input(z.number()).query(async (opts) => {
@@ -18,10 +25,16 @@ export const barberServiceRouter = t.router({
       return cancelAppointment(opts.input);
     }),
   bookAppointment: publicProcedure
-    .input(BookAppointmentRequest)
+    .input(AppointmentRequestZod)
     .mutation(async (opts) => {
       return bookAppointment(opts.input);
-    })
+    }),
+  getServices: publicProcedure.query(async () => {
+    return getServices();
+  }),
+  getAppointments: publicProcedure.input(z.string()).query(async (opts) => {
+    return getAppointments(opts.input);
+  })
 });
 
 export type BarberServiceRouter = typeof barberServiceRouter;

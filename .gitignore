@@ -55,4 +55,4 @@ Thumbs.db
 *.env
 
 # credentials
-trpc/src/credentials.ts
+trpc/credentials.ts
