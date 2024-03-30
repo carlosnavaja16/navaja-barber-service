@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /app
+WORKDIR /trpc
 ENV PORT 8080
 ENV HOST 0.0.0.0
 COPY ./trpc ./

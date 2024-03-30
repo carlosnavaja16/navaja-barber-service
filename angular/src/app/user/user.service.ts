@@ -22,6 +22,7 @@ import {
 } from '@angular/fire/firestore';
 import { setDoc } from 'firebase/firestore';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { BarberErrors } from '@shared/errors';
 
 @Injectable({
   providedIn: 'root'
@@ -114,7 +115,7 @@ export class UserService {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
-          throw new Error('User is not logged in');
+          throw BarberErrors.USER_NOT_LOGGED_IN;
         }
         return from(getDoc(doc(this.firestore, 'UserProfiles', user?.uid)));
       }),
@@ -126,7 +127,7 @@ export class UserService {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
-          throw new Error('User is not logged in');
+          throw BarberErrors.USER_NOT_LOGGED_IN;
         }
         return user.email ? of(user.email) : of('');
       })
@@ -137,7 +138,7 @@ export class UserService {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
-          throw new Error('User is not logged in');
+          throw BarberErrors.USER_NOT_LOGGED_IN;
         }
         return from(updateEmail(user, newEmail));
       })
@@ -148,7 +149,7 @@ export class UserService {
     return user(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
-          throw new Error('User is not logged in');
+          throw BarberErrors.USER_NOT_LOGGED_IN;
         }
         return from(
           updateDoc(doc(this.firestore, 'UserProfiles', user.uid), {

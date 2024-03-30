@@ -2,7 +2,7 @@ import {
   Appointment,
   AppointmentEvent,
   AppointmentRequest
-} from '../schema/appointment';
+} from '../../../shared/schema/appointment';
 
 export class AppointmentUtils {
   public static buildAppointmentEvent(

@@ -1,5 +1,5 @@
 import { createEvent } from '../util/google-calendar.util';
-import { AppointmentRequest } from '../schema/appointment';
+import { AppointmentRequest } from '../../../shared/schema/appointment';
 import { firestore } from 'firebase-admin';
 import { firebaseApp } from '..';
 import { AppointmentUtils } from '../util/appointment.util';

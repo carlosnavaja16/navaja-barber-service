@@ -1,8 +1,8 @@
 import getCalendarBusy from '../util/google-calendar.util';
 import { calendar_v3 } from 'googleapis';
 import { DateUtils } from '../util/date.util';
-import { AvailabilityResponse } from '../schema/availability';
-import { TimeSlot } from '../schema/time-slot';
+import { AvailabilityResponse } from '../../../shared/schema/availability';
+import { TimeSlot } from '../../../shared/schema/time-slot';
 import { INCREMENT_MILLISECONDS } from '../constants';
 
 export async function getAvailability(

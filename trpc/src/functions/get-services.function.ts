@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { firebaseApp } from '..';
 import { firestore } from 'firebase-admin';
-import { Service } from '../schema/service';
+import { Service } from '../../../shared/schema/service';
 
 export async function getServices() {
   const query = await firestore(firebaseApp)

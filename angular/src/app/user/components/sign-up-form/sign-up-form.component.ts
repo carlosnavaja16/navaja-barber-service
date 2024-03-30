@@ -9,6 +9,12 @@ import {
   Validators
 } from '@angular/forms';
 import { SignUpDetails } from '@schema/sign-up-details';
+import {
+  AT_LEAST_TWO_CHARS_REGEX,
+  PHONE_REGEX,
+  STATE_REGEX,
+  ZIP_CODE_REGEX
+} from '@shared/constants';
 
 @Component({
   selector: 'sign-up-form',
@@ -25,29 +31,29 @@ export class SignUpFormComponent implements OnInit {
     this.signUpForm = this.fb.group({
       firstName: new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}')
+        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}')
+        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl('', [
         Validators.required,
-        Validators.pattern('[0-9]{10}')
+        Validators.pattern(PHONE_REGEX)
       ]),
       streetAddr: new FormControl('', [Validators.required]),
       city: new FormControl('', [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}')
+        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
       ]),
       state: new FormControl('', [
         Validators.required,
-        Validators.pattern('[A-Z]{2}')
+        Validators.pattern(STATE_REGEX)
       ]),
       zipCode: new FormControl('', [
         Validators.required,
-        Validators.pattern('[0-9]{5}')
+        Validators.pattern(ZIP_CODE_REGEX)
       ]),
       password: new FormControl('', [
         Validators.required,

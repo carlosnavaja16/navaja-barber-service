@@ -53,7 +53,9 @@ export async function createEvent(event: calendar_v3.Schema$Event) {
 
   if (response.status !== StatusCodes.OK) {
     throw new Error(
-      `Inserting event failed with status code ${response.status}:  ${getReasonPhrase(response.status)}`
+      `Inserting event failed with status code ${
+        response.status
+      }:  ${getReasonPhrase(response.status)}`
     );
   }
   return response.data;
@@ -74,11 +76,11 @@ export async function cancelEvent(eventId: string) {
 
   if (response.status !== StatusCodes.NO_CONTENT) {
     throw new Error(
-      `Canceling event failed with status code ${response.status}: ${getReasonPhrase(response.status)}`
+      `Canceling event failed with status code ${
+        response.status
+      }: ${getReasonPhrase(response.status)}`
     );
   }
-
-  return;
 }
 
 function getCalendar() {

@@ -11,3 +11,4 @@ export const OPENING_HOUR_EST = 9; // 09:00 AM EST luxon hours go from 0 - 23
 export const CLOSING_HOUR_EST = 20; // 8:00 PM EST
 export const DAYS_CLOSED = [7]; //sundays
 export const APPOINTMENT_LIST_LIMIT = 25;
+export const TIME_ZONE = 'America/New_York';

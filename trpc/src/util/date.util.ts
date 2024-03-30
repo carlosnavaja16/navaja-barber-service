@@ -4,22 +4,23 @@ import {
   OPENING_HOUR_EST,
   CLOSING_HOUR_EST,
   LIMIT_DAYS,
-  DAYS_CLOSED
+  DAYS_CLOSED,
+  TIME_ZONE
 } from '../constants';
-import { TimeSlot } from '../schema/time-slot';
+import { TimeSlot } from '../../../shared/schema/time-slot';
 
 export class DateUtils {
   public static getOpeningHourUtc(): number {
     return DateTime.fromObject(
       { hour: OPENING_HOUR_EST },
-      { zone: 'America/New_York' }
+      { zone: TIME_ZONE }
     ).toUTC().hour;
   }
 
   public static getClosingHourUtc(): number {
     return DateTime.fromObject(
       { hour: CLOSING_HOUR_EST },
-      { zone: 'America/New_York' }
+      { zone: TIME_ZONE }
     ).toUTC().hour;
   }
 
@@ -91,7 +92,7 @@ export class DateUtils {
    */
   public static isDateOnClosedDaysEST(date: Date): boolean {
     return DAYS_CLOSED.includes(
-      DateTime.fromMillis(date.getTime(), { zone: 'America/New_York' }).weekday
+      DateTime.fromMillis(date.getTime(), { zone: TIME_ZONE }).weekday
     );
   }
 }

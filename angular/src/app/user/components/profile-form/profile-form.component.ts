@@ -8,6 +8,12 @@ import {
 } from '@angular/forms';
 import { UserProfile } from '@schema/user-profile';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import {
+  AT_LEAST_TWO_CHARS_REGEX,
+  PHONE_REGEX,
+  STATE_REGEX,
+  ZIP_CODE_REGEX
+} from '@shared/constants';
 
 @Component({
   selector: 'profile-form',
@@ -31,30 +37,30 @@ export class ProfileFormComponent implements OnInit {
     this.userProfileForm = this.fb.group({
       firstName: new FormControl(this.userProfile?.firstName, [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}')
+        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
       ]),
       lastName: new FormControl(this.userProfile?.lastName, [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}')
+        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
       ]),
       phone: new FormControl(this.userProfile?.phone, [
         Validators.required,
-        Validators.pattern('[0-9]{10}')
+        Validators.pattern(PHONE_REGEX)
       ]),
       streetAddr: new FormControl(this.userProfile?.streetAddr, [
         Validators.required
       ]),
       city: new FormControl(this.userProfile?.city, [
         Validators.required,
-        Validators.pattern('[a-zA-Z]{2,}')
+        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
       ]),
       state: new FormControl(this.userProfile?.state, [
         Validators.required,
-        Validators.pattern('[A-Z]{2}')
+        Validators.pattern(STATE_REGEX)
       ]),
       zipCode: new FormControl(this.userProfile?.zipCode, [
         Validators.required,
-        Validators.pattern('[0-9]{5}')
+        Validators.pattern(ZIP_CODE_REGEX)
       ])
     });
   }

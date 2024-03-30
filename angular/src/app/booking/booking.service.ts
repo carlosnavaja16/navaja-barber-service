@@ -59,7 +59,7 @@ export class BookingService {
   }
 
   public getAppointments(): Observable<Appointment[]> {
-    const appointments$ = of(this.userService.getCurrUserProfile()).pipe(
+    return of(this.userService.getCurrUserProfile()).pipe(
       switchMap((user) => {
         if (!user) {
           throw new Error('User is not logged in');
@@ -75,7 +75,6 @@ export class BookingService {
         return NEVER;
       })
     );
-    return appointments$;
   }
 
   public getAvailability(service: Service): Observable<Availability> {
@@ -84,7 +83,7 @@ export class BookingService {
      * since we are turning said promise into an observable, we use defer
      * in order to delay the execution of the promise until the observable is subscribed to
      */
-    const availability$ = defer(() =>
+    return defer(() =>
       this.trpcService.client.getAvailability.query(service.duration)
     ).pipe(
       map((AvailabilityResponse: AvailabilityResponse) => {
@@ -105,7 +104,6 @@ export class BookingService {
         return NEVER;
       })
     );
-    return availability$;
   }
 
   /**
@@ -119,7 +117,7 @@ export class BookingService {
     service: Service,
     timeSlot: TimeSlot
   ): Observable<Appointment> {
-    const appointment$ = of(this.userService.getCurrUserProfile()).pipe(
+    return of(this.userService.getCurrUserProfile()).pipe(
       switchMap((userProfile) => {
         if (!userProfile) {
           throw Error('user is not logged in');
@@ -139,8 +137,6 @@ export class BookingService {
         return NEVER;
       })
     );
-
-    return appointment$;
   }
 
   /**
@@ -150,12 +146,16 @@ export class BookingService {
    * @returns An Observable that emits the cancelled appointment.
    */
   public cancelAppointment(appointment: Appointment): Observable<void> {
-    const cancelAppointment$ = defer(() =>
+    return defer(() =>
       this.trpcService.client.cancelAppointment.mutate(appointment.eventId)
     ).pipe(
       tap(() =>
         this.snackbarService.pushSnackbar(
-          `Your appointment for ${formatDate(appointment.start, "EEE, MMM d 'at' h:mm a", 'en-US')} has been cancelled.`
+          `Your appointment for ${formatDate(
+            appointment.start,
+            "EEE, MMM d 'at' h:mm a",
+            'en-US'
+          )} has been cancelled.`
         )
       ),
       catchError((error) => {
@@ -165,7 +165,5 @@ export class BookingService {
         return NEVER;
       })
     );
-
-    return cancelAppointment$;
   }
 }

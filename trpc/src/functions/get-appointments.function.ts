@@ -1,6 +1,6 @@
 import { firestore } from 'firebase-admin';
 import { firebaseApp } from '..';
-import { Appointment } from '../schema/appointment';
+import { Appointment } from '../../../shared/schema/appointment';
 import { APPOINTMENT_LIST_LIMIT } from '../constants';
 
 export async function getAppointments(userUid: string) {

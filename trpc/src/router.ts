@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { BarberContext, getProtectedProcedure } from './context';
 import { getServices } from './functions/get-services.function';
 import { getAppointments } from './functions/get-appointments.function';
-import { AppointmentRequestZod } from './schema/appointment';
+import { AppointmentRequestZod } from '../../shared/schema/appointment';
 import superjson from 'superjson';
 
 const t = initTRPC.context<BarberContext>().create({
