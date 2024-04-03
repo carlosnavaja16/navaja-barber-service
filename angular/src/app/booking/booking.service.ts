@@ -12,39 +12,26 @@ import {
   tap
 } from 'rxjs';
 import { DateUtils } from '@booking/utilities/date.util';
-import {
-  CollectionReference,
-  DocumentData,
-  Firestore,
-  Query,
-  collection
-} from '@angular/fire/firestore';
 import { Service } from '@schema/service';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { UserService } from '@user/user.service';
 import { Appointment } from '@schema/appointment';
 import { formatDate } from '@angular/common';
 import { TRPCService } from '../trpc/trpc.service';
+import { BarberErrors } from '@shared/errors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingService {
-  servicesCollection: CollectionReference<DocumentData>;
-  servicesQuery: Query<DocumentData>;
+  // TODO: this can be stored in ngrx store
   selectedService: Service | null;
-  appointmentsCollection: CollectionReference<DocumentData>;
-  appointmentsQuery: Query<DocumentData>;
 
   constructor(
-    private readonly firestore: Firestore,
     private readonly snackbarService: SnackbarService,
     private readonly userService: UserService,
     private readonly trpcService: TRPCService
-  ) {
-    this.servicesCollection = collection(this.firestore, 'Services');
-    this.appointmentsCollection = collection(this.firestore, 'Appointments');
-  }
+  ) {}
 
   public getServices(): Observable<Service[]> {
     const services$ = defer(() => this.trpcService.client.getServices.query());
@@ -62,7 +49,7 @@ export class BookingService {
     return of(this.userService.getCurrUserProfile()).pipe(
       switchMap((user) => {
         if (!user) {
-          throw new Error('User is not logged in');
+          throw BarberErrors.USER_NOT_LOGGED_IN;
         }
         return defer(() =>
           this.trpcService.client.getAppointments.query(user.userId)

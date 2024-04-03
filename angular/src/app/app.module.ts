@@ -56,6 +56,11 @@ import {
   heroClockMini
 } from '@ng-icons/heroicons/mini';
 
+// NgRx
+import { StoreModule } from '@ngrx/store';
+import { bookingReducer } from './booking/state/booking.reducer';
+import { userReducer } from './user/state/user.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,7 +119,11 @@ import {
       heroCalendarMini,
       heroClockMini
     }),
-    MatSidenavModule
+    MatSidenavModule,
+    StoreModule.forRoot({
+      booking: bookingReducer,
+      user: userReducer
+    })
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]
