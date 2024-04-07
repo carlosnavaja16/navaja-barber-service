@@ -20,3 +20,8 @@ export interface UserProfile {
   userId: string;
   email: string;
 }
+
+export interface UserInfo {
+  userToken: string;
+  userProfile: UserProfile;
+}

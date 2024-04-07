@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { SnackbarService } from './common/services/snackbar/snackbar.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { Store } from '@ngrx/store';
+import { AppState } from './app.state';
+import * as UserSelectors from './user/state/user.selectors';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +23,8 @@ export class AppComponent {
     private readonly router: Router,
     private readonly snackbarService: SnackbarService,
     private readonly headerService: HeaderService,
-    private readonly breakpointObserver: BreakpointObserver
+    private readonly breakpointObserver: BreakpointObserver,
+    private readonly store: Store<AppState>
   ) {
     this.breakpointObserver
       .observe('(min-width: 768px)')
@@ -45,7 +50,9 @@ export class AppComponent {
   }
 
   get isLoggedIn(): Signal<boolean> {
-    return this.userService.getIsLoggedIn();
+    return toSignal(this.store.select(UserSelectors.getLoggedIn), {
+      initialValue: false
+    });
   }
 
   get header(): WritableSignal<string> {

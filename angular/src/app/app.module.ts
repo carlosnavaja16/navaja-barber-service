@@ -60,6 +60,7 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { bookingReducer } from './booking/state/booking.reducer';
 import { userReducer } from './user/state/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,8 @@ import { userReducer } from './user/state/user.reducer';
     StoreModule.forRoot({
       booking: bookingReducer,
       user: userReducer
-    })
+    }),
+    EffectsModule.forRoot([])
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]

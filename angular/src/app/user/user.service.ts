@@ -1,8 +1,7 @@
-import { Injectable, Signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Auth,
   UserCredential,
-  authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -21,67 +20,43 @@ import {
   updateDoc
 } from '@angular/fire/firestore';
 import { setDoc } from 'firebase/firestore';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { BarberErrors } from '@shared/errors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private isLoggedIn: Signal<boolean>;
   private userProfilesCollection: CollectionReference<DocumentData>;
-  private currUserProfile: Signal<UserProfile | null>;
-  private currUserToken: Signal<string>;
 
   constructor(
     private readonly auth: Auth,
     private readonly firestore: Firestore
   ) {
     this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
-    this.isLoggedIn = toSignal(
-      authState(this.auth).pipe(map((user) => (user ? true : false))),
-      { initialValue: false }
-    );
-    this.currUserProfile = toSignal(
-      authState(this.auth).pipe(
-        switchMap((user) => {
-          return user ? this.getUserProfile() : of(null);
-        })
-      ),
-      { initialValue: null }
-    );
-    this.currUserToken = toSignal(
-      authState(this.auth).pipe(
-        switchMap((user) => {
-          return user ? user.getIdToken() : of('');
-        })
-      ),
-      { initialValue: '' }
-    );
   }
 
-  public getCurrUserToken(): string {
-    return this.currUserToken();
-  }
-
-  public getIsLoggedIn(): Signal<boolean> {
-    return this.isLoggedIn;
-  }
-
-  public getCurrUserProfile(): UserProfile | null {
-    return this.currUserProfile();
-  }
-
-  public login(email: string, password: string): Observable<UserProfile> {
+  public login(email: string, password: string) {
+    let userCredential: UserCredential;
+    let userProfile: UserProfile | null;
+    let userToken: string;
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       switchMap((user: UserCredential) => {
+        userCredential = user;
+        return from(userCredential.user.getIdToken());
+      }),
+      switchMap((token: string) => {
+        userToken = token;
         return from(
-          getDoc(doc(this.userProfilesCollection, user.user.uid))
-        ).pipe(
-          map(
-            (userProfileSnapshot) => userProfileSnapshot.data() as UserProfile
-          )
+          getDoc(doc(this.userProfilesCollection, userCredential.user.uid))
         );
+      }),
+      map((doc) => doc.data() as UserProfile),
+      switchMap((profile) => {
+        userProfile = profile;
+        return of({
+          userProfile,
+          userToken
+        });
       })
     );
   }
@@ -95,17 +70,24 @@ export class UserService {
     password: string,
     createUserProfileRequest: CreateUserProfileRequest
   ): Observable<void> {
+    let userCredential: UserCredential;
+    let userProfile: UserProfile | null;
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
     ).pipe(
       switchMap((user) => {
+        userCredential = user;
+        userProfile = {
+          ...createUserProfileRequest,
+          email,
+          isAdmin: false,
+          userId: user.user.uid
+        };
         return from(
-          setDoc(doc(this.firestore, 'UserProfiles', user.user.uid), {
-            ...createUserProfileRequest,
-            email: user.user.email,
-            idAdmin: false,
-            userId: user.user.uid
-          })
+          setDoc(
+            doc(this.firestore, 'UserProfiles', userCredential.user.uid),
+            userProfile
+          )
         );
       })
     );

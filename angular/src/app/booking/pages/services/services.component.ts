@@ -5,6 +5,8 @@ import { UserService } from '@user/user.service';
 import { BookingService } from '@booking/booking.service';
 import { Service } from '@schema/service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as UserSelectors from '@src/app/user/state/user.selectors';
 
 @Component({
   selector: 'app-services',
@@ -18,7 +20,8 @@ export class ServicesComponent {
     private readonly userService: UserService,
     private readonly bookingService: BookingService,
     private readonly headerService: HeaderService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly store: Store
   ) {
     this.headerService.setHeader('Services');
     this.services = toSignal(this.bookingService.getServices(), {
@@ -28,7 +31,9 @@ export class ServicesComponent {
   }
 
   get isLoggedIn(): Signal<boolean> {
-    return this.userService.getIsLoggedIn();
+    return toSignal(this.store.select(UserSelectors.getLoggedIn), {
+      initialValue: false
+    });
   }
 
   bookService(service: Service) {

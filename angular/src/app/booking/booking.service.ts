@@ -19,6 +19,9 @@ import { Appointment } from '@schema/appointment';
 import { formatDate } from '@angular/common';
 import { TRPCService } from '../trpc/trpc.service';
 import { BarberErrors } from '@shared/errors';
+import { AppState } from '../app.state';
+import { Store } from '@ngrx/store';
+import * as UserSelectors from '../user/state/user.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +33,8 @@ export class BookingService {
   constructor(
     private readonly snackbarService: SnackbarService,
     private readonly userService: UserService,
-    private readonly trpcService: TRPCService
+    private readonly trpcService: TRPCService,
+    private readonly store: Store<AppState>
   ) {}
 
   public getServices(): Observable<Service[]> {
@@ -46,7 +50,7 @@ export class BookingService {
   }
 
   public getAppointments(): Observable<Appointment[]> {
-    return of(this.userService.getCurrUserProfile()).pipe(
+    return of(this.store.select(UserSelectors.getUserProfile)).pipe(
       switchMap((user) => {
         if (!user) {
           throw BarberErrors.USER_NOT_LOGGED_IN;

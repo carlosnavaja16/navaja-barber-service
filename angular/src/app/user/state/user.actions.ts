@@ -1,12 +1,22 @@
 import { createAction, props } from '@ngrx/store';
-import { UserProfile } from '@shared/schema/user-profile';
+import {
+  CreateUserProfileRequest,
+  UserInfo
+} from '@shared/schema/user-profile';
 
-export const logIn = createAction('LogIn');
-export const logOut = createAction('LogOut');
-export const setUserProfile = createAction(
-  'SetUserProfile',
-  props<UserProfile>()
+export const logIn = createAction(
+  'LogIn',
+  props<{ email: string; password: string }>()
 );
-export const clearUserProfile = createAction('ClearUserProfile');
-export const setUserToken = createAction('SetUserToken', props<string>());
-export const clearUserToken = createAction('ClearUserToken');
+export const logInSuccess = createAction('LogInSuccess', props<UserInfo>());
+
+export const logOut = createAction('LogOut');
+export const logOutSuccess = createAction('LogOutSuccess');
+export const signUp = createAction(
+  'SignUp',
+  props<{
+    email: string;
+    password: string;
+    createProfileRequest: CreateUserProfileRequest;
+  }>()
+);
