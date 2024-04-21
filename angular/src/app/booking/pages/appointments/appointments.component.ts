@@ -1,10 +1,11 @@
 import { Component, Signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { HeaderService } from '@app/common/services/header/header.service';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Appointment } from '@schema/appointment';
 import { DateUtils } from '@booking/utilities/date.util';
-import { Observable, Subject, merge, of, switchMap } from 'rxjs';
+import { Observable, Subject, merge, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appointments',
@@ -21,21 +22,16 @@ export class AppointmentsComponent {
   upcomingAppointments: Signal<Appointment[] | null>;
   cancelledAppointments$: Subject<Appointment>;
   refreshedAppointments$: Observable<Appointment[]>;
-  setLoadingStatus$: Subject<void>;
-  appointmentsLoading$: Observable<null>;
+
   constructor(
     private readonly bookingService: BookingService,
-    private readonly headerService: HeaderService
+    private readonly headerService: HeaderService,
+    private readonly router: Router
   ) {
     this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
     this.appointments$ = this.bookingService.getAppointments();
     this.cancelledAppointments$ = new Subject();
-    this.setLoadingStatus$ = new Subject();
-
-    this.appointmentsLoading$ = this.setLoadingStatus$
-      .asObservable()
-      .pipe(switchMap(() => of(null)));
 
     this.refreshedAppointments$ = this.cancelledAppointments$
       .asObservable()
@@ -47,11 +43,7 @@ export class AppointmentsComponent {
       );
 
     this.appointments = toSignal(
-      merge(
-        this.appointments$,
-        this.refreshedAppointments$,
-        this.appointmentsLoading$
-      ),
+      merge(this.appointments$, this.refreshedAppointments$),
       { initialValue: null }
     );
 
@@ -99,7 +91,10 @@ export class AppointmentsComponent {
   }
 
   onCancel(appointment: Appointment): void {
-    this.setLoadingStatus$.next();
     this.cancelledAppointments$.next(appointment);
+  }
+
+  onReschedule(appointment: Appointment) {
+    this.router.navigate([`/reschedule/${appointment.eventId}`]);
   }
 }

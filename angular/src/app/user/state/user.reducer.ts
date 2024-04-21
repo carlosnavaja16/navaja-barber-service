@@ -5,13 +5,13 @@ import * as UserActions from './user.actions';
 export interface UserState {
   loggedIn: boolean;
   userProfile: UserProfile | null;
-  userToken: string | null;
+  userToken: string | undefined;
 }
 
 export const initialState: UserState = {
   loggedIn: false,
   userProfile: null,
-  userToken: null
+  userToken: undefined
 };
 
 export const userReducer = createReducer<UserState>(
@@ -28,7 +28,7 @@ export const userReducer = createReducer<UserState>(
     return {
       ...state,
       loggedIn: false,
-      userToken: null,
+      userToken: undefined,
       userProfile: null
     };
   })

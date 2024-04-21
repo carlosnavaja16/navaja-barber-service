@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { HeaderService } from '@app/common/services/header/header.service';
-import { UserService } from '@user/user.service';
+import { Component, Signal } from '@angular/core';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import { Store } from '@ngrx/store';
 import * as UserSelectors from '../user/state/user.selectors';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-home',
@@ -10,16 +10,14 @@ import * as UserSelectors from '../user/state/user.selectors';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  loggedIn: Signal<boolean>;
+
   constructor(
     private readonly headerService: HeaderService,
-    private readonly userService: UserService,
     private readonly store: Store
   ) {
     this.headerService.setHeader('Navaja Barber Service');
-  }
-
-  get isLoggedIn(): Signal<boolean> {
-    return toSignal(this.store.select(UserSelectors.getLoggedIn), {
+    this.loggedIn = toSignal(this.store.select(UserSelectors.getLoggedIn), {
       initialValue: false
     });
   }

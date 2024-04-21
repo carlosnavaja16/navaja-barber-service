@@ -13,3 +13,11 @@ export async function getAppointments(userUid: string) {
     .get();
   return query.docs.map((doc) => doc.data() as Appointment);
 }
+
+export async function getAppointment(eventId: string) {
+  const query = await firestore(firebaseApp)
+    .collection('Appointments')
+    .doc(eventId)
+    .get();
+  return query.data() as Appointment;
+}

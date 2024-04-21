@@ -25,6 +25,7 @@ import { DatePickerComponent } from '@booking/components/date-picker/date-picker
 import { ProfileFormComponent } from '@user/components/profile-form/profile-form.component';
 import { SignUpFormComponent } from '@user/components/sign-up-form/sign-up-form.component';
 import { AppointmentsComponent } from '@booking/pages/appointments/appointments.component';
+import { AppointmentRescheduleComponent } from '@src/app/booking/pages/appointment-reschedule/appointment-reschedule.component';
 
 // material design
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -61,6 +62,7 @@ import { StoreModule } from '@ngrx/store';
 import { bookingReducer } from './booking/state/booking.reducer';
 import { userReducer } from './user/state/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './user/state/user.effects';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,8 @@ import { EffectsModule } from '@ngrx/effects';
     SignUpFormComponent,
     AppointmentPreviewComponent,
     AppointmentSummaryComponent,
-    AppointmentsComponent
+    AppointmentsComponent,
+    AppointmentRescheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -125,7 +128,7 @@ import { EffectsModule } from '@ngrx/effects';
       booking: bookingReducer,
       user: userReducer
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([UserEffects])
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]

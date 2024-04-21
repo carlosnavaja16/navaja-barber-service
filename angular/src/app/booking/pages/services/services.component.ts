@@ -1,7 +1,6 @@
 import { Component, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { HeaderService } from '@app/common/services/header/header.service';
-import { UserService } from '@user/user.service';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Service } from '@schema/service';
 import { Router } from '@angular/router';
@@ -15,9 +14,9 @@ import * as UserSelectors from '@src/app/user/state/user.selectors';
 })
 export class ServicesComponent {
   services: Signal<Service[]>;
+  loggedIn: Signal<boolean>;
 
   constructor(
-    private readonly userService: UserService,
     private readonly bookingService: BookingService,
     private readonly headerService: HeaderService,
     private readonly router: Router,
@@ -28,10 +27,7 @@ export class ServicesComponent {
       initialValue: []
     });
     this.bookingService.selectedService = null;
-  }
-
-  get isLoggedIn(): Signal<boolean> {
-    return toSignal(this.store.select(UserSelectors.getLoggedIn), {
+    this.loggedIn = toSignal(this.store.select(UserSelectors.getLoggedIn), {
       initialValue: false
     });
   }

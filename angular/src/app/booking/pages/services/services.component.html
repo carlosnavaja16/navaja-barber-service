@@ -1,5 +1,5 @@
 <div class="mx-auto max-w-screen-md">
-  @if (!isLoggedIn()) {
+  @if (!loggedIn()) {
     <p class="text-center mb-5">
       <small>
         In order to book you will need to
@@ -25,12 +25,12 @@
         </div>
         <div>
           <button
-            [disabled]="!isLoggedIn()"
+            [disabled]="!loggedIn()"
             mat-stroked-button
             color="primary"
             (click)="bookService(service)"
             [matTooltip]="
-              !isLoggedIn() ? 'In order to book you will need to log in.' : ''
+              !loggedIn() ? 'In order to book you will need to log in.' : ''
             "
           >
             Book

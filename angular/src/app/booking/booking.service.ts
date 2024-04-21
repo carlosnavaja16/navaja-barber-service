@@ -4,17 +4,15 @@ import { Availability, AvailabilityResponse } from '@schema/availability';
 import {
   catchError,
   defer,
+  EMPTY,
   map,
-  NEVER,
   Observable,
-  of,
   switchMap,
   tap
 } from 'rxjs';
 import { DateUtils } from '@booking/utilities/date.util';
 import { Service } from '@schema/service';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
-import { UserService } from '@user/user.service';
 import { Appointment } from '@schema/appointment';
 import { formatDate } from '@angular/common';
 import { TRPCService } from '../trpc/trpc.service';
@@ -32,7 +30,6 @@ export class BookingService {
 
   constructor(
     private readonly snackbarService: SnackbarService,
-    private readonly userService: UserService,
     private readonly trpcService: TRPCService,
     private readonly store: Store<AppState>
   ) {}
@@ -44,13 +41,13 @@ export class BookingService {
         this.snackbarService.pushSnackbar(
           `Could not load services due to error: ${error}`
         );
-        return NEVER;
+        return EMPTY;
       })
     );
   }
 
   public getAppointments(): Observable<Appointment[]> {
-    return of(this.store.select(UserSelectors.getUserProfile)).pipe(
+    return this.store.select(UserSelectors.getUserProfile).pipe(
       switchMap((user) => {
         if (!user) {
           throw BarberErrors.USER_NOT_LOGGED_IN;
@@ -63,7 +60,20 @@ export class BookingService {
         this.snackbarService.pushSnackbar(
           `Could not load appointments due to error: ${error}`
         );
-        return NEVER;
+        return EMPTY;
+      })
+    );
+  }
+
+  public getAppointment(eventId: string): Observable<Appointment> {
+    return defer(() =>
+      this.trpcService.client.getAppointment.query(eventId)
+    ).pipe(
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Could not get appointment due to error: ${error}`
+        );
+        return EMPTY;
       })
     );
   }
@@ -92,7 +102,7 @@ export class BookingService {
         this.snackbarService.pushSnackbar(
           `Could not load availability due to error: ${error}`
         );
-        return NEVER;
+        return EMPTY;
       })
     );
   }
@@ -108,10 +118,10 @@ export class BookingService {
     service: Service,
     timeSlot: TimeSlot
   ): Observable<Appointment> {
-    return of(this.userService.getCurrUserProfile()).pipe(
+    return this.store.select(UserSelectors.getUserProfile).pipe(
       switchMap((userProfile) => {
         if (!userProfile) {
-          throw Error('user is not logged in');
+          throw BarberErrors.USER_NOT_LOGGED_IN;
         }
         return defer(() =>
           this.trpcService.client.bookAppointment.mutate({
@@ -125,7 +135,16 @@ export class BookingService {
         this.snackbarService.pushSnackbar(
           `Could not book appointment due to error: ${error}`
         );
-        return NEVER;
+        return EMPTY;
+      })
+    );
+  }
+
+  public rescheduleAppointment(appointment: Appointment, timeSlot: TimeSlot) {
+    return defer(() =>
+      this.trpcService.client.rescheduleAppointment.mutate({
+        appointment,
+        timeSlot
       })
     );
   }
@@ -153,7 +172,7 @@ export class BookingService {
         this.snackbarService.pushSnackbar(
           `Could not cancel appointment due to error: ${error}`
         );
-        return NEVER;
+        return EMPTY;
       })
     );
   }

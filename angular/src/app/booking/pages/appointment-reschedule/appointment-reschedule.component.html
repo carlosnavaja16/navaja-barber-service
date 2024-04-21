@@ -1,0 +1,31 @@
+<mat-vertical-stepper linear #stepper class="booking-stepper w-full max-w-lg">
+  <mat-step
+    label="Select a date"
+    [completed]="selectedDateTimeSlots() ? true : false"
+  >
+    @if (availability$ | async; as availability) {
+      <date-picker
+        [dateFilter]="availability.dateFilter"
+        [timeSlotsByDate]="availability.timeSlotsByDate"
+        [minDate]="availability.minDate"
+        [maxDate]="availability.maxDate"
+        (dateSelected)="onDateSelected($event)"
+      />
+    } @else {
+      <div class="w-full flex flex-col items-center justify-center h-8">
+        <mat-progress-spinner color="primary" mode="indeterminate" />
+      </div>
+    }
+  </mat-step>
+  <mat-step
+    label="Select a time"
+    [completed]="selectedTimeSlot() ? true : false"
+  >
+    @if (selectedDateTimeSlots()) {
+      <time-slots
+        [dateTimeSlots]="selectedDateTimeSlots()"
+        (timeSlotSelected)="onTimeSlotSelected($event)"
+      />
+    }
+  </mat-step>
+</mat-vertical-stepper>

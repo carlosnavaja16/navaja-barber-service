@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, exhaustMap, filter } from 'rxjs/operators';
+import { map, exhaustMap, filter, tap, catchError } from 'rxjs/operators';
 import { UserService } from '../user.service';
 import * as UserActions from './user.actions';
 import { authState, Auth, User } from '@angular/fire/auth';
+import { SnackbarService } from '@src/app/common/services/snackbar/snackbar.service';
+import { EMPTY } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class UserEffects {
   constructor(
-    private actions$: Actions,
-    private userService: UserService,
-    private auth: Auth
+    private readonly actions$: Actions,
+    private readonly userService: UserService,
+    private readonly auth: Auth,
+    private readonly snackbarService: SnackbarService,
+    private readonly router: Router
   ) {}
 
   alreadyLoggedIn$ = createEffect(() =>
@@ -28,6 +33,18 @@ export class UserEffects {
       exhaustMap((action) =>
         this.userService.login(action.email, action.password)
       ),
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Login not successful: ${error.message}`
+        );
+        return EMPTY;
+      }),
+      tap((userInfo) => {
+        this.snackbarService.pushSnackbar(
+          `Login successful. Welcome back ${userInfo.userProfile.firstName}!`
+        );
+        this.router.navigate(['/']);
+      }),
       map((userInfo) => UserActions.logInSuccess(userInfo))
     )
   );
@@ -42,6 +59,18 @@ export class UserEffects {
           action.createProfileRequest
         )
       ),
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Login not successful: ${error.message}`
+        );
+        return EMPTY;
+      }),
+      tap((userInfo) => {
+        this.snackbarService.pushSnackbar(
+          `Sign up successful. Welcome ${userInfo.userProfile.firstName}!`
+        );
+        this.router.navigate(['/']);
+      }),
       map((userInfo) => UserActions.logInSuccess(userInfo))
     )
   );
@@ -50,6 +79,16 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.logOut),
       exhaustMap(() => this.userService.logOut()),
+      catchError((error) => {
+        this.snackbarService.pushSnackbar(
+          `Logout not successful: ${error.message}`
+        );
+        return EMPTY;
+      }),
+      tap(() => {
+        this.snackbarService.pushSnackbar('Logout successful!');
+        this.router.navigate(['/']);
+      }),
       map(() => UserActions.logOutSuccess())
     )
   );

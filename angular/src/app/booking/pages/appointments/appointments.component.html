@@ -19,6 +19,7 @@
           [timeZone]="timeZone"
           class="pb-3"
           editable
+          (reschedule)="onReschedule(nextAppointment()!)"
           (cancel)="onCancel(nextAppointment()!)"
         />
       }
@@ -34,6 +35,7 @@
                   [appointment]="appointment"
                   [timeZone]="timeZone"
                   editable
+                  (reschedule)="onReschedule(appointment)"
                   (cancel)="onCancel(appointment)"
                 />
               }

@@ -1,14 +1,14 @@
-import { HeaderService } from '@app/common/services/header/header.service';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
-import { UserService } from '@user/user.service';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators
 } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AppState } from '@src/app/app.state';
+import * as UserActions from '@src/app/user/state/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private readonly headerService: HeaderService,
-    private readonly router: Router,
-    private readonly snackbarService: SnackbarService,
-    private readonly userService: UserService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly store: Store<AppState>
   ) {
     this.headerService.setHeader('Login');
   }
@@ -35,22 +33,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onLogin(): void {
-    this.userService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
-      .subscribe({
-        next: (userProfile) => {
-          this.snackbarService.pushSnackbar(
-            `Login successful. Welcome back ${userProfile.firstName}!`
-          );
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          this.snackbarService.pushSnackbar(
-            `Login not successful: ${error.message}`
-          );
-        }
-      });
+  onLogin() {
+    this.store.dispatch(
+      UserActions.logIn({
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password
+      })
+    );
   }
 
   get email() {

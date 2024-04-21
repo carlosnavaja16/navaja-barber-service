@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HeaderService } from '@app/common/services/header/header.service';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import {
   FormBuilder,
   FormControl,

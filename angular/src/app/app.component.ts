@@ -1,13 +1,11 @@
 import { Component, Signal, ViewChild, WritableSignal } from '@angular/core';
-import { UserService } from './user/user.service';
 import { HeaderService } from './common/services/header/header.service';
-import { Router } from '@angular/router';
-import { SnackbarService } from './common/services/snackbar/snackbar.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.state';
 import * as UserSelectors from './user/state/user.selectors';
+import * as UserActions from './user/state/user.actions';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -17,11 +15,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class AppComponent {
   @ViewChild('sidenav') sidenav: MatSidenav;
+  loggedIn: Signal<boolean>;
 
   constructor(
-    private readonly userService: UserService,
-    private readonly router: Router,
-    private readonly snackbarService: SnackbarService,
     private readonly headerService: HeaderService,
     private readonly breakpointObserver: BreakpointObserver,
     private readonly store: Store<AppState>
@@ -29,6 +25,9 @@ export class AppComponent {
     this.breakpointObserver
       .observe('(min-width: 768px)')
       .subscribe((state) => (state.matches ? this.sidenav?.close() : null));
+    this.loggedIn = toSignal(this.store.select(UserSelectors.getLoggedIn), {
+      initialValue: false
+    });
   }
 
   toggleSidenav() {
@@ -37,22 +36,7 @@ export class AppComponent {
 
   logOut() {
     this.sidenav.close();
-    this.userService.logOut().subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-      error: (error) => {
-        this.snackbarService.pushSnackbar(
-          `Error logging out: ${error.message}`
-        );
-      }
-    });
-  }
-
-  get isLoggedIn(): Signal<boolean> {
-    return toSignal(this.store.select(UserSelectors.getLoggedIn), {
-      initialValue: false
-    });
+    this.store.dispatch(UserActions.logOut());
   }
 
   get header(): WritableSignal<string> {

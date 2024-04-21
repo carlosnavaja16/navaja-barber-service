@@ -36,7 +36,7 @@
         >
           Gallery
         </a>
-        @if (!isLoggedIn()) {
+        @if (!loggedIn()) {
           <a
             class="nav-link"
             [routerLink]="'/login'"
@@ -106,7 +106,7 @@
       >
         Gallery
       </a>
-      @if (!isLoggedIn()) {
+      @if (!loggedIn()) {
         <a
           class="sidenav-link"
           (click)="sidenav.toggle()"

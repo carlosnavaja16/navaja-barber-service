@@ -5,7 +5,7 @@ import {
   ViewChild,
   signal
 } from '@angular/core';
-import { HeaderService } from '@app/common/services/header/header.service';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import { Observable, of, switchMap } from 'rxjs';
 import { DateTimeSlots, TimeSlot } from '@schema/time-slot';
 import { Availability } from '@schema/availability';

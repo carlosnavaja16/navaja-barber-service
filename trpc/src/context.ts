@@ -10,13 +10,11 @@ export async function createBarberContext(opts: FetchCreateContextFnOptions) {
 }
 
 async function getUser(token: string | null): Promise<DecodedIdToken | null> {
-  let user: DecodedIdToken | null;
   try {
-    user = await firebaseApp.auth().verifyIdToken(token || '');
+    return await firebaseApp.auth().verifyIdToken(token || '');
   } catch {
-    user = null;
+    return null;
   }
-  return user;
 }
 
 export function getProtectedProcedure() {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderService } from '@app/common/services/header/header.service';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { UserService } from '@user/user.service';

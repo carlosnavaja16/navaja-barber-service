@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
-  UserCredential,
+  User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -9,7 +9,11 @@ import {
   user
 } from '@angular/fire/auth';
 import { Observable, from, map, of, switchMap } from 'rxjs';
-import { CreateUserProfileRequest, UserProfile } from '@schema/user-profile';
+import {
+  CreateUserProfileRequest,
+  UserInfo,
+  UserProfile
+} from '@schema/user-profile';
 import {
   CollectionReference,
   DocumentData,
@@ -36,27 +40,9 @@ export class UserService {
   }
 
   public login(email: string, password: string) {
-    let userCredential: UserCredential;
-    let userProfile: UserProfile | null;
-    let userToken: string;
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      switchMap((user: UserCredential) => {
-        userCredential = user;
-        return from(userCredential.user.getIdToken());
-      }),
-      switchMap((token: string) => {
-        userToken = token;
-        return from(
-          getDoc(doc(this.userProfilesCollection, userCredential.user.uid))
-        );
-      }),
-      map((doc) => doc.data() as UserProfile),
-      switchMap((profile) => {
-        userProfile = profile;
-        return of({
-          userProfile,
-          userToken
-        });
+      switchMap((userCredential) => {
+        return this.getUserInfo(userCredential.user);
       })
     );
   }
@@ -69,26 +55,39 @@ export class UserService {
     email: string,
     password: string,
     createUserProfileRequest: CreateUserProfileRequest
-  ): Observable<void> {
-    let userCredential: UserCredential;
-    let userProfile: UserProfile | null;
+  ) {
+    let user: User;
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
     ).pipe(
-      switchMap((user) => {
-        userCredential = user;
-        userProfile = {
-          ...createUserProfileRequest,
-          email,
-          isAdmin: false,
-          userId: user.user.uid
-        };
+      switchMap((userCredential) => {
+        user = userCredential.user;
         return from(
-          setDoc(
-            doc(this.firestore, 'UserProfiles', userCredential.user.uid),
-            userProfile
-          )
+          setDoc(doc(this.firestore, 'UserProfiles', userCredential.user.uid), {
+            ...createUserProfileRequest,
+            email,
+            isAdmin: false,
+            userId: user.uid
+          })
         );
+      }),
+      switchMap(() => this.getUserInfo(user))
+    );
+  }
+
+  public getUserInfo(user: User): Observable<UserInfo> {
+    let userToken: string;
+    return from(user.getIdToken()).pipe(
+      switchMap((token) => {
+        userToken = token;
+        return from(getDoc(doc(this.userProfilesCollection, user.uid)));
+      }),
+      map((doc) => doc.data() as UserProfile),
+      switchMap((userProfile) => {
+        return of({
+          userToken,
+          userProfile
+        });
       })
     );
   }
