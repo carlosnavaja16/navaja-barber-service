@@ -62,7 +62,10 @@ export class AppointmentRescheduleComponent {
   onReschedule() {
     this.rescheduleResponse$ = this.appointment$.pipe(
       switchMap((appointment) => {
-        return this.bookingService.rescheduleAppointment(appointment, this.selectedTimeSlot);
+        return this.bookingService.rescheduleAppointment(
+          appointment,
+          this.selectedTimeSlot
+        );
       })
     );
   }

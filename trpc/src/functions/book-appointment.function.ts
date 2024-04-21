@@ -1,5 +1,8 @@
 import { createEvent } from '../util/google-calendar.util';
-import { Appointment, AppointmentRequest } from '../../../shared/schema/appointment';
+import {
+  Appointment,
+  AppointmentRequest
+} from '../../../shared/schema/appointment';
 import { firestore } from 'firebase-admin';
 import { firebaseApp } from '..';
 import { AppointmentUtils } from '../util/appointment.util';
@@ -26,6 +29,7 @@ export async function bookAppointment(appointmentRequest: AppointmentRequest) {
   return appointment;
 }
 
-export async function rescheduleAppointment(appointment: Appointment, timeSlot: TimeSlot) {
-  
-}
+export async function rescheduleAppointment(
+  appointment: Appointment,
+  timeSlot: TimeSlot
+) {}

@@ -83,7 +83,7 @@ export async function cancelEvent(eventId: string) {
   }
 }
 
-export async function rescheduleEvent(eventId, )
+export async function rescheduleEvent(eventId);
 
 function getCalendar() {
   return google.calendar({

@@ -5,7 +5,10 @@ import { cancelAppointment } from './functions/cancel-appointment.function';
 import { z } from 'zod';
 import { BarberContext, getProtectedProcedure } from './context';
 import { getServices } from './functions/get-services.function';
-import { getAppointment, getAppointments } from './functions/get-appointments.function';
+import {
+  getAppointment,
+  getAppointments
+} from './functions/get-appointments.function';
 import { AppointmentRequestZod } from '../../shared/schema/appointment';
 import superjson from 'superjson';
 
