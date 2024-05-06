@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "expo-app",
-    "slug": "expo-app",
+    "name": "Navaja",
+    "slug": "Navaja",
+    "scheme": "Navaja",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "../shared/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "../shared/assets/navajaLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,12 +18,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "../shared/assets/icon.png",
+        "backgroundColor": "#00FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "bundler": "metro",
+      "favicon": "../shared/assets/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["../shared/assets/fonts/KURT-Italic.otf"]
+        }
+      ],
+      "expo-router"
+    ]
   }
 }

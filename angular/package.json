@@ -1,5 +1,5 @@
 {
-  "name": "angular-barber-service",
+  "name": "navaja-app-angular",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",
