@@ -7,11 +7,11 @@ interface HeaderProps {
   text: string;
 }
 
-SplashScreen.preventAutoHideAsync();
-
 export const Header = (props: HeaderProps) => {
+  SplashScreen.preventAutoHideAsync();
+
   const [fontsLoaded, fontError] = useFonts({
-    'KURT-Italic': require('../../../../../shared/assets/fonts/KURT-Italic.otf')
+    'KURT-Italic': require('../../../../shared/assets/fonts/KURT-Italic.otf')
   });
 
   const onLayoutRootView = useCallback(async () => {

@@ -9,7 +9,6 @@ import { Availability } from '@shared/schema/availability';
 import { map, Observable, switchMap } from 'rxjs';
 import { BookingService } from '../../booking.service';
 import { ActivatedRoute } from '@angular/router';
-import { Service } from '@shared/schema/service';
 import { DateTimeSlots, TimeSlot } from '@shared/schema/time-slot';
 import { MatStepper } from '@angular/material/stepper';
 

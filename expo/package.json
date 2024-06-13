@@ -1,6 +1,7 @@
 {
   "name": "navaja-app-expo",
   "version": "1.0.0",
+  "main": "./app/index.tsx",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

@@ -1,5 +1,5 @@
-const { getDefaultConfig } = require('expo/metro-config');
-const path = require('path');
+import getDefaultConfig from 'expo/metro-config';
+import path from 'path';
 
 const projectRoot = __dirname;
 const sharedDirectory = path.resolve(projectRoot, '../shared');

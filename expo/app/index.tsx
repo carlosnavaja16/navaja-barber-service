@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Pressable } from 'react-native';
 import { Button } from './common/components/button';
 import { Link } from 'expo-router';
-import { registerRootComponent } from 'expo';
+import 'expo-router/entry';
 
 export default function App() {
   return (
@@ -10,13 +10,17 @@ export default function App() {
       <StatusBar style="auto" />
       <Image
         style={styles.image}
-        source={require('../../../shared/assets/navajaLogo.png')}
+        source={require('../../shared/assets/navajaLogo.png')}
       />
-      <Link href="/user/login">
-        <Button text="Login" />
+      <Link href="user/login" asChild>
+        <Pressable>
+          <Button text="Login" />
+        </Pressable>
       </Link>
-      <Link href="/user/sign-up">
-        <Button text="Sign Up" />
+      <Link href="user/sign-up" asChild>
+        <Pressable>
+          <Button text="Sign Up" />
+        </Pressable>
       </Link>
     </View>
   );
@@ -36,5 +40,3 @@ const styles = StyleSheet.create({
     marginBottom: 50
   }
 });
-
-registerRootComponent(App);
