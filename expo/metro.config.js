@@ -1,5 +1,6 @@
-import getDefaultConfig from 'expo/metro-config';
-import path from 'path';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 
 const projectRoot = __dirname;
 const sharedDirectory = path.resolve(projectRoot, '../shared');
