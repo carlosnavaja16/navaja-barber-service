@@ -1,56 +1,73 @@
 import { Header } from '../common/components/header';
-import { TextInput, View, StyleSheet } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
+import { View, StyleSheet } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { Button } from '../common/components/button';
+import { GAP } from '../common/styles/styles';
+import { ControlledInput } from '../common/components/controllerInput';
 
-interface LoginFormData {
+type LoginFormData = {
   email: string;
   password: string;
-}
+};
 
 export default function Login() {
-  const { control, handleSubmit } = useForm<LoginFormData>({
+  const {
+    control,
+    handleSubmit,
+    getFieldState,
+    formState: { errors, isValid }
+  } = useForm<LoginFormData>({
     defaultValues: {
       email: '',
       password: ''
-    }
+    },
+    mode: 'onBlur'
   });
+
   const onSubmit = (data: LoginFormData) => console.log(data);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Header text="Login" />
-      <Controller
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.textInput}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="email"
-      />
-      <Controller
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.textInput}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="password"
-      />
-      <View style={styles.buttonContainer}>
+      <View style={styles.formContainer}>
+        <ControlledInput
+          control={control}
+          name="email"
+          rules={{
+            required: 'Email is required',
+            pattern: {
+              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+              message: 'Invalid email'
+            }
+          }}
+          placeholder="Email"
+          errorMessage={
+            getFieldState('email').isTouched && errors.email
+              ? errors.email.message
+              : undefined
+          }
+        />
+        <ControlledInput
+          control={control}
+          name="password"
+          rules={{
+            required: 'Password is required',
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters'
+            }
+          }}
+          placeholder="Password"
+          errorMessage={
+            getFieldState('password').isTouched && errors.password
+              ? errors.password.message
+              : undefined
+          }
+        />
         <Button
           text="Login"
-          buttonColor="red"
           onPress={handleSubmit(onSubmit)}
+          disabled={isValid ? false : true}
         />
       </View>
     </View>
@@ -58,15 +75,22 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
+  container: {
+    height: '100%',
+    width: '100%',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  textInput: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    borderRadius: 5
+  formContainer: {
+    width: '100%',
+    maxWidth: 500,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: GAP,
+    paddingHorizontal: 20
   }
 });

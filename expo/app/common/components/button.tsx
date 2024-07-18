@@ -1,8 +1,16 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import { blue } from '../styles/global.styles';
+import {
+  NAVAJA_BLUE,
+  INPUT_HEIGHT,
+  BORDER_RADIUS,
+  NAVAJA_SLATE_200,
+  NAVAJA_SLATE_500,
+  BORDER_WIDTH
+} from '../styles/styles';
 
 interface Props {
+  disabled?: boolean;
   text: string;
   buttonColor?: string;
   textColor?: string;
@@ -12,27 +20,31 @@ interface Props {
 export const Button = (props: Props) => {
   const styles = StyleSheet.create({
     button: {
-      height: 36,
+      height: INPUT_HEIGHT,
       width: '100%',
-      maxWidth: 300,
       alignItems: 'center',
       justifyContent: 'center',
-      margin: 5,
-      borderRadius: 7,
-      backgroundColor: props.buttonColor || blue,
-      borderColor: 'black',
-      borderWidth: 1
+      borderWidth: BORDER_WIDTH,
+      borderRadius: BORDER_RADIUS,
+      backgroundColor: props.disabled
+        ? NAVAJA_SLATE_200
+        : props.buttonColor || NAVAJA_BLUE,
+      borderColor: 'black'
     },
     text: {
       justifyContent: 'center',
       alignItems: 'center',
       textAlign: 'center',
-      color: props.textColor || 'white'
+      color: props.disabled ? NAVAJA_SLATE_500 : props.textColor || 'white'
     }
   });
 
   return (
-    <Pressable style={styles.button} onPress={props.onPress}>
+    <Pressable
+      style={styles.button}
+      onPress={props.onPress}
+      disabled={props.disabled}
+    >
       <Text style={styles.text}>{props.text}</Text>
     </Pressable>
   );
