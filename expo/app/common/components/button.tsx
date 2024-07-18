@@ -5,7 +5,7 @@ import {
   INPUT_HEIGHT,
   BORDER_RADIUS,
   NAVAJA_SLATE_200,
-  NAVAJA_SLATE_500,
+  NAVAJA_SLATE_400,
   BORDER_WIDTH
 } from '../styles/styles';
 
@@ -29,13 +29,13 @@ export const Button = (props: Props) => {
       backgroundColor: props.disabled
         ? NAVAJA_SLATE_200
         : props.buttonColor || NAVAJA_BLUE,
-      borderColor: 'black'
+      borderColor: props.disabled ? NAVAJA_SLATE_400 : 'black'
     },
     text: {
       justifyContent: 'center',
       alignItems: 'center',
       textAlign: 'center',
-      color: props.disabled ? NAVAJA_SLATE_500 : props.textColor || 'white'
+      color: props.disabled ? NAVAJA_SLATE_400 : props.textColor || 'white'
     }
   });
 

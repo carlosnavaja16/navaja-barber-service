@@ -14,14 +14,13 @@ export default function Login() {
   const {
     control,
     handleSubmit,
-    getFieldState,
-    formState: { errors, isValid }
+    formState: { isValid }
   } = useForm<LoginFormData>({
     defaultValues: {
       email: '',
       password: ''
     },
-    mode: 'onBlur'
+    mode: 'all'
   });
 
   const onSubmit = (data: LoginFormData) => console.log(data);
@@ -41,11 +40,6 @@ export default function Login() {
             }
           }}
           placeholder="Email"
-          errorMessage={
-            getFieldState('email').isTouched && errors.email
-              ? errors.email.message
-              : undefined
-          }
         />
         <ControlledInput
           control={control}
@@ -58,11 +52,6 @@ export default function Login() {
             }
           }}
           placeholder="Password"
-          errorMessage={
-            getFieldState('password').isTouched && errors.password
-              ? errors.password.message
-              : undefined
-          }
         />
         <Button
           text="Login"

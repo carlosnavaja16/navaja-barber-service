@@ -13,16 +13,22 @@ import {
 
 type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> & {
   placeholder?: string;
-  errorMessage?: string;
 };
 
 export const ControlledInput = <T extends FieldValues>(
   props: ControlledInputProps<T>
 ) => {
+  const { field, fieldState, formState } = useController<T>(props);
+
+  const fieldInvalid =
+    fieldState.invalid &&
+    fieldState.isTouched &&
+    (fieldState.isDirty || formState.isSubmitted);
+
   const styles = StyleSheet.create({
     container: {
       width: '100%',
-      paddingBottom: props.errorMessage ? 0 : 10
+      paddingBottom: fieldInvalid ? 0 : 10
     },
     textInput: {
       width: '100%',
@@ -30,8 +36,8 @@ export const ControlledInput = <T extends FieldValues>(
       borderRadius: BORDER_RADIUS,
       paddingLeft: 10,
       textAlignVertical: 'center',
-      borderWidth: props.errorMessage ? 2 : BORDER_WIDTH,
-      borderColor: props.errorMessage ? NAVAJA_RED : 'black'
+      borderWidth: fieldInvalid ? 2 : BORDER_WIDTH,
+      borderColor: fieldInvalid ? NAVAJA_RED : 'black'
     },
     errorMessage: {
       fontSize: 12,
@@ -40,13 +46,11 @@ export const ControlledInput = <T extends FieldValues>(
     }
   });
 
-  const { field, fieldState } = useController<T>(props);
-
   return (
     <View style={styles.container}>
       <TextInput style={styles.textInput} {...field} placeholder={props.name} />
-      {fieldState.error && (
-        <Text style={styles.errorMessage}>{props.errorMessage}</Text>
+      {fieldInvalid && (
+        <Text style={styles.errorMessage}>{fieldState.error?.message}</Text>
       )}
     </View>
   );
