@@ -14,7 +14,8 @@ interface Props {
   text: string;
   buttonColor?: string;
   textColor?: string;
-  onPress?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onPress?: (...args: any[]) => any;
 }
 
 export const Button = (props: Props) => {

@@ -13,6 +13,7 @@ import {
 
 type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> & {
   placeholder?: string;
+  secureTextEntry?: boolean;
 };
 
 export const ControlledInput = <T extends FieldValues>(
@@ -48,7 +49,12 @@ export const ControlledInput = <T extends FieldValues>(
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.textInput} {...field} placeholder={props.name} />
+      <TextInput
+        style={styles.textInput}
+        {...field}
+        placeholder={props.name}
+        secureTextEntry={props.secureTextEntry}
+      />
       {fieldInvalid && (
         <Text style={styles.errorMessage}>{fieldState.error?.message}</Text>
       )}

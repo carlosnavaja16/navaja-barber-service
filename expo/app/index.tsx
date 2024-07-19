@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, Pressable } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Button } from './common/components/button';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import 'expo-router/entry';
 import { GAP, PADDING_HORIZONTAL } from './common/styles/styles';
 
 export default function App() {
+  const goToLogin = () => router.push('user/login');
+  const goToSignUp = () => router.push('user/sign-up');
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -14,16 +17,8 @@ export default function App() {
         source={require('../../shared/assets/navajaLogo.png')}
       />
       <View style={styles.buttonContainer}>
-        <Link href="user/login" asChild>
-          <Pressable style={styles.button}>
-            <Button text="Login" />
-          </Pressable>
-        </Link>
-        <Link href="user/sign-up" asChild>
-          <Pressable style={styles.button}>
-            <Button text="Sign Up" />
-          </Pressable>
-        </Link>
+        <Button onPress={goToLogin} text="Login" />
+        <Button onPress={goToSignUp} text="Sign Up" />
       </View>
     </View>
   );

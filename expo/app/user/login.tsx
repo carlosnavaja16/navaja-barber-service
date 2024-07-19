@@ -1,5 +1,5 @@
 import { Header } from '../common/components/header';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { Button } from '../common/components/button';
 import { GAP } from '../common/styles/styles';
@@ -20,10 +20,11 @@ export default function Login() {
       email: '',
       password: ''
     },
-    mode: 'all'
+    mode: 'onChange'
   });
 
-  const onSubmit = (data: LoginFormData) => console.log(data);
+  const onSubmit = (data: LoginFormData) =>
+    Alert.alert(JSON.stringify(data, null, 2));
 
   return (
     <View style={styles.container}>
