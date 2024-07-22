@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image } from 'react-native';
-import { Button } from './common/components/button';
+import { Button } from './(app)/common/components/button';
 import { router } from 'expo-router';
 import 'expo-router/entry';
-import { GAP, PADDING_HORIZONTAL } from './common/styles/styles';
+import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from './(app)/common/styles';
 
 export default function App() {
-  const goToLogin = () => router.push('user/login');
-  const goToSignUp = () => router.push('user/sign-up');
+  const goToLogin = () => router.push('login');
+  const goToSignUp = () => router.push('sign-up');
 
   return (
     <View style={styles.container}>
@@ -27,16 +27,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flex: 1,
     width: '100%',
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
   },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: GAP,
+    gap: FORM_CONTAINER_GAP,
     width: '100%',
     paddingHorizontal: PADDING_HORIZONTAL
   },
