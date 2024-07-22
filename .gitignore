@@ -90,3 +90,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+
+# npm cache
+npm-cache/
+expo/npm-cache/
