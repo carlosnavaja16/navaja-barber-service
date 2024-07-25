@@ -89,9 +89,6 @@ import { UserEffects } from './user/state/user.effects';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatCardModule,
@@ -130,7 +127,12 @@ import { UserEffects } from './user/state/user.effects';
     }),
     EffectsModule.forRoot([UserEffects])
   ],
-  providers: [MatSnackBar],
+  providers: [
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    MatSnackBar
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

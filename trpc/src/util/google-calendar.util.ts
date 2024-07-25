@@ -83,9 +83,14 @@ export async function cancelEvent(eventId: string) {
   }
 }
 
-export async function rescheduleEvent(eventId);
+export async function rescheduleEvent(
+  appointment: Appointment,
+  timeSlot: TimeSlot
+) {
+  return appointment.id;
+}
 
-function getCalendar() {
+export function getCalendar() {
   return google.calendar({
     version: 'v3',
     auth: new google.auth.GoogleAuth({

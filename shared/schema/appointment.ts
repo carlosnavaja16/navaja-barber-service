@@ -19,6 +19,25 @@ export interface Appointment {
   cancelled: Date | null;
 }
 
+export const AppointmentZod = z.object({
+  eventId: z.string(),
+  userId: z.string(),
+  service: z.object({
+    name: z.string(),
+    desc: z.string(),
+    duration: z.number(),
+    price: z.number()
+  }),
+  address: z.object({
+    streetAddr: z.string(),
+    city: z.string(),
+    state: z.string(),
+    zip: z.string()
+  }),
+  start: z.date(),
+  cancelled: z.date().nullable()
+});
+
 export interface AppointmentEvent {
   summary: string;
   description: string;

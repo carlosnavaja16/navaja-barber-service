@@ -11,6 +11,7 @@ import {
 } from './functions/get-appointments.function';
 import { AppointmentRequestZod } from '../../shared/schema/appointment';
 import superjson from 'superjson';
+import { rescheduleEvent } from './util/google-calendar.util';
 
 const t = initTRPC.context<BarberContext>().create({
   transformer: superjson
@@ -31,6 +32,11 @@ export const barberServiceRouter = t.router({
     .input(AppointmentRequestZod)
     .mutation(async (opts) => {
       return bookAppointment(opts.input);
+    }),
+  rescheduleAppointment: publicProcedure
+    .input(z.string())
+    .mutation(async (opts) => {
+      return rescheduleEvent(opts.input);
     }),
   getServices: publicProcedure.query(async () => {
     return getServices();
