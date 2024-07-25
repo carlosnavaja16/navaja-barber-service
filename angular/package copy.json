@@ -1,5 +1,6 @@
 {
-  "name": "navaja-app-angular",
+  "name": "navaja-barber-service",
+  "version": "1.0.0",
   "dependencies": {
     "@angular/animations": "^17.3.3",
     "@angular/cdk": "^16.2.5",
@@ -87,11 +88,10 @@
     "webpack-dev-middleware": "^7.1.1"
   },
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --port 4201",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
+    "start:expo": "cd ./expo && npx expo start",
+    "start:angular": "cd ./angular && ng serve --port 4201",
+    "start:trpc": "cd ./trpc && npm run start",
+    "format": "prettier -w . && eslint . --fix",
+    "push": "rm -rf ./angular/dist && rm -rf ./trpc/dist && npm run format && git add . && git commit -m \"$(date)\" && git push"
   }
 }
