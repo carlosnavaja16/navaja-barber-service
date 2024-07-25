@@ -77,16 +77,16 @@ $navaja-blue-palette: (
   )
 );
 
-$navaja-blue: mat.define-palette($navaja-blue-palette);
-$mat-green: mat.define-palette(mat.$green-palette);
+$navaja-blue: mat.m2-define-palette($navaja-blue-palette);
+$mat-green: mat.m2-define-palette(mat.$m2-green-palette);
 
-$light-theme: mat.define-light-theme(
+$light-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $navaja-blue,
       accent: $mat-green
     ),
-    typography: mat.define-typography-config(),
+    typography: mat.m2-define-typography-config(),
     density: 0
   )
 );
