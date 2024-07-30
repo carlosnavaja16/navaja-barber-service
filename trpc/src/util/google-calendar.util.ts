@@ -2,6 +2,8 @@ import { google, calendar_v3 } from 'googleapis';
 import { SCOPE, BARBER_SERVICE_CALENDAR_ID } from '../constants';
 import { googleCalendarSvcAccCreds } from '../credentials';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+import { Appointment } from '../../../shared/schema/appointment';
+import { TimeSlot } from '../../../shared/schema/time-slot';
 
 /**
  * Retrieves busy time slots from a Google Calendar for a specific date range.
@@ -87,7 +89,8 @@ export async function rescheduleEvent(
   appointment: Appointment,
   timeSlot: TimeSlot
 ) {
-  return appointment.id;
+  appointment.eventId = timeSlot.start.toISOString();
+  return appointment.eventId;
 }
 
 export function getCalendar() {
