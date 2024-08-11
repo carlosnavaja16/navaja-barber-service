@@ -1,5 +1,7 @@
 {
   "extends": "../../tsconfig.json",
+  "include": [],
+  "files": [],
   "references": [
     {
       "path": "./tsconfig.shared.json"

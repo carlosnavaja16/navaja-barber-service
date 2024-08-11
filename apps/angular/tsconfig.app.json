@@ -2,8 +2,9 @@
 {
   "extends": "./tsconfig.json",
   "compileOnSave": false,
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts", "../../libs/shared/src/index.ts"],
   "compilerOptions": {
+    "rootDir": "../../",
     "outDir": "../../dist",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -25,9 +26,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "composite": true,
-    "declaration": true,
-    "declarationMap": true
+    "composite": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

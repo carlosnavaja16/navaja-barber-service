@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": "'.",
     "rootDir": ".",
+    "baseUrl": ".",
     "skipLibCheck": true,
-    "strict": true,
     "paths": {
       "@shared": ["./libs/shared/src/index.ts"],
       "@tRPC/*": ["./apps/trpc/src/*"],
       "@app/*": ["./apps/angular/src/app/*"],
       "@booking/*": ["./apps/angular/src/app/booking/*"],
       "@common/*": ["./apps/angular/src/app/common/*"],
-      "@user/*": [".apps/angular/src/app/user/*"],
-      "@environments/*": [".apps/angular/src/environments/*"]
+      "@user/*": ["./apps/angular/src/app/user/*"],
+      "@environments/*": ["./apps/angular/src/environments/*"]
     }
   }
 }
