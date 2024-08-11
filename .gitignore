@@ -1,29 +1,6 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# Compiled output
-angular/dist
-/tmp
-/out-tsc
-/bazel-out
-trpc/dist
-
-# Node
-/node_modules
-angular/node_modules
-trpc/node_modules
-
-# Logs
-npm-debug.log
-ui-debug.log
-
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# dependencies
+node_modules/
+npm-cache/
 
 # Visual Studio Code
 .vscode
@@ -33,60 +10,14 @@ ui-debug.log
 !.vscode/extensions.json
 .history/*
 
-# Miscellaneous
-angular/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Angular 
+.angular/
+.expo/
 
 # System files
 .DS_Store
 Thumbs.db
 
-# Firebase
-.firebase
-*-debug.log
-.runtimeconfig.json
-
-# env
-*.env
-
-# credentials
-trpc/credentials.ts
-
-# dependencies
-node_modules/
-
-# Expo
-.expo/
-dist/
-web-build/
-
-# Native
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
-.DS_Store
-*.pem
-
-# local env files
-.env*.local
-
-# typescript
-*.tsbuildinfo
+# nx
+.nx/cache
+.nx/workspace-data
