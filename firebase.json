@@ -3,19 +3,6 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "functions": [
-    {
-      "source": "./firebase-functions",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": ["cd ./firebase-functions && tsc --outdir ./lib && cd ../"],
-      "runtime": "nodejs18"
-    }
-  ],
   "hosting": {
     "public": "./angular/dist/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

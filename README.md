@@ -1,20 +1,14 @@
-# Navaja Barber Service
+<img src="./packages/shared/assets/navajaLogo.png" width="300px">
 
-<img src="./angular/src/assets/navajaLogo.png" width="300px">
-
-Navaja Barber Service is a web application used for booking barber appointments.
+Navaja is a multi-platform app for booking barber appointments.
 
 ## Core Technologies
 
 - Angular
-- Firebase
-- Tailwind CSS
-- Angular Material Components
-- Hono
 - tRPC
-- Docker
-- Typescript
-- Github Actions
+- Expo
+- React Native
+- Firebase
 
 ## Features
 

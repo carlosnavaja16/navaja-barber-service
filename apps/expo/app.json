@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "@navaja/expo",
+    "slug": "navaja",
+    "scheme": "navaja",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "../../packages/shared/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "../../packages/shared/assets/navajaLogo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "../../packages/shared/assets/icon.png",
+        "backgroundColor": "#00FFFFFF"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "../../packages/shared/assets/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["../shared/assets/fonts/KURT-Italic.otf"]
+        }
+      ],
+      "expo-router"
+    ],
+    "extra": {
+      "updates": {
+        "assetPatternsToBeBundled": [
+          "../../packages/shared/**/*"
+        ]
+      }
+    }
+  }
+}

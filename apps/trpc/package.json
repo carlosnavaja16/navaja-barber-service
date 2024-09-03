@@ -1,0 +1,10 @@
+{
+  "name": "@navaja/trpc",
+  "type": "module",
+  "dependencies": {
+    "@navaja/shared": "*"
+  },
+  "scripts": {
+    "start": "tsx --watch ./src/index.ts"
+  }
+}

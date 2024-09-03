@@ -1,0 +1,12 @@
+{
+  "name": "@navaja/expo",
+  "version": "1.0.0",
+  "main": "./app/index.tsx",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "private": true
+}

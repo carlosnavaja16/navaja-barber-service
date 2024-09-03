@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "outDir": "../../dist/packages/shared",
+    "skipLibCheck": true
+  }
+}
