@@ -6,6 +6,7 @@ angular/dist
 /out-tsc
 /bazel-out
 trpc/dist
+/dist
 
 # Node
 /node_modules
@@ -95,3 +96,4 @@ yarn-error.*
 # npm cache
 npm-cache/
 expo/npm-cache/
+/apps/angular/.angular
