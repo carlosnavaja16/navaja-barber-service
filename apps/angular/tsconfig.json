@@ -33,7 +33,8 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "noPropertyAccessFromIndexSignature": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

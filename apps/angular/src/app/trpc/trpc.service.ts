@@ -1,5 +1,5 @@
 import { environment } from '@src/environments/environment';
-import type { BarberServiceRouter } from '@tRPC/router';
+import type { BarberServiceRouter } from '@navaja/trpc';
 import {
   CreateTRPCProxyClient,
   createTRPCProxyClient,

@@ -37,9 +37,7 @@
     ],
     "extra": {
       "updates": {
-        "assetPatternsToBeBundled": [
-          "../../packages/shared/**/*"
-        ]
+        "assetPatternsToBeBundled": ["../../packages/shared/**/*"]
       }
     }
   }

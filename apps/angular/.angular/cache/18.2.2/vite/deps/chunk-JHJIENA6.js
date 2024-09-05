@@ -7,7 +7,7 @@ import {
   onLog,
   registerVersion,
   setLogLevel
-} from "./chunk-N4CW4GVR.js";
+} from './chunk-N4CW4GVR.js';
 import {
   Inject,
   Injectable,
@@ -25,10 +25,8 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-PJI43AEF.js";
-import {
-  queueScheduler
-} from "./chunk-XTZO27KL.js";
+} from './chunk-OOI6D476.js';
+import { queueScheduler } from './chunk-XTZO27KL.js';
 import {
   Observable,
   asyncScheduler,
@@ -39,21 +37,23 @@ import {
   subscribeOn,
   tap,
   timer
-} from "./chunk-BO5GAICC.js";
+} from './chunk-BO5GAICC.js';
 
 // ../../node_modules/firebase/app/dist/esm/index.esm.js
-var name = "firebase";
-var version = "10.13.1";
-registerVersion(name, version, "app");
+var name = 'firebase';
+var version = '10.13.1';
+registerVersion(name, version, 'app');
 
 // ../../node_modules/@angular/fire/fesm2022/angular-fire.mjs
-var VERSION2 = new Version("ANGULARFIRE2_VERSION");
+var VERSION2 = new Version('ANGULARFIRE2_VERSION');
 function ɵgetDefaultInstanceOf(identifier, provided, defaultApp) {
   if (provided) {
     if (provided.length === 1) {
       return provided[0];
     }
-    const providedUsingDefaultApp = provided.filter((it) => it.app === defaultApp);
+    const providedUsingDefaultApp = provided.filter(
+      (it) => it.app === defaultApp
+    );
     if (providedUsingDefaultApp.length === 1) {
       return providedUsingDefaultApp[0];
     }
@@ -82,9 +82,8 @@ var ɵAppCheckInstances = class {
     return ɵgetAllInstancesOf(ɵAPP_CHECK_PROVIDER_NAME);
   }
 };
-var ɵAPP_CHECK_PROVIDER_NAME = "app-check";
-function noop() {
-}
+var ɵAPP_CHECK_PROVIDER_NAME = 'app-check';
+function noop() {}
 var ɵZoneScheduler = class {
   zone;
   delegate;
@@ -97,7 +96,7 @@ var ɵZoneScheduler = class {
   }
   schedule(work, delay, state) {
     const targetZone = this.zone;
-    const workInZone = function(state2) {
+    const workInZone = function (state2) {
       targetZone.runGuarded(() => {
         work.apply(this, [state2]);
       });
@@ -114,16 +113,23 @@ var BlockUntilFirstOperator = class {
   }
   call(subscriber, source) {
     const unscheduleTask = this.unscheduleTask.bind(this);
-    this.task = this.zone.run(() => Zone.current.scheduleMacroTask("firebaseZoneBlock", noop, {}, noop, noop));
-    return source.pipe(tap({
-      next: unscheduleTask,
-      complete: unscheduleTask,
-      error: unscheduleTask
-    })).subscribe(subscriber).add(unscheduleTask);
+    this.task = this.zone.run(() =>
+      Zone.current.scheduleMacroTask('firebaseZoneBlock', noop, {}, noop, noop)
+    );
+    return source
+      .pipe(
+        tap({
+          next: unscheduleTask,
+          complete: unscheduleTask,
+          error: unscheduleTask
+        })
+      )
+      .subscribe(subscriber)
+      .add(unscheduleTask);
   }
   unscheduleTask() {
     setTimeout(() => {
-      if (this.task != null && this.task.state === "scheduled") {
+      if (this.task != null && this.task.state === 'scheduled') {
         this.task.invoke();
         this.task = null;
       }
@@ -136,8 +142,12 @@ var ɵAngularFireSchedulers = class _ɵAngularFireSchedulers {
   insideAngular;
   constructor(ngZone) {
     this.ngZone = ngZone;
-    this.outsideAngular = ngZone.runOutsideAngular(() => new ɵZoneScheduler(Zone.current));
-    this.insideAngular = ngZone.run(() => new ɵZoneScheduler(Zone.current, asyncScheduler));
+    this.outsideAngular = ngZone.runOutsideAngular(
+      () => new ɵZoneScheduler(Zone.current)
+    );
+    this.insideAngular = ngZone.run(
+      () => new ɵZoneScheduler(Zone.current, asyncScheduler)
+    );
     globalThis.ɵAngularFireScheduler ||= this;
   }
   static ɵfac = function ɵAngularFireSchedulers_Factory(__ngFactoryType__) {
@@ -146,18 +156,30 @@ var ɵAngularFireSchedulers = class _ɵAngularFireSchedulers {
   static ɵprov = ɵɵdefineInjectable({
     token: _ɵAngularFireSchedulers,
     factory: _ɵAngularFireSchedulers.ɵfac,
-    providedIn: "root"
+    providedIn: 'root'
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ɵAngularFireSchedulers, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: NgZone
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      ɵAngularFireSchedulers,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: NgZone
+        }
+      ],
+      null
+    );
 })();
 function getSchedulers() {
   const schedulers = globalThis.ɵAngularFireScheduler;
@@ -191,11 +213,11 @@ function ɵkeepUnstableUntilFirstFactory(schedulers) {
 }
 var zoneWrapFn = (it, macrotask) => {
   const _this = void 0;
-  return function() {
+  return function () {
     const _arguments = arguments;
     if (macrotask) {
       setTimeout(() => {
-        if (macrotask.state === "scheduled") {
+        if (macrotask.state === 'scheduled') {
           macrotask.invoke();
         }
       }, 10);
@@ -204,13 +226,21 @@ var zoneWrapFn = (it, macrotask) => {
   };
 };
 var ɵzoneWrap = (it, blockUntilFirst) => {
-  return function() {
+  return function () {
     let macrotask;
     const _arguments = arguments;
     for (let i = 0; i < arguments.length; i++) {
-      if (typeof _arguments[i] === "function") {
+      if (typeof _arguments[i] === 'function') {
         if (blockUntilFirst) {
-          macrotask ||= run(() => Zone.current.scheduleMacroTask("firebaseZoneBlock", noop, {}, noop, noop));
+          macrotask ||= run(() =>
+            Zone.current.scheduleMacroTask(
+              'firebaseZoneBlock',
+              noop,
+              {},
+              noop,
+              noop
+            )
+          );
         }
         _arguments[i] = zoneWrapFn(_arguments[i], macrotask);
       }
@@ -219,7 +249,10 @@ var ɵzoneWrap = (it, blockUntilFirst) => {
     if (!blockUntilFirst) {
       if (ret instanceof Observable) {
         const schedulers = getSchedulers();
-        return ret.pipe(subscribeOn(schedulers.outsideAngular), observeOn(schedulers.insideAngular));
+        return ret.pipe(
+          subscribeOn(schedulers.outsideAngular),
+          observeOn(schedulers.insideAngular)
+        );
       } else {
         return run(() => ret);
       }
@@ -227,11 +260,19 @@ var ɵzoneWrap = (it, blockUntilFirst) => {
     if (ret instanceof Observable) {
       return ret.pipe(keepUnstableUntilFirst);
     } else if (ret instanceof Promise) {
-      return run(() => new Promise((resolve, reject) => ret.then((it2) => run(() => resolve(it2)), (reason) => run(() => reject(reason)))));
-    } else if (typeof ret === "function" && macrotask) {
-      return function() {
+      return run(
+        () =>
+          new Promise((resolve, reject) =>
+            ret.then(
+              (it2) => run(() => resolve(it2)),
+              (reason) => run(() => reject(reason))
+            )
+          )
+      );
+    } else if (typeof ret === 'function' && macrotask) {
+      return function () {
         setTimeout(() => {
-          if (macrotask && macrotask.state === "scheduled") {
+          if (macrotask && macrotask.state === 'scheduled') {
             macrotask.invoke();
           }
         }, 10);
@@ -254,14 +295,17 @@ var FirebaseApps = class {
     return getApps();
   }
 };
-var firebaseApp$ = timer(0, 300).pipe(concatMap(() => from(getApps())), distinct());
+var firebaseApp$ = timer(0, 300).pipe(
+  concatMap(() => from(getApps())),
+  distinct()
+);
 function defaultFirebaseAppFactory(provided) {
   if (provided && provided.length === 1) {
     return provided[0];
   }
   return new FirebaseApp(getApp());
 }
-var PROVIDED_FIREBASE_APPS = new InjectionToken("angularfire2._apps");
+var PROVIDED_FIREBASE_APPS = new InjectionToken('angularfire2._apps');
 var DEFAULT_FIREBASE_APP_PROVIDER = {
   provide: FirebaseApp,
   useFactory: defaultFirebaseAppFactory,
@@ -274,9 +318,9 @@ var FIREBASE_APPS_PROVIDER = {
 function firebaseAppFactory(fn) {
   return (zone, injector) => {
     const platformId = injector.get(PLATFORM_ID);
-    registerVersion("angularfire", VERSION2.full, "core");
-    registerVersion("angularfire", VERSION2.full, "app");
-    registerVersion("angular", VERSION.full, platformId.toString());
+    registerVersion('angularfire', VERSION2.full, 'core');
+    registerVersion('angularfire', VERSION2.full, 'app');
+    registerVersion('angular', VERSION.full, platformId.toString());
     const app = zone.runOutsideAngular(() => fn(injector));
     return new FirebaseApp(app);
   };
@@ -284,9 +328,9 @@ function firebaseAppFactory(fn) {
 var FirebaseAppModule = class _FirebaseAppModule {
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(platformId) {
-    registerVersion("angularfire", VERSION2.full, "core");
-    registerVersion("angularfire", VERSION2.full, "app");
-    registerVersion("angular", VERSION.full, platformId.toString());
+    registerVersion('angularfire', VERSION2.full, 'core');
+    registerVersion('angularfire', VERSION2.full, 'app');
+    registerVersion('angular', VERSION.full, platformId.toString());
   }
   static ɵfac = function FirebaseAppModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _FirebaseAppModule)(ɵɵinject(PLATFORM_ID));
@@ -299,26 +343,44 @@ var FirebaseAppModule = class _FirebaseAppModule {
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FirebaseAppModule, [{
-    type: NgModule,
-    args: [{
-      providers: [DEFAULT_FIREBASE_APP_PROVIDER, FIREBASE_APPS_PROVIDER]
-    }]
-  }], () => [{
-    type: Object,
-    decorators: [{
-      type: Inject,
-      args: [PLATFORM_ID]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      FirebaseAppModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              providers: [DEFAULT_FIREBASE_APP_PROVIDER, FIREBASE_APPS_PROVIDER]
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: Object,
+          decorators: [
+            {
+              type: Inject,
+              args: [PLATFORM_ID]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function provideFirebaseApp(fn, ...deps) {
-  return makeEnvironmentProviders([DEFAULT_FIREBASE_APP_PROVIDER, FIREBASE_APPS_PROVIDER, {
-    provide: PROVIDED_FIREBASE_APPS,
-    useFactory: firebaseAppFactory(fn),
-    multi: true,
-    deps: [NgZone, Injector, ɵAngularFireSchedulers, ...deps]
-  }]);
+  return makeEnvironmentProviders([
+    DEFAULT_FIREBASE_APP_PROVIDER,
+    FIREBASE_APPS_PROVIDER,
+    {
+      provide: PROVIDED_FIREBASE_APPS,
+      useFactory: firebaseAppFactory(fn),
+      multi: true,
+      deps: [NgZone, Injector, ɵAngularFireSchedulers, ...deps]
+    }
+  ]);
 }
 var deleteApp2 = ɵzoneWrap(deleteApp, true);
 var getApp2 = ɵzoneWrap(getApp, true);
@@ -370,4 +432,4 @@ firebase/app/dist/esm/index.esm.js:
    * limitations under the License.
    *)
 */
-//# sourceMappingURL=chunk-TBITPHVM.js.map
+//# sourceMappingURL=chunk-JHJIENA6.js.map

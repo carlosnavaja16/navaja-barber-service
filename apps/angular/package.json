@@ -1,7 +1,8 @@
 {
   "name": "@navaja/angular",
   "dependencies": {
-    "@navaja/shared" : "*"
+    "@navaja/shared": "*",
+    "@navaja/trpc": "*"
   },
   "scripts": {
     "ng": "ng",

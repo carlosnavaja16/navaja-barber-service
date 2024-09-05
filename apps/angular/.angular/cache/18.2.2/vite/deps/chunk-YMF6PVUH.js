@@ -2,18 +2,18 @@ import {
   DomPortalOutlet,
   PortalModule,
   TemplatePortal
-} from "./chunk-UPMAC3NY.js";
+} from './chunk-FVIS6MLS.js';
 import {
   ScrollDispatcher,
   ScrollingModule,
   ViewportRuler
-} from "./chunk-5LDK7DMD.js";
+} from './chunk-OPCQVEZT.js';
 import {
   BidiModule,
   Directionality,
   ESCAPE,
   hasModifierKey
-} from "./chunk-DC7ZLCTH.js";
+} from './chunk-ZPKAAZMV.js';
 import {
   Platform,
   _getEventTarget,
@@ -21,11 +21,8 @@ import {
   coerceArray,
   coerceCssPixelValue,
   supportsScrollBehavior
-} from "./chunk-W45IVZHW.js";
-import {
-  DOCUMENT,
-  Location
-} from "./chunk-M7JMSIC4.js";
+} from './chunk-C6GJ5ZWI.js';
+import { DOCUMENT, Location } from './chunk-GUB3F2UD.js';
 import {
   ANIMATION_MODULE_TYPE,
   ApplicationRef,
@@ -59,21 +56,16 @@ import {
   ɵɵdefineNgModule,
   ɵɵdirectiveInject,
   ɵɵinject
-} from "./chunk-PJI43AEF.js";
-import {
-  merge
-} from "./chunk-XTZO27KL.js";
+} from './chunk-OOI6D476.js';
+import { merge } from './chunk-XTZO27KL.js';
 import {
   Subject,
   Subscription,
   filter,
   takeUntil,
   takeWhile
-} from "./chunk-BO5GAICC.js";
-import {
-  __spreadProps,
-  __spreadValues
-} from "./chunk-5K356HEJ.js";
+} from './chunk-BO5GAICC.js';
+import { __spreadProps, __spreadValues } from './chunk-5K356HEJ.js';
 
 // ../../node_modules/@angular/cdk/fesm2022/overlay.mjs
 var scrollBehaviorSupported = supportsScrollBehavior();
@@ -81,25 +73,25 @@ var BlockScrollStrategy = class {
   constructor(_viewportRuler, document) {
     this._viewportRuler = _viewportRuler;
     this._previousHTMLStyles = {
-      top: "",
-      left: ""
+      top: '',
+      left: ''
     };
     this._isEnabled = false;
     this._document = document;
   }
   /** Attaches this scroll strategy to an overlay. */
-  attach() {
-  }
+  attach() {}
   /** Blocks page-level scroll while the attached overlay is open. */
   enable() {
     if (this._canBeEnabled()) {
       const root = this._document.documentElement;
-      this._previousScrollPosition = this._viewportRuler.getViewportScrollPosition();
-      this._previousHTMLStyles.left = root.style.left || "";
-      this._previousHTMLStyles.top = root.style.top || "";
+      this._previousScrollPosition =
+        this._viewportRuler.getViewportScrollPosition();
+      this._previousHTMLStyles.left = root.style.left || '';
+      this._previousHTMLStyles.top = root.style.top || '';
       root.style.left = coerceCssPixelValue(-this._previousScrollPosition.left);
       root.style.top = coerceCssPixelValue(-this._previousScrollPosition.top);
-      root.classList.add("cdk-global-scrollblock");
+      root.classList.add('cdk-global-scrollblock');
       this._isEnabled = true;
     }
   }
@@ -110,16 +102,19 @@ var BlockScrollStrategy = class {
       const body = this._document.body;
       const htmlStyle = html.style;
       const bodyStyle = body.style;
-      const previousHtmlScrollBehavior = htmlStyle.scrollBehavior || "";
-      const previousBodyScrollBehavior = bodyStyle.scrollBehavior || "";
+      const previousHtmlScrollBehavior = htmlStyle.scrollBehavior || '';
+      const previousBodyScrollBehavior = bodyStyle.scrollBehavior || '';
       this._isEnabled = false;
       htmlStyle.left = this._previousHTMLStyles.left;
       htmlStyle.top = this._previousHTMLStyles.top;
-      html.classList.remove("cdk-global-scrollblock");
+      html.classList.remove('cdk-global-scrollblock');
       if (scrollBehaviorSupported) {
-        htmlStyle.scrollBehavior = bodyStyle.scrollBehavior = "auto";
+        htmlStyle.scrollBehavior = bodyStyle.scrollBehavior = 'auto';
       }
-      window.scroll(this._previousScrollPosition.left, this._previousScrollPosition.top);
+      window.scroll(
+        this._previousScrollPosition.left,
+        this._previousScrollPosition.top
+      );
       if (scrollBehaviorSupported) {
         htmlStyle.scrollBehavior = previousHtmlScrollBehavior;
         bodyStyle.scrollBehavior = previousBodyScrollBehavior;
@@ -128,12 +123,14 @@ var BlockScrollStrategy = class {
   }
   _canBeEnabled() {
     const html = this._document.documentElement;
-    if (html.classList.contains("cdk-global-scrollblock") || this._isEnabled) {
+    if (html.classList.contains('cdk-global-scrollblock') || this._isEnabled) {
       return false;
     }
     const body = this._document.body;
     const viewport = this._viewportRuler.getViewportSize();
-    return body.scrollHeight > viewport.height || body.scrollWidth > viewport.width;
+    return (
+      body.scrollHeight > viewport.height || body.scrollWidth > viewport.width
+    );
   }
 };
 function getMatScrollStrategyAlreadyAttachedError() {
@@ -155,7 +152,7 @@ var CloseScrollStrategy = class {
   }
   /** Attaches this scroll strategy to an overlay. */
   attach(overlayRef) {
-    if (this._overlayRef && (typeof ngDevMode === "undefined" || ngDevMode)) {
+    if (this._overlayRef && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatScrollStrategyAlreadyAttachedError();
     }
     this._overlayRef = overlayRef;
@@ -165,14 +162,26 @@ var CloseScrollStrategy = class {
     if (this._scrollSubscription) {
       return;
     }
-    const stream = this._scrollDispatcher.scrolled(0).pipe(filter((scrollable) => {
-      return !scrollable || !this._overlayRef.overlayElement.contains(scrollable.getElementRef().nativeElement);
-    }));
+    const stream = this._scrollDispatcher.scrolled(0).pipe(
+      filter((scrollable) => {
+        return (
+          !scrollable ||
+          !this._overlayRef.overlayElement.contains(
+            scrollable.getElementRef().nativeElement
+          )
+        );
+      })
+    );
     if (this._config && this._config.threshold && this._config.threshold > 1) {
-      this._initialScrollPosition = this._viewportRuler.getViewportScrollPosition().top;
+      this._initialScrollPosition =
+        this._viewportRuler.getViewportScrollPosition().top;
       this._scrollSubscription = stream.subscribe(() => {
-        const scrollPosition = this._viewportRuler.getViewportScrollPosition().top;
-        if (Math.abs(scrollPosition - this._initialScrollPosition) > this._config.threshold) {
+        const scrollPosition =
+          this._viewportRuler.getViewportScrollPosition().top;
+        if (
+          Math.abs(scrollPosition - this._initialScrollPosition) >
+          this._config.threshold
+        ) {
           this._detach();
         } else {
           this._overlayRef.updatePosition();
@@ -196,14 +205,11 @@ var CloseScrollStrategy = class {
 };
 var NoopScrollStrategy = class {
   /** Does nothing, as this scroll strategy is a no-op. */
-  enable() {
-  }
+  enable() {}
   /** Does nothing, as this scroll strategy is a no-op. */
-  disable() {
-  }
+  disable() {}
   /** Does nothing, as this scroll strategy is a no-op. */
-  attach() {
-  }
+  attach() {}
 };
 function isElementScrolledOutsideView(element, scrollContainers) {
   return scrollContainers.some((containerBounds) => {
@@ -233,7 +239,7 @@ var RepositionScrollStrategy = class {
   }
   /** Attaches this scroll strategy to an overlay. */
   attach(overlayRef) {
-    if (this._overlayRef && (typeof ngDevMode === "undefined" || ngDevMode)) {
+    if (this._overlayRef && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatScrollStrategyAlreadyAttachedError();
     }
     this._overlayRef = overlayRef;
@@ -242,28 +248,30 @@ var RepositionScrollStrategy = class {
   enable() {
     if (!this._scrollSubscription) {
       const throttle = this._config ? this._config.scrollThrottle : 0;
-      this._scrollSubscription = this._scrollDispatcher.scrolled(throttle).subscribe(() => {
-        this._overlayRef.updatePosition();
-        if (this._config && this._config.autoClose) {
-          const overlayRect = this._overlayRef.overlayElement.getBoundingClientRect();
-          const {
-            width,
-            height
-          } = this._viewportRuler.getViewportSize();
-          const parentRects = [{
-            width,
-            height,
-            bottom: height,
-            right: width,
-            top: 0,
-            left: 0
-          }];
-          if (isElementScrolledOutsideView(overlayRect, parentRects)) {
-            this.disable();
-            this._ngZone.run(() => this._overlayRef.detach());
+      this._scrollSubscription = this._scrollDispatcher
+        .scrolled(throttle)
+        .subscribe(() => {
+          this._overlayRef.updatePosition();
+          if (this._config && this._config.autoClose) {
+            const overlayRect =
+              this._overlayRef.overlayElement.getBoundingClientRect();
+            const { width, height } = this._viewportRuler.getViewportSize();
+            const parentRects = [
+              {
+                width,
+                height,
+                bottom: height,
+                right: width,
+                top: 0,
+                left: 0
+              }
+            ];
+            if (isElementScrolledOutsideView(overlayRect, parentRects)) {
+              this.disable();
+              this._ngZone.run(() => this._overlayRef.detach());
+            }
           }
-        }
-      });
+        });
     }
   }
   /** Disables repositioning of the attached overlay on scroll. */
@@ -284,47 +292,84 @@ var _ScrollStrategyOptions = class _ScrollStrategyOptions {
     this._viewportRuler = _viewportRuler;
     this._ngZone = _ngZone;
     this.noop = () => new NoopScrollStrategy();
-    this.close = (config) => new CloseScrollStrategy(this._scrollDispatcher, this._ngZone, this._viewportRuler, config);
-    this.block = () => new BlockScrollStrategy(this._viewportRuler, this._document);
-    this.reposition = (config) => new RepositionScrollStrategy(this._scrollDispatcher, this._viewportRuler, this._ngZone, config);
+    this.close = (config) =>
+      new CloseScrollStrategy(
+        this._scrollDispatcher,
+        this._ngZone,
+        this._viewportRuler,
+        config
+      );
+    this.block = () =>
+      new BlockScrollStrategy(this._viewportRuler, this._document);
+    this.reposition = (config) =>
+      new RepositionScrollStrategy(
+        this._scrollDispatcher,
+        this._viewportRuler,
+        this._ngZone,
+        config
+      );
     this._document = document;
   }
 };
-_ScrollStrategyOptions.ɵfac = function ScrollStrategyOptions_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _ScrollStrategyOptions)(ɵɵinject(ScrollDispatcher), ɵɵinject(ViewportRuler), ɵɵinject(NgZone), ɵɵinject(DOCUMENT));
+_ScrollStrategyOptions.ɵfac = function ScrollStrategyOptions_Factory(
+  __ngFactoryType__
+) {
+  return new (__ngFactoryType__ || _ScrollStrategyOptions)(
+    ɵɵinject(ScrollDispatcher),
+    ɵɵinject(ViewportRuler),
+    ɵɵinject(NgZone),
+    ɵɵinject(DOCUMENT)
+  );
 };
 _ScrollStrategyOptions.ɵprov = ɵɵdefineInjectable({
   token: _ScrollStrategyOptions,
   factory: _ScrollStrategyOptions.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var ScrollStrategyOptions = _ScrollStrategyOptions;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ScrollStrategyOptions, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: ScrollDispatcher
-  }, {
-    type: ViewportRuler
-  }, {
-    type: NgZone
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      ScrollStrategyOptions,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ScrollDispatcher
+        },
+        {
+          type: ViewportRuler
+        },
+        {
+          type: NgZone
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var OverlayConfig = class {
   constructor(config) {
     this.scrollStrategy = new NoopScrollStrategy();
-    this.panelClass = "";
+    this.panelClass = '';
     this.hasBackdrop = false;
-    this.backdropClass = "cdk-overlay-dark-backdrop";
+    this.backdropClass = 'cdk-overlay-dark-backdrop';
     this.disposeOnNavigation = false;
     if (config) {
       const configKeys = Object.keys(config);
@@ -343,13 +388,17 @@ var ConnectedOverlayPositionChange = class {
   }
 };
 function validateVerticalPosition(property, value) {
-  if (value !== "top" && value !== "bottom" && value !== "center") {
-    throw Error(`ConnectedPosition: Invalid ${property} "${value}". Expected "top", "bottom" or "center".`);
+  if (value !== 'top' && value !== 'bottom' && value !== 'center') {
+    throw Error(
+      `ConnectedPosition: Invalid ${property} "${value}". Expected "top", "bottom" or "center".`
+    );
   }
 }
 function validateHorizontalPosition(property, value) {
-  if (value !== "start" && value !== "end" && value !== "center") {
-    throw Error(`ConnectedPosition: Invalid ${property} "${value}". Expected "start", "end" or "center".`);
+  if (value !== 'start' && value !== 'end' && value !== 'center') {
+    throw Error(
+      `ConnectedPosition: Invalid ${property} "${value}". Expected "start", "end" or "center".`
+    );
   }
 }
 var _BaseOverlayDispatcher = class _BaseOverlayDispatcher {
@@ -376,28 +425,44 @@ var _BaseOverlayDispatcher = class _BaseOverlayDispatcher {
     }
   }
 };
-_BaseOverlayDispatcher.ɵfac = function BaseOverlayDispatcher_Factory(__ngFactoryType__) {
+_BaseOverlayDispatcher.ɵfac = function BaseOverlayDispatcher_Factory(
+  __ngFactoryType__
+) {
   return new (__ngFactoryType__ || _BaseOverlayDispatcher)(ɵɵinject(DOCUMENT));
 };
 _BaseOverlayDispatcher.ɵprov = ɵɵdefineInjectable({
   token: _BaseOverlayDispatcher,
   factory: _BaseOverlayDispatcher.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var BaseOverlayDispatcher = _BaseOverlayDispatcher;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BaseOverlayDispatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      BaseOverlayDispatcher,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _OverlayKeyboardDispatcher = class _OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
   constructor(document, _ngZone) {
@@ -423,9 +488,11 @@ var _OverlayKeyboardDispatcher = class _OverlayKeyboardDispatcher extends BaseOv
     super.add(overlayRef);
     if (!this._isAttached) {
       if (this._ngZone) {
-        this._ngZone.runOutsideAngular(() => this._document.body.addEventListener("keydown", this._keydownListener));
+        this._ngZone.runOutsideAngular(() =>
+          this._document.body.addEventListener('keydown', this._keydownListener)
+        );
       } else {
-        this._document.body.addEventListener("keydown", this._keydownListener);
+        this._document.body.addEventListener('keydown', this._keydownListener);
       }
       this._isAttached = true;
     }
@@ -433,38 +500,60 @@ var _OverlayKeyboardDispatcher = class _OverlayKeyboardDispatcher extends BaseOv
   /** Detaches the global keyboard event listener. */
   detach() {
     if (this._isAttached) {
-      this._document.body.removeEventListener("keydown", this._keydownListener);
+      this._document.body.removeEventListener('keydown', this._keydownListener);
       this._isAttached = false;
     }
   }
 };
-_OverlayKeyboardDispatcher.ɵfac = function OverlayKeyboardDispatcher_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _OverlayKeyboardDispatcher)(ɵɵinject(DOCUMENT), ɵɵinject(NgZone, 8));
+_OverlayKeyboardDispatcher.ɵfac = function OverlayKeyboardDispatcher_Factory(
+  __ngFactoryType__
+) {
+  return new (__ngFactoryType__ || _OverlayKeyboardDispatcher)(
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(NgZone, 8)
+  );
 };
 _OverlayKeyboardDispatcher.ɵprov = ɵɵdefineInjectable({
   token: _OverlayKeyboardDispatcher,
   factory: _OverlayKeyboardDispatcher.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var OverlayKeyboardDispatcher = _OverlayKeyboardDispatcher;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OverlayKeyboardDispatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: NgZone,
-    decorators: [{
-      type: Optional
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      OverlayKeyboardDispatcher,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: NgZone,
+          decorators: [
+            {
+              type: Optional
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 var _OverlayOutsideClickDispatcher = class _OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
   constructor(document, _platform, _ngZone) {
@@ -477,15 +566,24 @@ var _OverlayOutsideClickDispatcher = class _OverlayOutsideClickDispatcher extend
     };
     this._clickListener = (event) => {
       const target = _getEventTarget(event);
-      const origin = event.type === "click" && this._pointerDownEventTarget ? this._pointerDownEventTarget : target;
+      const origin =
+        event.type === 'click' && this._pointerDownEventTarget
+          ? this._pointerDownEventTarget
+          : target;
       this._pointerDownEventTarget = null;
       const overlays = this._attachedOverlays.slice();
       for (let i = overlays.length - 1; i > -1; i--) {
         const overlayRef = overlays[i];
-        if (overlayRef._outsidePointerEvents.observers.length < 1 || !overlayRef.hasAttached()) {
+        if (
+          overlayRef._outsidePointerEvents.observers.length < 1 ||
+          !overlayRef.hasAttached()
+        ) {
           continue;
         }
-        if (containsPierceShadowDom(overlayRef.overlayElement, target) || containsPierceShadowDom(overlayRef.overlayElement, origin)) {
+        if (
+          containsPierceShadowDom(overlayRef.overlayElement, target) ||
+          containsPierceShadowDom(overlayRef.overlayElement, origin)
+        ) {
           break;
         }
         const outsidePointerEvents = overlayRef._outsidePointerEvents;
@@ -509,7 +607,7 @@ var _OverlayOutsideClickDispatcher = class _OverlayOutsideClickDispatcher extend
       }
       if (this._platform.IOS && !this._cursorStyleIsSet) {
         this._cursorOriginalValue = body.style.cursor;
-        body.style.cursor = "pointer";
+        body.style.cursor = 'pointer';
         this._cursorStyleIsSet = true;
       }
       this._isAttached = true;
@@ -519,10 +617,10 @@ var _OverlayOutsideClickDispatcher = class _OverlayOutsideClickDispatcher extend
   detach() {
     if (this._isAttached) {
       const body = this._document.body;
-      body.removeEventListener("pointerdown", this._pointerDownListener, true);
-      body.removeEventListener("click", this._clickListener, true);
-      body.removeEventListener("auxclick", this._clickListener, true);
-      body.removeEventListener("contextmenu", this._clickListener, true);
+      body.removeEventListener('pointerdown', this._pointerDownListener, true);
+      body.removeEventListener('click', this._clickListener, true);
+      body.removeEventListener('auxclick', this._clickListener, true);
+      body.removeEventListener('contextmenu', this._clickListener, true);
       if (this._platform.IOS && this._cursorStyleIsSet) {
         body.style.cursor = this._cursorOriginalValue;
         this._cursorStyleIsSet = false;
@@ -531,50 +629,76 @@ var _OverlayOutsideClickDispatcher = class _OverlayOutsideClickDispatcher extend
     }
   }
   _addEventListeners(body) {
-    body.addEventListener("pointerdown", this._pointerDownListener, true);
-    body.addEventListener("click", this._clickListener, true);
-    body.addEventListener("auxclick", this._clickListener, true);
-    body.addEventListener("contextmenu", this._clickListener, true);
+    body.addEventListener('pointerdown', this._pointerDownListener, true);
+    body.addEventListener('click', this._clickListener, true);
+    body.addEventListener('auxclick', this._clickListener, true);
+    body.addEventListener('contextmenu', this._clickListener, true);
   }
 };
-_OverlayOutsideClickDispatcher.ɵfac = function OverlayOutsideClickDispatcher_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _OverlayOutsideClickDispatcher)(ɵɵinject(DOCUMENT), ɵɵinject(Platform), ɵɵinject(NgZone, 8));
-};
+_OverlayOutsideClickDispatcher.ɵfac =
+  function OverlayOutsideClickDispatcher_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _OverlayOutsideClickDispatcher)(
+      ɵɵinject(DOCUMENT),
+      ɵɵinject(Platform),
+      ɵɵinject(NgZone, 8)
+    );
+  };
 _OverlayOutsideClickDispatcher.ɵprov = ɵɵdefineInjectable({
   token: _OverlayOutsideClickDispatcher,
   factory: _OverlayOutsideClickDispatcher.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var OverlayOutsideClickDispatcher = _OverlayOutsideClickDispatcher;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OverlayOutsideClickDispatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: Platform
-  }, {
-    type: NgZone,
-    decorators: [{
-      type: Optional
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      OverlayOutsideClickDispatcher,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: Platform
+        },
+        {
+          type: NgZone,
+          decorators: [
+            {
+              type: Optional
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
 function containsPierceShadowDom(parent, child) {
-  const supportsShadowRoot = typeof ShadowRoot !== "undefined" && ShadowRoot;
+  const supportsShadowRoot = typeof ShadowRoot !== 'undefined' && ShadowRoot;
   let current = child;
   while (current) {
     if (current === parent) {
       return true;
     }
-    current = supportsShadowRoot && current instanceof ShadowRoot ? current.host : current.parentNode;
+    current =
+      supportsShadowRoot && current instanceof ShadowRoot
+        ? current.host
+        : current.parentNode;
   }
   return false;
 }
@@ -603,51 +727,83 @@ var _OverlayContainer = class _OverlayContainer {
    * with the 'cdk-overlay-container' class on the document body.
    */
   _createContainer() {
-    const containerClass = "cdk-overlay-container";
+    const containerClass = 'cdk-overlay-container';
     if (this._platform.isBrowser || _isTestEnvironment()) {
-      const oppositePlatformContainers = this._document.querySelectorAll(`.${containerClass}[platform="server"], .${containerClass}[platform="test"]`);
+      const oppositePlatformContainers = this._document.querySelectorAll(
+        `.${containerClass}[platform="server"], .${containerClass}[platform="test"]`
+      );
       for (let i = 0; i < oppositePlatformContainers.length; i++) {
         oppositePlatformContainers[i].remove();
       }
     }
-    const container = this._document.createElement("div");
+    const container = this._document.createElement('div');
     container.classList.add(containerClass);
     if (_isTestEnvironment()) {
-      container.setAttribute("platform", "test");
+      container.setAttribute('platform', 'test');
     } else if (!this._platform.isBrowser) {
-      container.setAttribute("platform", "server");
+      container.setAttribute('platform', 'server');
     }
     this._document.body.appendChild(container);
     this._containerElement = container;
   }
 };
 _OverlayContainer.ɵfac = function OverlayContainer_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _OverlayContainer)(ɵɵinject(DOCUMENT), ɵɵinject(Platform));
+  return new (__ngFactoryType__ || _OverlayContainer)(
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(Platform)
+  );
 };
 _OverlayContainer.ɵprov = ɵɵdefineInjectable({
   token: _OverlayContainer,
   factory: _OverlayContainer.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var OverlayContainer = _OverlayContainer;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OverlayContainer, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: Platform
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      OverlayContainer,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: Platform
+        }
+      ],
+      null
+    );
 })();
 var OverlayRef = class {
-  constructor(_portalOutlet, _host, _pane, _config, _ngZone, _keyboardDispatcher, _document, _location, _outsideClickDispatcher, _animationsDisabled = false, _injector) {
+  constructor(
+    _portalOutlet,
+    _host,
+    _pane,
+    _config,
+    _ngZone,
+    _keyboardDispatcher,
+    _document,
+    _location,
+    _outsideClickDispatcher,
+    _animationsDisabled = false,
+    _injector
+  ) {
     this._portalOutlet = _portalOutlet;
     this._host = _host;
     this._pane = _pane;
@@ -676,11 +832,16 @@ var OverlayRef = class {
       this._scrollStrategy.attach(this);
     }
     this._positionStrategy = _config.positionStrategy;
-    this._afterRenderRef = untracked(() => afterRender(() => {
-      this._renders.next();
-    }, {
-      injector: this._injector
-    }));
+    this._afterRenderRef = untracked(() =>
+      afterRender(
+        () => {
+          this._renders.next();
+        },
+        {
+          injector: this._injector
+        }
+      )
+    );
   }
   /** The overlay's HTML element */
   get overlayElement() {
@@ -719,13 +880,16 @@ var OverlayRef = class {
     if (this._scrollStrategy) {
       this._scrollStrategy.enable();
     }
-    afterNextRender(() => {
-      if (this.hasAttached()) {
-        this.updatePosition();
+    afterNextRender(
+      () => {
+        if (this.hasAttached()) {
+          this.updatePosition();
+        }
+      },
+      {
+        injector: this._injector
       }
-    }, {
-      injector: this._injector
-    });
+    );
     this._togglePointerEvents(true);
     if (this._config.hasBackdrop) {
       this._attachBackdrop();
@@ -739,10 +903,12 @@ var OverlayRef = class {
       this._locationChanges = this._location.subscribe(() => this.dispose());
     }
     this._outsideClickDispatcher.add(this);
-    if (typeof attachResult?.onDestroy === "function") {
+    if (typeof attachResult?.onDestroy === 'function') {
       attachResult.onDestroy(() => {
         if (this.hasAttached()) {
-          this._ngZone.runOutsideAngular(() => Promise.resolve().then(() => this.detach()));
+          this._ngZone.runOutsideAngular(() =>
+            Promise.resolve().then(() => this.detach())
+          );
         }
       });
     }
@@ -875,9 +1041,9 @@ var OverlayRef = class {
   getDirection() {
     const direction = this._config.direction;
     if (!direction) {
-      return "ltr";
+      return 'ltr';
     }
-    return typeof direction === "string" ? direction : direction.value;
+    return typeof direction === 'string' ? direction : direction.value;
   }
   /** Switches to a new scroll strategy. */
   updateScrollStrategy(strategy) {
@@ -893,7 +1059,7 @@ var OverlayRef = class {
   }
   /** Updates the text direction of the overlay panel. */
   _updateElementDirection() {
-    this._host.setAttribute("dir", this.getDirection());
+    this._host.setAttribute('dir', this.getDirection());
   }
   /** Updates the size of the overlay element based on the overlay config. */
   _updateElementSize() {
@@ -910,22 +1076,31 @@ var OverlayRef = class {
   }
   /** Toggles the pointer events for the overlay pane element. */
   _togglePointerEvents(enablePointer) {
-    this._pane.style.pointerEvents = enablePointer ? "" : "none";
+    this._pane.style.pointerEvents = enablePointer ? '' : 'none';
   }
   /** Attaches a backdrop for this overlay. */
   _attachBackdrop() {
-    const showingClass = "cdk-overlay-backdrop-showing";
-    this._backdropElement = this._document.createElement("div");
-    this._backdropElement.classList.add("cdk-overlay-backdrop");
+    const showingClass = 'cdk-overlay-backdrop-showing';
+    this._backdropElement = this._document.createElement('div');
+    this._backdropElement.classList.add('cdk-overlay-backdrop');
     if (this._animationsDisabled) {
-      this._backdropElement.classList.add("cdk-overlay-backdrop-noop-animation");
+      this._backdropElement.classList.add(
+        'cdk-overlay-backdrop-noop-animation'
+      );
     }
     if (this._config.backdropClass) {
-      this._toggleClasses(this._backdropElement, this._config.backdropClass, true);
+      this._toggleClasses(
+        this._backdropElement,
+        this._config.backdropClass,
+        true
+      );
     }
     this._host.parentElement.insertBefore(this._backdropElement, this._host);
-    this._backdropElement.addEventListener("click", this._backdropClickHandler);
-    if (!this._animationsDisabled && typeof requestAnimationFrame !== "undefined") {
+    this._backdropElement.addEventListener('click', this._backdropClickHandler);
+    if (
+      !this._animationsDisabled &&
+      typeof requestAnimationFrame !== 'undefined'
+    ) {
       this._ngZone.runOutsideAngular(() => {
         requestAnimationFrame(() => {
           if (this._backdropElement) {
@@ -959,37 +1134,46 @@ var OverlayRef = class {
       this._disposeBackdrop(backdropToDetach);
       return;
     }
-    backdropToDetach.classList.remove("cdk-overlay-backdrop-showing");
+    backdropToDetach.classList.remove('cdk-overlay-backdrop-showing');
     this._ngZone.runOutsideAngular(() => {
-      backdropToDetach.addEventListener("transitionend", this._backdropTransitionendHandler);
+      backdropToDetach.addEventListener(
+        'transitionend',
+        this._backdropTransitionendHandler
+      );
     });
-    backdropToDetach.style.pointerEvents = "none";
-    this._backdropTimeout = this._ngZone.runOutsideAngular(() => setTimeout(() => {
-      this._disposeBackdrop(backdropToDetach);
-    }, 500));
+    backdropToDetach.style.pointerEvents = 'none';
+    this._backdropTimeout = this._ngZone.runOutsideAngular(() =>
+      setTimeout(() => {
+        this._disposeBackdrop(backdropToDetach);
+      }, 500)
+    );
   }
   /** Toggles a single CSS class or an array of classes on an element. */
   _toggleClasses(element, cssClasses, isAdd) {
     const classes = coerceArray(cssClasses || []).filter((c) => !!c);
     if (classes.length) {
-      isAdd ? element.classList.add(...classes) : element.classList.remove(...classes);
+      isAdd
+        ? element.classList.add(...classes)
+        : element.classList.remove(...classes);
     }
   }
   /** Detaches the overlay content next time the zone stabilizes. */
   _detachContentWhenEmpty() {
     this._ngZone.runOutsideAngular(() => {
-      const subscription = this._renders.pipe(takeUntil(merge(this._attachments, this._detachments))).subscribe(() => {
-        if (!this._pane || !this._host || this._pane.children.length === 0) {
-          if (this._pane && this._config.panelClass) {
-            this._toggleClasses(this._pane, this._config.panelClass, false);
+      const subscription = this._renders
+        .pipe(takeUntil(merge(this._attachments, this._detachments)))
+        .subscribe(() => {
+          if (!this._pane || !this._host || this._pane.children.length === 0) {
+            if (this._pane && this._config.panelClass) {
+              this._toggleClasses(this._pane, this._config.panelClass, false);
+            }
+            if (this._host && this._host.parentElement) {
+              this._previousHostParent = this._host.parentElement;
+              this._host.remove();
+            }
+            subscription.unsubscribe();
           }
-          if (this._host && this._host.parentElement) {
-            this._previousHostParent = this._host.parentElement;
-            this._host.remove();
-          }
-          subscription.unsubscribe();
-        }
-      });
+        });
     });
   }
   /** Disposes of a scroll strategy. */
@@ -1005,8 +1189,11 @@ var OverlayRef = class {
   /** Removes a backdrop element from the DOM. */
   _disposeBackdrop(backdrop) {
     if (backdrop) {
-      backdrop.removeEventListener("click", this._backdropClickHandler);
-      backdrop.removeEventListener("transitionend", this._backdropTransitionendHandler);
+      backdrop.removeEventListener('click', this._backdropClickHandler);
+      backdrop.removeEventListener(
+        'transitionend',
+        this._backdropTransitionendHandler
+      );
       backdrop.remove();
       if (this._backdropElement === backdrop) {
         this._backdropElement = null;
@@ -1018,14 +1205,20 @@ var OverlayRef = class {
     }
   }
 };
-var boundingBoxClass = "cdk-overlay-connected-position-bounding-box";
+var boundingBoxClass = 'cdk-overlay-connected-position-bounding-box';
 var cssUnitPattern = /([A-Za-z%]+)$/;
 var FlexibleConnectedPositionStrategy = class {
   /** Ordered list of preferred positions, from most to least desirable. */
   get positions() {
     return this._preferredPositions;
   }
-  constructor(connectedTo, _viewportRuler, _document, _platform, _overlayContainer) {
+  constructor(
+    connectedTo,
+    _viewportRuler,
+    _document,
+    _platform,
+    _overlayContainer
+  ) {
     this._viewportRuler = _viewportRuler;
     this._document = _document;
     this._platform = _platform;
@@ -1052,8 +1245,12 @@ var FlexibleConnectedPositionStrategy = class {
   }
   /** Attaches this position strategy to an overlay. */
   attach(overlayRef) {
-    if (this._overlayRef && overlayRef !== this._overlayRef && (typeof ngDevMode === "undefined" || ngDevMode)) {
-      throw Error("This position strategy is already attached to an overlay");
+    if (
+      this._overlayRef &&
+      overlayRef !== this._overlayRef &&
+      (typeof ngDevMode === 'undefined' || ngDevMode)
+    ) {
+      throw Error('This position strategy is already attached to an overlay');
     }
     this._validatePositions();
     overlayRef.hostElement.classList.add(boundingBoxClass);
@@ -1097,7 +1294,9 @@ var FlexibleConnectedPositionStrategy = class {
     this._viewportRect = this._getNarrowedViewportRect();
     this._originRect = this._getOriginRect();
     this._overlayRect = this._pane.getBoundingClientRect();
-    this._containerRect = this._overlayContainer.getContainerElement().getBoundingClientRect();
+    this._containerRect = this._overlayContainer
+      .getContainerElement()
+      .getBoundingClientRect();
     const originRect = this._originRect;
     const overlayRect = this._overlayRect;
     const viewportRect = this._viewportRect;
@@ -1107,13 +1306,24 @@ var FlexibleConnectedPositionStrategy = class {
     for (let pos of this._preferredPositions) {
       let originPoint = this._getOriginPoint(originRect, containerRect, pos);
       let overlayPoint = this._getOverlayPoint(originPoint, overlayRect, pos);
-      let overlayFit = this._getOverlayFit(overlayPoint, overlayRect, viewportRect, pos);
+      let overlayFit = this._getOverlayFit(
+        overlayPoint,
+        overlayRect,
+        viewportRect,
+        pos
+      );
       if (overlayFit.isCompletelyWithinViewport) {
         this._isPushed = false;
         this._applyPosition(pos, originPoint);
         return;
       }
-      if (this._canFitWithFlexibleDimensions(overlayFit, overlayPoint, viewportRect)) {
+      if (
+        this._canFitWithFlexibleDimensions(
+          overlayFit,
+          overlayPoint,
+          viewportRect
+        )
+      ) {
         flexibleFits.push({
           position: pos,
           origin: originPoint,
@@ -1122,7 +1332,10 @@ var FlexibleConnectedPositionStrategy = class {
         });
         continue;
       }
-      if (!fallback || fallback.overlayFit.visibleArea < overlayFit.visibleArea) {
+      if (
+        !fallback ||
+        fallback.overlayFit.visibleArea < overlayFit.visibleArea
+      ) {
         fallback = {
           overlayFit,
           overlayPoint,
@@ -1136,7 +1349,10 @@ var FlexibleConnectedPositionStrategy = class {
       let bestFit = null;
       let bestScore = -1;
       for (const fit of flexibleFits) {
-        const score = fit.boundingBoxRect.width * fit.boundingBoxRect.height * (fit.position.weight || 1);
+        const score =
+          fit.boundingBoxRect.width *
+          fit.boundingBoxRect.height *
+          (fit.position.weight || 1);
         if (score > bestScore) {
           bestScore = score;
           bestFit = fit;
@@ -1166,14 +1382,14 @@ var FlexibleConnectedPositionStrategy = class {
     }
     if (this._boundingBox) {
       extendStyles(this._boundingBox.style, {
-        top: "",
-        left: "",
-        right: "",
-        bottom: "",
-        height: "",
-        width: "",
-        alignItems: "",
-        justifyContent: ""
+        top: '',
+        left: '',
+        right: '',
+        bottom: '',
+        height: '',
+        width: '',
+        alignItems: '',
+        justifyContent: ''
       });
     }
     if (this._pane) {
@@ -1201,8 +1417,14 @@ var FlexibleConnectedPositionStrategy = class {
       this._originRect = this._getOriginRect();
       this._overlayRect = this._pane.getBoundingClientRect();
       this._viewportRect = this._getNarrowedViewportRect();
-      this._containerRect = this._overlayContainer.getContainerElement().getBoundingClientRect();
-      const originPoint = this._getOriginPoint(this._originRect, this._containerRect, lastPosition);
+      this._containerRect = this._overlayContainer
+        .getContainerElement()
+        .getBoundingClientRect();
+      const originPoint = this._getOriginPoint(
+        this._originRect,
+        this._containerRect,
+        lastPosition
+      );
       this._applyPosition(lastPosition, originPoint);
     } else {
       this.apply();
@@ -1306,21 +1528,21 @@ var FlexibleConnectedPositionStrategy = class {
    */
   _getOriginPoint(originRect, containerRect, pos) {
     let x;
-    if (pos.originX == "center") {
+    if (pos.originX == 'center') {
       x = originRect.left + originRect.width / 2;
     } else {
       const startX = this._isRtl() ? originRect.right : originRect.left;
       const endX = this._isRtl() ? originRect.left : originRect.right;
-      x = pos.originX == "start" ? startX : endX;
+      x = pos.originX == 'start' ? startX : endX;
     }
     if (containerRect.left < 0) {
       x -= containerRect.left;
     }
     let y;
-    if (pos.originY == "center") {
+    if (pos.originY == 'center') {
       y = originRect.top + originRect.height / 2;
     } else {
-      y = pos.originY == "top" ? originRect.top : originRect.bottom;
+      y = pos.originY == 'top' ? originRect.top : originRect.bottom;
     }
     if (containerRect.top < 0) {
       y -= containerRect.top;
@@ -1336,18 +1558,18 @@ var FlexibleConnectedPositionStrategy = class {
    */
   _getOverlayPoint(originPoint, overlayRect, pos) {
     let overlayStartX;
-    if (pos.overlayX == "center") {
+    if (pos.overlayX == 'center') {
       overlayStartX = -overlayRect.width / 2;
-    } else if (pos.overlayX === "start") {
+    } else if (pos.overlayX === 'start') {
       overlayStartX = this._isRtl() ? -overlayRect.width : 0;
     } else {
       overlayStartX = this._isRtl() ? 0 : -overlayRect.width;
     }
     let overlayStartY;
-    if (pos.overlayY == "center") {
+    if (pos.overlayY == 'center') {
       overlayStartY = -overlayRect.height / 2;
     } else {
-      overlayStartY = pos.overlayY == "top" ? 0 : -overlayRect.height;
+      overlayStartY = pos.overlayY == 'top' ? 0 : -overlayRect.height;
     }
     return {
       x: originPoint.x + overlayStartX,
@@ -1357,12 +1579,9 @@ var FlexibleConnectedPositionStrategy = class {
   /** Gets how well an overlay at the given point will fit within the viewport. */
   _getOverlayFit(point, rawOverlayRect, viewport, position) {
     const overlay = getRoundedBoundingClientRect(rawOverlayRect);
-    let {
-      x,
-      y
-    } = point;
-    let offsetX = this._getOffset(position, "x");
-    let offsetY = this._getOffset(position, "y");
+    let { x, y } = point;
+    let offsetX = this._getOffset(position, 'x');
+    let offsetY = this._getOffset(position, 'y');
     if (offsetX) {
       x += offsetX;
     }
@@ -1373,12 +1592,21 @@ var FlexibleConnectedPositionStrategy = class {
     let rightOverflow = x + overlay.width - viewport.width;
     let topOverflow = 0 - y;
     let bottomOverflow = y + overlay.height - viewport.height;
-    let visibleWidth = this._subtractOverflows(overlay.width, leftOverflow, rightOverflow);
-    let visibleHeight = this._subtractOverflows(overlay.height, topOverflow, bottomOverflow);
+    let visibleWidth = this._subtractOverflows(
+      overlay.width,
+      leftOverflow,
+      rightOverflow
+    );
+    let visibleHeight = this._subtractOverflows(
+      overlay.height,
+      topOverflow,
+      bottomOverflow
+    );
     let visibleArea = visibleWidth * visibleHeight;
     return {
       visibleArea,
-      isCompletelyWithinViewport: overlay.width * overlay.height === visibleArea,
+      isCompletelyWithinViewport:
+        overlay.width * overlay.height === visibleArea,
       fitsInViewportVertically: visibleHeight === overlay.height,
       fitsInViewportHorizontally: visibleWidth == overlay.width
     };
@@ -1395,8 +1623,12 @@ var FlexibleConnectedPositionStrategy = class {
       const availableWidth = viewport.right - point.x;
       const minHeight = getPixelValue(this._overlayRef.getConfig().minHeight);
       const minWidth = getPixelValue(this._overlayRef.getConfig().minWidth);
-      const verticalFit = fit.fitsInViewportVertically || minHeight != null && minHeight <= availableHeight;
-      const horizontalFit = fit.fitsInViewportHorizontally || minWidth != null && minWidth <= availableWidth;
+      const verticalFit =
+        fit.fitsInViewportVertically ||
+        (minHeight != null && minHeight <= availableHeight);
+      const horizontalFit =
+        fit.fitsInViewportHorizontally ||
+        (minWidth != null && minWidth <= availableWidth);
       return verticalFit && horizontalFit;
     }
     return false;
@@ -1422,20 +1654,35 @@ var FlexibleConnectedPositionStrategy = class {
     const overlay = getRoundedBoundingClientRect(rawOverlayRect);
     const viewport = this._viewportRect;
     const overflowRight = Math.max(start.x + overlay.width - viewport.width, 0);
-    const overflowBottom = Math.max(start.y + overlay.height - viewport.height, 0);
-    const overflowTop = Math.max(viewport.top - scrollPosition.top - start.y, 0);
-    const overflowLeft = Math.max(viewport.left - scrollPosition.left - start.x, 0);
+    const overflowBottom = Math.max(
+      start.y + overlay.height - viewport.height,
+      0
+    );
+    const overflowTop = Math.max(
+      viewport.top - scrollPosition.top - start.y,
+      0
+    );
+    const overflowLeft = Math.max(
+      viewport.left - scrollPosition.left - start.x,
+      0
+    );
     let pushX = 0;
     let pushY = 0;
     if (overlay.width <= viewport.width) {
       pushX = overflowLeft || -overflowRight;
     } else {
-      pushX = start.x < this._viewportMargin ? viewport.left - scrollPosition.left - start.x : 0;
+      pushX =
+        start.x < this._viewportMargin
+          ? viewport.left - scrollPosition.left - start.x
+          : 0;
     }
     if (overlay.height <= viewport.height) {
       pushY = overflowTop || -overflowBottom;
     } else {
-      pushY = start.y < this._viewportMargin ? viewport.top - scrollPosition.top - start.y : 0;
+      pushY =
+        start.y < this._viewportMargin
+          ? viewport.top - scrollPosition.top - start.y
+          : 0;
     }
     this._previousPushAmount = {
       x: pushX,
@@ -1460,8 +1707,15 @@ var FlexibleConnectedPositionStrategy = class {
     }
     if (this._positionChanges.observers.length) {
       const scrollVisibility = this._getScrollVisibility();
-      if (position !== this._lastPosition || !this._lastScrollVisibility || !compareScrollVisibility(this._lastScrollVisibility, scrollVisibility)) {
-        const changeEvent = new ConnectedOverlayPositionChange(position, scrollVisibility);
+      if (
+        position !== this._lastPosition ||
+        !this._lastScrollVisibility ||
+        !compareScrollVisibility(this._lastScrollVisibility, scrollVisibility)
+      ) {
+        const changeEvent = new ConnectedOverlayPositionChange(
+          position,
+          scrollVisibility
+        );
         this._positionChanges.next(changeEvent);
       }
       this._lastScrollVisibility = scrollVisibility;
@@ -1474,15 +1728,17 @@ var FlexibleConnectedPositionStrategy = class {
     if (!this._transformOriginSelector) {
       return;
     }
-    const elements = this._boundingBox.querySelectorAll(this._transformOriginSelector);
+    const elements = this._boundingBox.querySelectorAll(
+      this._transformOriginSelector
+    );
     let xOrigin;
     let yOrigin = position.overlayY;
-    if (position.overlayX === "center") {
-      xOrigin = "center";
+    if (position.overlayX === 'center') {
+      xOrigin = 'center';
     } else if (this._isRtl()) {
-      xOrigin = position.overlayX === "start" ? "right" : "left";
+      xOrigin = position.overlayX === 'start' ? 'right' : 'left';
     } else {
-      xOrigin = position.overlayX === "start" ? "left" : "right";
+      xOrigin = position.overlayX === 'start' ? 'left' : 'right';
     }
     for (let i = 0; i < elements.length; i++) {
       elements[i].style.transformOrigin = `${xOrigin} ${yOrigin}`;
@@ -1498,23 +1754,34 @@ var FlexibleConnectedPositionStrategy = class {
     const viewport = this._viewportRect;
     const isRtl = this._isRtl();
     let height, top, bottom;
-    if (position.overlayY === "top") {
+    if (position.overlayY === 'top') {
       top = origin.y;
       height = viewport.height - top + this._viewportMargin;
-    } else if (position.overlayY === "bottom") {
+    } else if (position.overlayY === 'bottom') {
       bottom = viewport.height - origin.y + this._viewportMargin * 2;
       height = viewport.height - bottom + this._viewportMargin;
     } else {
-      const smallestDistanceToViewportEdge = Math.min(viewport.bottom - origin.y + viewport.top, origin.y);
+      const smallestDistanceToViewportEdge = Math.min(
+        viewport.bottom - origin.y + viewport.top,
+        origin.y
+      );
       const previousHeight = this._lastBoundingBoxSize.height;
       height = smallestDistanceToViewportEdge * 2;
       top = origin.y - smallestDistanceToViewportEdge;
-      if (height > previousHeight && !this._isInitialRender && !this._growAfterOpen) {
+      if (
+        height > previousHeight &&
+        !this._isInitialRender &&
+        !this._growAfterOpen
+      ) {
         top = origin.y - previousHeight / 2;
       }
     }
-    const isBoundedByRightViewportEdge = position.overlayX === "start" && !isRtl || position.overlayX === "end" && isRtl;
-    const isBoundedByLeftViewportEdge = position.overlayX === "end" && !isRtl || position.overlayX === "start" && isRtl;
+    const isBoundedByRightViewportEdge =
+      (position.overlayX === 'start' && !isRtl) ||
+      (position.overlayX === 'end' && isRtl);
+    const isBoundedByLeftViewportEdge =
+      (position.overlayX === 'end' && !isRtl) ||
+      (position.overlayX === 'start' && isRtl);
     let width, left, right;
     if (isBoundedByLeftViewportEdge) {
       right = viewport.width - origin.x + this._viewportMargin * 2;
@@ -1523,11 +1790,18 @@ var FlexibleConnectedPositionStrategy = class {
       left = origin.x;
       width = viewport.right - origin.x;
     } else {
-      const smallestDistanceToViewportEdge = Math.min(viewport.right - origin.x + viewport.left, origin.x);
+      const smallestDistanceToViewportEdge = Math.min(
+        viewport.right - origin.x + viewport.left,
+        origin.x
+      );
       const previousWidth = this._lastBoundingBoxSize.width;
       width = smallestDistanceToViewportEdge * 2;
       left = origin.x - smallestDistanceToViewportEdge;
-      if (width > previousWidth && !this._isInitialRender && !this._growAfterOpen) {
+      if (
+        width > previousWidth &&
+        !this._isInitialRender &&
+        !this._growAfterOpen
+      ) {
         left = origin.x - previousWidth / 2;
       }
     }
@@ -1550,14 +1824,20 @@ var FlexibleConnectedPositionStrategy = class {
   _setBoundingBoxStyles(origin, position) {
     const boundingBoxRect = this._calculateBoundingBoxRect(origin, position);
     if (!this._isInitialRender && !this._growAfterOpen) {
-      boundingBoxRect.height = Math.min(boundingBoxRect.height, this._lastBoundingBoxSize.height);
-      boundingBoxRect.width = Math.min(boundingBoxRect.width, this._lastBoundingBoxSize.width);
+      boundingBoxRect.height = Math.min(
+        boundingBoxRect.height,
+        this._lastBoundingBoxSize.height
+      );
+      boundingBoxRect.width = Math.min(
+        boundingBoxRect.width,
+        this._lastBoundingBoxSize.width
+      );
     }
     const styles = {};
     if (this._hasExactPosition()) {
-      styles.top = styles.left = "0";
-      styles.bottom = styles.right = styles.maxHeight = styles.maxWidth = "";
-      styles.width = styles.height = "100%";
+      styles.top = styles.left = '0';
+      styles.bottom = styles.right = styles.maxHeight = styles.maxWidth = '';
+      styles.width = styles.height = '100%';
     } else {
       const maxHeight = this._overlayRef.getConfig().maxHeight;
       const maxWidth = this._overlayRef.getConfig().maxWidth;
@@ -1567,15 +1847,17 @@ var FlexibleConnectedPositionStrategy = class {
       styles.width = coerceCssPixelValue(boundingBoxRect.width);
       styles.left = coerceCssPixelValue(boundingBoxRect.left);
       styles.right = coerceCssPixelValue(boundingBoxRect.right);
-      if (position.overlayX === "center") {
-        styles.alignItems = "center";
+      if (position.overlayX === 'center') {
+        styles.alignItems = 'center';
       } else {
-        styles.alignItems = position.overlayX === "end" ? "flex-end" : "flex-start";
+        styles.alignItems =
+          position.overlayX === 'end' ? 'flex-end' : 'flex-start';
       }
-      if (position.overlayY === "center") {
-        styles.justifyContent = "center";
+      if (position.overlayY === 'center') {
+        styles.justifyContent = 'center';
       } else {
-        styles.justifyContent = position.overlayY === "bottom" ? "flex-end" : "flex-start";
+        styles.justifyContent =
+          position.overlayY === 'bottom' ? 'flex-end' : 'flex-start';
       }
       if (maxHeight) {
         styles.maxHeight = coerceCssPixelValue(maxHeight);
@@ -1590,25 +1872,25 @@ var FlexibleConnectedPositionStrategy = class {
   /** Resets the styles for the bounding box so that a new positioning can be computed. */
   _resetBoundingBoxStyles() {
     extendStyles(this._boundingBox.style, {
-      top: "0",
-      left: "0",
-      right: "0",
-      bottom: "0",
-      height: "",
-      width: "",
-      alignItems: "",
-      justifyContent: ""
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      height: '',
+      width: '',
+      alignItems: '',
+      justifyContent: ''
     });
   }
   /** Resets the styles for the overlay pane so that a new positioning can be computed. */
   _resetOverlayElementStyles() {
     extendStyles(this._pane.style, {
-      top: "",
-      left: "",
-      bottom: "",
-      right: "",
-      position: "",
-      transform: ""
+      top: '',
+      left: '',
+      bottom: '',
+      right: '',
+      position: '',
+      transform: ''
     });
   }
   /** Sets positioning styles to the overlay element. */
@@ -1619,14 +1901,20 @@ var FlexibleConnectedPositionStrategy = class {
     const config = this._overlayRef.getConfig();
     if (hasExactPosition) {
       const scrollPosition = this._viewportRuler.getViewportScrollPosition();
-      extendStyles(styles, this._getExactOverlayY(position, originPoint, scrollPosition));
-      extendStyles(styles, this._getExactOverlayX(position, originPoint, scrollPosition));
+      extendStyles(
+        styles,
+        this._getExactOverlayY(position, originPoint, scrollPosition)
+      );
+      extendStyles(
+        styles,
+        this._getExactOverlayX(position, originPoint, scrollPosition)
+      );
     } else {
-      styles.position = "static";
+      styles.position = 'static';
     }
-    let transformString = "";
-    let offsetX = this._getOffset(position, "x");
-    let offsetY = this._getOffset(position, "y");
+    let transformString = '';
+    let offsetX = this._getOffset(position, 'x');
+    let offsetY = this._getOffset(position, 'y');
     if (offsetX) {
       transformString += `translateX(${offsetX}px) `;
     }
@@ -1638,14 +1926,14 @@ var FlexibleConnectedPositionStrategy = class {
       if (hasExactPosition) {
         styles.maxHeight = coerceCssPixelValue(config.maxHeight);
       } else if (hasFlexibleDimensions) {
-        styles.maxHeight = "";
+        styles.maxHeight = '';
       }
     }
     if (config.maxWidth) {
       if (hasExactPosition) {
         styles.maxWidth = coerceCssPixelValue(config.maxWidth);
       } else if (hasFlexibleDimensions) {
-        styles.maxWidth = "";
+        styles.maxWidth = '';
       }
     }
     extendStyles(this._pane.style, styles);
@@ -1653,14 +1941,22 @@ var FlexibleConnectedPositionStrategy = class {
   /** Gets the exact top/bottom for the overlay when not using flexible sizing or when pushing. */
   _getExactOverlayY(position, originPoint, scrollPosition) {
     let styles = {
-      top: "",
-      bottom: ""
+      top: '',
+      bottom: ''
     };
-    let overlayPoint = this._getOverlayPoint(originPoint, this._overlayRect, position);
+    let overlayPoint = this._getOverlayPoint(
+      originPoint,
+      this._overlayRect,
+      position
+    );
     if (this._isPushed) {
-      overlayPoint = this._pushOverlayOnScreen(overlayPoint, this._overlayRect, scrollPosition);
+      overlayPoint = this._pushOverlayOnScreen(
+        overlayPoint,
+        this._overlayRect,
+        scrollPosition
+      );
     }
-    if (position.overlayY === "bottom") {
+    if (position.overlayY === 'bottom') {
       const documentHeight = this._document.documentElement.clientHeight;
       styles.bottom = `${documentHeight - (overlayPoint.y + this._overlayRect.height)}px`;
     } else {
@@ -1671,20 +1967,28 @@ var FlexibleConnectedPositionStrategy = class {
   /** Gets the exact left/right for the overlay when not using flexible sizing or when pushing. */
   _getExactOverlayX(position, originPoint, scrollPosition) {
     let styles = {
-      left: "",
-      right: ""
+      left: '',
+      right: ''
     };
-    let overlayPoint = this._getOverlayPoint(originPoint, this._overlayRect, position);
+    let overlayPoint = this._getOverlayPoint(
+      originPoint,
+      this._overlayRect,
+      position
+    );
     if (this._isPushed) {
-      overlayPoint = this._pushOverlayOnScreen(overlayPoint, this._overlayRect, scrollPosition);
+      overlayPoint = this._pushOverlayOnScreen(
+        overlayPoint,
+        this._overlayRect,
+        scrollPosition
+      );
     }
     let horizontalStyleProperty;
     if (this._isRtl()) {
-      horizontalStyleProperty = position.overlayX === "end" ? "left" : "right";
+      horizontalStyleProperty = position.overlayX === 'end' ? 'left' : 'right';
     } else {
-      horizontalStyleProperty = position.overlayX === "end" ? "right" : "left";
+      horizontalStyleProperty = position.overlayX === 'end' ? 'right' : 'left';
     }
-    if (horizontalStyleProperty === "right") {
+    if (horizontalStyleProperty === 'right') {
       const documentWidth = this._document.documentElement.clientWidth;
       styles.right = `${documentWidth - (overlayPoint.x + this._overlayRect.width)}px`;
     } else {
@@ -1703,10 +2007,22 @@ var FlexibleConnectedPositionStrategy = class {
       return scrollable.getElementRef().nativeElement.getBoundingClientRect();
     });
     return {
-      isOriginClipped: isElementClippedByScrolling(originBounds, scrollContainerBounds),
-      isOriginOutsideView: isElementScrolledOutsideView(originBounds, scrollContainerBounds),
-      isOverlayClipped: isElementClippedByScrolling(overlayBounds, scrollContainerBounds),
-      isOverlayOutsideView: isElementScrolledOutsideView(overlayBounds, scrollContainerBounds)
+      isOriginClipped: isElementClippedByScrolling(
+        originBounds,
+        scrollContainerBounds
+      ),
+      isOriginOutsideView: isElementScrolledOutsideView(
+        originBounds,
+        scrollContainerBounds
+      ),
+      isOverlayClipped: isElementClippedByScrolling(
+        overlayBounds,
+        scrollContainerBounds
+      ),
+      isOverlayOutsideView: isElementScrolledOutsideView(
+        overlayBounds,
+        scrollContainerBounds
+      )
     };
   }
   /** Subtracts the amount that an element is overflowing on an axis from its length. */
@@ -1731,7 +2047,7 @@ var FlexibleConnectedPositionStrategy = class {
   }
   /** Whether the we're dealing with an RTL context */
   _isRtl() {
-    return this._overlayRef.getDirection() === "rtl";
+    return this._overlayRef.getDirection() === 'rtl';
   }
   /** Determines whether the overlay uses exact or flexible positioning. */
   _hasExactPosition() {
@@ -1739,22 +2055,24 @@ var FlexibleConnectedPositionStrategy = class {
   }
   /** Retrieves the offset of a position along the x or y axis. */
   _getOffset(position, axis) {
-    if (axis === "x") {
+    if (axis === 'x') {
       return position.offsetX == null ? this._offsetX : position.offsetX;
     }
     return position.offsetY == null ? this._offsetY : position.offsetY;
   }
   /** Validates that the current position match the expected values. */
   _validatePositions() {
-    if (typeof ngDevMode === "undefined" || ngDevMode) {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._preferredPositions.length) {
-        throw Error("FlexibleConnectedPositionStrategy: At least one position is required.");
+        throw Error(
+          'FlexibleConnectedPositionStrategy: At least one position is required.'
+        );
       }
       this._preferredPositions.forEach((pair) => {
-        validateHorizontalPosition("originX", pair.originX);
-        validateVerticalPosition("originY", pair.originY);
-        validateHorizontalPosition("overlayX", pair.overlayX);
-        validateVerticalPosition("overlayY", pair.overlayY);
+        validateHorizontalPosition('originX', pair.originX);
+        validateVerticalPosition('originY', pair.originY);
+        validateHorizontalPosition('overlayX', pair.overlayX);
+        validateVerticalPosition('overlayY', pair.overlayY);
       });
     }
   }
@@ -1762,7 +2080,10 @@ var FlexibleConnectedPositionStrategy = class {
   _addPanelClasses(cssClasses) {
     if (this._pane) {
       coerceArray(cssClasses).forEach((cssClass) => {
-        if (cssClass !== "" && this._appliedPanelClasses.indexOf(cssClass) === -1) {
+        if (
+          cssClass !== '' &&
+          this._appliedPanelClasses.indexOf(cssClass) === -1
+        ) {
           this._appliedPanelClasses.push(cssClass);
           this._pane.classList.add(cssClass);
         }
@@ -1808,9 +2129,9 @@ function extendStyles(destination, source) {
   return destination;
 }
 function getPixelValue(input) {
-  if (typeof input !== "number" && input != null) {
+  if (typeof input !== 'number' && input != null) {
     const [value, units] = input.split(cssUnitPattern);
-    return !units || units === "px" ? parseFloat(value) : null;
+    return !units || units === 'px' ? parseFloat(value) : null;
   }
   return input || null;
 }
@@ -1828,19 +2149,24 @@ function compareScrollVisibility(a, b) {
   if (a === b) {
     return true;
   }
-  return a.isOriginClipped === b.isOriginClipped && a.isOriginOutsideView === b.isOriginOutsideView && a.isOverlayClipped === b.isOverlayClipped && a.isOverlayOutsideView === b.isOverlayOutsideView;
+  return (
+    a.isOriginClipped === b.isOriginClipped &&
+    a.isOriginOutsideView === b.isOriginOutsideView &&
+    a.isOverlayClipped === b.isOverlayClipped &&
+    a.isOverlayOutsideView === b.isOverlayOutsideView
+  );
 }
-var wrapperClass = "cdk-global-overlay-wrapper";
+var wrapperClass = 'cdk-global-overlay-wrapper';
 var GlobalPositionStrategy = class {
   constructor() {
-    this._cssPosition = "static";
-    this._topOffset = "";
-    this._bottomOffset = "";
-    this._alignItems = "";
-    this._xPosition = "";
-    this._xOffset = "";
-    this._width = "";
-    this._height = "";
+    this._cssPosition = 'static';
+    this._topOffset = '';
+    this._bottomOffset = '';
+    this._alignItems = '';
+    this._xPosition = '';
+    this._xOffset = '';
+    this._width = '';
+    this._height = '';
     this._isDisposed = false;
   }
   attach(overlayRef) {
@@ -1863,38 +2189,38 @@ var GlobalPositionStrategy = class {
    * Sets the top position of the overlay. Clears any previously set vertical position.
    * @param value New top offset.
    */
-  top(value = "") {
-    this._bottomOffset = "";
+  top(value = '') {
+    this._bottomOffset = '';
     this._topOffset = value;
-    this._alignItems = "flex-start";
+    this._alignItems = 'flex-start';
     return this;
   }
   /**
    * Sets the left position of the overlay. Clears any previously set horizontal position.
    * @param value New left offset.
    */
-  left(value = "") {
+  left(value = '') {
     this._xOffset = value;
-    this._xPosition = "left";
+    this._xPosition = 'left';
     return this;
   }
   /**
    * Sets the bottom position of the overlay. Clears any previously set vertical position.
    * @param value New bottom offset.
    */
-  bottom(value = "") {
-    this._topOffset = "";
+  bottom(value = '') {
+    this._topOffset = '';
     this._bottomOffset = value;
-    this._alignItems = "flex-end";
+    this._alignItems = 'flex-end';
     return this;
   }
   /**
    * Sets the right position of the overlay. Clears any previously set horizontal position.
    * @param value New right offset.
    */
-  right(value = "") {
+  right(value = '') {
     this._xOffset = value;
-    this._xPosition = "right";
+    this._xPosition = 'right';
     return this;
   }
   /**
@@ -1902,9 +2228,9 @@ var GlobalPositionStrategy = class {
    * This will be to the left in LTR layouts and to the right in RTL.
    * @param offset Offset from the edge of the screen.
    */
-  start(value = "") {
+  start(value = '') {
     this._xOffset = value;
-    this._xPosition = "start";
+    this._xPosition = 'start';
     return this;
   }
   /**
@@ -1912,9 +2238,9 @@ var GlobalPositionStrategy = class {
    * This will be to the right in LTR layouts and to the left in RTL.
    * @param offset Offset from the edge of the screen.
    */
-  end(value = "") {
+  end(value = '') {
     this._xOffset = value;
-    this._xPosition = "end";
+    this._xPosition = 'end';
     return this;
   }
   /**
@@ -1923,7 +2249,7 @@ var GlobalPositionStrategy = class {
    * @deprecated Pass the `width` through the `OverlayConfig`.
    * @breaking-change 8.0.0
    */
-  width(value = "") {
+  width(value = '') {
     if (this._overlayRef) {
       this._overlayRef.updateSize({
         width: value
@@ -1939,7 +2265,7 @@ var GlobalPositionStrategy = class {
    * @deprecated Pass the `height` through the `OverlayConfig`.
    * @breaking-change 8.0.0
    */
-  height(value = "") {
+  height(value = '') {
     if (this._overlayRef) {
       this._overlayRef.updateSize({
         height: value
@@ -1955,9 +2281,9 @@ var GlobalPositionStrategy = class {
    *
    * @param offset Overlay offset from the horizontal center.
    */
-  centerHorizontally(offset = "") {
+  centerHorizontally(offset = '') {
     this.left(offset);
-    this._xPosition = "center";
+    this._xPosition = 'center';
     return this;
   }
   /**
@@ -1966,9 +2292,9 @@ var GlobalPositionStrategy = class {
    *
    * @param offset Overlay offset from the vertical center.
    */
-  centerVertically(offset = "") {
+  centerVertically(offset = '') {
     this.top(offset);
-    this._alignItems = "center";
+    this._alignItems = 'center';
     return this;
   }
   /**
@@ -1982,51 +2308,52 @@ var GlobalPositionStrategy = class {
     const styles = this._overlayRef.overlayElement.style;
     const parentStyles = this._overlayRef.hostElement.style;
     const config = this._overlayRef.getConfig();
-    const {
-      width,
-      height,
-      maxWidth,
-      maxHeight
-    } = config;
-    const shouldBeFlushHorizontally = (width === "100%" || width === "100vw") && (!maxWidth || maxWidth === "100%" || maxWidth === "100vw");
-    const shouldBeFlushVertically = (height === "100%" || height === "100vh") && (!maxHeight || maxHeight === "100%" || maxHeight === "100vh");
+    const { width, height, maxWidth, maxHeight } = config;
+    const shouldBeFlushHorizontally =
+      (width === '100%' || width === '100vw') &&
+      (!maxWidth || maxWidth === '100%' || maxWidth === '100vw');
+    const shouldBeFlushVertically =
+      (height === '100%' || height === '100vh') &&
+      (!maxHeight || maxHeight === '100%' || maxHeight === '100vh');
     const xPosition = this._xPosition;
     const xOffset = this._xOffset;
-    const isRtl = this._overlayRef.getConfig().direction === "rtl";
-    let marginLeft = "";
-    let marginRight = "";
-    let justifyContent = "";
+    const isRtl = this._overlayRef.getConfig().direction === 'rtl';
+    let marginLeft = '';
+    let marginRight = '';
+    let justifyContent = '';
     if (shouldBeFlushHorizontally) {
-      justifyContent = "flex-start";
-    } else if (xPosition === "center") {
-      justifyContent = "center";
+      justifyContent = 'flex-start';
+    } else if (xPosition === 'center') {
+      justifyContent = 'center';
       if (isRtl) {
         marginRight = xOffset;
       } else {
         marginLeft = xOffset;
       }
     } else if (isRtl) {
-      if (xPosition === "left" || xPosition === "end") {
-        justifyContent = "flex-end";
+      if (xPosition === 'left' || xPosition === 'end') {
+        justifyContent = 'flex-end';
         marginLeft = xOffset;
-      } else if (xPosition === "right" || xPosition === "start") {
-        justifyContent = "flex-start";
+      } else if (xPosition === 'right' || xPosition === 'start') {
+        justifyContent = 'flex-start';
         marginRight = xOffset;
       }
-    } else if (xPosition === "left" || xPosition === "start") {
-      justifyContent = "flex-start";
+    } else if (xPosition === 'left' || xPosition === 'start') {
+      justifyContent = 'flex-start';
       marginLeft = xOffset;
-    } else if (xPosition === "right" || xPosition === "end") {
-      justifyContent = "flex-end";
+    } else if (xPosition === 'right' || xPosition === 'end') {
+      justifyContent = 'flex-end';
       marginRight = xOffset;
     }
     styles.position = this._cssPosition;
-    styles.marginLeft = shouldBeFlushHorizontally ? "0" : marginLeft;
-    styles.marginTop = shouldBeFlushVertically ? "0" : this._topOffset;
+    styles.marginLeft = shouldBeFlushHorizontally ? '0' : marginLeft;
+    styles.marginTop = shouldBeFlushVertically ? '0' : this._topOffset;
     styles.marginBottom = this._bottomOffset;
-    styles.marginRight = shouldBeFlushHorizontally ? "0" : marginRight;
+    styles.marginRight = shouldBeFlushHorizontally ? '0' : marginRight;
     parentStyles.justifyContent = justifyContent;
-    parentStyles.alignItems = shouldBeFlushVertically ? "flex-start" : this._alignItems;
+    parentStyles.alignItems = shouldBeFlushVertically
+      ? 'flex-start'
+      : this._alignItems;
   }
   /**
    * Cleans up the DOM changes from the position strategy.
@@ -2040,7 +2367,14 @@ var GlobalPositionStrategy = class {
     const parent = this._overlayRef.hostElement;
     const parentStyles = parent.style;
     parent.classList.remove(wrapperClass);
-    parentStyles.justifyContent = parentStyles.alignItems = styles.marginTop = styles.marginBottom = styles.marginLeft = styles.marginRight = styles.position = "";
+    parentStyles.justifyContent =
+      parentStyles.alignItems =
+      styles.marginTop =
+      styles.marginBottom =
+      styles.marginLeft =
+      styles.marginRight =
+      styles.position =
+        '';
     this._overlayRef = null;
     this._isDisposed = true;
   }
@@ -2063,41 +2397,84 @@ var _OverlayPositionBuilder = class _OverlayPositionBuilder {
    * @param origin Origin relative to which to position the overlay.
    */
   flexibleConnectedTo(origin) {
-    return new FlexibleConnectedPositionStrategy(origin, this._viewportRuler, this._document, this._platform, this._overlayContainer);
+    return new FlexibleConnectedPositionStrategy(
+      origin,
+      this._viewportRuler,
+      this._document,
+      this._platform,
+      this._overlayContainer
+    );
   }
 };
-_OverlayPositionBuilder.ɵfac = function OverlayPositionBuilder_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _OverlayPositionBuilder)(ɵɵinject(ViewportRuler), ɵɵinject(DOCUMENT), ɵɵinject(Platform), ɵɵinject(OverlayContainer));
+_OverlayPositionBuilder.ɵfac = function OverlayPositionBuilder_Factory(
+  __ngFactoryType__
+) {
+  return new (__ngFactoryType__ || _OverlayPositionBuilder)(
+    ɵɵinject(ViewportRuler),
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(Platform),
+    ɵɵinject(OverlayContainer)
+  );
 };
 _OverlayPositionBuilder.ɵprov = ɵɵdefineInjectable({
   token: _OverlayPositionBuilder,
   factory: _OverlayPositionBuilder.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var OverlayPositionBuilder = _OverlayPositionBuilder;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OverlayPositionBuilder, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: ViewportRuler
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: Platform
-  }, {
-    type: OverlayContainer
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      OverlayPositionBuilder,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ViewportRuler
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: Platform
+        },
+        {
+          type: OverlayContainer
+        }
+      ],
+      null
+    );
 })();
 var nextUniqueId = 0;
 var _Overlay = class _Overlay {
-  constructor(scrollStrategies, _overlayContainer, _componentFactoryResolver, _positionBuilder, _keyboardDispatcher, _injector, _ngZone, _document, _directionality, _location, _outsideClickDispatcher, _animationsModuleType) {
+  constructor(
+    scrollStrategies,
+    _overlayContainer,
+    _componentFactoryResolver,
+    _positionBuilder,
+    _keyboardDispatcher,
+    _injector,
+    _ngZone,
+    _document,
+    _directionality,
+    _location,
+    _outsideClickDispatcher,
+    _animationsModuleType
+  ) {
     this.scrollStrategies = scrollStrategies;
     this._overlayContainer = _overlayContainer;
     this._componentFactoryResolver = _componentFactoryResolver;
@@ -2121,8 +2498,21 @@ var _Overlay = class _Overlay {
     const pane = this._createPaneElement(host);
     const portalOutlet = this._createPortalOutlet(pane);
     const overlayConfig = new OverlayConfig(config);
-    overlayConfig.direction = overlayConfig.direction || this._directionality.value;
-    return new OverlayRef(portalOutlet, host, pane, overlayConfig, this._ngZone, this._keyboardDispatcher, this._document, this._location, this._outsideClickDispatcher, this._animationsModuleType === "NoopAnimations", this._injector.get(EnvironmentInjector));
+    overlayConfig.direction =
+      overlayConfig.direction || this._directionality.value;
+    return new OverlayRef(
+      portalOutlet,
+      host,
+      pane,
+      overlayConfig,
+      this._ngZone,
+      this._keyboardDispatcher,
+      this._document,
+      this._location,
+      this._outsideClickDispatcher,
+      this._animationsModuleType === 'NoopAnimations',
+      this._injector.get(EnvironmentInjector)
+    );
   }
   /**
    * Gets a position builder that can be used, via fluent API,
@@ -2137,9 +2527,9 @@ var _Overlay = class _Overlay {
    * @returns Newly-created pane element
    */
   _createPaneElement(host) {
-    const pane = this._document.createElement("div");
+    const pane = this._document.createElement('div');
     pane.id = `cdk-overlay-${nextUniqueId++}`;
-    pane.classList.add("cdk-overlay-pane");
+    pane.classList.add('cdk-overlay-pane');
     host.appendChild(pane);
     return pane;
   }
@@ -2149,7 +2539,7 @@ var _Overlay = class _Overlay {
    * @returns Newly-create host element.
    */
   _createHostElement() {
-    const host = this._document.createElement("div");
+    const host = this._document.createElement('div');
     this._overlayContainer.getContainerElement().appendChild(host);
     return host;
   }
@@ -2162,114 +2552,188 @@ var _Overlay = class _Overlay {
     if (!this._appRef) {
       this._appRef = this._injector.get(ApplicationRef);
     }
-    return new DomPortalOutlet(pane, this._componentFactoryResolver, this._appRef, this._injector, this._document);
+    return new DomPortalOutlet(
+      pane,
+      this._componentFactoryResolver,
+      this._appRef,
+      this._injector,
+      this._document
+    );
   }
 };
 _Overlay.ɵfac = function Overlay_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _Overlay)(ɵɵinject(ScrollStrategyOptions), ɵɵinject(OverlayContainer), ɵɵinject(ComponentFactoryResolver$1), ɵɵinject(OverlayPositionBuilder), ɵɵinject(OverlayKeyboardDispatcher), ɵɵinject(Injector), ɵɵinject(NgZone), ɵɵinject(DOCUMENT), ɵɵinject(Directionality), ɵɵinject(Location), ɵɵinject(OverlayOutsideClickDispatcher), ɵɵinject(ANIMATION_MODULE_TYPE, 8));
+  return new (__ngFactoryType__ || _Overlay)(
+    ɵɵinject(ScrollStrategyOptions),
+    ɵɵinject(OverlayContainer),
+    ɵɵinject(ComponentFactoryResolver$1),
+    ɵɵinject(OverlayPositionBuilder),
+    ɵɵinject(OverlayKeyboardDispatcher),
+    ɵɵinject(Injector),
+    ɵɵinject(NgZone),
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(Directionality),
+    ɵɵinject(Location),
+    ɵɵinject(OverlayOutsideClickDispatcher),
+    ɵɵinject(ANIMATION_MODULE_TYPE, 8)
+  );
 };
 _Overlay.ɵprov = ɵɵdefineInjectable({
   token: _Overlay,
   factory: _Overlay.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var Overlay = _Overlay;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(Overlay, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: ScrollStrategyOptions
-  }, {
-    type: OverlayContainer
-  }, {
-    type: ComponentFactoryResolver$1
-  }, {
-    type: OverlayPositionBuilder
-  }, {
-    type: OverlayKeyboardDispatcher
-  }, {
-    type: Injector
-  }, {
-    type: NgZone
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: Directionality
-  }, {
-    type: Location
-  }, {
-    type: OverlayOutsideClickDispatcher
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [ANIMATION_MODULE_TYPE]
-    }, {
-      type: Optional
-    }]
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      Overlay,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ScrollStrategyOptions
+        },
+        {
+          type: OverlayContainer
+        },
+        {
+          type: ComponentFactoryResolver$1
+        },
+        {
+          type: OverlayPositionBuilder
+        },
+        {
+          type: OverlayKeyboardDispatcher
+        },
+        {
+          type: Injector
+        },
+        {
+          type: NgZone
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: Directionality
+        },
+        {
+          type: Location
+        },
+        {
+          type: OverlayOutsideClickDispatcher
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [ANIMATION_MODULE_TYPE]
+            },
+            {
+              type: Optional
+            }
+          ]
+        }
+      ],
+      null
+    );
 })();
-var defaultPositionList = [{
-  originX: "start",
-  originY: "bottom",
-  overlayX: "start",
-  overlayY: "top"
-}, {
-  originX: "start",
-  originY: "top",
-  overlayX: "start",
-  overlayY: "bottom"
-}, {
-  originX: "end",
-  originY: "top",
-  overlayX: "end",
-  overlayY: "bottom"
-}, {
-  originX: "end",
-  originY: "bottom",
-  overlayX: "end",
-  overlayY: "top"
-}];
-var CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY = new InjectionToken("cdk-connected-overlay-scroll-strategy", {
-  providedIn: "root",
-  factory: () => {
-    const overlay = inject(Overlay);
-    return () => overlay.scrollStrategies.reposition();
+var defaultPositionList = [
+  {
+    originX: 'start',
+    originY: 'bottom',
+    overlayX: 'start',
+    overlayY: 'top'
+  },
+  {
+    originX: 'start',
+    originY: 'top',
+    overlayX: 'start',
+    overlayY: 'bottom'
+  },
+  {
+    originX: 'end',
+    originY: 'top',
+    overlayX: 'end',
+    overlayY: 'bottom'
+  },
+  {
+    originX: 'end',
+    originY: 'bottom',
+    overlayX: 'end',
+    overlayY: 'top'
   }
-});
+];
+var CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY = new InjectionToken(
+  'cdk-connected-overlay-scroll-strategy',
+  {
+    providedIn: 'root',
+    factory: () => {
+      const overlay = inject(Overlay);
+      return () => overlay.scrollStrategies.reposition();
+    }
+  }
+);
 var _CdkOverlayOrigin = class _CdkOverlayOrigin {
   constructor(elementRef) {
     this.elementRef = elementRef;
   }
 };
 _CdkOverlayOrigin.ɵfac = function CdkOverlayOrigin_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _CdkOverlayOrigin)(ɵɵdirectiveInject(ElementRef));
+  return new (__ngFactoryType__ || _CdkOverlayOrigin)(
+    ɵɵdirectiveInject(ElementRef)
+  );
 };
 _CdkOverlayOrigin.ɵdir = ɵɵdefineDirective({
   type: _CdkOverlayOrigin,
-  selectors: [["", "cdk-overlay-origin", ""], ["", "overlay-origin", ""], ["", "cdkOverlayOrigin", ""]],
-  exportAs: ["cdkOverlayOrigin"],
+  selectors: [
+    ['', 'cdk-overlay-origin', ''],
+    ['', 'overlay-origin', ''],
+    ['', 'cdkOverlayOrigin', '']
+  ],
+  exportAs: ['cdkOverlayOrigin'],
   standalone: true
 });
 var CdkOverlayOrigin = _CdkOverlayOrigin;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CdkOverlayOrigin, [{
-    type: Directive,
-    args: [{
-      selector: "[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]",
-      exportAs: "cdkOverlayOrigin",
-      standalone: true
-    }]
-  }], () => [{
-    type: ElementRef
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      CdkOverlayOrigin,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector:
+                '[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]',
+              exportAs: 'cdkOverlayOrigin',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: ElementRef
+        }
+      ],
+      null
+    );
 })();
 var _CdkConnectedOverlay = class _CdkConnectedOverlay {
   /** The offset in pixels for the overlay connection point on the x-axis */
@@ -2300,7 +2764,13 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
     this._disposeOnNavigation = value;
   }
   // TODO(jelbourn): inputs for size, scroll behavior, animation, etc.
-  constructor(_overlay, templateRef, viewContainerRef, scrollStrategyFactory, _dir) {
+  constructor(
+    _overlay,
+    templateRef,
+    viewContainerRef,
+    scrollStrategyFactory,
+    _dir
+  ) {
     this._overlay = _overlay;
     this._dir = _dir;
     this._backdropSubscription = Subscription.EMPTY;
@@ -2333,7 +2803,7 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
   }
   /** The element's layout direction. */
   get dir() {
-    return this._dir ? this._dir.value : "ltr";
+    return this._dir ? this._dir.value : 'ltr';
   }
   ngOnDestroy() {
     this._attachSubscription.unsubscribe();
@@ -2353,11 +2823,11 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
         height: this.height,
         minHeight: this.minHeight
       });
-      if (changes["origin"] && this.open) {
+      if (changes['origin'] && this.open) {
         this._position.apply();
       }
     }
-    if (changes["open"]) {
+    if (changes['open']) {
       this.open ? this._attachOverlay() : this._detachOverlay();
     }
   }
@@ -2366,12 +2836,22 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
     if (!this.positions || !this.positions.length) {
       this.positions = defaultPositionList;
     }
-    const overlayRef = this._overlayRef = this._overlay.create(this._buildConfig());
-    this._attachSubscription = overlayRef.attachments().subscribe(() => this.attach.emit());
-    this._detachSubscription = overlayRef.detachments().subscribe(() => this.detach.emit());
+    const overlayRef = (this._overlayRef = this._overlay.create(
+      this._buildConfig()
+    ));
+    this._attachSubscription = overlayRef
+      .attachments()
+      .subscribe(() => this.attach.emit());
+    this._detachSubscription = overlayRef
+      .detachments()
+      .subscribe(() => this.detach.emit());
     overlayRef.keydownEvents().subscribe((event) => {
       this.overlayKeydown.next(event);
-      if (event.keyCode === ESCAPE && !this.disableClose && !hasModifierKey(event)) {
+      if (
+        event.keyCode === ESCAPE &&
+        !this.disableClose &&
+        !hasModifierKey(event)
+      ) {
         event.preventDefault();
         this._detachOverlay();
       }
@@ -2379,14 +2859,15 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
     this._overlayRef.outsidePointerEvents().subscribe((event) => {
       const origin = this._getOriginElement();
       const target = _getEventTarget(event);
-      if (!origin || origin !== target && !origin.contains(target)) {
+      if (!origin || (origin !== target && !origin.contains(target))) {
         this.overlayOutsideClick.next(event);
       }
     });
   }
   /** Builds the overlay config based on the directive's inputs */
   _buildConfig() {
-    const positionStrategy = this._position = this.positionStrategy || this._createPositionStrategy();
+    const positionStrategy = (this._position =
+      this.positionStrategy || this._createPositionStrategy());
     const overlayConfig = new OverlayConfig({
       direction: this._dir,
       positionStrategy,
@@ -2425,11 +2906,21 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
       offsetY: currentPosition.offsetY || this.offsetY,
       panelClass: currentPosition.panelClass || void 0
     }));
-    return positionStrategy.setOrigin(this._getOrigin()).withPositions(positions).withFlexibleDimensions(this.flexibleDimensions).withPush(this.push).withGrowAfterOpen(this.growAfterOpen).withViewportMargin(this.viewportMargin).withLockedPosition(this.lockPosition).withTransformOriginOn(this.transformOriginSelector);
+    return positionStrategy
+      .setOrigin(this._getOrigin())
+      .withPositions(positions)
+      .withFlexibleDimensions(this.flexibleDimensions)
+      .withPush(this.push)
+      .withGrowAfterOpen(this.growAfterOpen)
+      .withViewportMargin(this.viewportMargin)
+      .withLockedPosition(this.lockPosition)
+      .withTransformOriginOn(this.transformOriginSelector);
   }
   /** Returns the position strategy of the overlay to be set on the overlay config */
   _createPositionStrategy() {
-    const strategy = this._overlay.position().flexibleConnectedTo(this._getOrigin());
+    const strategy = this._overlay
+      .position()
+      .flexibleConnectedTo(this._getOrigin());
     this._updatePositionStrategy(strategy);
     return strategy;
   }
@@ -2447,7 +2938,7 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
     if (this.origin instanceof ElementRef) {
       return this.origin.nativeElement;
     }
-    if (typeof Element !== "undefined" && this.origin instanceof Element) {
+    if (typeof Element !== 'undefined' && this.origin instanceof Element) {
       return this.origin;
     }
     return null;
@@ -2463,20 +2954,24 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
       this._overlayRef.attach(this._templatePortal);
     }
     if (this.hasBackdrop) {
-      this._backdropSubscription = this._overlayRef.backdropClick().subscribe((event) => {
-        this.backdropClick.emit(event);
-      });
+      this._backdropSubscription = this._overlayRef
+        .backdropClick()
+        .subscribe((event) => {
+          this.backdropClick.emit(event);
+        });
     } else {
       this._backdropSubscription.unsubscribe();
     }
     this._positionSubscription.unsubscribe();
     if (this.positionChange.observers.length > 0) {
-      this._positionSubscription = this._position.positionChanges.pipe(takeWhile(() => this.positionChange.observers.length > 0)).subscribe((position) => {
-        this._ngZone.run(() => this.positionChange.emit(position));
-        if (this.positionChange.observers.length === 0) {
-          this._positionSubscription.unsubscribe();
-        }
-      });
+      this._positionSubscription = this._position.positionChanges
+        .pipe(takeWhile(() => this.positionChange.observers.length > 0))
+        .subscribe((position) => {
+          this._ngZone.run(() => this.positionChange.emit(position));
+          if (this.positionChange.observers.length === 0) {
+            this._positionSubscription.unsubscribe();
+          }
+        });
     }
   }
   /** Detaches the overlay and unsubscribes to backdrop clicks if backdrop exists */
@@ -2488,200 +2983,334 @@ var _CdkConnectedOverlay = class _CdkConnectedOverlay {
     this._positionSubscription.unsubscribe();
   }
 };
-_CdkConnectedOverlay.ɵfac = function CdkConnectedOverlay_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _CdkConnectedOverlay)(ɵɵdirectiveInject(Overlay), ɵɵdirectiveInject(TemplateRef), ɵɵdirectiveInject(ViewContainerRef), ɵɵdirectiveInject(CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY), ɵɵdirectiveInject(Directionality, 8));
+_CdkConnectedOverlay.ɵfac = function CdkConnectedOverlay_Factory(
+  __ngFactoryType__
+) {
+  return new (__ngFactoryType__ || _CdkConnectedOverlay)(
+    ɵɵdirectiveInject(Overlay),
+    ɵɵdirectiveInject(TemplateRef),
+    ɵɵdirectiveInject(ViewContainerRef),
+    ɵɵdirectiveInject(CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY),
+    ɵɵdirectiveInject(Directionality, 8)
+  );
 };
 _CdkConnectedOverlay.ɵdir = ɵɵdefineDirective({
   type: _CdkConnectedOverlay,
-  selectors: [["", "cdk-connected-overlay", ""], ["", "connected-overlay", ""], ["", "cdkConnectedOverlay", ""]],
+  selectors: [
+    ['', 'cdk-connected-overlay', ''],
+    ['', 'connected-overlay', ''],
+    ['', 'cdkConnectedOverlay', '']
+  ],
   inputs: {
-    origin: [0, "cdkConnectedOverlayOrigin", "origin"],
-    positions: [0, "cdkConnectedOverlayPositions", "positions"],
-    positionStrategy: [0, "cdkConnectedOverlayPositionStrategy", "positionStrategy"],
-    offsetX: [0, "cdkConnectedOverlayOffsetX", "offsetX"],
-    offsetY: [0, "cdkConnectedOverlayOffsetY", "offsetY"],
-    width: [0, "cdkConnectedOverlayWidth", "width"],
-    height: [0, "cdkConnectedOverlayHeight", "height"],
-    minWidth: [0, "cdkConnectedOverlayMinWidth", "minWidth"],
-    minHeight: [0, "cdkConnectedOverlayMinHeight", "minHeight"],
-    backdropClass: [0, "cdkConnectedOverlayBackdropClass", "backdropClass"],
-    panelClass: [0, "cdkConnectedOverlayPanelClass", "panelClass"],
-    viewportMargin: [0, "cdkConnectedOverlayViewportMargin", "viewportMargin"],
-    scrollStrategy: [0, "cdkConnectedOverlayScrollStrategy", "scrollStrategy"],
-    open: [0, "cdkConnectedOverlayOpen", "open"],
-    disableClose: [0, "cdkConnectedOverlayDisableClose", "disableClose"],
-    transformOriginSelector: [0, "cdkConnectedOverlayTransformOriginOn", "transformOriginSelector"],
-    hasBackdrop: [2, "cdkConnectedOverlayHasBackdrop", "hasBackdrop", booleanAttribute],
-    lockPosition: [2, "cdkConnectedOverlayLockPosition", "lockPosition", booleanAttribute],
-    flexibleDimensions: [2, "cdkConnectedOverlayFlexibleDimensions", "flexibleDimensions", booleanAttribute],
-    growAfterOpen: [2, "cdkConnectedOverlayGrowAfterOpen", "growAfterOpen", booleanAttribute],
-    push: [2, "cdkConnectedOverlayPush", "push", booleanAttribute],
-    disposeOnNavigation: [2, "cdkConnectedOverlayDisposeOnNavigation", "disposeOnNavigation", booleanAttribute]
+    origin: [0, 'cdkConnectedOverlayOrigin', 'origin'],
+    positions: [0, 'cdkConnectedOverlayPositions', 'positions'],
+    positionStrategy: [
+      0,
+      'cdkConnectedOverlayPositionStrategy',
+      'positionStrategy'
+    ],
+    offsetX: [0, 'cdkConnectedOverlayOffsetX', 'offsetX'],
+    offsetY: [0, 'cdkConnectedOverlayOffsetY', 'offsetY'],
+    width: [0, 'cdkConnectedOverlayWidth', 'width'],
+    height: [0, 'cdkConnectedOverlayHeight', 'height'],
+    minWidth: [0, 'cdkConnectedOverlayMinWidth', 'minWidth'],
+    minHeight: [0, 'cdkConnectedOverlayMinHeight', 'minHeight'],
+    backdropClass: [0, 'cdkConnectedOverlayBackdropClass', 'backdropClass'],
+    panelClass: [0, 'cdkConnectedOverlayPanelClass', 'panelClass'],
+    viewportMargin: [0, 'cdkConnectedOverlayViewportMargin', 'viewportMargin'],
+    scrollStrategy: [0, 'cdkConnectedOverlayScrollStrategy', 'scrollStrategy'],
+    open: [0, 'cdkConnectedOverlayOpen', 'open'],
+    disableClose: [0, 'cdkConnectedOverlayDisableClose', 'disableClose'],
+    transformOriginSelector: [
+      0,
+      'cdkConnectedOverlayTransformOriginOn',
+      'transformOriginSelector'
+    ],
+    hasBackdrop: [
+      2,
+      'cdkConnectedOverlayHasBackdrop',
+      'hasBackdrop',
+      booleanAttribute
+    ],
+    lockPosition: [
+      2,
+      'cdkConnectedOverlayLockPosition',
+      'lockPosition',
+      booleanAttribute
+    ],
+    flexibleDimensions: [
+      2,
+      'cdkConnectedOverlayFlexibleDimensions',
+      'flexibleDimensions',
+      booleanAttribute
+    ],
+    growAfterOpen: [
+      2,
+      'cdkConnectedOverlayGrowAfterOpen',
+      'growAfterOpen',
+      booleanAttribute
+    ],
+    push: [2, 'cdkConnectedOverlayPush', 'push', booleanAttribute],
+    disposeOnNavigation: [
+      2,
+      'cdkConnectedOverlayDisposeOnNavigation',
+      'disposeOnNavigation',
+      booleanAttribute
+    ]
   },
   outputs: {
-    backdropClick: "backdropClick",
-    positionChange: "positionChange",
-    attach: "attach",
-    detach: "detach",
-    overlayKeydown: "overlayKeydown",
-    overlayOutsideClick: "overlayOutsideClick"
+    backdropClick: 'backdropClick',
+    positionChange: 'positionChange',
+    attach: 'attach',
+    detach: 'detach',
+    overlayKeydown: 'overlayKeydown',
+    overlayOutsideClick: 'overlayOutsideClick'
   },
-  exportAs: ["cdkConnectedOverlay"],
+  exportAs: ['cdkConnectedOverlay'],
   standalone: true,
   features: [ɵɵInputTransformsFeature, ɵɵNgOnChangesFeature]
 });
 var CdkConnectedOverlay = _CdkConnectedOverlay;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CdkConnectedOverlay, [{
-    type: Directive,
-    args: [{
-      selector: "[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]",
-      exportAs: "cdkConnectedOverlay",
-      standalone: true
-    }]
-  }], () => [{
-    type: Overlay
-  }, {
-    type: TemplateRef
-  }, {
-    type: ViewContainerRef
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY]
-    }]
-  }, {
-    type: Directionality,
-    decorators: [{
-      type: Optional
-    }]
-  }], {
-    origin: [{
-      type: Input,
-      args: ["cdkConnectedOverlayOrigin"]
-    }],
-    positions: [{
-      type: Input,
-      args: ["cdkConnectedOverlayPositions"]
-    }],
-    positionStrategy: [{
-      type: Input,
-      args: ["cdkConnectedOverlayPositionStrategy"]
-    }],
-    offsetX: [{
-      type: Input,
-      args: ["cdkConnectedOverlayOffsetX"]
-    }],
-    offsetY: [{
-      type: Input,
-      args: ["cdkConnectedOverlayOffsetY"]
-    }],
-    width: [{
-      type: Input,
-      args: ["cdkConnectedOverlayWidth"]
-    }],
-    height: [{
-      type: Input,
-      args: ["cdkConnectedOverlayHeight"]
-    }],
-    minWidth: [{
-      type: Input,
-      args: ["cdkConnectedOverlayMinWidth"]
-    }],
-    minHeight: [{
-      type: Input,
-      args: ["cdkConnectedOverlayMinHeight"]
-    }],
-    backdropClass: [{
-      type: Input,
-      args: ["cdkConnectedOverlayBackdropClass"]
-    }],
-    panelClass: [{
-      type: Input,
-      args: ["cdkConnectedOverlayPanelClass"]
-    }],
-    viewportMargin: [{
-      type: Input,
-      args: ["cdkConnectedOverlayViewportMargin"]
-    }],
-    scrollStrategy: [{
-      type: Input,
-      args: ["cdkConnectedOverlayScrollStrategy"]
-    }],
-    open: [{
-      type: Input,
-      args: ["cdkConnectedOverlayOpen"]
-    }],
-    disableClose: [{
-      type: Input,
-      args: ["cdkConnectedOverlayDisableClose"]
-    }],
-    transformOriginSelector: [{
-      type: Input,
-      args: ["cdkConnectedOverlayTransformOriginOn"]
-    }],
-    hasBackdrop: [{
-      type: Input,
-      args: [{
-        alias: "cdkConnectedOverlayHasBackdrop",
-        transform: booleanAttribute
-      }]
-    }],
-    lockPosition: [{
-      type: Input,
-      args: [{
-        alias: "cdkConnectedOverlayLockPosition",
-        transform: booleanAttribute
-      }]
-    }],
-    flexibleDimensions: [{
-      type: Input,
-      args: [{
-        alias: "cdkConnectedOverlayFlexibleDimensions",
-        transform: booleanAttribute
-      }]
-    }],
-    growAfterOpen: [{
-      type: Input,
-      args: [{
-        alias: "cdkConnectedOverlayGrowAfterOpen",
-        transform: booleanAttribute
-      }]
-    }],
-    push: [{
-      type: Input,
-      args: [{
-        alias: "cdkConnectedOverlayPush",
-        transform: booleanAttribute
-      }]
-    }],
-    disposeOnNavigation: [{
-      type: Input,
-      args: [{
-        alias: "cdkConnectedOverlayDisposeOnNavigation",
-        transform: booleanAttribute
-      }]
-    }],
-    backdropClick: [{
-      type: Output
-    }],
-    positionChange: [{
-      type: Output
-    }],
-    attach: [{
-      type: Output
-    }],
-    detach: [{
-      type: Output
-    }],
-    overlayKeydown: [{
-      type: Output
-    }],
-    overlayOutsideClick: [{
-      type: Output
-    }]
-  });
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      CdkConnectedOverlay,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector:
+                '[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]',
+              exportAs: 'cdkConnectedOverlay',
+              standalone: true
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: Overlay
+        },
+        {
+          type: TemplateRef
+        },
+        {
+          type: ViewContainerRef
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY]
+            }
+          ]
+        },
+        {
+          type: Directionality,
+          decorators: [
+            {
+              type: Optional
+            }
+          ]
+        }
+      ],
+      {
+        origin: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayOrigin']
+          }
+        ],
+        positions: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayPositions']
+          }
+        ],
+        positionStrategy: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayPositionStrategy']
+          }
+        ],
+        offsetX: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayOffsetX']
+          }
+        ],
+        offsetY: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayOffsetY']
+          }
+        ],
+        width: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayWidth']
+          }
+        ],
+        height: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayHeight']
+          }
+        ],
+        minWidth: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayMinWidth']
+          }
+        ],
+        minHeight: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayMinHeight']
+          }
+        ],
+        backdropClass: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayBackdropClass']
+          }
+        ],
+        panelClass: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayPanelClass']
+          }
+        ],
+        viewportMargin: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayViewportMargin']
+          }
+        ],
+        scrollStrategy: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayScrollStrategy']
+          }
+        ],
+        open: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayOpen']
+          }
+        ],
+        disableClose: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayDisableClose']
+          }
+        ],
+        transformOriginSelector: [
+          {
+            type: Input,
+            args: ['cdkConnectedOverlayTransformOriginOn']
+          }
+        ],
+        hasBackdrop: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: 'cdkConnectedOverlayHasBackdrop',
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        lockPosition: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: 'cdkConnectedOverlayLockPosition',
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        flexibleDimensions: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: 'cdkConnectedOverlayFlexibleDimensions',
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        growAfterOpen: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: 'cdkConnectedOverlayGrowAfterOpen',
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        push: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: 'cdkConnectedOverlayPush',
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        disposeOnNavigation: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: 'cdkConnectedOverlayDisposeOnNavigation',
+                transform: booleanAttribute
+              }
+            ]
+          }
+        ],
+        backdropClick: [
+          {
+            type: Output
+          }
+        ],
+        positionChange: [
+          {
+            type: Output
+          }
+        ],
+        attach: [
+          {
+            type: Output
+          }
+        ],
+        detach: [
+          {
+            type: Output
+          }
+        ],
+        overlayKeydown: [
+          {
+            type: Output
+          }
+        ],
+        overlayOutsideClick: [
+          {
+            type: Output
+          }
+        ]
+      }
+    );
 })();
 function CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay) {
   return () => overlay.scrollStrategies.reposition();
@@ -2691,14 +3320,19 @@ var CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER = {
   deps: [Overlay],
   useFactory: CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY
 };
-var _OverlayModule = class _OverlayModule {
-};
+var _OverlayModule = class _OverlayModule {};
 _OverlayModule.ɵfac = function OverlayModule_Factory(__ngFactoryType__) {
   return new (__ngFactoryType__ || _OverlayModule)();
 };
 _OverlayModule.ɵmod = ɵɵdefineNgModule({
   type: _OverlayModule,
-  imports: [BidiModule, PortalModule, ScrollingModule, CdkConnectedOverlay, CdkOverlayOrigin],
+  imports: [
+    BidiModule,
+    PortalModule,
+    ScrollingModule,
+    CdkConnectedOverlay,
+    CdkOverlayOrigin
+  ],
   exports: [CdkConnectedOverlay, CdkOverlayOrigin, ScrollingModule]
 });
 _OverlayModule.ɵinj = ɵɵdefineInjector({
@@ -2707,14 +3341,33 @@ _OverlayModule.ɵinj = ɵɵdefineInjector({
 });
 var OverlayModule = _OverlayModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(OverlayModule, [{
-    type: NgModule,
-    args: [{
-      imports: [BidiModule, PortalModule, ScrollingModule, CdkConnectedOverlay, CdkOverlayOrigin],
-      exports: [CdkConnectedOverlay, CdkOverlayOrigin, ScrollingModule],
-      providers: [Overlay, CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER]
-    }]
-  }], null, null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      OverlayModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              imports: [
+                BidiModule,
+                PortalModule,
+                ScrollingModule,
+                CdkConnectedOverlay,
+                CdkOverlayOrigin
+              ],
+              exports: [CdkConnectedOverlay, CdkOverlayOrigin, ScrollingModule],
+              providers: [
+                Overlay,
+                CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER
+              ]
+            }
+          ]
+        }
+      ],
+      null,
+      null
+    );
 })();
 var _FullscreenOverlayContainer = class _FullscreenOverlayContainer extends OverlayContainer {
   constructor(_document, platform) {
@@ -2723,13 +3376,18 @@ var _FullscreenOverlayContainer = class _FullscreenOverlayContainer extends Over
   ngOnDestroy() {
     super.ngOnDestroy();
     if (this._fullScreenEventName && this._fullScreenListener) {
-      this._document.removeEventListener(this._fullScreenEventName, this._fullScreenListener);
+      this._document.removeEventListener(
+        this._fullScreenEventName,
+        this._fullScreenListener
+      );
     }
   }
   _createContainer() {
     super._createContainer();
     this._adjustParentForFullscreenChange();
-    this._addFullscreenChangeListener(() => this._adjustParentForFullscreenChange());
+    this._addFullscreenChangeListener(() =>
+      this._adjustParentForFullscreenChange()
+    );
   }
   _adjustParentForFullscreenChange() {
     if (!this._containerElement) {
@@ -2753,13 +3411,13 @@ var _FullscreenOverlayContainer = class _FullscreenOverlayContainer extends Over
     if (!this._fullScreenEventName) {
       const _document = this._document;
       if (_document.fullscreenEnabled) {
-        this._fullScreenEventName = "fullscreenchange";
+        this._fullScreenEventName = 'fullscreenchange';
       } else if (_document.webkitFullscreenEnabled) {
-        this._fullScreenEventName = "webkitfullscreenchange";
+        this._fullScreenEventName = 'webkitfullscreenchange';
       } else if (_document.mozFullScreenEnabled) {
-        this._fullScreenEventName = "mozfullscreenchange";
+        this._fullScreenEventName = 'mozfullscreenchange';
       } else if (_document.msFullscreenEnabled) {
-        this._fullScreenEventName = "MSFullscreenChange";
+        this._fullScreenEventName = 'MSFullscreenChange';
       }
     }
     return this._fullScreenEventName;
@@ -2770,33 +3428,59 @@ var _FullscreenOverlayContainer = class _FullscreenOverlayContainer extends Over
    */
   getFullscreenElement() {
     const _document = this._document;
-    return _document.fullscreenElement || _document.webkitFullscreenElement || _document.mozFullScreenElement || _document.msFullscreenElement || null;
+    return (
+      _document.fullscreenElement ||
+      _document.webkitFullscreenElement ||
+      _document.mozFullScreenElement ||
+      _document.msFullscreenElement ||
+      null
+    );
   }
 };
-_FullscreenOverlayContainer.ɵfac = function FullscreenOverlayContainer_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || _FullscreenOverlayContainer)(ɵɵinject(DOCUMENT), ɵɵinject(Platform));
+_FullscreenOverlayContainer.ɵfac = function FullscreenOverlayContainer_Factory(
+  __ngFactoryType__
+) {
+  return new (__ngFactoryType__ || _FullscreenOverlayContainer)(
+    ɵɵinject(DOCUMENT),
+    ɵɵinject(Platform)
+  );
 };
 _FullscreenOverlayContainer.ɵprov = ɵɵdefineInjectable({
   token: _FullscreenOverlayContainer,
   factory: _FullscreenOverlayContainer.ɵfac,
-  providedIn: "root"
+  providedIn: 'root'
 });
 var FullscreenOverlayContainer = _FullscreenOverlayContainer;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FullscreenOverlayContainer, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: void 0,
-    decorators: [{
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }, {
-    type: Platform
-  }], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      FullscreenOverlayContainer,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: 'root'
+            }
+          ]
+        }
+      ],
+      () => [
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Inject,
+              args: [DOCUMENT]
+            }
+          ]
+        },
+        {
+          type: Platform
+        }
+      ],
+      null
+    );
 })();
 
 export {
@@ -2807,4 +3491,4 @@ export {
   CdkConnectedOverlay,
   OverlayModule
 };
-//# sourceMappingURL=chunk-G3AG3DYJ.js.map
+//# sourceMappingURL=chunk-YMF6PVUH.js.map

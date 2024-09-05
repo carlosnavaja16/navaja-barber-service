@@ -6,5 +6,9 @@
   },
   "scripts": {
     "start": "tsx --watch ./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "exports": {
+    "./router": "./src/router.ts"
   }
 }

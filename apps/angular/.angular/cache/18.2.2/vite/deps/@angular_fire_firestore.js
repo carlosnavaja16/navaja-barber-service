@@ -114,10 +114,8 @@ import {
   waitForPendingWrites,
   where,
   writeBatch
-} from "./chunk-TKPIZR3G.js";
-import {
-  AuthInstances
-} from "./chunk-F7JZS252.js";
+} from './chunk-TKPIZR3G.js';
+import { AuthInstances } from './chunk-C5PJ66XI.js';
 import {
   FirebaseApp,
   FirebaseApps,
@@ -127,10 +125,8 @@ import {
   ɵgetAllInstancesOf,
   ɵgetDefaultInstanceOf,
   ɵzoneWrap
-} from "./chunk-TBITPHVM.js";
-import {
-  registerVersion
-} from "./chunk-N4CW4GVR.js";
+} from './chunk-JHJIENA6.js';
+import { registerVersion } from './chunk-N4CW4GVR.js';
 import {
   InjectionToken,
   Injector,
@@ -141,9 +137,9 @@ import {
   setClassMetadata,
   ɵɵdefineInjector,
   ɵɵdefineNgModule
-} from "./chunk-PJI43AEF.js";
-import "./chunk-OME3B2Y6.js";
-import "./chunk-XTZO27KL.js";
+} from './chunk-OOI6D476.js';
+import './chunk-XTZO27KL.js';
+import './chunk-OME3B2Y6.js';
 import {
   Observable,
   concatMap,
@@ -157,27 +153,31 @@ import {
   scan,
   startWith,
   timer
-} from "./chunk-BO5GAICC.js";
-import "./chunk-5K356HEJ.js";
+} from './chunk-BO5GAICC.js';
+import './chunk-5K356HEJ.js';
 
 // ../../node_modules/rxfire/firestore/index.esm.js
-var __assign = function() {
-  __assign = Object.assign || function __assign2(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
-  };
+var __assign = function () {
+  __assign =
+    Object.assign ||
+    function __assign2(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s)
+          if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+      return t;
+    };
   return __assign.apply(this, arguments);
 };
 function __spreadArray(to, from2, pack) {
-  if (pack || arguments.length === 2) for (var i = 0, l = from2.length, ar; i < l; i++) {
-    if (ar || !(i in from2)) {
-      if (!ar) ar = Array.prototype.slice.call(from2, 0, i);
-      ar[i] = from2[i];
+  if (pack || arguments.length === 2)
+    for (var i = 0, l = from2.length, ar; i < l; i++) {
+      if (ar || !(i in from2)) {
+        if (!ar) ar = Array.prototype.slice.call(from2, 0, i);
+        ar[i] = from2[i];
+      }
     }
-  }
   return to.concat(ar || Array.prototype.slice.call(from2));
 }
 var DEFAULT_OPTIONS = {
@@ -187,7 +187,7 @@ function fromRef(ref, options) {
   if (options === void 0) {
     options = DEFAULT_OPTIONS;
   }
-  return new Observable(function(subscriber) {
+  return new Observable(function (subscriber) {
     var unsubscribe = onSnapshot(ref, options, {
       next: subscriber.next.bind(subscriber),
       error: subscriber.error.bind(subscriber),
@@ -207,9 +207,11 @@ function docData(ref, options) {
   if (options === void 0) {
     options = {};
   }
-  return doc2(ref).pipe(map(function(snap) {
-    return snapToData(snap, options);
-  }));
+  return doc2(ref).pipe(
+    map(function (snap) {
+      return snapToData(snap, options);
+    })
+  );
 }
 function snapToData(snapshot, options) {
   var _a;
@@ -217,14 +219,22 @@ function snapToData(snapshot, options) {
     options = {};
   }
   var data = snapshot.data(options);
-  if (!snapshot.exists() || typeof data !== "object" || data === null || !options.idField) {
+  if (
+    !snapshot.exists() ||
+    typeof data !== 'object' ||
+    data === null ||
+    !options.idField
+  ) {
     return data;
   }
-  return __assign(__assign({}, data), (_a = {}, _a[options.idField] = snapshot.id, _a));
+  return __assign(
+    __assign({}, data),
+    ((_a = {}), (_a[options.idField] = snapshot.id), _a)
+  );
 }
-var ALL_EVENTS = ["added", "modified", "removed"];
-var filterEvents = function(events) {
-  return filter(function(changes) {
+var ALL_EVENTS = ['added', 'modified', 'removed'];
+var filterEvents = function (events) {
+  return filter(function (changes) {
     var hasChange = false;
     for (var i = 0; i < changes.length; i++) {
       var change = changes[i];
@@ -242,19 +252,28 @@ function sliceAndSplice(original, start, deleteCount) {
     args[_i - 3] = arguments[_i];
   }
   var returnArray = original.slice();
-  returnArray.splice.apply(returnArray, __spreadArray([start, deleteCount], args, false));
+  returnArray.splice.apply(
+    returnArray,
+    __spreadArray([start, deleteCount], args, false)
+  );
   return returnArray;
 }
 function processIndividualChange(combined, change) {
   switch (change.type) {
-    case "added":
-      if (combined[change.newIndex] && refEqual(combined[change.newIndex].doc.ref, change.doc.ref)) ;
+    case 'added':
+      if (
+        combined[change.newIndex] &&
+        refEqual(combined[change.newIndex].doc.ref, change.doc.ref)
+      );
       else {
         return sliceAndSplice(combined, change.newIndex, 0, change);
       }
       break;
-    case "modified":
-      if (combined[change.oldIndex] == null || refEqual(combined[change.oldIndex].doc.ref, change.doc.ref)) {
+    case 'modified':
+      if (
+        combined[change.oldIndex] == null ||
+        refEqual(combined[change.oldIndex].doc.ref, change.doc.ref)
+      ) {
         if (change.oldIndex !== change.newIndex) {
           var copiedArray = combined.slice();
           copiedArray.splice(change.oldIndex, 1);
@@ -265,8 +284,11 @@ function processIndividualChange(combined, change) {
         }
       }
       break;
-    case "removed":
-      if (combined[change.oldIndex] && refEqual(combined[change.oldIndex].doc.ref, change.doc.ref)) {
+    case 'removed':
+      if (
+        combined[change.oldIndex] &&
+        refEqual(combined[change.oldIndex].doc.ref, change.doc.ref)
+      ) {
         return sliceAndSplice(combined, change.oldIndex, 1);
       }
       break;
@@ -277,27 +299,32 @@ function processDocumentChanges(current, changes, events) {
   if (events === void 0) {
     events = ALL_EVENTS;
   }
-  changes.forEach(function(change) {
+  changes.forEach(function (change) {
     if (events.indexOf(change.type) > -1) {
       current = processIndividualChange(current, change);
     }
   });
   return current;
 }
-var windowwise = function() {
+var windowwise = function () {
   return pipe(startWith(void 0), pairwise());
 };
-var metaDataEquals = function(a, b) {
+var metaDataEquals = function (a, b) {
   return JSON.stringify(a.metadata) === JSON.stringify(b.metadata);
 };
-var filterEmptyUnlessFirst = function() {
-  return pipe(windowwise(), filter(function(_a) {
-    var prior = _a[0], current = _a[1];
-    return current.length > 0 || prior === void 0;
-  }), map(function(_a) {
-    var current = _a[1];
-    return current;
-  }));
+var filterEmptyUnlessFirst = function () {
+  return pipe(
+    windowwise(),
+    filter(function (_a) {
+      var prior = _a[0],
+        current = _a[1];
+      return current.length > 0 || prior === void 0;
+    }),
+    map(function (_a) {
+      var current = _a[1];
+      return current;
+    })
+  );
 };
 function collectionChanges(query3, options) {
   if (options === void 0) {
@@ -305,77 +332,102 @@ function collectionChanges(query3, options) {
   }
   return fromRef(query3, {
     includeMetadataChanges: true
-  }).pipe(windowwise(), map(function(_a) {
-    var priorSnapshot = _a[0], currentSnapshot = _a[1];
-    var docChanges = currentSnapshot.docChanges();
-    if (priorSnapshot && !metaDataEquals(priorSnapshot, currentSnapshot)) {
-      currentSnapshot.docs.forEach(function(currentDocSnapshot, currentIndex) {
-        var currentDocChange = docChanges.find(function(c) {
-          return refEqual(c.doc.ref, currentDocSnapshot.ref);
-        });
-        if (currentDocChange) {
-          if (metaDataEquals(currentDocChange.doc, currentDocSnapshot)) {
-            return;
+  }).pipe(
+    windowwise(),
+    map(function (_a) {
+      var priorSnapshot = _a[0],
+        currentSnapshot = _a[1];
+      var docChanges = currentSnapshot.docChanges();
+      if (priorSnapshot && !metaDataEquals(priorSnapshot, currentSnapshot)) {
+        currentSnapshot.docs.forEach(
+          function (currentDocSnapshot, currentIndex) {
+            var currentDocChange = docChanges.find(function (c) {
+              return refEqual(c.doc.ref, currentDocSnapshot.ref);
+            });
+            if (currentDocChange) {
+              if (metaDataEquals(currentDocChange.doc, currentDocSnapshot)) {
+                return;
+              }
+            } else {
+              var priorDocSnapshot =
+                priorSnapshot === null || priorSnapshot === void 0
+                  ? void 0
+                  : priorSnapshot.docs.find(function (d) {
+                      return refEqual(d.ref, currentDocSnapshot.ref);
+                    });
+              if (
+                priorDocSnapshot &&
+                metaDataEquals(priorDocSnapshot, currentDocSnapshot)
+              ) {
+                return;
+              }
+            }
+            docChanges.push({
+              oldIndex: currentIndex,
+              newIndex: currentIndex,
+              type: 'modified',
+              doc: currentDocSnapshot
+            });
           }
-        } else {
-          var priorDocSnapshot = priorSnapshot === null || priorSnapshot === void 0 ? void 0 : priorSnapshot.docs.find(function(d) {
-            return refEqual(d.ref, currentDocSnapshot.ref);
-          });
-          if (priorDocSnapshot && metaDataEquals(priorDocSnapshot, currentDocSnapshot)) {
-            return;
-          }
-        }
-        docChanges.push({
-          oldIndex: currentIndex,
-          newIndex: currentIndex,
-          type: "modified",
-          doc: currentDocSnapshot
-        });
-      });
-    }
-    return docChanges;
-  }), filterEvents(options.events || ALL_EVENTS), filterEmptyUnlessFirst());
+        );
+      }
+      return docChanges;
+    }),
+    filterEvents(options.events || ALL_EVENTS),
+    filterEmptyUnlessFirst()
+  );
 }
 function collection2(query3) {
   return fromRef(query3, {
     includeMetadataChanges: true
-  }).pipe(map(function(changes) {
-    return changes.docs;
-  }));
+  }).pipe(
+    map(function (changes) {
+      return changes.docs;
+    })
+  );
 }
 function sortedChanges(query3, options) {
   if (options === void 0) {
     options = {};
   }
-  return collectionChanges(query3, options).pipe(scan(function(current, changes) {
-    return processDocumentChanges(current, changes, options.events);
-  }, []), distinctUntilChanged());
+  return collectionChanges(query3, options).pipe(
+    scan(function (current, changes) {
+      return processDocumentChanges(current, changes, options.events);
+    }, []),
+    distinctUntilChanged()
+  );
 }
 function auditTrail(query3, options) {
   if (options === void 0) {
     options = {};
   }
-  return collectionChanges(query3, options).pipe(scan(function(current, action) {
-    return __spreadArray(__spreadArray([], current, true), action, true);
-  }, []));
+  return collectionChanges(query3, options).pipe(
+    scan(function (current, action) {
+      return __spreadArray(__spreadArray([], current, true), action, true);
+    }, [])
+  );
 }
 function collectionData(query3, options) {
   if (options === void 0) {
     options = {};
   }
-  return collection2(query3).pipe(map(function(arr) {
-    return arr.map(function(snap) {
-      return snapToData(snap, options);
-    });
-  }));
+  return collection2(query3).pipe(
+    map(function (arr) {
+      return arr.map(function (snap) {
+        return snapToData(snap, options);
+      });
+    })
+  );
 }
 function collectionCountSnap(query3) {
   return from(getCountFromServer(query3));
 }
 function collectionCount(query3) {
-  return collectionCountSnap(query3).pipe(map(function(snap) {
-    return snap.data().count;
-  }));
+  return collectionCountSnap(query3).pipe(
+    map(function (snap) {
+      return snap.data().count;
+    })
+  );
 }
 
 // ../../node_modules/@angular/fire/fesm2022/angular-fire-firestore.mjs
@@ -384,16 +436,25 @@ var Firestore = class {
     return firestore;
   }
 };
-var FIRESTORE_PROVIDER_NAME = "firestore";
+var FIRESTORE_PROVIDER_NAME = 'firestore';
 var FirestoreInstances = class {
   constructor() {
     return ɵgetAllInstancesOf(FIRESTORE_PROVIDER_NAME);
   }
 };
-var firestoreInstance$ = timer(0, 300).pipe(concatMap(() => from(ɵgetAllInstancesOf(FIRESTORE_PROVIDER_NAME))), distinct());
-var PROVIDED_FIRESTORE_INSTANCES = new InjectionToken("angularfire2.firestore-instances");
+var firestoreInstance$ = timer(0, 300).pipe(
+  concatMap(() => from(ɵgetAllInstancesOf(FIRESTORE_PROVIDER_NAME))),
+  distinct()
+);
+var PROVIDED_FIRESTORE_INSTANCES = new InjectionToken(
+  'angularfire2.firestore-instances'
+);
 function defaultFirestoreInstanceFactory(provided, defaultApp) {
-  const defaultFirestore = ɵgetDefaultInstanceOf(FIRESTORE_PROVIDER_NAME, provided, defaultApp);
+  const defaultFirestore = ɵgetDefaultInstanceOf(
+    FIRESTORE_PROVIDER_NAME,
+    provided,
+    defaultApp
+  );
   return defaultFirestore && new Firestore(defaultFirestore);
 }
 function firestoreInstanceFactory(fn) {
@@ -413,7 +474,7 @@ var DEFAULT_FIRESTORE_INSTANCE_PROVIDER = {
 };
 var FirestoreModule = class _FirestoreModule {
   constructor() {
-    registerVersion("angularfire", VERSION.full, "fst");
+    registerVersion('angularfire', VERSION.full, 'fst');
   }
   static ɵfac = function FirestoreModule_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _FirestoreModule)();
@@ -422,34 +483,54 @@ var FirestoreModule = class _FirestoreModule {
     type: _FirestoreModule
   });
   static ɵinj = ɵɵdefineInjector({
-    providers: [DEFAULT_FIRESTORE_INSTANCE_PROVIDER, FIRESTORE_INSTANCES_PROVIDER]
+    providers: [
+      DEFAULT_FIRESTORE_INSTANCE_PROVIDER,
+      FIRESTORE_INSTANCES_PROVIDER
+    ]
   });
 };
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FirestoreModule, [{
-    type: NgModule,
-    args: [{
-      providers: [DEFAULT_FIRESTORE_INSTANCE_PROVIDER, FIRESTORE_INSTANCES_PROVIDER]
-    }]
-  }], () => [], null);
+  (typeof ngDevMode === 'undefined' || ngDevMode) &&
+    setClassMetadata(
+      FirestoreModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              providers: [
+                DEFAULT_FIRESTORE_INSTANCE_PROVIDER,
+                FIRESTORE_INSTANCES_PROVIDER
+              ]
+            }
+          ]
+        }
+      ],
+      () => [],
+      null
+    );
 })();
 function provideFirestore(fn, ...deps) {
-  registerVersion("angularfire", VERSION.full, "fst");
-  return makeEnvironmentProviders([DEFAULT_FIRESTORE_INSTANCE_PROVIDER, FIRESTORE_INSTANCES_PROVIDER, {
-    provide: PROVIDED_FIRESTORE_INSTANCES,
-    useFactory: firestoreInstanceFactory(fn),
-    multi: true,
-    deps: [
-      NgZone,
-      Injector,
-      ɵAngularFireSchedulers,
-      FirebaseApps,
-      // Firestore+Auth work better if Auth is loaded first
-      [new Optional(), AuthInstances],
-      [new Optional(), ɵAppCheckInstances],
-      ...deps
-    ]
-  }]);
+  registerVersion('angularfire', VERSION.full, 'fst');
+  return makeEnvironmentProviders([
+    DEFAULT_FIRESTORE_INSTANCE_PROVIDER,
+    FIRESTORE_INSTANCES_PROVIDER,
+    {
+      provide: PROVIDED_FIRESTORE_INSTANCES,
+      useFactory: firestoreInstanceFactory(fn),
+      multi: true,
+      deps: [
+        NgZone,
+        Injector,
+        ɵAngularFireSchedulers,
+        FirebaseApps,
+        // Firestore+Auth work better if Auth is loaded first
+        [new Optional(), AuthInstances],
+        [new Optional(), ɵAppCheckInstances],
+        ...deps
+      ]
+    }
+  ]);
 }
 var collectionChanges2 = ɵzoneWrap(collectionChanges, true);
 var collectionSnapshots = ɵzoneWrap(collection2, true);
@@ -474,17 +555,29 @@ var collection3 = ɵzoneWrap(collection, true);
 var collectionGroup2 = ɵzoneWrap(collectionGroup, true);
 var connectFirestoreEmulator2 = ɵzoneWrap(connectFirestoreEmulator, true);
 var count2 = ɵzoneWrap(count, true);
-var deleteAllPersistentCacheIndexes2 = ɵzoneWrap(deleteAllPersistentCacheIndexes, true);
+var deleteAllPersistentCacheIndexes2 = ɵzoneWrap(
+  deleteAllPersistentCacheIndexes,
+  true
+);
 var deleteDoc2 = ɵzoneWrap(deleteDoc, true);
 var deleteField2 = ɵzoneWrap(deleteField, true);
 var disableNetwork2 = ɵzoneWrap(disableNetwork, true);
-var disablePersistentCacheIndexAutoCreation2 = ɵzoneWrap(disablePersistentCacheIndexAutoCreation, true);
+var disablePersistentCacheIndexAutoCreation2 = ɵzoneWrap(
+  disablePersistentCacheIndexAutoCreation,
+  true
+);
 var doc3 = ɵzoneWrap(doc, true);
 var documentId2 = ɵzoneWrap(documentId, true);
 var enableIndexedDbPersistence2 = ɵzoneWrap(enableIndexedDbPersistence, true);
-var enableMultiTabIndexedDbPersistence2 = ɵzoneWrap(enableMultiTabIndexedDbPersistence, true);
+var enableMultiTabIndexedDbPersistence2 = ɵzoneWrap(
+  enableMultiTabIndexedDbPersistence,
+  true
+);
 var enableNetwork2 = ɵzoneWrap(enableNetwork, true);
-var enablePersistentCacheIndexAutoCreation2 = ɵzoneWrap(enablePersistentCacheIndexAutoCreation, true);
+var enablePersistentCacheIndexAutoCreation2 = ɵzoneWrap(
+  enablePersistentCacheIndexAutoCreation,
+  true
+);
 var endAt2 = ɵzoneWrap(endAt, true);
 var endBefore2 = ɵzoneWrap(endBefore, true);
 var getAggregateFromServer2 = ɵzoneWrap(getAggregateFromServer, true);
@@ -496,7 +589,10 @@ var getDocs2 = ɵzoneWrap(getDocs, true);
 var getDocsFromCache2 = ɵzoneWrap(getDocsFromCache, true);
 var getDocsFromServer2 = ɵzoneWrap(getDocsFromServer, true);
 var getFirestore2 = ɵzoneWrap(getFirestore, true);
-var getPersistentCacheIndexManager2 = ɵzoneWrap(getPersistentCacheIndexManager, true);
+var getPersistentCacheIndexManager2 = ɵzoneWrap(
+  getPersistentCacheIndexManager,
+  true
+);
 var increment2 = ɵzoneWrap(increment, true);
 var initializeFirestore2 = ɵzoneWrap(initializeFirestore, true);
 var limit2 = ɵzoneWrap(limit, true);
@@ -511,7 +607,10 @@ var onSnapshotsInSync2 = ɵzoneWrap(onSnapshotsInSync, true);
 var or2 = ɵzoneWrap(or, true);
 var orderBy2 = ɵzoneWrap(orderBy, true);
 var persistentLocalCache2 = ɵzoneWrap(persistentLocalCache, true);
-var persistentMultipleTabManager2 = ɵzoneWrap(persistentMultipleTabManager, true);
+var persistentMultipleTabManager2 = ɵzoneWrap(
+  persistentMultipleTabManager,
+  true
+);
 var persistentSingleTabManager2 = ɵzoneWrap(persistentSingleTabManager, true);
 var query2 = ɵzoneWrap(query, true);
 var queryEqual2 = ɵzoneWrap(queryEqual, true);

@@ -1,11 +1,7 @@
-import {
-  __async,
-  __spreadProps,
-  __spreadValues
-} from "./chunk-5K356HEJ.js";
+import { __async, __spreadProps, __spreadValues } from './chunk-5K356HEJ.js';
 
 // ../../node_modules/@firebase/util/dist/index.esm2017.js
-var stringToByteArray$1 = function(str) {
+var stringToByteArray$1 = function (str) {
   const out = [];
   let p = 0;
   for (let i = 0; i < str.length; i++) {
@@ -13,46 +9,55 @@ var stringToByteArray$1 = function(str) {
     if (c < 128) {
       out[p++] = c;
     } else if (c < 2048) {
-      out[p++] = c >> 6 | 192;
-      out[p++] = c & 63 | 128;
-    } else if ((c & 64512) === 55296 && i + 1 < str.length && (str.charCodeAt(i + 1) & 64512) === 56320) {
+      out[p++] = (c >> 6) | 192;
+      out[p++] = (c & 63) | 128;
+    } else if (
+      (c & 64512) === 55296 &&
+      i + 1 < str.length &&
+      (str.charCodeAt(i + 1) & 64512) === 56320
+    ) {
       c = 65536 + ((c & 1023) << 10) + (str.charCodeAt(++i) & 1023);
-      out[p++] = c >> 18 | 240;
-      out[p++] = c >> 12 & 63 | 128;
-      out[p++] = c >> 6 & 63 | 128;
-      out[p++] = c & 63 | 128;
+      out[p++] = (c >> 18) | 240;
+      out[p++] = ((c >> 12) & 63) | 128;
+      out[p++] = ((c >> 6) & 63) | 128;
+      out[p++] = (c & 63) | 128;
     } else {
-      out[p++] = c >> 12 | 224;
-      out[p++] = c >> 6 & 63 | 128;
-      out[p++] = c & 63 | 128;
+      out[p++] = (c >> 12) | 224;
+      out[p++] = ((c >> 6) & 63) | 128;
+      out[p++] = (c & 63) | 128;
     }
   }
   return out;
 };
-var byteArrayToString = function(bytes) {
+var byteArrayToString = function (bytes) {
   const out = [];
-  let pos = 0, c = 0;
+  let pos = 0,
+    c = 0;
   while (pos < bytes.length) {
     const c1 = bytes[pos++];
     if (c1 < 128) {
       out[c++] = String.fromCharCode(c1);
     } else if (c1 > 191 && c1 < 224) {
       const c2 = bytes[pos++];
-      out[c++] = String.fromCharCode((c1 & 31) << 6 | c2 & 63);
+      out[c++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
     } else if (c1 > 239 && c1 < 365) {
       const c2 = bytes[pos++];
       const c3 = bytes[pos++];
       const c4 = bytes[pos++];
-      const u = ((c1 & 7) << 18 | (c2 & 63) << 12 | (c3 & 63) << 6 | c4 & 63) - 65536;
+      const u =
+        (((c1 & 7) << 18) | ((c2 & 63) << 12) | ((c3 & 63) << 6) | (c4 & 63)) -
+        65536;
       out[c++] = String.fromCharCode(55296 + (u >> 10));
       out[c++] = String.fromCharCode(56320 + (u & 1023));
     } else {
       const c2 = bytes[pos++];
       const c3 = bytes[pos++];
-      out[c++] = String.fromCharCode((c1 & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
+      out[c++] = String.fromCharCode(
+        ((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)
+      );
     }
   }
-  return out.join("");
+  return out.join('');
 };
 var base64 = {
   /**
@@ -77,18 +82,19 @@ var base64 = {
    * Our default alphabet, shared between
    * ENCODED_VALS and ENCODED_VALS_WEBSAFE
    */
-  ENCODED_VALS_BASE: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+  ENCODED_VALS_BASE:
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
   /**
    * Our default alphabet. Value 64 (=) is special; it means "nothing."
    */
   get ENCODED_VALS() {
-    return this.ENCODED_VALS_BASE + "+/=";
+    return this.ENCODED_VALS_BASE + '+/=';
   },
   /**
    * Our websafe alphabet.
    */
   get ENCODED_VALS_WEBSAFE() {
-    return this.ENCODED_VALS_BASE + "-_.";
+    return this.ENCODED_VALS_BASE + '-_.';
   },
   /**
    * Whether this browser supports the atob and btoa functions. This extension
@@ -97,7 +103,7 @@ var base64 = {
    * but still allowing the standard per-browser compilations.
    *
    */
-  HAS_NATIVE_SUPPORT: typeof atob === "function",
+  HAS_NATIVE_SUPPORT: typeof atob === 'function',
   /**
    * Base64-encode an array of bytes.
    *
@@ -109,10 +115,12 @@ var base64 = {
    */
   encodeByteArray(input, webSafe) {
     if (!Array.isArray(input)) {
-      throw Error("encodeByteArray takes an array as a parameter");
+      throw Error('encodeByteArray takes an array as a parameter');
     }
     this.init_();
-    const byteToCharMap = webSafe ? this.byteToCharMapWebSafe_ : this.byteToCharMap_;
+    const byteToCharMap = webSafe
+      ? this.byteToCharMapWebSafe_
+      : this.byteToCharMap_;
     const output = [];
     for (let i = 0; i < input.length; i += 3) {
       const byte1 = input[i];
@@ -121,8 +129,8 @@ var base64 = {
       const haveByte3 = i + 2 < input.length;
       const byte3 = haveByte3 ? input[i + 2] : 0;
       const outByte1 = byte1 >> 2;
-      const outByte2 = (byte1 & 3) << 4 | byte2 >> 4;
-      let outByte3 = (byte2 & 15) << 2 | byte3 >> 6;
+      const outByte2 = ((byte1 & 3) << 4) | (byte2 >> 4);
+      let outByte3 = ((byte2 & 15) << 2) | (byte3 >> 6);
       let outByte4 = byte3 & 63;
       if (!haveByte3) {
         outByte4 = 64;
@@ -130,9 +138,14 @@ var base64 = {
           outByte3 = 64;
         }
       }
-      output.push(byteToCharMap[outByte1], byteToCharMap[outByte2], byteToCharMap[outByte3], byteToCharMap[outByte4]);
+      output.push(
+        byteToCharMap[outByte1],
+        byteToCharMap[outByte2],
+        byteToCharMap[outByte3],
+        byteToCharMap[outByte4]
+      );
     }
-    return output.join("");
+    return output.join('');
   },
   /**
    * Base64-encode a string.
@@ -179,7 +192,9 @@ var base64 = {
    */
   decodeStringToByteArray(input, webSafe) {
     this.init_();
-    const charToByteMap = webSafe ? this.charToByteMapWebSafe_ : this.charToByteMap_;
+    const charToByteMap = webSafe
+      ? this.charToByteMapWebSafe_
+      : this.charToByteMap_;
     const output = [];
     for (let i = 0; i < input.length; ) {
       const byte1 = charToByteMap[input.charAt(i++)];
@@ -195,13 +210,13 @@ var base64 = {
       if (byte1 == null || byte2 == null || byte3 == null || byte4 == null) {
         throw new DecodeBase64StringError();
       }
-      const outByte1 = byte1 << 2 | byte2 >> 4;
+      const outByte1 = (byte1 << 2) | (byte2 >> 4);
       output.push(outByte1);
       if (byte3 !== 64) {
-        const outByte2 = byte2 << 4 & 240 | byte3 >> 2;
+        const outByte2 = ((byte2 << 4) & 240) | (byte3 >> 2);
         output.push(outByte2);
         if (byte4 !== 64) {
-          const outByte3 = byte3 << 6 & 192 | byte4;
+          const outByte3 = ((byte3 << 6) & 192) | byte4;
           output.push(outByte3);
         }
       }
@@ -235,39 +250,39 @@ var base64 = {
 var DecodeBase64StringError = class extends Error {
   constructor() {
     super(...arguments);
-    this.name = "DecodeBase64StringError";
+    this.name = 'DecodeBase64StringError';
   }
 };
-var base64Encode = function(str) {
+var base64Encode = function (str) {
   const utf8Bytes = stringToByteArray$1(str);
   return base64.encodeByteArray(utf8Bytes, true);
 };
-var base64urlEncodeWithoutPadding = function(str) {
-  return base64Encode(str).replace(/\./g, "");
+var base64urlEncodeWithoutPadding = function (str) {
+  return base64Encode(str).replace(/\./g, '');
 };
-var base64Decode = function(str) {
+var base64Decode = function (str) {
   try {
     return base64.decodeString(str, true);
   } catch (e) {
-    console.error("base64Decode failed: ", e);
+    console.error('base64Decode failed: ', e);
   }
   return null;
 };
 function getGlobal() {
-  if (typeof self !== "undefined") {
+  if (typeof self !== 'undefined') {
     return self;
   }
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     return window;
   }
-  if (typeof global !== "undefined") {
+  if (typeof global !== 'undefined') {
     return global;
   }
-  throw new Error("Unable to locate global object.");
+  throw new Error('Unable to locate global object.');
 }
 var getDefaultsFromGlobal = () => getGlobal().__FIREBASE_DEFAULTS__;
 var getDefaultsFromEnvVariable = () => {
-  if (typeof process === "undefined" || typeof process.env === "undefined") {
+  if (typeof process === 'undefined' || typeof process.env === 'undefined') {
     return;
   }
   const defaultsJsonString = process.env.__FIREBASE_DEFAULTS__;
@@ -276,7 +291,7 @@ var getDefaultsFromEnvVariable = () => {
   }
 };
 var getDefaultsFromCookie = () => {
-  if (typeof document === "undefined") {
+  if (typeof document === 'undefined') {
     return;
   }
   let match;
@@ -290,7 +305,11 @@ var getDefaultsFromCookie = () => {
 };
 var getDefaults = () => {
   try {
-    return getDefaultsFromGlobal() || getDefaultsFromEnvVariable() || getDefaultsFromCookie();
+    return (
+      getDefaultsFromGlobal() ||
+      getDefaultsFromEnvVariable() ||
+      getDefaultsFromCookie()
+    );
   } catch (e) {
     console.info(`Unable to get __FIREBASE_DEFAULTS__ due to: ${e}`);
     return;
@@ -298,19 +317,24 @@ var getDefaults = () => {
 };
 var getDefaultEmulatorHost = (productName) => {
   var _a, _b;
-  return (_b = (_a = getDefaults()) === null || _a === void 0 ? void 0 : _a.emulatorHosts) === null || _b === void 0 ? void 0 : _b[productName];
+  return (_b =
+    (_a = getDefaults()) === null || _a === void 0
+      ? void 0
+      : _a.emulatorHosts) === null || _b === void 0
+    ? void 0
+    : _b[productName];
 };
 var getDefaultEmulatorHostnameAndPort = (productName) => {
   const host = getDefaultEmulatorHost(productName);
   if (!host) {
     return void 0;
   }
-  const separatorIndex = host.lastIndexOf(":");
+  const separatorIndex = host.lastIndexOf(':');
   if (separatorIndex <= 0 || separatorIndex + 1 === host.length) {
     throw new Error(`Invalid host ${host} with no separate hostname and port!`);
   }
   const port = parseInt(host.substring(separatorIndex + 1), 10);
-  if (host[0] === "[") {
+  if (host[0] === '[') {
     return [host.substring(1, separatorIndex - 1), port];
   } else {
     return [host.substring(0, separatorIndex), port];
@@ -322,14 +346,14 @@ var getDefaultAppConfig = () => {
 };
 var getExperimentalSetting = (name2) => {
   var _a;
-  return (_a = getDefaults()) === null || _a === void 0 ? void 0 : _a[`_${name2}`];
+  return (_a = getDefaults()) === null || _a === void 0
+    ? void 0
+    : _a[`_${name2}`];
 };
 var Deferred = class {
   constructor() {
-    this.reject = () => {
-    };
-    this.resolve = () => {
-    };
+    this.reject = () => {};
+    this.resolve = () => {};
     this.promise = new Promise((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
@@ -347,9 +371,8 @@ var Deferred = class {
       } else {
         this.resolve(value);
       }
-      if (typeof callback === "function") {
-        this.promise.catch(() => {
-        });
+      if (typeof callback === 'function') {
+        this.promise.catch(() => {});
         if (callback.length === 1) {
           callback(error);
         } else {
@@ -361,84 +384,120 @@ var Deferred = class {
 };
 function createMockUserToken(token, projectId) {
   if (token.uid) {
-    throw new Error('The "uid" field is no longer supported by mockUserToken. Please use "sub" instead for Firebase Auth User ID.');
+    throw new Error(
+      'The "uid" field is no longer supported by mockUserToken. Please use "sub" instead for Firebase Auth User ID.'
+    );
   }
   const header = {
-    alg: "none",
-    type: "JWT"
+    alg: 'none',
+    type: 'JWT'
   };
-  const project = projectId || "demo-project";
+  const project = projectId || 'demo-project';
   const iat = token.iat || 0;
   const sub = token.sub || token.user_id;
   if (!sub) {
     throw new Error("mockUserToken must contain 'sub' or 'user_id' field!");
   }
-  const payload = Object.assign({
-    // Set all required fields to decent defaults
-    iss: `https://securetoken.google.com/${project}`,
-    aud: project,
-    iat,
-    exp: iat + 3600,
-    auth_time: iat,
-    sub,
-    user_id: sub,
-    firebase: {
-      sign_in_provider: "custom",
-      identities: {}
-    }
-  }, token);
-  const signature = "";
-  return [base64urlEncodeWithoutPadding(JSON.stringify(header)), base64urlEncodeWithoutPadding(JSON.stringify(payload)), signature].join(".");
+  const payload = Object.assign(
+    {
+      // Set all required fields to decent defaults
+      iss: `https://securetoken.google.com/${project}`,
+      aud: project,
+      iat,
+      exp: iat + 3600,
+      auth_time: iat,
+      sub,
+      user_id: sub,
+      firebase: {
+        sign_in_provider: 'custom',
+        identities: {}
+      }
+    },
+    token
+  );
+  const signature = '';
+  return [
+    base64urlEncodeWithoutPadding(JSON.stringify(header)),
+    base64urlEncodeWithoutPadding(JSON.stringify(payload)),
+    signature
+  ].join('.');
 }
 function getUA() {
-  if (typeof navigator !== "undefined" && typeof navigator["userAgent"] === "string") {
-    return navigator["userAgent"];
+  if (
+    typeof navigator !== 'undefined' &&
+    typeof navigator['userAgent'] === 'string'
+  ) {
+    return navigator['userAgent'];
   } else {
-    return "";
+    return '';
   }
 }
 function isMobileCordova() {
-  return typeof window !== "undefined" && // @ts-ignore Setting up an broadly applicable index signature for Window
-  // just to deal with this case would probably be a bad idea.
-  !!(window["cordova"] || window["phonegap"] || window["PhoneGap"]) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
+  return (
+    typeof window !== 'undefined' && // @ts-ignore Setting up an broadly applicable index signature for Window
+    // just to deal with this case would probably be a bad idea.
+    !!(window['cordova'] || window['phonegap'] || window['PhoneGap']) &&
+    /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA())
+  );
 }
 function isNode() {
   var _a;
-  const forceEnvironment = (_a = getDefaults()) === null || _a === void 0 ? void 0 : _a.forceEnvironment;
-  if (forceEnvironment === "node") {
+  const forceEnvironment =
+    (_a = getDefaults()) === null || _a === void 0
+      ? void 0
+      : _a.forceEnvironment;
+  if (forceEnvironment === 'node') {
     return true;
-  } else if (forceEnvironment === "browser") {
+  } else if (forceEnvironment === 'browser') {
     return false;
   }
   try {
-    return Object.prototype.toString.call(global.process) === "[object process]";
+    return (
+      Object.prototype.toString.call(global.process) === '[object process]'
+    );
   } catch (e) {
     return false;
   }
 }
 function isBrowser() {
-  return typeof window !== "undefined" || isWebWorker();
+  return typeof window !== 'undefined' || isWebWorker();
 }
 function isWebWorker() {
-  return typeof WorkerGlobalScope !== "undefined" && typeof self !== "undefined" && self instanceof WorkerGlobalScope;
+  return (
+    typeof WorkerGlobalScope !== 'undefined' &&
+    typeof self !== 'undefined' &&
+    self instanceof WorkerGlobalScope
+  );
 }
 function isBrowserExtension() {
-  const runtime = typeof chrome === "object" ? chrome.runtime : typeof browser === "object" ? browser.runtime : void 0;
-  return typeof runtime === "object" && runtime.id !== void 0;
+  const runtime =
+    typeof chrome === 'object'
+      ? chrome.runtime
+      : typeof browser === 'object'
+        ? browser.runtime
+        : void 0;
+  return typeof runtime === 'object' && runtime.id !== void 0;
 }
 function isReactNative() {
-  return typeof navigator === "object" && navigator["product"] === "ReactNative";
+  return (
+    typeof navigator === 'object' && navigator['product'] === 'ReactNative'
+  );
 }
 function isIE() {
   const ua = getUA();
-  return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
+  return ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
 }
 function isSafari() {
-  return !isNode() && !!navigator.userAgent && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome");
+  return (
+    !isNode() &&
+    !!navigator.userAgent &&
+    navigator.userAgent.includes('Safari') &&
+    !navigator.userAgent.includes('Chrome')
+  );
 }
 function isIndexedDBAvailable() {
   try {
-    return typeof indexedDB === "object";
+    return typeof indexedDB === 'object';
   } catch (e) {
     return false;
   }
@@ -447,7 +506,8 @@ function validateIndexedDBOpenable() {
   return new Promise((resolve, reject) => {
     try {
       let preExist = true;
-      const DB_CHECK_NAME = "validate-browser-context-for-indexeddb-analytics-module";
+      const DB_CHECK_NAME =
+        'validate-browser-context-for-indexeddb-analytics-module';
       const request = self.indexedDB.open(DB_CHECK_NAME);
       request.onsuccess = () => {
         request.result.close();
@@ -461,14 +521,18 @@ function validateIndexedDBOpenable() {
       };
       request.onerror = () => {
         var _a;
-        reject(((_a = request.error) === null || _a === void 0 ? void 0 : _a.message) || "");
+        reject(
+          ((_a = request.error) === null || _a === void 0
+            ? void 0
+            : _a.message) || ''
+        );
       };
     } catch (error) {
       reject(error);
     }
   });
 }
-var ERROR_NAME = "FirebaseError";
+var ERROR_NAME = 'FirebaseError';
 var FirebaseError = class _FirebaseError extends Error {
   constructor(code, message, customData) {
     super(message);
@@ -491,7 +555,7 @@ var ErrorFactory = class {
     const customData = data[0] || {};
     const fullCode = `${this.service}/${code}`;
     const template = this.errors[code];
-    const message = template ? replaceTemplate(template, customData) : "Error";
+    const message = template ? replaceTemplate(template, customData) : 'Error';
     const fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
     const error = new FirebaseError(fullCode, fullMessage, customData);
     return error;
@@ -540,38 +604,40 @@ function deepEqual(a, b) {
   return true;
 }
 function isObject(thing) {
-  return thing !== null && typeof thing === "object";
+  return thing !== null && typeof thing === 'object';
 }
 function querystring(querystringParams) {
   const params = [];
   for (const [key, value] of Object.entries(querystringParams)) {
     if (Array.isArray(value)) {
       value.forEach((arrayVal) => {
-        params.push(encodeURIComponent(key) + "=" + encodeURIComponent(arrayVal));
+        params.push(
+          encodeURIComponent(key) + '=' + encodeURIComponent(arrayVal)
+        );
       });
     } else {
-      params.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+      params.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
     }
   }
-  return params.length ? "&" + params.join("&") : "";
+  return params.length ? '&' + params.join('&') : '';
 }
 function querystringDecode(querystring2) {
   const obj = {};
-  const tokens = querystring2.replace(/^\?/, "").split("&");
+  const tokens = querystring2.replace(/^\?/, '').split('&');
   tokens.forEach((token) => {
     if (token) {
-      const [key, value] = token.split("=");
+      const [key, value] = token.split('=');
       obj[decodeURIComponent(key)] = decodeURIComponent(value);
     }
   });
   return obj;
 }
 function extractQuerystring(url) {
-  const queryStart = url.indexOf("?");
+  const queryStart = url.indexOf('?');
   if (!queryStart) {
-    return "";
+    return '';
   }
-  const fragmentStart = url.indexOf("#", queryStart);
+  const fragmentStart = url.indexOf('#', queryStart);
   return url.substring(queryStart, fragmentStart > 0 ? fragmentStart : void 0);
 }
 function createSubscribe(executor, onNoObservers) {
@@ -591,11 +657,13 @@ var ObserverProxy = class {
     this.task = Promise.resolve();
     this.finalized = false;
     this.onNoObservers = onNoObservers;
-    this.task.then(() => {
-      executor(this);
-    }).catch((e) => {
-      this.error(e);
-    });
+    this.task
+      .then(() => {
+        executor(this);
+      })
+      .catch((e) => {
+        this.error(e);
+      });
   }
   next(value) {
     this.forEachObserver((observer) => {
@@ -623,9 +691,9 @@ var ObserverProxy = class {
   subscribe(nextOrObserver, error, complete) {
     let observer;
     if (nextOrObserver === void 0 && error === void 0 && complete === void 0) {
-      throw new Error("Missing Observer.");
+      throw new Error('Missing Observer.');
     }
-    if (implementsAnyMethods(nextOrObserver, ["next", "error", "complete"])) {
+    if (implementsAnyMethods(nextOrObserver, ['next', 'error', 'complete'])) {
       observer = nextOrObserver;
     } else {
       observer = {
@@ -652,8 +720,7 @@ var ObserverProxy = class {
           } else {
             observer.complete();
           }
-        } catch (e) {
-        }
+        } catch (e) {}
         return;
       });
     }
@@ -689,7 +756,7 @@ var ObserverProxy = class {
         try {
           fn(this.observers[i]);
         } catch (e) {
-          if (typeof console !== "undefined" && console.error) {
+          if (typeof console !== 'undefined' && console.error) {
             console.error(e);
           }
         }
@@ -711,18 +778,17 @@ var ObserverProxy = class {
   }
 };
 function implementsAnyMethods(obj, methods) {
-  if (typeof obj !== "object" || obj === null) {
+  if (typeof obj !== 'object' || obj === null) {
     return false;
   }
   for (const method of methods) {
-    if (method in obj && typeof obj[method] === "function") {
+    if (method in obj && typeof obj[method] === 'function') {
       return true;
     }
   }
   return false;
 }
-function noop() {
-}
+function noop() {}
 var MAX_VALUE_MILLIS = 4 * 60 * 60 * 1e3;
 function getModularInstance(service) {
   if (service && service._delegate) {
@@ -746,7 +812,7 @@ var Component = class {
     this.type = type;
     this.multipleInstances = false;
     this.serviceProps = {};
-    this.instantiationMode = "LAZY";
+    this.instantiationMode = 'LAZY';
     this.onInstanceCreated = null;
   }
   setInstantiationMode(mode) {
@@ -766,7 +832,7 @@ var Component = class {
     return this;
   }
 };
-var DEFAULT_ENTRY_NAME = "[DEFAULT]";
+var DEFAULT_ENTRY_NAME = '[DEFAULT]';
 var Provider = class {
   constructor(name2, container) {
     this.name = name2;
@@ -786,7 +852,10 @@ var Provider = class {
     if (!this.instancesDeferred.has(normalizedIdentifier)) {
       const deferred = new Deferred();
       this.instancesDeferred.set(normalizedIdentifier, deferred);
-      if (this.isInitialized(normalizedIdentifier) || this.shouldAutoInitialize()) {
+      if (
+        this.isInitialized(normalizedIdentifier) ||
+        this.shouldAutoInitialize()
+      ) {
         try {
           const instance = this.getOrInitializeService({
             instanceIdentifier: normalizedIdentifier
@@ -794,17 +863,26 @@ var Provider = class {
           if (instance) {
             deferred.resolve(instance);
           }
-        } catch (e) {
-        }
+        } catch (e) {}
       }
     }
     return this.instancesDeferred.get(normalizedIdentifier).promise;
   }
   getImmediate(options) {
     var _a;
-    const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
-    const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
-    if (this.isInitialized(normalizedIdentifier) || this.shouldAutoInitialize()) {
+    const normalizedIdentifier = this.normalizeInstanceIdentifier(
+      options === null || options === void 0 ? void 0 : options.identifier
+    );
+    const optional =
+      (_a =
+        options === null || options === void 0 ? void 0 : options.optional) !==
+        null && _a !== void 0
+        ? _a
+        : false;
+    if (
+      this.isInitialized(normalizedIdentifier) ||
+      this.shouldAutoInitialize()
+    ) {
       try {
         return this.getOrInitializeService({
           instanceIdentifier: normalizedIdentifier
@@ -829,7 +907,9 @@ var Provider = class {
   }
   setComponent(component) {
     if (component.name !== this.name) {
-      throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
+      throw Error(
+        `Mismatching Component ${component.name} for Provider ${this.name}.`
+      );
     }
     if (this.component) {
       throw Error(`Component for ${this.name} has already been provided`);
@@ -843,18 +923,20 @@ var Provider = class {
         this.getOrInitializeService({
           instanceIdentifier: DEFAULT_ENTRY_NAME
         });
-      } catch (e) {
-      }
+      } catch (e) {}
     }
-    for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
-      const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+    for (const [
+      instanceIdentifier,
+      instanceDeferred
+    ] of this.instancesDeferred.entries()) {
+      const normalizedIdentifier =
+        this.normalizeInstanceIdentifier(instanceIdentifier);
       try {
         const instance = this.getOrInitializeService({
           instanceIdentifier: normalizedIdentifier
         });
         instanceDeferred.resolve(instance);
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   }
   clearInstance(identifier = DEFAULT_ENTRY_NAME) {
@@ -867,7 +949,14 @@ var Provider = class {
   delete() {
     return __async(this, null, function* () {
       const services = Array.from(this.instances.values());
-      yield Promise.all([...services.filter((service) => "INTERNAL" in service).map((service) => service.INTERNAL.delete()), ...services.filter((service) => "_delete" in service).map((service) => service._delete())]);
+      yield Promise.all([
+        ...services
+          .filter((service) => 'INTERNAL' in service)
+          .map((service) => service.INTERNAL.delete()),
+        ...services
+          .filter((service) => '_delete' in service)
+          .map((service) => service._delete())
+      ]);
     });
   }
   isComponentSet() {
@@ -880,12 +969,14 @@ var Provider = class {
     return this.instancesOptions.get(identifier) || {};
   }
   initialize(opts = {}) {
-    const {
-      options = {}
-    } = opts;
-    const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
+    const { options = {} } = opts;
+    const normalizedIdentifier = this.normalizeInstanceIdentifier(
+      opts.instanceIdentifier
+    );
     if (this.isInitialized(normalizedIdentifier)) {
-      throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
+      throw Error(
+        `${this.name}(${normalizedIdentifier}) has already been initialized`
+      );
     }
     if (!this.isComponentSet()) {
       throw Error(`Component ${this.name} has not been registered yet`);
@@ -894,8 +985,12 @@ var Provider = class {
       instanceIdentifier: normalizedIdentifier,
       options
     });
-    for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
-      const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+    for (const [
+      instanceIdentifier,
+      instanceDeferred
+    ] of this.instancesDeferred.entries()) {
+      const normalizedDeferredIdentifier =
+        this.normalizeInstanceIdentifier(instanceIdentifier);
       if (normalizedIdentifier === normalizedDeferredIdentifier) {
         instanceDeferred.resolve(instance);
       }
@@ -913,7 +1008,11 @@ var Provider = class {
   onInit(callback, identifier) {
     var _a;
     const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
-    const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : /* @__PURE__ */ new Set();
+    const existingCallbacks =
+      (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null &&
+      _a !== void 0
+        ? _a
+        : /* @__PURE__ */ new Set();
     existingCallbacks.add(callback);
     this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
     const existingInstance = this.instances.get(normalizedIdentifier);
@@ -936,14 +1035,10 @@ var Provider = class {
     for (const callback of callbacks) {
       try {
         callback(instance, identifier);
-      } catch (_a) {
-      }
+      } catch (_a) {}
     }
   }
-  getOrInitializeService({
-    instanceIdentifier,
-    options = {}
-  }) {
+  getOrInitializeService({ instanceIdentifier, options = {} }) {
     let instance = this.instances.get(instanceIdentifier);
     if (!instance && this.component) {
       instance = this.component.instanceFactory(this.container, {
@@ -955,9 +1050,12 @@ var Provider = class {
       this.invokeOnInitCallbacks(instance, instanceIdentifier);
       if (this.component.onInstanceCreated) {
         try {
-          this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
-        } catch (_a) {
-        }
+          this.component.onInstanceCreated(
+            this.container,
+            instanceIdentifier,
+            instance
+          );
+        } catch (_a) {}
       }
     }
     return instance || null;
@@ -970,14 +1068,14 @@ var Provider = class {
     }
   }
   shouldAutoInitialize() {
-    return !!this.component && this.component.instantiationMode !== "EXPLICIT";
+    return !!this.component && this.component.instantiationMode !== 'EXPLICIT';
   }
 };
 function normalizeIdentifierForFactory(identifier) {
   return identifier === DEFAULT_ENTRY_NAME ? void 0 : identifier;
 }
 function isComponentEager(component) {
-  return component.instantiationMode === "EAGER";
+  return component.instantiationMode === 'EAGER';
 }
 var ComponentContainer = class {
   constructor(name2) {
@@ -996,7 +1094,9 @@ var ComponentContainer = class {
   addComponent(component) {
     const provider = this.getProvider(component.name);
     if (provider.isComponentSet()) {
-      throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
+      throw new Error(
+        `Component ${component.name} has already been registered with ${this.name}`
+      );
     }
     provider.setComponent(component);
   }
@@ -1030,40 +1130,42 @@ var ComponentContainer = class {
 // ../../node_modules/@firebase/logger/dist/esm/index.esm2017.js
 var instances = [];
 var LogLevel;
-(function(LogLevel2) {
-  LogLevel2[LogLevel2["DEBUG"] = 0] = "DEBUG";
-  LogLevel2[LogLevel2["VERBOSE"] = 1] = "VERBOSE";
-  LogLevel2[LogLevel2["INFO"] = 2] = "INFO";
-  LogLevel2[LogLevel2["WARN"] = 3] = "WARN";
-  LogLevel2[LogLevel2["ERROR"] = 4] = "ERROR";
-  LogLevel2[LogLevel2["SILENT"] = 5] = "SILENT";
+(function (LogLevel2) {
+  LogLevel2[(LogLevel2['DEBUG'] = 0)] = 'DEBUG';
+  LogLevel2[(LogLevel2['VERBOSE'] = 1)] = 'VERBOSE';
+  LogLevel2[(LogLevel2['INFO'] = 2)] = 'INFO';
+  LogLevel2[(LogLevel2['WARN'] = 3)] = 'WARN';
+  LogLevel2[(LogLevel2['ERROR'] = 4)] = 'ERROR';
+  LogLevel2[(LogLevel2['SILENT'] = 5)] = 'SILENT';
 })(LogLevel || (LogLevel = {}));
 var levelStringToEnum = {
-  "debug": LogLevel.DEBUG,
-  "verbose": LogLevel.VERBOSE,
-  "info": LogLevel.INFO,
-  "warn": LogLevel.WARN,
-  "error": LogLevel.ERROR,
-  "silent": LogLevel.SILENT
+  debug: LogLevel.DEBUG,
+  verbose: LogLevel.VERBOSE,
+  info: LogLevel.INFO,
+  warn: LogLevel.WARN,
+  error: LogLevel.ERROR,
+  silent: LogLevel.SILENT
 };
 var defaultLogLevel = LogLevel.INFO;
 var ConsoleMethod = {
-  [LogLevel.DEBUG]: "log",
-  [LogLevel.VERBOSE]: "log",
-  [LogLevel.INFO]: "info",
-  [LogLevel.WARN]: "warn",
-  [LogLevel.ERROR]: "error"
+  [LogLevel.DEBUG]: 'log',
+  [LogLevel.VERBOSE]: 'log',
+  [LogLevel.INFO]: 'info',
+  [LogLevel.WARN]: 'warn',
+  [LogLevel.ERROR]: 'error'
 };
 var defaultLogHandler = (instance, logType, ...args) => {
   if (logType < instance.logLevel) {
     return;
   }
-  const now = (/* @__PURE__ */ new Date()).toISOString();
+  const now = /* @__PURE__ */ new Date().toISOString();
   const method = ConsoleMethod[logType];
   if (method) {
     console[method](`[${now}]  ${instance.name}:`, ...args);
   } else {
-    throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
+    throw new Error(
+      `Attempted to log a message with an invalid logType (value: ${logType})`
+    );
   }
 };
 var Logger = class {
@@ -1091,14 +1193,14 @@ var Logger = class {
   }
   // Workaround for setter/getter having to be the same type.
   setLogLevel(val) {
-    this._logLevel = typeof val === "string" ? levelStringToEnum[val] : val;
+    this._logLevel = typeof val === 'string' ? levelStringToEnum[val] : val;
   }
   get logHandler() {
     return this._logHandler;
   }
   set logHandler(val) {
-    if (typeof val !== "function") {
-      throw new TypeError("Value assigned to `logHandler` must be a function");
+    if (typeof val !== 'function') {
+      throw new TypeError('Value assigned to `logHandler` must be a function');
     }
     this._logHandler = val;
   }
@@ -1116,7 +1218,8 @@ var Logger = class {
     this._logHandler(this, LogLevel.DEBUG, ...args);
   }
   log(...args) {
-    this._userLogHandler && this._userLogHandler(this, LogLevel.VERBOSE, ...args);
+    this._userLogHandler &&
+      this._userLogHandler(this, LogLevel.VERBOSE, ...args);
     this._logHandler(this, LogLevel.VERBOSE, ...args);
   }
   info(...args) {
@@ -1147,24 +1250,32 @@ function setUserLogHandler(logCallback, options) {
       instance.userLogHandler = null;
     } else {
       instance.userLogHandler = (instance2, level, ...args) => {
-        const message = args.map((arg) => {
-          if (arg == null) {
-            return null;
-          } else if (typeof arg === "string") {
-            return arg;
-          } else if (typeof arg === "number" || typeof arg === "boolean") {
-            return arg.toString();
-          } else if (arg instanceof Error) {
-            return arg.message;
-          } else {
-            try {
-              return JSON.stringify(arg);
-            } catch (ignored) {
+        const message = args
+          .map((arg) => {
+            if (arg == null) {
               return null;
+            } else if (typeof arg === 'string') {
+              return arg;
+            } else if (typeof arg === 'number' || typeof arg === 'boolean') {
+              return arg.toString();
+            } else if (arg instanceof Error) {
+              return arg.message;
+            } else {
+              try {
+                return JSON.stringify(arg);
+              } catch (ignored) {
+                return null;
+              }
             }
-          }
-        }).filter((arg) => arg).join(" ");
-        if (level >= (customLogLevel !== null && customLogLevel !== void 0 ? customLogLevel : instance2.logLevel)) {
+          })
+          .filter((arg) => arg)
+          .join(' ');
+        if (
+          level >=
+          (customLogLevel !== null && customLogLevel !== void 0
+            ? customLogLevel
+            : instance2.logLevel)
+        ) {
           logCallback({
             level: LogLevel[level].toLowerCase(),
             message,
@@ -1178,14 +1289,31 @@ function setUserLogHandler(logCallback, options) {
 }
 
 // ../../node_modules/idb/build/wrap-idb-value.js
-var instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
+var instanceOfAny = (object, constructors) =>
+  constructors.some((c) => object instanceof c);
 var idbProxyableTypes;
 var cursorAdvanceMethods;
 function getIdbProxyableTypes() {
-  return idbProxyableTypes || (idbProxyableTypes = [IDBDatabase, IDBObjectStore, IDBIndex, IDBCursor, IDBTransaction]);
+  return (
+    idbProxyableTypes ||
+    (idbProxyableTypes = [
+      IDBDatabase,
+      IDBObjectStore,
+      IDBIndex,
+      IDBCursor,
+      IDBTransaction
+    ])
+  );
 }
 function getCursorAdvanceMethods() {
-  return cursorAdvanceMethods || (cursorAdvanceMethods = [IDBCursor.prototype.advance, IDBCursor.prototype.continue, IDBCursor.prototype.continuePrimaryKey]);
+  return (
+    cursorAdvanceMethods ||
+    (cursorAdvanceMethods = [
+      IDBCursor.prototype.advance,
+      IDBCursor.prototype.continue,
+      IDBCursor.prototype.continuePrimaryKey
+    ])
+  );
 }
 var cursorRequestMap = /* @__PURE__ */ new WeakMap();
 var transactionDoneMap = /* @__PURE__ */ new WeakMap();
@@ -1195,8 +1323,8 @@ var reverseTransformCache = /* @__PURE__ */ new WeakMap();
 function promisifyRequest(request) {
   const promise = new Promise((resolve, reject) => {
     const unlisten = () => {
-      request.removeEventListener("success", success);
-      request.removeEventListener("error", error);
+      request.removeEventListener('success', success);
+      request.removeEventListener('error', error);
     };
     const success = () => {
       resolve(wrap(request.result));
@@ -1206,15 +1334,16 @@ function promisifyRequest(request) {
       reject(request.error);
       unlisten();
     };
-    request.addEventListener("success", success);
-    request.addEventListener("error", error);
+    request.addEventListener('success', success);
+    request.addEventListener('error', error);
   });
-  promise.then((value) => {
-    if (value instanceof IDBCursor) {
-      cursorRequestMap.set(value, request);
-    }
-  }).catch(() => {
-  });
+  promise
+    .then((value) => {
+      if (value instanceof IDBCursor) {
+        cursorRequestMap.set(value, request);
+      }
+    })
+    .catch(() => {});
   reverseTransformCache.set(promise, request);
   return promise;
 }
@@ -1222,33 +1351,35 @@ function cacheDonePromiseForTransaction(tx) {
   if (transactionDoneMap.has(tx)) return;
   const done = new Promise((resolve, reject) => {
     const unlisten = () => {
-      tx.removeEventListener("complete", complete);
-      tx.removeEventListener("error", error);
-      tx.removeEventListener("abort", error);
+      tx.removeEventListener('complete', complete);
+      tx.removeEventListener('error', error);
+      tx.removeEventListener('abort', error);
     };
     const complete = () => {
       resolve();
       unlisten();
     };
     const error = () => {
-      reject(tx.error || new DOMException("AbortError", "AbortError"));
+      reject(tx.error || new DOMException('AbortError', 'AbortError'));
       unlisten();
     };
-    tx.addEventListener("complete", complete);
-    tx.addEventListener("error", error);
-    tx.addEventListener("abort", error);
+    tx.addEventListener('complete', complete);
+    tx.addEventListener('error', error);
+    tx.addEventListener('abort', error);
   });
   transactionDoneMap.set(tx, done);
 }
 var idbProxyTraps = {
   get(target, prop, receiver) {
     if (target instanceof IDBTransaction) {
-      if (prop === "done") return transactionDoneMap.get(target);
-      if (prop === "objectStoreNames") {
+      if (prop === 'done') return transactionDoneMap.get(target);
+      if (prop === 'objectStoreNames') {
         return target.objectStoreNames || transactionStoreNamesMap.get(target);
       }
-      if (prop === "store") {
-        return receiver.objectStoreNames[1] ? void 0 : receiver.objectStore(receiver.objectStoreNames[0]);
+      if (prop === 'store') {
+        return receiver.objectStoreNames[1]
+          ? void 0
+          : receiver.objectStore(receiver.objectStoreNames[0]);
       }
     }
     return wrap(target[prop]);
@@ -1258,7 +1389,10 @@ var idbProxyTraps = {
     return true;
   },
   has(target, prop) {
-    if (target instanceof IDBTransaction && (prop === "done" || prop === "store")) {
+    if (
+      target instanceof IDBTransaction &&
+      (prop === 'done' || prop === 'store')
+    ) {
       return true;
     }
     return prop in target;
@@ -1268,27 +1402,34 @@ function replaceTraps(callback) {
   idbProxyTraps = callback(idbProxyTraps);
 }
 function wrapFunction(func) {
-  if (func === IDBDatabase.prototype.transaction && !("objectStoreNames" in IDBTransaction.prototype)) {
-    return function(storeNames, ...args) {
+  if (
+    func === IDBDatabase.prototype.transaction &&
+    !('objectStoreNames' in IDBTransaction.prototype)
+  ) {
+    return function (storeNames, ...args) {
       const tx = func.call(unwrap(this), storeNames, ...args);
-      transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
+      transactionStoreNamesMap.set(
+        tx,
+        storeNames.sort ? storeNames.sort() : [storeNames]
+      );
       return wrap(tx);
     };
   }
   if (getCursorAdvanceMethods().includes(func)) {
-    return function(...args) {
+    return function (...args) {
       func.apply(unwrap(this), args);
       return wrap(cursorRequestMap.get(this));
     };
   }
-  return function(...args) {
+  return function (...args) {
     return wrap(func.apply(unwrap(this), args));
   };
 }
 function transformCachableValue(value) {
-  if (typeof value === "function") return wrapFunction(value);
+  if (typeof value === 'function') return wrapFunction(value);
   if (value instanceof IDBTransaction) cacheDonePromiseForTransaction(value);
-  if (instanceOfAny(value, getIdbProxyableTypes())) return new Proxy(value, idbProxyTraps);
+  if (instanceOfAny(value, getIdbProxyableTypes()))
+    return new Proxy(value, idbProxyTraps);
   return value;
 }
 function wrap(value) {
@@ -1304,68 +1445,95 @@ function wrap(value) {
 var unwrap = (value) => reverseTransformCache.get(value);
 
 // ../../node_modules/idb/build/index.js
-function openDB(name2, version2, {
-  blocked,
-  upgrade,
-  blocking,
-  terminated
-} = {}) {
+function openDB(
+  name2,
+  version2,
+  { blocked, upgrade, blocking, terminated } = {}
+) {
   const request = indexedDB.open(name2, version2);
   const openPromise = wrap(request);
   if (upgrade) {
-    request.addEventListener("upgradeneeded", (event) => {
-      upgrade(wrap(request.result), event.oldVersion, event.newVersion, wrap(request.transaction), event);
+    request.addEventListener('upgradeneeded', (event) => {
+      upgrade(
+        wrap(request.result),
+        event.oldVersion,
+        event.newVersion,
+        wrap(request.transaction),
+        event
+      );
     });
   }
   if (blocked) {
-    request.addEventListener("blocked", (event) => blocked(
-      // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
-      event.oldVersion,
-      event.newVersion,
-      event
-    ));
+    request.addEventListener('blocked', (event) =>
+      blocked(
+        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+        event.oldVersion,
+        event.newVersion,
+        event
+      )
+    );
   }
-  openPromise.then((db) => {
-    if (terminated) db.addEventListener("close", () => terminated());
-    if (blocking) {
-      db.addEventListener("versionchange", (event) => blocking(event.oldVersion, event.newVersion, event));
-    }
-  }).catch(() => {
-  });
+  openPromise
+    .then((db) => {
+      if (terminated) db.addEventListener('close', () => terminated());
+      if (blocking) {
+        db.addEventListener('versionchange', (event) =>
+          blocking(event.oldVersion, event.newVersion, event)
+        );
+      }
+    })
+    .catch(() => {});
   return openPromise;
 }
-var readMethods = ["get", "getKey", "getAll", "getAllKeys", "count"];
-var writeMethods = ["put", "add", "delete", "clear"];
+var readMethods = ['get', 'getKey', 'getAll', 'getAllKeys', 'count'];
+var writeMethods = ['put', 'add', 'delete', 'clear'];
 var cachedMethods = /* @__PURE__ */ new Map();
 function getMethod(target, prop) {
-  if (!(target instanceof IDBDatabase && !(prop in target) && typeof prop === "string")) {
+  if (
+    !(
+      target instanceof IDBDatabase &&
+      !(prop in target) &&
+      typeof prop === 'string'
+    )
+  ) {
     return;
   }
   if (cachedMethods.get(prop)) return cachedMethods.get(prop);
-  const targetFuncName = prop.replace(/FromIndex$/, "");
+  const targetFuncName = prop.replace(/FromIndex$/, '');
   const useIndex = prop !== targetFuncName;
   const isWrite = writeMethods.includes(targetFuncName);
   if (
     // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
-    !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) || !(isWrite || readMethods.includes(targetFuncName))
+    !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) ||
+    !(isWrite || readMethods.includes(targetFuncName))
   ) {
     return;
   }
-  const method = function(storeName, ...args) {
+  const method = function (storeName, ...args) {
     return __async(this, null, function* () {
-      const tx = this.transaction(storeName, isWrite ? "readwrite" : "readonly");
+      const tx = this.transaction(
+        storeName,
+        isWrite ? 'readwrite' : 'readonly'
+      );
       let target2 = tx.store;
       if (useIndex) target2 = target2.index(args.shift());
-      return (yield Promise.all([target2[targetFuncName](...args), isWrite && tx.done]))[0];
+      return (yield Promise.all([
+        target2[targetFuncName](...args),
+        isWrite && tx.done
+      ]))[0];
     });
   };
   cachedMethods.set(prop, method);
   return method;
 }
-replaceTraps((oldTraps) => __spreadProps(__spreadValues({}, oldTraps), {
-  get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
-  has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop)
-}));
+replaceTraps((oldTraps) =>
+  __spreadProps(__spreadValues({}, oldTraps), {
+    get: (target, prop, receiver) =>
+      getMethod(target, prop) || oldTraps.get(target, prop, receiver),
+    has: (target, prop) =>
+      !!getMethod(target, prop) || oldTraps.has(target, prop)
+  })
+);
 
 // ../../node_modules/@firebase/app/dist/esm/index.esm2017.js
 var PlatformLoggerServiceImpl = class {
@@ -1376,78 +1544,84 @@ var PlatformLoggerServiceImpl = class {
   // auth token refresh, and installations will send this string.
   getPlatformInfoString() {
     const providers = this.container.getProviders();
-    return providers.map((provider) => {
-      if (isVersionServiceProvider(provider)) {
-        const service = provider.getImmediate();
-        return `${service.library}/${service.version}`;
-      } else {
-        return null;
-      }
-    }).filter((logString) => logString).join(" ");
+    return providers
+      .map((provider) => {
+        if (isVersionServiceProvider(provider)) {
+          const service = provider.getImmediate();
+          return `${service.library}/${service.version}`;
+        } else {
+          return null;
+        }
+      })
+      .filter((logString) => logString)
+      .join(' ');
   }
 };
 function isVersionServiceProvider(provider) {
   const component = provider.getComponent();
-  return (component === null || component === void 0 ? void 0 : component.type) === "VERSION";
+  return (
+    (component === null || component === void 0 ? void 0 : component.type) ===
+    'VERSION'
+  );
 }
-var name$p = "@firebase/app";
-var version$1 = "0.10.10";
-var logger = new Logger("@firebase/app");
-var name$o = "@firebase/app-compat";
-var name$n = "@firebase/analytics-compat";
-var name$m = "@firebase/analytics";
-var name$l = "@firebase/app-check-compat";
-var name$k = "@firebase/app-check";
-var name$j = "@firebase/auth";
-var name$i = "@firebase/auth-compat";
-var name$h = "@firebase/database";
-var name$g = "@firebase/database-compat";
-var name$f = "@firebase/functions";
-var name$e = "@firebase/functions-compat";
-var name$d = "@firebase/installations";
-var name$c = "@firebase/installations-compat";
-var name$b = "@firebase/messaging";
-var name$a = "@firebase/messaging-compat";
-var name$9 = "@firebase/performance";
-var name$8 = "@firebase/performance-compat";
-var name$7 = "@firebase/remote-config";
-var name$6 = "@firebase/remote-config-compat";
-var name$5 = "@firebase/storage";
-var name$4 = "@firebase/storage-compat";
-var name$3 = "@firebase/firestore";
-var name$2 = "@firebase/vertexai-preview";
-var name$1 = "@firebase/firestore-compat";
-var name = "firebase";
-var version = "10.13.1";
-var DEFAULT_ENTRY_NAME2 = "[DEFAULT]";
+var name$p = '@firebase/app';
+var version$1 = '0.10.10';
+var logger = new Logger('@firebase/app');
+var name$o = '@firebase/app-compat';
+var name$n = '@firebase/analytics-compat';
+var name$m = '@firebase/analytics';
+var name$l = '@firebase/app-check-compat';
+var name$k = '@firebase/app-check';
+var name$j = '@firebase/auth';
+var name$i = '@firebase/auth-compat';
+var name$h = '@firebase/database';
+var name$g = '@firebase/database-compat';
+var name$f = '@firebase/functions';
+var name$e = '@firebase/functions-compat';
+var name$d = '@firebase/installations';
+var name$c = '@firebase/installations-compat';
+var name$b = '@firebase/messaging';
+var name$a = '@firebase/messaging-compat';
+var name$9 = '@firebase/performance';
+var name$8 = '@firebase/performance-compat';
+var name$7 = '@firebase/remote-config';
+var name$6 = '@firebase/remote-config-compat';
+var name$5 = '@firebase/storage';
+var name$4 = '@firebase/storage-compat';
+var name$3 = '@firebase/firestore';
+var name$2 = '@firebase/vertexai-preview';
+var name$1 = '@firebase/firestore-compat';
+var name = 'firebase';
+var version = '10.13.1';
+var DEFAULT_ENTRY_NAME2 = '[DEFAULT]';
 var PLATFORM_LOG_STRING = {
-  [name$p]: "fire-core",
-  [name$o]: "fire-core-compat",
-  [name$m]: "fire-analytics",
-  [name$n]: "fire-analytics-compat",
-  [name$k]: "fire-app-check",
-  [name$l]: "fire-app-check-compat",
-  [name$j]: "fire-auth",
-  [name$i]: "fire-auth-compat",
-  [name$h]: "fire-rtdb",
-  [name$g]: "fire-rtdb-compat",
-  [name$f]: "fire-fn",
-  [name$e]: "fire-fn-compat",
-  [name$d]: "fire-iid",
-  [name$c]: "fire-iid-compat",
-  [name$b]: "fire-fcm",
-  [name$a]: "fire-fcm-compat",
-  [name$9]: "fire-perf",
-  [name$8]: "fire-perf-compat",
-  [name$7]: "fire-rc",
-  [name$6]: "fire-rc-compat",
-  [name$5]: "fire-gcs",
-  [name$4]: "fire-gcs-compat",
-  [name$3]: "fire-fst",
-  [name$1]: "fire-fst-compat",
-  [name$2]: "fire-vertex",
-  "fire-js": "fire-js",
-  [name]: "fire-js-all"
+  [name$p]: 'fire-core',
+  [name$o]: 'fire-core-compat',
+  [name$m]: 'fire-analytics',
+  [name$n]: 'fire-analytics-compat',
+  [name$k]: 'fire-app-check',
+  [name$l]: 'fire-app-check-compat',
+  [name$j]: 'fire-auth',
+  [name$i]: 'fire-auth-compat',
+  [name$h]: 'fire-rtdb',
+  [name$g]: 'fire-rtdb-compat',
+  [name$f]: 'fire-fn',
+  [name$e]: 'fire-fn-compat',
+  [name$d]: 'fire-iid',
+  [name$c]: 'fire-iid-compat',
+  [name$b]: 'fire-fcm',
+  [name$a]: 'fire-fcm-compat',
+  [name$9]: 'fire-perf',
+  [name$8]: 'fire-perf-compat',
+  [name$7]: 'fire-rc',
+  [name$6]: 'fire-rc-compat',
+  [name$5]: 'fire-gcs',
+  [name$4]: 'fire-gcs-compat',
+  [name$3]: 'fire-fst',
+  [name$1]: 'fire-fst-compat',
+  [name$2]: 'fire-vertex',
+  'fire-js': 'fire-js',
+  [name]: 'fire-js-all'
 };
 var _apps = /* @__PURE__ */ new Map();
 var _serverApps = /* @__PURE__ */ new Map();
@@ -1456,7 +1630,10 @@ function _addComponent(app, component) {
   try {
     app.container.addComponent(component);
   } catch (e) {
-    logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
+    logger.debug(
+      `Component ${component.name} failed to register with FirebaseApp ${app.name}`,
+      e
+    );
   }
 }
 function _addOrOverwriteComponent(app, component) {
@@ -1465,7 +1642,9 @@ function _addOrOverwriteComponent(app, component) {
 function _registerComponent(component) {
   const componentName = component.name;
   if (_components.has(componentName)) {
-    logger.debug(`There were multiple attempts to register component ${componentName}.`);
+    logger.debug(
+      `There were multiple attempts to register component ${componentName}.`
+    );
     return false;
   }
   _components.set(componentName, component);
@@ -1478,15 +1657,21 @@ function _registerComponent(component) {
   return true;
 }
 function _getProvider(app, name2) {
-  const heartbeatController = app.container.getProvider("heartbeat").getImmediate({
-    optional: true
-  });
+  const heartbeatController = app.container
+    .getProvider('heartbeat')
+    .getImmediate({
+      optional: true
+    });
   if (heartbeatController) {
     void heartbeatController.triggerHeartbeat();
   }
   return app.container.getProvider(name2);
 }
-function _removeServiceInstance(app, name2, instanceIdentifier = DEFAULT_ENTRY_NAME2) {
+function _removeServiceInstance(
+  app,
+  name2,
+  instanceIdentifier = DEFAULT_ENTRY_NAME2
+) {
   _getProvider(app, name2).clearInstance(instanceIdentifier);
 }
 function _isFirebaseApp(obj) {
@@ -1499,78 +1684,67 @@ function _clearComponents() {
   _components.clear();
 }
 var ERRORS = {
-  [
-    "no-app"
+  ['no-app']:
     /* AppError.NO_APP */
-  ]: "No Firebase App '{$appName}' has been created - call initializeApp() first",
-  [
-    "bad-app-name"
+    "No Firebase App '{$appName}' has been created - call initializeApp() first",
+  ['bad-app-name']:
     /* AppError.BAD_APP_NAME */
-  ]: "Illegal App name: '{$appName}'",
-  [
-    "duplicate-app"
+    "Illegal App name: '{$appName}'",
+  ['duplicate-app']:
     /* AppError.DUPLICATE_APP */
-  ]: "Firebase App named '{$appName}' already exists with different options or config",
-  [
-    "app-deleted"
+    "Firebase App named '{$appName}' already exists with different options or config",
+  ['app-deleted']:
     /* AppError.APP_DELETED */
-  ]: "Firebase App named '{$appName}' already deleted",
-  [
-    "server-app-deleted"
+    "Firebase App named '{$appName}' already deleted",
+  ['server-app-deleted']:
     /* AppError.SERVER_APP_DELETED */
-  ]: "Firebase Server App has been deleted",
-  [
-    "no-options"
+    'Firebase Server App has been deleted',
+  ['no-options']:
     /* AppError.NO_OPTIONS */
-  ]: "Need to provide options, when not being deployed to hosting via source.",
-  [
-    "invalid-app-argument"
+    'Need to provide options, when not being deployed to hosting via source.',
+  ['invalid-app-argument']:
     /* AppError.INVALID_APP_ARGUMENT */
-  ]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
-  [
-    "invalid-log-argument"
+    'firebase.{$appName}() takes either no argument or a Firebase App instance.',
+  ['invalid-log-argument']:
     /* AppError.INVALID_LOG_ARGUMENT */
-  ]: "First argument to `onLog` must be null or a function.",
-  [
-    "idb-open"
+    'First argument to `onLog` must be null or a function.',
+  ['idb-open']:
     /* AppError.IDB_OPEN */
-  ]: "Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.",
-  [
-    "idb-get"
+    'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
+  ['idb-get']:
     /* AppError.IDB_GET */
-  ]: "Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.",
-  [
-    "idb-set"
+    'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
+  ['idb-set']:
     /* AppError.IDB_WRITE */
-  ]: "Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.",
-  [
-    "idb-delete"
+    'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
+  ['idb-delete']:
     /* AppError.IDB_DELETE */
-  ]: "Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.",
-  [
-    "finalization-registry-not-supported"
+    'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.',
+  ['finalization-registry-not-supported']:
     /* AppError.FINALIZATION_REGISTRY_NOT_SUPPORTED */
-  ]: "FirebaseServerApp deleteOnDeref field defined but the JS runtime does not support FinalizationRegistry.",
-  [
-    "invalid-server-app-environment"
+    'FirebaseServerApp deleteOnDeref field defined but the JS runtime does not support FinalizationRegistry.',
+  ['invalid-server-app-environment']:
     /* AppError.INVALID_SERVER_APP_ENVIRONMENT */
-  ]: "FirebaseServerApp is not for use in browser environments."
+    'FirebaseServerApp is not for use in browser environments.'
 };
-var ERROR_FACTORY = new ErrorFactory("app", "Firebase", ERRORS);
+var ERROR_FACTORY = new ErrorFactory('app', 'Firebase', ERRORS);
 var FirebaseAppImpl = class {
   constructor(options, config, container) {
     this._isDeleted = false;
     this._options = Object.assign({}, options);
     this._config = Object.assign({}, config);
     this._name = config.name;
-    this._automaticDataCollectionEnabled = config.automaticDataCollectionEnabled;
+    this._automaticDataCollectionEnabled =
+      config.automaticDataCollectionEnabled;
     this._container = container;
-    this.container.addComponent(new Component(
-      "app",
-      () => this,
-      "PUBLIC"
-      /* ComponentType.PUBLIC */
-    ));
+    this.container.addComponent(
+      new Component(
+        'app',
+        () => this,
+        'PUBLIC'
+        /* ComponentType.PUBLIC */
+      )
+    );
   }
   get automaticDataCollectionEnabled() {
     this.checkDestroyed();
@@ -1607,7 +1781,7 @@ var FirebaseAppImpl = class {
    */
   checkDestroyed() {
     if (this.isDeleted) {
-      throw ERROR_FACTORY.create("app-deleted", {
+      throw ERROR_FACTORY.create('app-deleted', {
         appName: this._name
       });
     }
@@ -1615,7 +1789,10 @@ var FirebaseAppImpl = class {
 };
 var FirebaseServerAppImpl = class extends FirebaseAppImpl {
   constructor(options, serverConfig, name2, container) {
-    const automaticDataCollectionEnabled = serverConfig.automaticDataCollectionEnabled !== void 0 ? serverConfig.automaticDataCollectionEnabled : false;
+    const automaticDataCollectionEnabled =
+      serverConfig.automaticDataCollectionEnabled !== void 0
+        ? serverConfig.automaticDataCollectionEnabled
+        : false;
     const config = {
       name: name2,
       automaticDataCollectionEnabled
@@ -1626,11 +1803,14 @@ var FirebaseServerAppImpl = class extends FirebaseAppImpl {
       const appImpl = options;
       super(appImpl.options, config, container);
     }
-    this._serverConfig = Object.assign({
-      automaticDataCollectionEnabled
-    }, serverConfig);
+    this._serverConfig = Object.assign(
+      {
+        automaticDataCollectionEnabled
+      },
+      serverConfig
+    );
     this._finalizationRegistry = null;
-    if (typeof FinalizationRegistry !== "undefined") {
+    if (typeof FinalizationRegistry !== 'undefined') {
       this._finalizationRegistry = new FinalizationRegistry(() => {
         this.automaticCleanup();
       });
@@ -1639,7 +1819,7 @@ var FirebaseServerAppImpl = class extends FirebaseAppImpl {
     this.incRefCount(this._serverConfig.releaseOnDeref);
     this._serverConfig.releaseOnDeref = void 0;
     serverConfig.releaseOnDeref = void 0;
-    registerVersion(name$p, version$1, "serverapp");
+    registerVersion(name$p, version$1, 'serverapp');
   }
   toJSON() {
     return void 0;
@@ -1682,7 +1862,7 @@ var FirebaseServerAppImpl = class extends FirebaseAppImpl {
   checkDestroyed() {
     if (this.isDeleted) {
       throw ERROR_FACTORY.create(
-        "server-app-deleted"
+        'server-app-deleted'
         /* AppError.SERVER_APP_DELETED */
       );
     }
@@ -1691,35 +1871,41 @@ var FirebaseServerAppImpl = class extends FirebaseAppImpl {
 var SDK_VERSION = version;
 function initializeApp(_options, rawConfig = {}) {
   let options = _options;
-  if (typeof rawConfig !== "object") {
+  if (typeof rawConfig !== 'object') {
     const name3 = rawConfig;
     rawConfig = {
       name: name3
     };
   }
-  const config = Object.assign({
-    name: DEFAULT_ENTRY_NAME2,
-    automaticDataCollectionEnabled: false
-  }, rawConfig);
+  const config = Object.assign(
+    {
+      name: DEFAULT_ENTRY_NAME2,
+      automaticDataCollectionEnabled: false
+    },
+    rawConfig
+  );
   const name2 = config.name;
-  if (typeof name2 !== "string" || !name2) {
-    throw ERROR_FACTORY.create("bad-app-name", {
+  if (typeof name2 !== 'string' || !name2) {
+    throw ERROR_FACTORY.create('bad-app-name', {
       appName: String(name2)
     });
   }
   options || (options = getDefaultAppConfig());
   if (!options) {
     throw ERROR_FACTORY.create(
-      "no-options"
+      'no-options'
       /* AppError.NO_OPTIONS */
     );
   }
   const existingApp = _apps.get(name2);
   if (existingApp) {
-    if (deepEqual(options, existingApp.options) && deepEqual(config, existingApp.config)) {
+    if (
+      deepEqual(options, existingApp.options) &&
+      deepEqual(config, existingApp.config)
+    ) {
       return existingApp;
     } else {
-      throw ERROR_FACTORY.create("duplicate-app", {
+      throw ERROR_FACTORY.create('duplicate-app', {
         appName: name2
       });
     }
@@ -1735,7 +1921,7 @@ function initializeApp(_options, rawConfig = {}) {
 function initializeServerApp(_options, _serverAppConfig) {
   if (isBrowser() && !isWebWorker()) {
     throw ERROR_FACTORY.create(
-      "invalid-server-app-environment"
+      'invalid-server-app-environment'
       /* AppError.INVALID_SERVER_APP_ENVIRONMENT */
     );
   }
@@ -1748,19 +1934,25 @@ function initializeServerApp(_options, _serverAppConfig) {
   } else {
     appOptions = _options;
   }
-  const nameObj = Object.assign(Object.assign({}, _serverAppConfig), appOptions);
+  const nameObj = Object.assign(
+    Object.assign({}, _serverAppConfig),
+    appOptions
+  );
   if (nameObj.releaseOnDeref !== void 0) {
     delete nameObj.releaseOnDeref;
   }
   const hashCode = (s) => {
-    return [...s].reduce((hash, c) => Math.imul(31, hash) + c.charCodeAt(0) | 0, 0);
+    return [...s].reduce(
+      (hash, c) => (Math.imul(31, hash) + c.charCodeAt(0)) | 0,
+      0
+    );
   };
   if (_serverAppConfig.releaseOnDeref !== void 0) {
-    if (typeof FinalizationRegistry === "undefined") {
-      throw ERROR_FACTORY.create("finalization-registry-not-supported", {});
+    if (typeof FinalizationRegistry === 'undefined') {
+      throw ERROR_FACTORY.create('finalization-registry-not-supported', {});
     }
   }
-  const nameString = "" + hashCode(JSON.stringify(nameObj));
+  const nameString = '' + hashCode(JSON.stringify(nameObj));
   const existingApp = _serverApps.get(nameString);
   if (existingApp) {
     existingApp.incRefCount(_serverAppConfig.releaseOnDeref);
@@ -1770,7 +1962,12 @@ function initializeServerApp(_options, _serverAppConfig) {
   for (const component of _components.values()) {
     container.addComponent(component);
   }
-  const newApp = new FirebaseServerAppImpl(appOptions, _serverAppConfig, nameString, container);
+  const newApp = new FirebaseServerAppImpl(
+    appOptions,
+    _serverAppConfig,
+    nameString,
+    container
+  );
   _serverApps.set(nameString, newApp);
   return newApp;
 }
@@ -1780,7 +1977,7 @@ function getApp(name2 = DEFAULT_ENTRY_NAME2) {
     return initializeApp();
   }
   if (!app) {
-    throw ERROR_FACTORY.create("no-app", {
+    throw ERROR_FACTORY.create('no-app', {
       appName: name2
     });
   }
@@ -1804,47 +2001,60 @@ function deleteApp(app) {
       }
     }
     if (cleanupProviders) {
-      yield Promise.all(app.container.getProviders().map((provider) => provider.delete()));
+      yield Promise.all(
+        app.container.getProviders().map((provider) => provider.delete())
+      );
       app.isDeleted = true;
     }
   });
 }
 function registerVersion(libraryKeyOrName, version2, variant) {
   var _a;
-  let library = (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0 ? _a : libraryKeyOrName;
+  let library =
+    (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0
+      ? _a
+      : libraryKeyOrName;
   if (variant) {
     library += `-${variant}`;
   }
   const libraryMismatch = library.match(/\s|\//);
   const versionMismatch = version2.match(/\s|\//);
   if (libraryMismatch || versionMismatch) {
-    const warning = [`Unable to register library "${library}" with version "${version2}":`];
+    const warning = [
+      `Unable to register library "${library}" with version "${version2}":`
+    ];
     if (libraryMismatch) {
-      warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
+      warning.push(
+        `library name "${library}" contains illegal characters (whitespace or "/")`
+      );
     }
     if (libraryMismatch && versionMismatch) {
-      warning.push("and");
+      warning.push('and');
     }
     if (versionMismatch) {
-      warning.push(`version name "${version2}" contains illegal characters (whitespace or "/")`);
+      warning.push(
+        `version name "${version2}" contains illegal characters (whitespace or "/")`
+      );
     }
-    logger.warn(warning.join(" "));
+    logger.warn(warning.join(' '));
     return;
   }
-  _registerComponent(new Component(
-    `${library}-version`,
-    () => ({
-      library,
-      version: version2
-    }),
-    "VERSION"
-    /* ComponentType.VERSION */
-  ));
+  _registerComponent(
+    new Component(
+      `${library}-version`,
+      () => ({
+        library,
+        version: version2
+      }),
+      'VERSION'
+      /* ComponentType.VERSION */
+    )
+  );
 }
 function onLog(logCallback, options) {
-  if (logCallback !== null && typeof logCallback !== "function") {
+  if (logCallback !== null && typeof logCallback !== 'function') {
     throw ERROR_FACTORY.create(
-      "invalid-log-argument"
+      'invalid-log-argument'
       /* AppError.INVALID_LOG_ARGUMENT */
     );
   }
@@ -1853,9 +2063,9 @@ function onLog(logCallback, options) {
 function setLogLevel2(logLevel) {
   setLogLevel(logLevel);
 }
-var DB_NAME = "firebase-heartbeat-database";
+var DB_NAME = 'firebase-heartbeat-database';
 var DB_VERSION = 1;
-var STORE_NAME = "firebase-heartbeat-store";
+var STORE_NAME = 'firebase-heartbeat-store';
 var dbPromise = null;
 function getDbPromise() {
   if (!dbPromise) {
@@ -1871,7 +2081,7 @@ function getDbPromise() {
         }
       }
     }).catch((e) => {
-      throw ERROR_FACTORY.create("idb-open", {
+      throw ERROR_FACTORY.create('idb-open', {
         originalErrorMessage: e.message
       });
     });
@@ -1890,7 +2100,7 @@ function readHeartbeatsFromIndexedDB(app) {
       if (e instanceof FirebaseError) {
         logger.warn(e.message);
       } else {
-        const idbGetError = ERROR_FACTORY.create("idb-get", {
+        const idbGetError = ERROR_FACTORY.create('idb-get', {
           originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
         });
         logger.warn(idbGetError.message);
@@ -1902,7 +2112,7 @@ function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
   return __async(this, null, function* () {
     try {
       const db = yield getDbPromise();
-      const tx = db.transaction(STORE_NAME, "readwrite");
+      const tx = db.transaction(STORE_NAME, 'readwrite');
       const objectStore = tx.objectStore(STORE_NAME);
       yield objectStore.put(heartbeatObject, computeKey(app));
       yield tx.done;
@@ -1910,7 +2120,7 @@ function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
       if (e instanceof FirebaseError) {
         logger.warn(e.message);
       } else {
-        const idbGetError = ERROR_FACTORY.create("idb-set", {
+        const idbGetError = ERROR_FACTORY.create('idb-set', {
           originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
         });
         logger.warn(idbGetError.message);
@@ -1927,7 +2137,7 @@ var HeartbeatServiceImpl = class {
   constructor(container) {
     this.container = container;
     this._heartbeatsCache = null;
-    const app = this.container.getProvider("app").getImmediate();
+    const app = this.container.getProvider('app').getImmediate();
     this._storage = new HeartbeatStorageImpl(app);
     this._heartbeatsCachePromise = this._storage.read().then((result) => {
       this._heartbeatsCache = result;
@@ -1945,16 +2155,31 @@ var HeartbeatServiceImpl = class {
     return __async(this, null, function* () {
       var _a, _b;
       try {
-        const platformLogger = this.container.getProvider("platform-logger").getImmediate();
+        const platformLogger = this.container
+          .getProvider('platform-logger')
+          .getImmediate();
         const agent = platformLogger.getPlatformInfoString();
         const date = getUTCDateString();
-        if (((_a = this._heartbeatsCache) === null || _a === void 0 ? void 0 : _a.heartbeats) == null) {
+        if (
+          ((_a = this._heartbeatsCache) === null || _a === void 0
+            ? void 0
+            : _a.heartbeats) == null
+        ) {
           this._heartbeatsCache = yield this._heartbeatsCachePromise;
-          if (((_b = this._heartbeatsCache) === null || _b === void 0 ? void 0 : _b.heartbeats) == null) {
+          if (
+            ((_b = this._heartbeatsCache) === null || _b === void 0
+              ? void 0
+              : _b.heartbeats) == null
+          ) {
             return;
           }
         }
-        if (this._heartbeatsCache.lastSentHeartbeatDate === date || this._heartbeatsCache.heartbeats.some((singleDateHeartbeat) => singleDateHeartbeat.date === date)) {
+        if (
+          this._heartbeatsCache.lastSentHeartbeatDate === date ||
+          this._heartbeatsCache.heartbeats.some(
+            (singleDateHeartbeat) => singleDateHeartbeat.date === date
+          )
+        ) {
           return;
         } else {
           this._heartbeatsCache.heartbeats.push({
@@ -1962,11 +2187,12 @@ var HeartbeatServiceImpl = class {
             agent
           });
         }
-        this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter((singleDateHeartbeat) => {
-          const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
-          const now = Date.now();
-          return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
-        });
+        this._heartbeatsCache.heartbeats =
+          this._heartbeatsCache.heartbeats.filter((singleDateHeartbeat) => {
+            const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
+            const now = Date.now();
+            return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
+          });
         return this._storage.overwrite(this._heartbeatsCache);
       } catch (e) {
         logger.warn(e);
@@ -1987,18 +2213,24 @@ var HeartbeatServiceImpl = class {
         if (this._heartbeatsCache === null) {
           yield this._heartbeatsCachePromise;
         }
-        if (((_a = this._heartbeatsCache) === null || _a === void 0 ? void 0 : _a.heartbeats) == null || this._heartbeatsCache.heartbeats.length === 0) {
-          return "";
+        if (
+          ((_a = this._heartbeatsCache) === null || _a === void 0
+            ? void 0
+            : _a.heartbeats) == null ||
+          this._heartbeatsCache.heartbeats.length === 0
+        ) {
+          return '';
         }
         const date = getUTCDateString();
-        const {
-          heartbeatsToSend,
-          unsentEntries
-        } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
-        const headerString = base64urlEncodeWithoutPadding(JSON.stringify({
-          version: 2,
-          heartbeats: heartbeatsToSend
-        }));
+        const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(
+          this._heartbeatsCache.heartbeats
+        );
+        const headerString = base64urlEncodeWithoutPadding(
+          JSON.stringify({
+            version: 2,
+            heartbeats: heartbeatsToSend
+          })
+        );
         this._heartbeatsCache.lastSentHeartbeatDate = date;
         if (unsentEntries.length > 0) {
           this._heartbeatsCache.heartbeats = unsentEntries;
@@ -2010,7 +2242,7 @@ var HeartbeatServiceImpl = class {
         return headerString;
       } catch (e) {
         logger.warn(e);
-        return "";
+        return '';
       }
     });
   }
@@ -2019,11 +2251,16 @@ function getUTCDateString() {
   const today = /* @__PURE__ */ new Date();
   return today.toISOString().substring(0, 10);
 }
-function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
+function extractHeartbeatsForHeader(
+  heartbeatsCache,
+  maxSize = MAX_HEADER_BYTES
+) {
   const heartbeatsToSend = [];
   let unsentEntries = heartbeatsCache.slice();
   for (const singleDateHeartbeat of heartbeatsCache) {
-    const heartbeatEntry = heartbeatsToSend.find((hb) => hb.agent === singleDateHeartbeat.agent);
+    const heartbeatEntry = heartbeatsToSend.find(
+      (hb) => hb.agent === singleDateHeartbeat.agent
+    );
     if (!heartbeatEntry) {
       heartbeatsToSend.push({
         agent: singleDateHeartbeat.agent,
@@ -2057,7 +2294,9 @@ var HeartbeatStorageImpl = class {
       if (!isIndexedDBAvailable()) {
         return false;
       } else {
-        return validateIndexedDBOpenable().then(() => true).catch(() => false);
+        return validateIndexedDBOpenable()
+          .then(() => true)
+          .catch(() => false);
       }
     });
   }
@@ -2073,7 +2312,11 @@ var HeartbeatStorageImpl = class {
         };
       } else {
         const idbHeartbeatObject = yield readHeartbeatsFromIndexedDB(this.app);
-        if (idbHeartbeatObject === null || idbHeartbeatObject === void 0 ? void 0 : idbHeartbeatObject.heartbeats) {
+        if (
+          idbHeartbeatObject === null || idbHeartbeatObject === void 0
+            ? void 0
+            : idbHeartbeatObject.heartbeats
+        ) {
           return idbHeartbeatObject;
         } else {
           return {
@@ -2093,7 +2336,11 @@ var HeartbeatStorageImpl = class {
       } else {
         const existingHeartbeatsObject = yield this.read();
         return writeHeartbeatsToIndexedDB(this.app, {
-          lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+          lastSentHeartbeatDate:
+            (_a = heartbeatsObject.lastSentHeartbeatDate) !== null &&
+            _a !== void 0
+              ? _a
+              : existingHeartbeatsObject.lastSentHeartbeatDate,
           heartbeats: heartbeatsObject.heartbeats
         });
       }
@@ -2109,8 +2356,15 @@ var HeartbeatStorageImpl = class {
       } else {
         const existingHeartbeatsObject = yield this.read();
         return writeHeartbeatsToIndexedDB(this.app, {
-          lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
-          heartbeats: [...existingHeartbeatsObject.heartbeats, ...heartbeatsObject.heartbeats]
+          lastSentHeartbeatDate:
+            (_a = heartbeatsObject.lastSentHeartbeatDate) !== null &&
+            _a !== void 0
+              ? _a
+              : existingHeartbeatsObject.lastSentHeartbeatDate,
+          heartbeats: [
+            ...existingHeartbeatsObject.heartbeats,
+            ...heartbeatsObject.heartbeats
+          ]
         });
       }
     });
@@ -2126,23 +2380,27 @@ function countBytes(heartbeatsCache) {
   ).length;
 }
 function registerCoreComponents(variant) {
-  _registerComponent(new Component(
-    "platform-logger",
-    (container) => new PlatformLoggerServiceImpl(container),
-    "PRIVATE"
-    /* ComponentType.PRIVATE */
-  ));
-  _registerComponent(new Component(
-    "heartbeat",
-    (container) => new HeartbeatServiceImpl(container),
-    "PRIVATE"
-    /* ComponentType.PRIVATE */
-  ));
+  _registerComponent(
+    new Component(
+      'platform-logger',
+      (container) => new PlatformLoggerServiceImpl(container),
+      'PRIVATE'
+      /* ComponentType.PRIVATE */
+    )
+  );
+  _registerComponent(
+    new Component(
+      'heartbeat',
+      (container) => new HeartbeatServiceImpl(container),
+      'PRIVATE'
+      /* ComponentType.PRIVATE */
+    )
+  );
   registerVersion(name$p, version$1, variant);
-  registerVersion(name$p, version$1, "esm2017");
-  registerVersion("fire-js", "");
+  registerVersion(name$p, version$1, 'esm2017');
+  registerVersion('fire-js', '');
 }
-registerCoreComponents("");
+registerCoreComponents('');
 
 export {
   base64Decode,

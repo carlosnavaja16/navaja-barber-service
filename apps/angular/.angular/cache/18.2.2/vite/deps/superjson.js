@@ -1,7 +1,4 @@
-import {
-  __spreadProps,
-  __spreadValues
-} from "./chunk-5K356HEJ.js";
+import { __spreadProps, __spreadValues } from './chunk-5K356HEJ.js';
 
 // ../../node_modules/superjson/dist/double-indexed-kv.js
 var DoubleIndexedKV = class {
@@ -58,7 +55,7 @@ var ClassRegistry = class extends Registry {
     this.classToAllowedProps = /* @__PURE__ */ new Map();
   }
   register(value, options) {
-    if (typeof options === "object") {
+    if (typeof options === 'object') {
       if (options.allowProps) {
         this.classToAllowedProps.set(value, options.allowProps);
       }
@@ -74,7 +71,7 @@ var ClassRegistry = class extends Registry {
 
 // ../../node_modules/superjson/dist/util.js
 function valuesOfObj(record) {
-  if ("values" in Object) {
+  if ('values' in Object) {
     return Object.values(record);
   }
   const values = [];
@@ -87,7 +84,7 @@ function valuesOfObj(record) {
 }
 function find(record, predicate) {
   const values = valuesOfObj(record);
-  if ("find" in values) {
+  if ('find' in values) {
     return values.find(predicate);
   }
   const valuesNotNever = values;
@@ -133,50 +130,58 @@ var CustomTransformerRegistry = class {
 
 // ../../node_modules/superjson/dist/is.js
 var getType = (payload) => Object.prototype.toString.call(payload).slice(8, -1);
-var isUndefined = (payload) => typeof payload === "undefined";
+var isUndefined = (payload) => typeof payload === 'undefined';
 var isNull = (payload) => payload === null;
 var isPlainObject = (payload) => {
-  if (typeof payload !== "object" || payload === null) return false;
+  if (typeof payload !== 'object' || payload === null) return false;
   if (payload === Object.prototype) return false;
   if (Object.getPrototypeOf(payload) === null) return true;
   return Object.getPrototypeOf(payload) === Object.prototype;
 };
-var isEmptyObject = (payload) => isPlainObject(payload) && Object.keys(payload).length === 0;
+var isEmptyObject = (payload) =>
+  isPlainObject(payload) && Object.keys(payload).length === 0;
 var isArray = (payload) => Array.isArray(payload);
-var isString = (payload) => typeof payload === "string";
-var isNumber = (payload) => typeof payload === "number" && !isNaN(payload);
-var isBoolean = (payload) => typeof payload === "boolean";
+var isString = (payload) => typeof payload === 'string';
+var isNumber = (payload) => typeof payload === 'number' && !isNaN(payload);
+var isBoolean = (payload) => typeof payload === 'boolean';
 var isRegExp = (payload) => payload instanceof RegExp;
 var isMap = (payload) => payload instanceof Map;
 var isSet = (payload) => payload instanceof Set;
-var isSymbol = (payload) => getType(payload) === "Symbol";
+var isSymbol = (payload) => getType(payload) === 'Symbol';
 var isDate = (payload) => payload instanceof Date && !isNaN(payload.valueOf());
 var isError = (payload) => payload instanceof Error;
-var isNaNValue = (payload) => typeof payload === "number" && isNaN(payload);
-var isPrimitive = (payload) => isBoolean(payload) || isNull(payload) || isUndefined(payload) || isNumber(payload) || isString(payload) || isSymbol(payload);
-var isBigint = (payload) => typeof payload === "bigint";
+var isNaNValue = (payload) => typeof payload === 'number' && isNaN(payload);
+var isPrimitive = (payload) =>
+  isBoolean(payload) ||
+  isNull(payload) ||
+  isUndefined(payload) ||
+  isNumber(payload) ||
+  isString(payload) ||
+  isSymbol(payload);
+var isBigint = (payload) => typeof payload === 'bigint';
 var isInfinite = (payload) => payload === Infinity || payload === -Infinity;
-var isTypedArray = (payload) => ArrayBuffer.isView(payload) && !(payload instanceof DataView);
+var isTypedArray = (payload) =>
+  ArrayBuffer.isView(payload) && !(payload instanceof DataView);
 var isURL = (payload) => payload instanceof URL;
 
 // ../../node_modules/superjson/dist/pathstringifier.js
-var escapeKey = (key) => key.replace(/\./g, "\\.");
-var stringifyPath = (path) => path.map(String).map(escapeKey).join(".");
+var escapeKey = (key) => key.replace(/\./g, '\\.');
+var stringifyPath = (path) => path.map(String).map(escapeKey).join('.');
 var parsePath = (string) => {
   const result = [];
-  let segment = "";
+  let segment = '';
   for (let i = 0; i < string.length; i++) {
     let char = string.charAt(i);
-    const isEscapedDot = char === "\\" && string.charAt(i + 1) === ".";
+    const isEscapedDot = char === '\\' && string.charAt(i + 1) === '.';
     if (isEscapedDot) {
-      segment += ".";
+      segment += '.';
       i++;
       continue;
     }
-    const isEndOfSegment = char === ".";
+    const isEndOfSegment = char === '.';
     if (isEndOfSegment) {
       result.push(segment);
-      segment = "";
+      segment = '';
       continue;
     }
     segment += char;
@@ -187,7 +192,12 @@ var parsePath = (string) => {
 };
 
 // ../../node_modules/superjson/dist/transformer.js
-function simpleTransformation(isApplicable, annotation, transform, untransform) {
+function simpleTransformation(
+  isApplicable,
+  annotation,
+  transform,
+  untransform
+) {
   return {
     isApplicable,
     annotation,
@@ -195,53 +205,114 @@ function simpleTransformation(isApplicable, annotation, transform, untransform) 
     untransform
   };
 }
-var simpleRules = [simpleTransformation(isUndefined, "undefined", () => null, () => void 0), simpleTransformation(isBigint, "bigint", (v) => v.toString(), (v) => {
-  if (typeof BigInt !== "undefined") {
-    return BigInt(v);
-  }
-  console.error("Please add a BigInt polyfill.");
-  return v;
-}), simpleTransformation(isDate, "Date", (v) => v.toISOString(), (v) => new Date(v)), simpleTransformation(isError, "Error", (v, superJson) => {
-  const baseError = {
-    name: v.name,
-    message: v.message
-  };
-  superJson.allowedErrorProps.forEach((prop) => {
-    baseError[prop] = v[prop];
-  });
-  return baseError;
-}, (v, superJson) => {
-  const e = new Error(v.message);
-  e.name = v.name;
-  e.stack = v.stack;
-  superJson.allowedErrorProps.forEach((prop) => {
-    e[prop] = v[prop];
-  });
-  return e;
-}), simpleTransformation(isRegExp, "regexp", (v) => "" + v, (regex) => {
-  const body = regex.slice(1, regex.lastIndexOf("/"));
-  const flags = regex.slice(regex.lastIndexOf("/") + 1);
-  return new RegExp(body, flags);
-}), simpleTransformation(
-  isSet,
-  "set",
-  // (sets only exist in es6+)
-  // eslint-disable-next-line es5/no-es6-methods
-  (v) => [...v.values()],
-  (v) => new Set(v)
-), simpleTransformation(isMap, "map", (v) => [...v.entries()], (v) => new Map(v)), simpleTransformation((v) => isNaNValue(v) || isInfinite(v), "number", (v) => {
-  if (isNaNValue(v)) {
-    return "NaN";
-  }
-  if (v > 0) {
-    return "Infinity";
-  } else {
-    return "-Infinity";
-  }
-}, Number), simpleTransformation((v) => v === 0 && 1 / v === -Infinity, "number", () => {
-  return "-0";
-}, Number), simpleTransformation(isURL, "URL", (v) => v.toString(), (v) => new URL(v))];
-function compositeTransformation(isApplicable, annotation, transform, untransform) {
+var simpleRules = [
+  simpleTransformation(
+    isUndefined,
+    'undefined',
+    () => null,
+    () => void 0
+  ),
+  simpleTransformation(
+    isBigint,
+    'bigint',
+    (v) => v.toString(),
+    (v) => {
+      if (typeof BigInt !== 'undefined') {
+        return BigInt(v);
+      }
+      console.error('Please add a BigInt polyfill.');
+      return v;
+    }
+  ),
+  simpleTransformation(
+    isDate,
+    'Date',
+    (v) => v.toISOString(),
+    (v) => new Date(v)
+  ),
+  simpleTransformation(
+    isError,
+    'Error',
+    (v, superJson) => {
+      const baseError = {
+        name: v.name,
+        message: v.message
+      };
+      superJson.allowedErrorProps.forEach((prop) => {
+        baseError[prop] = v[prop];
+      });
+      return baseError;
+    },
+    (v, superJson) => {
+      const e = new Error(v.message);
+      e.name = v.name;
+      e.stack = v.stack;
+      superJson.allowedErrorProps.forEach((prop) => {
+        e[prop] = v[prop];
+      });
+      return e;
+    }
+  ),
+  simpleTransformation(
+    isRegExp,
+    'regexp',
+    (v) => '' + v,
+    (regex) => {
+      const body = regex.slice(1, regex.lastIndexOf('/'));
+      const flags = regex.slice(regex.lastIndexOf('/') + 1);
+      return new RegExp(body, flags);
+    }
+  ),
+  simpleTransformation(
+    isSet,
+    'set',
+    // (sets only exist in es6+)
+    // eslint-disable-next-line es5/no-es6-methods
+    (v) => [...v.values()],
+    (v) => new Set(v)
+  ),
+  simpleTransformation(
+    isMap,
+    'map',
+    (v) => [...v.entries()],
+    (v) => new Map(v)
+  ),
+  simpleTransformation(
+    (v) => isNaNValue(v) || isInfinite(v),
+    'number',
+    (v) => {
+      if (isNaNValue(v)) {
+        return 'NaN';
+      }
+      if (v > 0) {
+        return 'Infinity';
+      } else {
+        return '-Infinity';
+      }
+    },
+    Number
+  ),
+  simpleTransformation(
+    (v) => v === 0 && 1 / v === -Infinity,
+    'number',
+    () => {
+      return '-0';
+    },
+    Number
+  ),
+  simpleTransformation(
+    isURL,
+    'URL',
+    (v) => v.toString(),
+    (v) => new URL(v)
+  )
+];
+function compositeTransformation(
+  isApplicable,
+  annotation,
+  transform,
+  untransform
+) {
   return {
     isApplicable,
     annotation,
@@ -249,85 +320,127 @@ function compositeTransformation(isApplicable, annotation, transform, untransfor
     untransform
   };
 }
-var symbolRule = compositeTransformation((s, superJson) => {
-  if (isSymbol(s)) {
-    const isRegistered = !!superJson.symbolRegistry.getIdentifier(s);
-    return isRegistered;
+var symbolRule = compositeTransformation(
+  (s, superJson) => {
+    if (isSymbol(s)) {
+      const isRegistered = !!superJson.symbolRegistry.getIdentifier(s);
+      return isRegistered;
+    }
+    return false;
+  },
+  (s, superJson) => {
+    const identifier = superJson.symbolRegistry.getIdentifier(s);
+    return ['symbol', identifier];
+  },
+  (v) => v.description,
+  (_, a, superJson) => {
+    const value = superJson.symbolRegistry.getValue(a[1]);
+    if (!value) {
+      throw new Error('Trying to deserialize unknown symbol');
+    }
+    return value;
   }
-  return false;
-}, (s, superJson) => {
-  const identifier = superJson.symbolRegistry.getIdentifier(s);
-  return ["symbol", identifier];
-}, (v) => v.description, (_, a, superJson) => {
-  const value = superJson.symbolRegistry.getValue(a[1]);
-  if (!value) {
-    throw new Error("Trying to deserialize unknown symbol");
-  }
-  return value;
-});
-var constructorToName = [Int8Array, Uint8Array, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array, Uint8ClampedArray].reduce((obj, ctor) => {
+);
+var constructorToName = [
+  Int8Array,
+  Uint8Array,
+  Int16Array,
+  Uint16Array,
+  Int32Array,
+  Uint32Array,
+  Float32Array,
+  Float64Array,
+  Uint8ClampedArray
+].reduce((obj, ctor) => {
   obj[ctor.name] = ctor;
   return obj;
 }, {});
-var typedArrayRule = compositeTransformation(isTypedArray, (v) => ["typed-array", v.constructor.name], (v) => [...v], (v, a) => {
-  const ctor = constructorToName[a[1]];
-  if (!ctor) {
-    throw new Error("Trying to deserialize unknown typed array");
+var typedArrayRule = compositeTransformation(
+  isTypedArray,
+  (v) => ['typed-array', v.constructor.name],
+  (v) => [...v],
+  (v, a) => {
+    const ctor = constructorToName[a[1]];
+    if (!ctor) {
+      throw new Error('Trying to deserialize unknown typed array');
+    }
+    return new ctor(v);
   }
-  return new ctor(v);
-});
+);
 function isInstanceOfRegisteredClass(potentialClass, superJson) {
   if (potentialClass?.constructor) {
-    const isRegistered = !!superJson.classRegistry.getIdentifier(potentialClass.constructor);
+    const isRegistered = !!superJson.classRegistry.getIdentifier(
+      potentialClass.constructor
+    );
     return isRegistered;
   }
   return false;
 }
-var classRule = compositeTransformation(isInstanceOfRegisteredClass, (clazz, superJson) => {
-  const identifier = superJson.classRegistry.getIdentifier(clazz.constructor);
-  return ["class", identifier];
-}, (clazz, superJson) => {
-  const allowedProps = superJson.classRegistry.getAllowedProps(clazz.constructor);
-  if (!allowedProps) {
-    return __spreadValues({}, clazz);
+var classRule = compositeTransformation(
+  isInstanceOfRegisteredClass,
+  (clazz, superJson) => {
+    const identifier = superJson.classRegistry.getIdentifier(clazz.constructor);
+    return ['class', identifier];
+  },
+  (clazz, superJson) => {
+    const allowedProps = superJson.classRegistry.getAllowedProps(
+      clazz.constructor
+    );
+    if (!allowedProps) {
+      return __spreadValues({}, clazz);
+    }
+    const result = {};
+    allowedProps.forEach((prop) => {
+      result[prop] = clazz[prop];
+    });
+    return result;
+  },
+  (v, a, superJson) => {
+    const clazz = superJson.classRegistry.getValue(a[1]);
+    if (!clazz) {
+      throw new Error(
+        'Trying to deserialize unknown class - check https://github.com/blitz-js/superjson/issues/116#issuecomment-773996564'
+      );
+    }
+    return Object.assign(Object.create(clazz.prototype), v);
   }
-  const result = {};
-  allowedProps.forEach((prop) => {
-    result[prop] = clazz[prop];
-  });
-  return result;
-}, (v, a, superJson) => {
-  const clazz = superJson.classRegistry.getValue(a[1]);
-  if (!clazz) {
-    throw new Error("Trying to deserialize unknown class - check https://github.com/blitz-js/superjson/issues/116#issuecomment-773996564");
+);
+var customRule = compositeTransformation(
+  (value, superJson) => {
+    return !!superJson.customTransformerRegistry.findApplicable(value);
+  },
+  (value, superJson) => {
+    const transformer =
+      superJson.customTransformerRegistry.findApplicable(value);
+    return ['custom', transformer.name];
+  },
+  (value, superJson) => {
+    const transformer =
+      superJson.customTransformerRegistry.findApplicable(value);
+    return transformer.serialize(value);
+  },
+  (v, a, superJson) => {
+    const transformer = superJson.customTransformerRegistry.findByName(a[1]);
+    if (!transformer) {
+      throw new Error('Trying to deserialize unknown custom value');
+    }
+    return transformer.deserialize(v);
   }
-  return Object.assign(Object.create(clazz.prototype), v);
-});
-var customRule = compositeTransformation((value, superJson) => {
-  return !!superJson.customTransformerRegistry.findApplicable(value);
-}, (value, superJson) => {
-  const transformer = superJson.customTransformerRegistry.findApplicable(value);
-  return ["custom", transformer.name];
-}, (value, superJson) => {
-  const transformer = superJson.customTransformerRegistry.findApplicable(value);
-  return transformer.serialize(value);
-}, (v, a, superJson) => {
-  const transformer = superJson.customTransformerRegistry.findByName(a[1]);
-  if (!transformer) {
-    throw new Error("Trying to deserialize unknown custom value");
-  }
-  return transformer.deserialize(v);
-});
+);
 var compositeRules = [classRule, symbolRule, customRule, typedArrayRule];
 var transformValue = (value, superJson) => {
-  const applicableCompositeRule = findArr(compositeRules, (rule) => rule.isApplicable(value, superJson));
+  const applicableCompositeRule = findArr(compositeRules, (rule) =>
+    rule.isApplicable(value, superJson)
+  );
   if (applicableCompositeRule) {
     return {
       value: applicableCompositeRule.transform(value, superJson),
       type: applicableCompositeRule.annotation(value, superJson)
     };
   }
-  const applicableSimpleRule = findArr(simpleRules, (rule) => rule.isApplicable(value, superJson));
+  const applicableSimpleRule = findArr(simpleRules, (rule) =>
+    rule.isApplicable(value, superJson)
+  );
   if (applicableSimpleRule) {
     return {
       value: applicableSimpleRule.transform(value, superJson),
@@ -343,21 +456,21 @@ simpleRules.forEach((rule) => {
 var untransformValue = (json, type, superJson) => {
   if (isArray(type)) {
     switch (type[0]) {
-      case "symbol":
+      case 'symbol':
         return symbolRule.untransform(json, type, superJson);
-      case "class":
+      case 'class':
         return classRule.untransform(json, type, superJson);
-      case "custom":
+      case 'custom':
         return customRule.untransform(json, type, superJson);
-      case "typed-array":
+      case 'typed-array':
         return typedArrayRule.untransform(json, type, superJson);
       default:
-        throw new Error("Unknown transformation: " + type);
+        throw new Error('Unknown transformation: ' + type);
     }
   } else {
     const transformation = simpleRulesByAnnotation[type];
     if (!transformation) {
-      throw new Error("Unknown transformation: " + type);
+      throw new Error('Unknown transformation: ' + type);
     }
     return transformation.untransform(json, superJson);
   }
@@ -373,14 +486,14 @@ var getNthKey = (value, n) => {
   return keys.next().value;
 };
 function validatePath(path) {
-  if (includes(path, "__proto__")) {
-    throw new Error("__proto__ is not allowed as a property");
+  if (includes(path, '__proto__')) {
+    throw new Error('__proto__ is not allowed as a property');
   }
-  if (includes(path, "prototype")) {
-    throw new Error("prototype is not allowed as a property");
+  if (includes(path, 'prototype')) {
+    throw new Error('prototype is not allowed as a property');
   }
-  if (includes(path, "constructor")) {
-    throw new Error("constructor is not allowed as a property");
+  if (includes(path, 'constructor')) {
+    throw new Error('constructor is not allowed as a property');
   }
 }
 var getDeep = (object, path) => {
@@ -391,13 +504,13 @@ var getDeep = (object, path) => {
       object = getNthKey(object, +key);
     } else if (isMap(object)) {
       const row = +key;
-      const type = +path[++i] === 0 ? "key" : "value";
+      const type = +path[++i] === 0 ? 'key' : 'value';
       const keyOfRow = getNthKey(object, row);
       switch (type) {
-        case "key":
+        case 'key':
           object = keyOfRow;
           break;
-        case "value":
+        case 'value':
           object = object.get(keyOfRow);
           break;
       }
@@ -429,13 +542,13 @@ var setDeep = (object, path, mapper) => {
         break;
       }
       const row = +key;
-      const type = +path[++i] === 0 ? "key" : "value";
+      const type = +path[++i] === 0 ? 'key' : 'value';
       const keyOfRow = getNthKey(parent, row);
       switch (type) {
-        case "key":
+        case 'key':
           parent = keyOfRow;
           break;
-        case "value":
+        case 'value':
           parent = parent.get(keyOfRow);
           break;
       }
@@ -458,9 +571,9 @@ var setDeep = (object, path, mapper) => {
   if (isMap(parent)) {
     const row = +path[path.length - 2];
     const keyToRow = getNthKey(parent, row);
-    const type = +lastKey === 0 ? "key" : "value";
+    const type = +lastKey === 0 ? 'key' : 'value';
     switch (type) {
-      case "key": {
+      case 'key': {
         const newKey = mapper(keyToRow);
         parent.set(newKey, parent.get(keyToRow));
         if (newKey !== keyToRow) {
@@ -468,7 +581,7 @@ var setDeep = (object, path, mapper) => {
         }
         break;
       }
-      case "value": {
+      case 'value': {
         parent.set(keyToRow, mapper(parent.get(keyToRow)));
         break;
       }
@@ -483,7 +596,9 @@ function traverse(tree, walker2, origin = []) {
     return;
   }
   if (!isArray(tree)) {
-    forEach(tree, (subtree, key) => traverse(subtree, walker2, [...origin, ...parsePath(key)]));
+    forEach(tree, (subtree, key) =>
+      traverse(subtree, walker2, [...origin, ...parsePath(key)])
+    );
     return;
   }
   const [nodeValue, children] = tree;
@@ -520,7 +635,12 @@ function applyReferentialEqualityAnnotations(plain, annotations) {
   }
   return plain;
 }
-var isDeep = (object, superJson) => isPlainObject(object) || isArray(object) || isMap(object) || isSet(object) || isInstanceOfRegisteredClass(object, superJson);
+var isDeep = (object, superJson) =>
+  isPlainObject(object) ||
+  isArray(object) ||
+  isMap(object) ||
+  isSet(object) ||
+  isInstanceOfRegisteredClass(object, superJson);
 function addIdentity(object, path, identities) {
   const existingSet = identities.get(object);
   if (existingSet) {
@@ -537,13 +657,16 @@ function generateReferentialEqualityAnnotations(identitites, dedupe) {
       return;
     }
     if (!dedupe) {
-      paths = paths.map((path) => path.map(String)).sort((a, b) => a.length - b.length);
+      paths = paths
+        .map((path) => path.map(String))
+        .sort((a, b) => a.length - b.length);
     }
     const [representativePath, ...identicalPaths] = paths;
     if (representativePath.length === 0) {
       rootEqualityPaths = identicalPaths.map(stringifyPath);
     } else {
-      result[stringifyPath(representativePath)] = identicalPaths.map(stringifyPath);
+      result[stringifyPath(representativePath)] =
+        identicalPaths.map(stringifyPath);
     }
   });
   if (rootEqualityPaths) {
@@ -556,25 +679,37 @@ function generateReferentialEqualityAnnotations(identitites, dedupe) {
     return isEmptyObject(result) ? void 0 : result;
   }
 }
-var walker = (object, identities, superJson, dedupe, path = [], objectsInThisPath = [], seenObjects = /* @__PURE__ */ new Map()) => {
+var walker = (
+  object,
+  identities,
+  superJson,
+  dedupe,
+  path = [],
+  objectsInThisPath = [],
+  seenObjects = /* @__PURE__ */ new Map()
+) => {
   const primitive = isPrimitive(object);
   if (!primitive) {
     addIdentity(object, path, identities);
     const seen = seenObjects.get(object);
     if (seen) {
-      return dedupe ? {
-        transformedValue: null
-      } : seen;
+      return dedupe
+        ? {
+            transformedValue: null
+          }
+        : seen;
     }
   }
   if (!isDeep(object, superJson)) {
     const transformed2 = transformValue(object, superJson);
-    const result2 = transformed2 ? {
-      transformedValue: transformed2.value,
-      annotations: [transformed2.type]
-    } : {
-      transformedValue: object
-    };
+    const result2 = transformed2
+      ? {
+          transformedValue: transformed2.value,
+          annotations: [transformed2.type]
+        }
+      : {
+          transformedValue: object
+        };
     if (!primitive) {
       seenObjects.set(object, result2);
     }
@@ -590,26 +725,46 @@ var walker = (object, identities, superJson, dedupe, path = [], objectsInThisPat
   const transformedValue = isArray(transformed) ? [] : {};
   const innerAnnotations = {};
   forEach(transformed, (value, index) => {
-    if (index === "__proto__" || index === "constructor" || index === "prototype") {
-      throw new Error(`Detected property ${index}. This is a prototype pollution risk, please remove it from your object.`);
+    if (
+      index === '__proto__' ||
+      index === 'constructor' ||
+      index === 'prototype'
+    ) {
+      throw new Error(
+        `Detected property ${index}. This is a prototype pollution risk, please remove it from your object.`
+      );
     }
-    const recursiveResult = walker(value, identities, superJson, dedupe, [...path, index], [...objectsInThisPath, object], seenObjects);
+    const recursiveResult = walker(
+      value,
+      identities,
+      superJson,
+      dedupe,
+      [...path, index],
+      [...objectsInThisPath, object],
+      seenObjects
+    );
     transformedValue[index] = recursiveResult.transformedValue;
     if (isArray(recursiveResult.annotations)) {
       innerAnnotations[index] = recursiveResult.annotations;
     } else if (isPlainObject(recursiveResult.annotations)) {
       forEach(recursiveResult.annotations, (tree, key) => {
-        innerAnnotations[escapeKey(index) + "." + key] = tree;
+        innerAnnotations[escapeKey(index) + '.' + key] = tree;
       });
     }
   });
-  const result = isEmptyObject(innerAnnotations) ? {
-    transformedValue,
-    annotations: !!transformationResult ? [transformationResult.type] : void 0
-  } : {
-    transformedValue,
-    annotations: !!transformationResult ? [transformationResult.type, innerAnnotations] : innerAnnotations
-  };
+  const result = isEmptyObject(innerAnnotations)
+    ? {
+        transformedValue,
+        annotations: !!transformationResult
+          ? [transformationResult.type]
+          : void 0
+      }
+    : {
+        transformedValue,
+        annotations: !!transformationResult
+          ? [transformationResult.type, innerAnnotations]
+          : innerAnnotations
+      };
   if (!primitive) {
     seenObjects.set(object, result);
   }
@@ -621,29 +776,40 @@ function getType2(payload) {
   return Object.prototype.toString.call(payload).slice(8, -1);
 }
 function isArray2(payload) {
-  return getType2(payload) === "Array";
+  return getType2(payload) === 'Array';
 }
 function isPlainObject2(payload) {
-  if (getType2(payload) !== "Object") return false;
+  if (getType2(payload) !== 'Object') return false;
   const prototype = Object.getPrototypeOf(payload);
-  return !!prototype && prototype.constructor === Object && prototype === Object.prototype;
+  return (
+    !!prototype &&
+    prototype.constructor === Object &&
+    prototype === Object.prototype
+  );
 }
 function isNull2(payload) {
-  return getType2(payload) === "Null";
+  return getType2(payload) === 'Null';
 }
 function isOneOf(a, b, c, d, e) {
-  return (value) => a(value) || b(value) || !!c && c(value) || !!d && d(value) || !!e && e(value);
+  return (value) =>
+    a(value) ||
+    b(value) ||
+    (!!c && c(value)) ||
+    (!!d && d(value)) ||
+    (!!e && e(value));
 }
 function isUndefined2(payload) {
-  return getType2(payload) === "Undefined";
+  return getType2(payload) === 'Undefined';
 }
 var isNullOrUndefined = isOneOf(isNull2, isUndefined2);
 
 // ../../node_modules/superjson/node_modules/copy-anything/dist/index.js
 function assignProp(carry, key, newVal, originalObject, includeNonenumerable) {
-  const propType = {}.propertyIsEnumerable.call(originalObject, key) ? "enumerable" : "nonenumerable";
-  if (propType === "enumerable") carry[key] = newVal;
-  if (includeNonenumerable && propType === "nonenumerable") {
+  const propType = {}.propertyIsEnumerable.call(originalObject, key)
+    ? 'enumerable'
+    : 'nonenumerable';
+  if (propType === 'enumerable') carry[key] = newVal;
+  if (includeNonenumerable && propType === 'nonenumerable') {
     Object.defineProperty(carry, key, {
       value: newVal,
       enumerable: false,
@@ -677,11 +843,9 @@ var SuperJSON = class {
   /**
    * @param dedupeReferentialEqualities  If true, SuperJSON will make sure only one instance of referentially equal objects are serialized and the rest are replaced with `null`.
    */
-  constructor({
-    dedupe = false
-  } = {}) {
+  constructor({ dedupe = false } = {}) {
     this.classRegistry = new ClassRegistry();
-    this.symbolRegistry = new Registry((s) => s.description ?? "");
+    this.symbolRegistry = new Registry((s) => s.description ?? '');
     this.customTransformerRegistry = new CustomTransformerRegistry();
     this.allowedErrorProps = [];
     this.dedupe = dedupe;
@@ -697,7 +861,10 @@ var SuperJSON = class {
         values: output.annotations
       });
     }
-    const equalityAnnotations = generateReferentialEqualityAnnotations(identities, this.dedupe);
+    const equalityAnnotations = generateReferentialEqualityAnnotations(
+      identities,
+      this.dedupe
+    );
     if (equalityAnnotations) {
       res.meta = __spreadProps(__spreadValues({}, res.meta), {
         referentialEqualities: equalityAnnotations
@@ -706,16 +873,16 @@ var SuperJSON = class {
     return res;
   }
   deserialize(payload) {
-    const {
-      json,
-      meta
-    } = payload;
+    const { json, meta } = payload;
     let result = copy(json);
     if (meta?.values) {
       result = applyValueAnnotations(result, meta.values, this);
     }
     if (meta?.referentialEqualities) {
-      result = applyReferentialEqualityAnnotations(result, meta.referentialEqualities);
+      result = applyReferentialEqualityAnnotations(
+        result,
+        meta.referentialEqualities
+      );
     }
     return result;
   }
@@ -732,23 +899,44 @@ var SuperJSON = class {
     this.symbolRegistry.register(v, identifier);
   }
   registerCustom(transformer, name) {
-    this.customTransformerRegistry.register(__spreadValues({
-      name
-    }, transformer));
+    this.customTransformerRegistry.register(
+      __spreadValues(
+        {
+          name
+        },
+        transformer
+      )
+    );
   }
   allowErrorProps(...props) {
     this.allowedErrorProps.push(...props);
   }
 };
 SuperJSON.defaultInstance = new SuperJSON();
-SuperJSON.serialize = SuperJSON.defaultInstance.serialize.bind(SuperJSON.defaultInstance);
-SuperJSON.deserialize = SuperJSON.defaultInstance.deserialize.bind(SuperJSON.defaultInstance);
-SuperJSON.stringify = SuperJSON.defaultInstance.stringify.bind(SuperJSON.defaultInstance);
-SuperJSON.parse = SuperJSON.defaultInstance.parse.bind(SuperJSON.defaultInstance);
-SuperJSON.registerClass = SuperJSON.defaultInstance.registerClass.bind(SuperJSON.defaultInstance);
-SuperJSON.registerSymbol = SuperJSON.defaultInstance.registerSymbol.bind(SuperJSON.defaultInstance);
-SuperJSON.registerCustom = SuperJSON.defaultInstance.registerCustom.bind(SuperJSON.defaultInstance);
-SuperJSON.allowErrorProps = SuperJSON.defaultInstance.allowErrorProps.bind(SuperJSON.defaultInstance);
+SuperJSON.serialize = SuperJSON.defaultInstance.serialize.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.deserialize = SuperJSON.defaultInstance.deserialize.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.stringify = SuperJSON.defaultInstance.stringify.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.parse = SuperJSON.defaultInstance.parse.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.registerClass = SuperJSON.defaultInstance.registerClass.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.registerSymbol = SuperJSON.defaultInstance.registerSymbol.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.registerCustom = SuperJSON.defaultInstance.registerCustom.bind(
+  SuperJSON.defaultInstance
+);
+SuperJSON.allowErrorProps = SuperJSON.defaultInstance.allowErrorProps.bind(
+  SuperJSON.defaultInstance
+);
 var serialize = SuperJSON.serialize;
 var deserialize = SuperJSON.deserialize;
 var stringify = SuperJSON.stringify;

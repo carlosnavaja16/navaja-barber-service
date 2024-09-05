@@ -14,7 +14,7 @@ import {
   STATE_REGEX,
   ZIP_CODE_REGEX,
   SignUpDetails
- } from '@navaja/shared';
+} from '@navaja/shared';
 
 @Component({
   selector: 'sign-up-form',

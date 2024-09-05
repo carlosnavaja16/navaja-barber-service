@@ -14,6 +14,7 @@ const app = new Hono();
 export const firebaseApp = admin.initializeApp({
   credential: cert(firebaseSvcAccCreds)
 });
+export type BarberServiceRouter = typeof barberServiceRouter;
 
 app.use(cors());
 app.use(

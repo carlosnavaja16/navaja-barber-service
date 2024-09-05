@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { 
+import {
   UserProfile,
   AT_LEAST_TWO_CHARS_REGEX,
   PHONE_REGEX,

@@ -1,8 +1,4 @@
-import {
-  __async,
-  __spreadProps,
-  __spreadValues
-} from "./chunk-5K356HEJ.js";
+import { __async, __spreadProps, __spreadValues } from './chunk-5K356HEJ.js';
 
 // ../../node_modules/@trpc/server/dist/observable-ade1bad8.mjs
 function identity(x) {
@@ -35,7 +31,7 @@ function observable(subscribe) {
           return;
         }
         unsubscribed = true;
-        if (typeof teardownRef === "function") {
+        if (typeof teardownRef === 'function') {
           teardownRef();
         } else if (teardownRef) {
           teardownRef.unsubscribe();
@@ -158,7 +154,7 @@ function tap(observer) {
 var ObservableAbortError = class _ObservableAbortError extends Error {
   constructor(message) {
     super(message);
-    this.name = "ObservableAbortError";
+    this.name = 'ObservableAbortError';
     Object.setPrototypeOf(this, _ObservableAbortError.prototype);
   }
 };
@@ -171,7 +167,7 @@ function observableToPromise(observable2) {
         return;
       }
       isDone = true;
-      reject(new ObservableAbortError("This operation was aborted."));
+      reject(new ObservableAbortError('This operation was aborted.'));
       obs$.unsubscribe();
     }
     const obs$ = observable2.subscribe({
@@ -205,7 +201,9 @@ function createChain(opts) {
     function execute(index = 0, op = opts.op) {
       const next = opts.links[index];
       if (!next) {
-        throw new Error("No more links to execute - did you forget to add an ending link?");
+        throw new Error(
+          'No more links to execute - did you forget to add an ending link?'
+        );
       }
       const subscription = next({
         op,
@@ -250,13 +248,13 @@ function invert(obj) {
 }
 var TRPC_ERROR_CODES_BY_KEY = {
   /**
-  * Invalid JSON was received by the server.
-  * An error occurred on the server while parsing the JSON text.
-  */
+   * Invalid JSON was received by the server.
+   * An error occurred on the server while parsing the JSON text.
+   */
   PARSE_ERROR: -32700,
   /**
-  * The JSON sent is not a valid Request object.
-  */
+   * The JSON sent is not a valid Request object.
+   */
   BAD_REQUEST: -32600,
   // Internal JSON-RPC error
   INTERNAL_SERVER_ERROR: -32603,
@@ -278,20 +276,19 @@ var TRPC_ERROR_CODES_BY_NUMBER = invert(TRPC_ERROR_CODES_BY_KEY);
 
 // ../../node_modules/@trpc/server/dist/index-f91d720c.mjs
 var TRPC_ERROR_CODES_BY_NUMBER2 = invert(TRPC_ERROR_CODES_BY_KEY);
-var noop = () => {
-};
+var noop = () => {};
 function createInnerProxy(callback, path) {
   const proxy = new Proxy(noop, {
     get(_obj, key) {
-      if (typeof key !== "string" || key === "then") {
+      if (typeof key !== 'string' || key === 'then') {
         return void 0;
       }
       return createInnerProxy(callback, [...path, key]);
     },
     apply(_1, _2, args) {
-      const isApply = path[path.length - 1] === "apply";
+      const isApply = path[path.length - 1] === 'apply';
       return callback({
-        args: isApply ? args.length >= 2 ? args[1] : [] : args,
+        args: isApply ? (args.length >= 2 ? args[1] : []) : args,
         path: isApply ? path.slice(0, -1) : path
       });
     }
@@ -302,7 +299,7 @@ var createRecursiveProxy = (callback) => createInnerProxy(callback, []);
 var createFlatProxy = (callback) => {
   return new Proxy(noop, {
     get(_obj, name) {
-      if (typeof name !== "string" || name === "then") {
+      if (typeof name !== 'string' || name === 'then') {
         return void 0;
       }
       return callback(name);
@@ -312,19 +309,18 @@ var createFlatProxy = (callback) => {
 
 // ../../node_modules/@trpc/server/dist/getCauseFromUnknown-2d66414a.mjs
 function isObject(value) {
-  return !!value && !Array.isArray(value) && typeof value === "object";
+  return !!value && !Array.isArray(value) && typeof value === 'object';
 }
-var UnknownCauseError = class extends Error {
-};
+var UnknownCauseError = class extends Error {};
 function getCauseFromUnknown(cause) {
   if (cause instanceof Error) {
     return cause;
   }
   const type = typeof cause;
-  if (type === "undefined" || type === "function" || cause === null) {
+  if (type === 'undefined' || type === 'function' || cause === null) {
     return void 0;
   }
-  if (type !== "object") {
+  if (type !== 'object') {
     return new Error(String(cause));
   }
   if (isObject(cause)) {
@@ -339,10 +335,10 @@ function getCauseFromUnknown(cause) {
 
 // ../../node_modules/@trpc/client/dist/transformResult-ace864b8.mjs
 function isObject2(value) {
-  return !!value && !Array.isArray(value) && typeof value === "object";
+  return !!value && !Array.isArray(value) && typeof value === 'object';
 }
 function transformResultInner(response, runtime) {
-  if ("error" in response) {
+  if ('error' in response) {
     const error = runtime.transformer.deserialize(response.error);
     return {
       ok: false,
@@ -351,10 +347,13 @@ function transformResultInner(response, runtime) {
       })
     };
   }
-  const result = __spreadValues(__spreadValues({}, response.result), (!response.result.type || response.result.type === "data") && {
-    type: "data",
-    data: runtime.transformer.deserialize(response.result.data)
-  });
+  const result = __spreadValues(
+    __spreadValues({}, response.result),
+    (!response.result.type || response.result.type === 'data') && {
+      type: 'data',
+      data: runtime.transformer.deserialize(response.result.data)
+    }
+  );
   return {
     ok: true,
     result
@@ -362,7 +361,7 @@ function transformResultInner(response, runtime) {
 }
 var TransformResultError = class extends Error {
   constructor() {
-    super("Unable to transform response from server");
+    super('Unable to transform response from server');
   }
 };
 function transformResult(response, runtime) {
@@ -372,7 +371,11 @@ function transformResult(response, runtime) {
   } catch (err) {
     throw new TransformResultError();
   }
-  if (!result.ok && (!isObject2(result.error.error) || typeof result.error.error.code !== "number")) {
+  if (
+    !result.ok &&
+    (!isObject2(result.error.error) ||
+      typeof result.error.error.code !== 'number')
+  ) {
     throw new TransformResultError();
   }
   if (result.ok && !isObject2(result.result)) {
@@ -383,14 +386,21 @@ function transformResult(response, runtime) {
 
 // ../../node_modules/@trpc/client/dist/TRPCClientError-38f9a32a.mjs
 function isTRPCClientError(cause) {
-  return cause instanceof TRPCClientError || /**
-  * @deprecated
-  * Delete in next major
-  */
-  cause instanceof Error && cause.name === "TRPCClientError";
+  return (
+    cause instanceof TRPCClientError /**
+     * @deprecated
+     * Delete in next major
+     */ ||
+    (cause instanceof Error && cause.name === 'TRPCClientError')
+  );
 }
 function isTRPCErrorResponse(obj) {
-  return isObject2(obj) && isObject2(obj.error) && typeof obj.error.code === "number" && typeof obj.error.message === "string";
+  return (
+    isObject2(obj) &&
+    isObject2(obj.error) &&
+    typeof obj.error.code === 'number' &&
+    typeof obj.error.message === 'string'
+  );
 }
 var TRPCClientError = class _TRPCClientError extends Error {
   static from(_cause, opts = {}) {
@@ -402,18 +412,27 @@ var TRPCClientError = class _TRPCClientError extends Error {
       return cause;
     }
     if (isTRPCErrorResponse(cause)) {
-      return new _TRPCClientError(cause.error.message, __spreadProps(__spreadValues({}, opts), {
-        result: cause
-      }));
+      return new _TRPCClientError(
+        cause.error.message,
+        __spreadProps(__spreadValues({}, opts), {
+          result: cause
+        })
+      );
     }
     if (!(cause instanceof Error)) {
-      return new _TRPCClientError("Unknown error", __spreadProps(__spreadValues({}, opts), {
-        cause
-      }));
+      return new _TRPCClientError(
+        'Unknown error',
+        __spreadProps(__spreadValues({}, opts), {
+          cause
+        })
+      );
     }
-    return new _TRPCClientError(cause.message, __spreadProps(__spreadValues({}, opts), {
-      cause: getCauseFromUnknown(cause)
-    }));
+    return new _TRPCClientError(
+      cause.message,
+      __spreadProps(__spreadValues({}, opts), {
+        cause: getCauseFromUnknown(cause)
+      })
+    );
   }
   constructor(message, opts) {
     const cause = opts?.cause;
@@ -424,40 +443,40 @@ var TRPCClientError = class _TRPCClientError extends Error {
     this.cause = cause;
     this.shape = opts?.result?.error;
     this.data = opts?.result?.error.data;
-    this.name = "TRPCClientError";
+    this.name = 'TRPCClientError';
     Object.setPrototypeOf(this, _TRPCClientError.prototype);
   }
 };
 
 // ../../node_modules/@trpc/client/dist/httpUtils-b9d0cb48.mjs
-var isFunction = (fn) => typeof fn === "function";
+var isFunction = (fn) => typeof fn === 'function';
 function getFetch(customFetchImpl) {
   if (customFetchImpl) {
     return customFetchImpl;
   }
-  if (typeof window !== "undefined" && isFunction(window.fetch)) {
+  if (typeof window !== 'undefined' && isFunction(window.fetch)) {
     return window.fetch;
   }
-  if (typeof globalThis !== "undefined" && isFunction(globalThis.fetch)) {
+  if (typeof globalThis !== 'undefined' && isFunction(globalThis.fetch)) {
     return globalThis.fetch;
   }
-  throw new Error("No fetch implementation found");
+  throw new Error('No fetch implementation found');
 }
 function getAbortController(customAbortControllerImpl) {
   if (customAbortControllerImpl) {
     return customAbortControllerImpl;
   }
-  if (typeof window !== "undefined" && window.AbortController) {
+  if (typeof window !== 'undefined' && window.AbortController) {
     return window.AbortController;
   }
-  if (typeof globalThis !== "undefined" && globalThis.AbortController) {
+  if (typeof globalThis !== 'undefined' && globalThis.AbortController) {
     return globalThis.AbortController;
   }
   return null;
 }
 function resolveHTTPLinkOptions(opts) {
   return {
-    url: opts.url.toString().replace(/\/$/, ""),
+    url: opts.url.toString().replace(/\/$/, ''),
     fetch: opts.fetch,
     AbortController: getAbortController(opts.AbortController)
   };
@@ -471,59 +490,76 @@ function arrayToDict(array) {
   return dict;
 }
 var METHOD = {
-  query: "GET",
-  mutation: "POST"
+  query: 'GET',
+  mutation: 'POST'
 };
 function getInput(opts) {
-  return "input" in opts ? opts.runtime.transformer.serialize(opts.input) : arrayToDict(opts.inputs.map((_input) => opts.runtime.transformer.serialize(_input)));
+  return 'input' in opts
+    ? opts.runtime.transformer.serialize(opts.input)
+    : arrayToDict(
+        opts.inputs.map((_input) => opts.runtime.transformer.serialize(_input))
+      );
 }
 var getUrl = (opts) => {
-  let url = opts.url + "/" + opts.path;
+  let url = opts.url + '/' + opts.path;
   const queryParts = [];
-  if ("inputs" in opts) {
-    queryParts.push("batch=1");
+  if ('inputs' in opts) {
+    queryParts.push('batch=1');
   }
-  if (opts.type === "query") {
+  if (opts.type === 'query') {
     const input = getInput(opts);
     if (input !== void 0) {
       queryParts.push(`input=${encodeURIComponent(JSON.stringify(input))}`);
     }
   }
   if (queryParts.length) {
-    url += "?" + queryParts.join("&");
+    url += '?' + queryParts.join('&');
   }
   return url;
 };
 var getBody = (opts) => {
-  if (opts.type === "query") {
+  if (opts.type === 'query') {
     return void 0;
   }
   const input = getInput(opts);
   return input !== void 0 ? JSON.stringify(input) : void 0;
 };
 var jsonHttpRequester = (opts) => {
-  return httpRequest(__spreadProps(__spreadValues({}, opts), {
-    contentTypeHeader: "application/json",
-    getUrl,
-    getBody
-  }));
+  return httpRequest(
+    __spreadProps(__spreadValues({}, opts), {
+      contentTypeHeader: 'application/json',
+      getUrl,
+      getBody
+    })
+  );
 };
 function fetchHTTPResponse(opts, ac) {
   return __async(this, null, function* () {
     const url = opts.getUrl(opts);
     const body = opts.getBody(opts);
-    const {
-      type
-    } = opts;
+    const { type } = opts;
     const resolvedHeaders = yield opts.headers();
-    if (type === "subscription") {
-      throw new Error("Subscriptions should use wsLink");
+    if (type === 'subscription') {
+      throw new Error('Subscriptions should use wsLink');
     }
-    const headers = __spreadValues(__spreadValues(__spreadValues({}, opts.contentTypeHeader ? {
-      "content-type": opts.contentTypeHeader
-    } : {}), opts.batchModeHeader ? {
-      "trpc-batch-mode": opts.batchModeHeader
-    } : {}), resolvedHeaders);
+    const headers = __spreadValues(
+      __spreadValues(
+        __spreadValues(
+          {},
+          opts.contentTypeHeader
+            ? {
+                'content-type': opts.contentTypeHeader
+              }
+            : {}
+        ),
+        opts.batchModeHeader
+          ? {
+              'trpc-batch-mode': opts.batchModeHeader
+            }
+          : {}
+      ),
+      resolvedHeaders
+    );
     return getFetch(opts.fetch)(url, {
       method: METHOD[type],
       signal: ac?.signal,
@@ -537,22 +573,27 @@ function httpRequest(opts) {
   const meta = {};
   let done = false;
   const promise = new Promise((resolve, reject) => {
-    fetchHTTPResponse(opts, ac).then((_res) => {
-      meta.response = _res;
-      done = true;
-      return _res.json();
-    }).then((json) => {
-      meta.responseJSON = json;
-      resolve({
-        json,
-        meta
+    fetchHTTPResponse(opts, ac)
+      .then((_res) => {
+        meta.response = _res;
+        done = true;
+        return _res.json();
+      })
+      .then((json) => {
+        meta.responseJSON = json;
+        resolve({
+          json,
+          meta
+        });
+      })
+      .catch((err) => {
+        done = true;
+        reject(
+          TRPCClientError.from(err, {
+            meta
+          })
+        );
       });
-    }).catch((err) => {
-      done = true;
-      reject(TRPCClientError.from(err, {
-        meta
-      }));
-    });
   });
   const cancel = () => {
     if (!done) {
@@ -567,7 +608,9 @@ function httpRequest(opts) {
 
 // ../../node_modules/@trpc/client/dist/httpBatchLink-d0f9eac9.mjs
 var throwFatalError = () => {
-  throw new Error("Something went wrong. Please submit an issue at https://github.com/trpc/trpc/issues/new");
+  throw new Error(
+    'Something went wrong. Please submit an issue at https://github.com/trpc/trpc/issues/new'
+  );
 };
 function dataLoader(batchLoader) {
   let pendingItems = null;
@@ -587,18 +630,20 @@ function dataLoader(batchLoader) {
       }
       const lastGroup = groupedItems[groupedItems.length - 1];
       if (item.aborted) {
-        item.reject?.(new Error("Aborted"));
+        item.reject?.(new Error('Aborted'));
         index++;
         continue;
       }
-      const isValid = batchLoader.validate(lastGroup.concat(item).map((it) => it.key));
+      const isValid = batchLoader.validate(
+        lastGroup.concat(item).map((it) => it.key)
+      );
       if (isValid) {
         lastGroup.push(item);
         index++;
         continue;
       }
       if (lastGroup.length === 0) {
-        item.reject?.(new Error("Input is too big for a single dispatch"));
+        item.reject?.(new Error('Input is too big for a single dispatch'));
         index++;
         continue;
       }
@@ -627,26 +672,28 @@ function dataLoader(batchLoader) {
         item.reject = null;
         item.resolve = null;
       };
-      const {
-        promise,
-        cancel
-      } = batchLoader.fetch(batch.items.map((_item) => _item.key), unitResolver);
+      const { promise, cancel } = batchLoader.fetch(
+        batch.items.map((_item) => _item.key),
+        unitResolver
+      );
       batch.cancel = cancel;
-      promise.then((result) => {
-        for (let i = 0; i < result.length; i++) {
-          const value = result[i];
-          unitResolver(i, value);
-        }
-        for (const item of batch.items) {
-          item.reject?.(new Error("Missing result"));
-          item.batch = null;
-        }
-      }).catch((cause) => {
-        for (const item of batch.items) {
-          item.reject?.(cause);
-          item.batch = null;
-        }
-      });
+      promise
+        .then((result) => {
+          for (let i = 0; i < result.length; i++) {
+            const value = result[i];
+            unitResolver(i, value);
+          }
+          for (const item of batch.items) {
+            item.reject?.(new Error('Missing result'));
+            item.batch = null;
+          }
+        })
+        .catch((cause) => {
+          for (const item of batch.items) {
+            item.reject?.(cause);
+            item.batch = null;
+          }
+        });
     }
   }
   function load(key) {
@@ -694,63 +741,68 @@ function createHTTPBatchLink(requester) {
           if (maxURLLength === Infinity) {
             return true;
           }
-          const path = batchOps.map((op) => op.path).join(",");
+          const path = batchOps.map((op) => op.path).join(',');
           const inputs = batchOps.map((op) => op.input);
-          const url = getUrl(__spreadProps(__spreadValues({}, resolvedOpts), {
-            runtime,
-            type,
-            path,
-            inputs
-          }));
+          const url = getUrl(
+            __spreadProps(__spreadValues({}, resolvedOpts), {
+              runtime,
+              type,
+              path,
+              inputs
+            })
+          );
           return url.length <= maxURLLength;
         };
-        const fetch = requester(__spreadProps(__spreadValues({}, resolvedOpts), {
-          runtime,
-          type,
-          opts
-        }));
+        const fetch = requester(
+          __spreadProps(__spreadValues({}, resolvedOpts), {
+            runtime,
+            type,
+            opts
+          })
+        );
         return {
           validate,
           fetch
         };
       };
-      const query = dataLoader(batchLoader("query"));
-      const mutation = dataLoader(batchLoader("mutation"));
-      const subscription = dataLoader(batchLoader("subscription"));
+      const query = dataLoader(batchLoader('query'));
+      const mutation = dataLoader(batchLoader('mutation'));
+      const subscription = dataLoader(batchLoader('subscription'));
       const loaders = {
         query,
         subscription,
         mutation
       };
-      return ({
-        op
-      }) => {
+      return ({ op }) => {
         return observable((observer) => {
           const loader = loaders[op.type];
-          const {
-            promise,
-            cancel
-          } = loader.load(op);
+          const { promise, cancel } = loader.load(op);
           let _res = void 0;
-          promise.then((res) => {
-            _res = res;
-            const transformed = transformResult(res.json, runtime);
-            if (!transformed.ok) {
-              observer.error(TRPCClientError.from(transformed.error, {
-                meta: res.meta
-              }));
-              return;
-            }
-            observer.next({
-              context: res.meta,
-              result: transformed.result
+          promise
+            .then((res) => {
+              _res = res;
+              const transformed = transformResult(res.json, runtime);
+              if (!transformed.ok) {
+                observer.error(
+                  TRPCClientError.from(transformed.error, {
+                    meta: res.meta
+                  })
+                );
+                return;
+              }
+              observer.next({
+                context: res.meta,
+                result: transformed.result
+              });
+              observer.complete();
+            })
+            .catch((err) => {
+              observer.error(
+                TRPCClientError.from(err, {
+                  meta: _res?.meta
+                })
+              );
             });
-            observer.complete();
-          }).catch((err) => {
-            observer.error(TRPCClientError.from(err, {
-              meta: _res?.meta
-            }));
-          });
           return () => {
             cancel();
           };
@@ -761,29 +813,30 @@ function createHTTPBatchLink(requester) {
 }
 var batchRequester = (requesterOpts) => {
   return (batchOps) => {
-    const path = batchOps.map((op) => op.path).join(",");
+    const path = batchOps.map((op) => op.path).join(',');
     const inputs = batchOps.map((op) => op.input);
-    const {
-      promise,
-      cancel
-    } = jsonHttpRequester(__spreadProps(__spreadValues({}, requesterOpts), {
-      path,
-      inputs,
-      headers() {
-        if (!requesterOpts.opts.headers) {
-          return {};
+    const { promise, cancel } = jsonHttpRequester(
+      __spreadProps(__spreadValues({}, requesterOpts), {
+        path,
+        inputs,
+        headers() {
+          if (!requesterOpts.opts.headers) {
+            return {};
+          }
+          if (typeof requesterOpts.opts.headers === 'function') {
+            return requesterOpts.opts.headers({
+              opList: batchOps
+            });
+          }
+          return requesterOpts.opts.headers;
         }
-        if (typeof requesterOpts.opts.headers === "function") {
-          return requesterOpts.opts.headers({
-            opList: batchOps
-          });
-        }
-        return requesterOpts.opts.headers;
-      }
-    }));
+      })
+    );
     return {
       promise: promise.then((res) => {
-        const resJSON = Array.isArray(res.json) ? res.json : batchOps.map(() => res.json);
+        const resJSON = Array.isArray(res.json)
+          ? res.json
+          : batchOps.map(() => res.json);
         const result = resJSON.map((item) => ({
           meta: res.meta,
           json: item
@@ -800,58 +853,59 @@ var httpBatchLink = createHTTPBatchLink(batchRequester);
 function httpLinkFactory(factoryOpts) {
   return (opts) => {
     const resolvedOpts = resolveHTTPLinkOptions(opts);
-    return (runtime) => ({
-      op
-    }) => observable((observer) => {
-      const {
-        path,
-        input,
-        type
-      } = op;
-      const {
-        promise,
-        cancel
-      } = factoryOpts.requester(__spreadProps(__spreadValues({}, resolvedOpts), {
-        runtime,
-        type,
-        path,
-        input,
-        headers() {
-          if (!opts.headers) {
-            return {};
-          }
-          if (typeof opts.headers === "function") {
-            return opts.headers({
-              op
+    return (runtime) =>
+      ({ op }) =>
+        observable((observer) => {
+          const { path, input, type } = op;
+          const { promise, cancel } = factoryOpts.requester(
+            __spreadProps(__spreadValues({}, resolvedOpts), {
+              runtime,
+              type,
+              path,
+              input,
+              headers() {
+                if (!opts.headers) {
+                  return {};
+                }
+                if (typeof opts.headers === 'function') {
+                  return opts.headers({
+                    op
+                  });
+                }
+                return opts.headers;
+              }
+            })
+          );
+          let meta = void 0;
+          promise
+            .then((res) => {
+              meta = res.meta;
+              const transformed = transformResult(res.json, runtime);
+              if (!transformed.ok) {
+                observer.error(
+                  TRPCClientError.from(transformed.error, {
+                    meta
+                  })
+                );
+                return;
+              }
+              observer.next({
+                context: res.meta,
+                result: transformed.result
+              });
+              observer.complete();
+            })
+            .catch((cause) => {
+              observer.error(
+                TRPCClientError.from(cause, {
+                  meta
+                })
+              );
             });
-          }
-          return opts.headers;
-        }
-      }));
-      let meta = void 0;
-      promise.then((res) => {
-        meta = res.meta;
-        const transformed = transformResult(res.json, runtime);
-        if (!transformed.ok) {
-          observer.error(TRPCClientError.from(transformed.error, {
-            meta
-          }));
-          return;
-        }
-        observer.next({
-          context: res.meta,
-          result: transformed.result
+          return () => {
+            cancel();
+          };
         });
-        observer.complete();
-      }).catch((cause) => {
-        observer.error(TRPCClientError.from(cause, {
-          meta
-        }));
-      });
-      return () => {
-        cancel();
-      };
-    });
   };
 }
 var httpLink = httpLinkFactory({
@@ -860,49 +914,51 @@ var httpLink = httpLinkFactory({
 
 // ../../node_modules/@trpc/client/dist/links/loggerLink.mjs
 function isFormData(value) {
-  if (typeof FormData === "undefined") {
+  if (typeof FormData === 'undefined') {
     return false;
   }
   return value instanceof FormData;
 }
 var palettes = {
   css: {
-    query: ["72e3ff", "3fb0d8"],
-    mutation: ["c5a3fc", "904dfc"],
-    subscription: ["ff49e1", "d83fbe"]
+    query: ['72e3ff', '3fb0d8'],
+    mutation: ['c5a3fc', '904dfc'],
+    subscription: ['ff49e1', 'd83fbe']
   },
   ansi: {
     regular: {
       // Cyan background, black and white text respectively
-      query: ["\x1B[30;46m", "\x1B[97;46m"],
+      query: ['\x1B[30;46m', '\x1B[97;46m'],
       // Magenta background, black and white text respectively
-      mutation: ["\x1B[30;45m", "\x1B[97;45m"],
+      mutation: ['\x1B[30;45m', '\x1B[97;45m'],
       // Green background, black and white text respectively
-      subscription: ["\x1B[30;42m", "\x1B[97;42m"]
+      subscription: ['\x1B[30;42m', '\x1B[97;42m']
     },
     bold: {
-      query: ["\x1B[1;30;46m", "\x1B[1;97;46m"],
-      mutation: ["\x1B[1;30;45m", "\x1B[1;97;45m"],
-      subscription: ["\x1B[1;30;42m", "\x1B[1;97;42m"]
+      query: ['\x1B[1;30;46m', '\x1B[1;97;46m'],
+      mutation: ['\x1B[1;30;45m', '\x1B[1;97;45m'],
+      subscription: ['\x1B[1;30;42m', '\x1B[1;97;42m']
     }
   }
 };
 function constructPartsAndArgs(opts) {
-  const {
-    direction,
-    type,
-    path,
-    id,
-    input
-  } = opts;
+  const { direction, type, path, id, input } = opts;
   const parts = [];
   const args = [];
-  if (opts.colorMode === "ansi") {
+  if (opts.colorMode === 'ansi') {
     const [lightRegular, darkRegular] = palettes.ansi.regular[type];
     const [lightBold, darkBold] = palettes.ansi.bold[type];
-    const reset = "\x1B[0m";
-    parts.push(direction === "up" ? lightRegular : darkRegular, direction === "up" ? ">>" : "<<", type, direction === "up" ? lightBold : darkBold, `#${id}`, path, reset);
-    if (direction === "up") {
+    const reset = '\x1B[0m';
+    parts.push(
+      direction === 'up' ? lightRegular : darkRegular,
+      direction === 'up' ? '>>' : '<<',
+      type,
+      direction === 'up' ? lightBold : darkBold,
+      `#${id}`,
+      path,
+      reset
+    );
+    if (direction === 'up') {
       args.push({
         input: opts.input
       });
@@ -910,7 +966,7 @@ function constructPartsAndArgs(opts) {
       args.push({
         input: opts.input,
         // strip context from result cause it's too noisy in terminal wihtout collapse mode
-        result: "result" in opts.result ? opts.result.result : opts.result,
+        result: 'result' in opts.result ? opts.result.result : opts.result,
         elapsedMs: opts.elapsedMs
       });
     }
@@ -921,13 +977,20 @@ function constructPartsAndArgs(opts) {
   }
   const [light, dark] = palettes.css[type];
   const css = `
-    background-color: #${direction === "up" ? light : dark}; 
-    color: ${direction === "up" ? "black" : "white"};
+    background-color: #${direction === 'up' ? light : dark}; 
+    color: ${direction === 'up' ? 'black' : 'white'};
     padding: 2px;
   `;
-  parts.push("%c", direction === "up" ? ">>" : "<<", type, `#${id}`, `%c${path}%c`, "%O");
+  parts.push(
+    '%c',
+    direction === 'up' ? '>>' : '<<',
+    type,
+    `#${id}`,
+    `%c${path}%c`,
+    '%O'
+  );
   args.push(css, `${css}; font-weight: bold;`, `${css}; font-weight: normal;`);
-  if (direction === "up") {
+  if (direction === 'up') {
     args.push({
       input,
       context: opts.context
@@ -945,27 +1008,31 @@ function constructPartsAndArgs(opts) {
     args
   };
 }
-var defaultLogger = ({
-  c = console,
-  colorMode = "css"
-}) => (props) => {
-  const rawInput = props.input;
-  const input = isFormData(rawInput) ? Object.fromEntries(rawInput) : rawInput;
-  const {
-    parts,
-    args
-  } = constructPartsAndArgs(__spreadProps(__spreadValues({}, props), {
-    colorMode,
-    input
-  }));
-  const fn = props.direction === "down" && props.result && (props.result instanceof Error || "error" in props.result.result) ? "error" : "log";
-  c[fn].apply(null, [parts.join(" ")].concat(args));
-};
+var defaultLogger =
+  ({ c = console, colorMode = 'css' }) =>
+  (props) => {
+    const rawInput = props.input;
+    const input = isFormData(rawInput)
+      ? Object.fromEntries(rawInput)
+      : rawInput;
+    const { parts, args } = constructPartsAndArgs(
+      __spreadProps(__spreadValues({}, props), {
+        colorMode,
+        input
+      })
+    );
+    const fn =
+      props.direction === 'down' &&
+      props.result &&
+      (props.result instanceof Error || 'error' in props.result.result)
+        ? 'error'
+        : 'log';
+    c[fn].apply(null, [parts.join(' ')].concat(args));
+  };
 function loggerLink(opts = {}) {
-  const {
-    enabled = () => true
-  } = opts;
-  const colorMode = opts.colorMode ?? (typeof window === "undefined" ? "ansi" : "css");
+  const { enabled = () => true } = opts;
+  const colorMode =
+    opts.colorMode ?? (typeof window === 'undefined' ? 'ansi' : 'css');
   const {
     logger = defaultLogger({
       c: opts.console,
@@ -973,43 +1040,55 @@ function loggerLink(opts = {}) {
     })
   } = opts;
   return () => {
-    return ({
-      op,
-      next
-    }) => {
+    return ({ op, next }) => {
       return observable((observer) => {
-        enabled(__spreadProps(__spreadValues({}, op), {
-          direction: "up"
-        })) && logger(__spreadProps(__spreadValues({}, op), {
-          direction: "up"
-        }));
+        enabled(
+          __spreadProps(__spreadValues({}, op), {
+            direction: 'up'
+          })
+        ) &&
+          logger(
+            __spreadProps(__spreadValues({}, op), {
+              direction: 'up'
+            })
+          );
         const requestStartTime = Date.now();
         function logResult(result) {
           const elapsedMs = Date.now() - requestStartTime;
-          enabled(__spreadProps(__spreadValues({}, op), {
-            direction: "down",
-            result
-          })) && logger(__spreadProps(__spreadValues({}, op), {
-            direction: "down",
-            elapsedMs,
-            result
-          }));
+          enabled(
+            __spreadProps(__spreadValues({}, op), {
+              direction: 'down',
+              result
+            })
+          ) &&
+            logger(
+              __spreadProps(__spreadValues({}, op), {
+                direction: 'down',
+                elapsedMs,
+                result
+              })
+            );
         }
-        return next(op).pipe(tap({
-          next(result) {
-            logResult(result);
-          },
-          error(result) {
-            logResult(result);
-          }
-        })).subscribe(observer);
+        return next(op)
+          .pipe(
+            tap({
+              next(result) {
+                logResult(result);
+              },
+              error(result) {
+                logResult(result);
+              }
+            })
+          )
+          .subscribe(observer);
       });
     };
   };
 }
 
 // ../../node_modules/@trpc/client/dist/links/wsLink.mjs
-var retryDelay = (attemptIndex) => attemptIndex === 0 ? 0 : Math.min(1e3 * 2 ** attemptIndex, 3e4);
+var retryDelay = (attemptIndex) =>
+  attemptIndex === 0 ? 0 : Math.min(1e3 * 2 ** attemptIndex, 3e4);
 function createWSClient(opts) {
   const {
     url,
@@ -1019,7 +1098,9 @@ function createWSClient(opts) {
     onClose
   } = opts;
   if (!WebSocketImpl) {
-    throw new Error("No WebSocket implementation found - you probably don't want to use this on the server, but if you do you need to pass a `WebSocket`-ponyfill");
+    throw new Error(
+      "No WebSocket implementation found - you probably don't want to use this on the server, but if you do you need to pass a `WebSocket`-ponyfill"
+    );
   }
   let outgoing = [];
   const pendingRequests = /* @__PURE__ */ Object.create(null);
@@ -1027,9 +1108,9 @@ function createWSClient(opts) {
   let dispatchTimer = null;
   let connectTimer = null;
   let activeConnection = createWS();
-  let state = "connecting";
+  let state = 'connecting';
   function dispatch() {
-    if (state !== "open" || dispatchTimer) {
+    if (state !== 'open' || dispatchTimer) {
       return;
     }
     dispatchTimer = setTimeout(() => {
@@ -1043,14 +1124,14 @@ function createWSClient(opts) {
     });
   }
   function tryReconnect() {
-    if (connectTimer !== null || state === "closed") {
+    if (connectTimer !== null || state === 'closed') {
       return;
     }
     const timeout = retryDelayFn(connectAttempt++);
     reconnectInMs(timeout);
   }
   function reconnect() {
-    state = "connecting";
+    state = 'connecting';
     const oldConnection = activeConnection;
     activeConnection = createWS();
     closeIfNoPending(oldConnection);
@@ -1059,18 +1140,20 @@ function createWSClient(opts) {
     if (connectTimer) {
       return;
     }
-    state = "connecting";
+    state = 'connecting';
     connectTimer = setTimeout(reconnect, ms);
   }
   function closeIfNoPending(conn) {
-    const hasPendingRequests = Object.values(pendingRequests).some((p) => p.ws === conn);
+    const hasPendingRequests = Object.values(pendingRequests).some(
+      (p) => p.ws === conn
+    );
     if (!hasPendingRequests) {
       conn.close();
     }
   }
   function closeActiveSubscriptions() {
     Object.values(pendingRequests).forEach((req) => {
-      if (req.type === "subscription") {
+      if (req.type === 'subscription') {
         req.callbacks.complete();
       }
     });
@@ -1082,32 +1165,32 @@ function createWSClient(opts) {
     request(req.op, req.callbacks);
   }
   function createWS() {
-    const urlString = typeof url === "function" ? url() : url;
+    const urlString = typeof url === 'function' ? url() : url;
     const conn = new WebSocketImpl(urlString);
     clearTimeout(connectTimer);
     connectTimer = null;
-    conn.addEventListener("open", () => {
+    conn.addEventListener('open', () => {
       if (conn !== activeConnection) {
         return;
       }
       connectAttempt = 0;
-      state = "open";
+      state = 'open';
       onOpen?.();
       dispatch();
     });
-    conn.addEventListener("error", () => {
+    conn.addEventListener('error', () => {
       if (conn === activeConnection) {
         tryReconnect();
       }
     });
     const handleIncomingRequest = (req) => {
-      if (req.method === "reconnect" && conn === activeConnection) {
-        if (state === "open") {
+      if (req.method === 'reconnect' && conn === activeConnection) {
+        if (state === 'open') {
           onClose?.();
         }
         reconnect();
         for (const pendingReq of Object.values(pendingRequests)) {
-          if (pendingReq.type === "subscription") {
+          if (pendingReq.type === 'subscription') {
             resumeSubscriptionOnReconnect(pendingReq);
           }
         }
@@ -1124,27 +1207,27 @@ function createWSClient(opts) {
         req.ws = activeConnection;
         closeIfNoPending(oldWs);
       }
-      if ("result" in data && data.result.type === "stopped" && conn === activeConnection) {
+      if (
+        'result' in data &&
+        data.result.type === 'stopped' &&
+        conn === activeConnection
+      ) {
         req.callbacks.complete();
       }
     };
-    conn.addEventListener("message", ({
-      data
-    }) => {
+    conn.addEventListener('message', ({ data }) => {
       const msg = JSON.parse(data);
-      if ("method" in msg) {
+      if ('method' in msg) {
         handleIncomingRequest(msg);
       } else {
         handleIncomingResponse(msg);
       }
-      if (conn !== activeConnection || state === "closed") {
+      if (conn !== activeConnection || state === 'closed') {
         closeIfNoPending(conn);
       }
     });
-    conn.addEventListener("close", ({
-      code
-    }) => {
-      if (state === "open") {
+    conn.addEventListener('close', ({ code }) => {
+      if (state === 'open') {
         onClose?.({
           code
         });
@@ -1156,28 +1239,27 @@ function createWSClient(opts) {
         if (req.ws !== conn) {
           continue;
         }
-        if (state === "closed") {
+        if (state === 'closed') {
           delete pendingRequests[key];
           req.callbacks.complete?.();
           continue;
         }
-        if (req.type === "subscription") {
+        if (req.type === 'subscription') {
           resumeSubscriptionOnReconnect(req);
         } else {
           delete pendingRequests[key];
-          req.callbacks.error?.(TRPCClientError.from(new TRPCWebSocketClosedError("WebSocket closed prematurely")));
+          req.callbacks.error?.(
+            TRPCClientError.from(
+              new TRPCWebSocketClosedError('WebSocket closed prematurely')
+            )
+          );
         }
       }
     });
     return conn;
   }
   function request(op, callbacks) {
-    const {
-      type,
-      input,
-      path,
-      id
-    } = op;
+    const { type, input, path, id } = op;
     const envelope = {
       id,
       method: type,
@@ -1199,10 +1281,13 @@ function createWSClient(opts) {
       delete pendingRequests[id];
       outgoing = outgoing.filter((msg) => msg.id !== id);
       callbacks2?.complete?.();
-      if (activeConnection.readyState === WebSocketImpl.OPEN && op.type === "subscription") {
+      if (
+        activeConnection.readyState === WebSocketImpl.OPEN &&
+        op.type === 'subscription'
+      ) {
         outgoing.push({
           id,
-          method: "subscription.stop"
+          method: 'subscription.stop'
         });
         dispatch();
       }
@@ -1210,7 +1295,7 @@ function createWSClient(opts) {
   }
   return {
     close: () => {
-      state = "closed";
+      state = 'closed';
       onClose?.();
       closeActiveSubscriptions();
       closeIfNoPending(activeConnection);
@@ -1226,55 +1311,49 @@ function createWSClient(opts) {
 var TRPCWebSocketClosedError = class _TRPCWebSocketClosedError extends Error {
   constructor(message) {
     super(message);
-    this.name = "TRPCWebSocketClosedError";
+    this.name = 'TRPCWebSocketClosedError';
     Object.setPrototypeOf(this, _TRPCWebSocketClosedError.prototype);
   }
 };
 function wsLink(opts) {
   return (runtime) => {
-    const {
-      client
-    } = opts;
-    return ({
-      op
-    }) => {
+    const { client } = opts;
+    return ({ op }) => {
       return observable((observer) => {
-        const {
-          type,
-          path,
-          id,
-          context
-        } = op;
+        const { type, path, id, context } = op;
         const input = runtime.transformer.serialize(op.input);
-        const unsub = client.request({
-          type,
-          path,
-          input,
-          id,
-          context
-        }, {
-          error(err) {
-            observer.error(err);
-            unsub();
+        const unsub = client.request(
+          {
+            type,
+            path,
+            input,
+            id,
+            context
           },
-          complete() {
-            observer.complete();
-          },
-          next(message) {
-            const transformed = transformResult(message, runtime);
-            if (!transformed.ok) {
-              observer.error(TRPCClientError.from(transformed.error));
-              return;
-            }
-            observer.next({
-              result: transformed.result
-            });
-            if (op.type !== "subscription") {
+          {
+            error(err) {
+              observer.error(err);
               unsub();
+            },
+            complete() {
               observer.complete();
+            },
+            next(message) {
+              const transformed = transformResult(message, runtime);
+              if (!transformed.ok) {
+                observer.error(TRPCClientError.from(transformed.error));
+                return;
+              }
+              observer.next({
+                result: transformed.result
+              });
+              if (op.type !== 'subscription') {
+                unsub();
+                observer.complete();
+              }
             }
           }
-        });
+        );
         return () => {
           unsub();
         };
@@ -1285,12 +1364,7 @@ function wsLink(opts) {
 
 // ../../node_modules/@trpc/client/dist/index.mjs
 var TRPCUntypedClient = class {
-  $request({
-    type,
-    input,
-    path,
-    context = {}
-  }) {
+  $request({ type, input, path, context = {} }) {
     const chain$ = createChain({
       links: this.links,
       op: {
@@ -1305,23 +1379,22 @@ var TRPCUntypedClient = class {
   }
   requestAsPromise(opts) {
     const req$ = this.$request(opts);
-    const {
-      promise,
-      abort
-    } = observableToPromise(req$);
+    const { promise, abort } = observableToPromise(req$);
     const abortablePromise = new Promise((resolve, reject) => {
-      opts.signal?.addEventListener("abort", abort);
-      promise.then((envelope) => {
-        resolve(envelope.result.data);
-      }).catch((err) => {
-        reject(TRPCClientError.from(err));
-      });
+      opts.signal?.addEventListener('abort', abort);
+      promise
+        .then((envelope) => {
+          resolve(envelope.result.data);
+        })
+        .catch((err) => {
+          reject(TRPCClientError.from(err));
+        });
     });
     return abortablePromise;
   }
   query(path, input, opts) {
     return this.requestAsPromise({
-      type: "query",
+      type: 'query',
       path,
       input,
       context: opts?.context,
@@ -1330,7 +1403,7 @@ var TRPCUntypedClient = class {
   }
   mutation(path, input, opts) {
     return this.requestAsPromise({
-      type: "mutation",
+      type: 'mutation',
       path,
       input,
       context: opts?.context,
@@ -1339,16 +1412,16 @@ var TRPCUntypedClient = class {
   }
   subscription(path, input, opts) {
     const observable$ = this.$request({
-      type: "subscription",
+      type: 'subscription',
       path,
       input,
       context: opts?.context
     });
     return observable$.subscribe({
       next(envelope) {
-        if (envelope.result.type === "started") {
+        if (envelope.result.type === 'started') {
           opts.onStarted?.();
-        } else if (envelope.result.type === "stopped") {
+        } else if (envelope.result.type === 'stopped') {
           opts.onStopped?.();
         } else {
           opts.onData?.(envelope.result.data);
@@ -1378,7 +1451,7 @@ var TRPCUntypedClient = class {
           }
         };
       }
-      if ("input" in transformer) {
+      if ('input' in transformer) {
         return opts.transformer;
       }
       return {
@@ -1404,9 +1477,9 @@ function createTRPCClient(opts) {
   return client;
 }
 var clientCallTypeMap = {
-  query: "query",
-  mutate: "mutation",
-  subscribe: "subscription"
+  query: 'query',
+  mutate: 'mutation',
+  subscribe: 'subscription'
 };
 var clientCallTypeToProcedureType = (clientCallType) => {
   return clientCallTypeMap[clientCallType];
@@ -1416,16 +1489,13 @@ function createTRPCClientProxy(client) {
     if (client.hasOwnProperty(key)) {
       return client[key];
     }
-    if (key === "__untypedClient") {
+    if (key === '__untypedClient') {
       return client;
     }
-    return createRecursiveProxy(({
-      path,
-      args
-    }) => {
+    return createRecursiveProxy(({ path, args }) => {
       const pathCopy = [key, ...path];
       const procedureType = clientCallTypeToProcedureType(pathCopy.pop());
-      const fullPath = pathCopy.join(".");
+      const fullPath = pathCopy.join('.');
       return client[procedureType](fullPath, ...args);
     });
   });
@@ -1442,23 +1512,23 @@ function getTextDecoder(customTextDecoder) {
   if (customTextDecoder) {
     return customTextDecoder;
   }
-  if (typeof window !== "undefined" && window.TextDecoder) {
+  if (typeof window !== 'undefined' && window.TextDecoder) {
     return new window.TextDecoder();
   }
-  if (typeof globalThis !== "undefined" && globalThis.TextDecoder) {
+  if (typeof globalThis !== 'undefined' && globalThis.TextDecoder) {
     return new globalThis.TextDecoder();
   }
-  throw new Error("No TextDecoder implementation found");
+  throw new Error('No TextDecoder implementation found');
 }
 function parseJSONStream(opts) {
   return __async(this, null, function* () {
     const parse = opts.parse ?? JSON.parse;
     const onLine = (line) => {
       if (opts.signal?.aborted) return;
-      if (!line || line === "}") {
+      if (!line || line === '}') {
         return;
       }
-      const indexOfColon = line.indexOf(":");
+      const indexOfColon = line.indexOf(':');
       const indexAsStr = line.substring(2, indexOfColon - 1);
       const text = line.substring(indexOfColon + 1);
       opts.onSingle(Number(indexAsStr), parse(text));
@@ -1468,10 +1538,10 @@ function parseJSONStream(opts) {
 }
 function readLines(readableStream, onLine, textDecoder) {
   return __async(this, null, function* () {
-    let partOfLine = "";
+    let partOfLine = '';
     const onChunk = (chunk) => {
       const chunkText = textDecoder.decode(chunk);
-      const chunkLines = chunkText.split("\n");
+      const chunkLines = chunkText.split('\n');
       if (chunkLines.length === 1) {
         partOfLine += chunkLines[0];
       } else if (chunkLines.length > 1) {
@@ -1482,7 +1552,7 @@ function readLines(readableStream, onLine, textDecoder) {
         partOfLine = chunkLines[chunkLines.length - 1];
       }
     };
-    if ("getReader" in readableStream) {
+    if ('getReader' in readableStream) {
       yield readStandardChunks(readableStream, onChunk);
     } else {
       yield readNodeChunks(readableStream, onChunk);
@@ -1492,8 +1562,8 @@ function readLines(readableStream, onLine, textDecoder) {
 }
 function readNodeChunks(stream, onChunk) {
   return new Promise((resolve) => {
-    stream.on("data", onChunk);
-    stream.on("end", resolve);
+    stream.on('data', onChunk);
+    stream.on('end', resolve);
   });
 }
 function readStandardChunks(stream, onChunk) {
@@ -1508,29 +1578,34 @@ function readStandardChunks(stream, onChunk) {
 }
 var streamingJsonHttpRequester = (opts, onSingle) => {
   const ac = opts.AbortController ? new opts.AbortController() : null;
-  const responsePromise = fetchHTTPResponse(__spreadProps(__spreadValues({}, opts), {
-    contentTypeHeader: "application/json",
-    batchModeHeader: "stream",
-    getUrl,
-    getBody
-  }), ac);
+  const responsePromise = fetchHTTPResponse(
+    __spreadProps(__spreadValues({}, opts), {
+      contentTypeHeader: 'application/json',
+      batchModeHeader: 'stream',
+      getUrl,
+      getBody
+    }),
+    ac
+  );
   const cancel = () => ac?.abort();
-  const promise = responsePromise.then((res) => __async(void 0, null, function* () {
-    if (!res.body) throw new Error("Received response without body");
-    const meta = {
-      response: res
-    };
-    return parseJSONStream({
-      readableStream: res.body,
-      onSingle,
-      parse: (string) => ({
-        json: JSON.parse(string),
-        meta
-      }),
-      signal: ac?.signal,
-      textDecoder: opts.textDecoder
-    });
-  }));
+  const promise = responsePromise.then((res) =>
+    __async(void 0, null, function* () {
+      if (!res.body) throw new Error('Received response without body');
+      const meta = {
+        response: res
+      };
+      return parseJSONStream({
+        readableStream: res.body,
+        onSingle,
+        parse: (string) => ({
+          json: JSON.parse(string),
+          meta
+        }),
+        signal: ac?.signal,
+        textDecoder: opts.textDecoder
+      });
+    })
+  );
   return {
     cancel,
     promise
@@ -1539,35 +1614,35 @@ var streamingJsonHttpRequester = (opts, onSingle) => {
 var streamRequester = (requesterOpts) => {
   const textDecoder = getTextDecoder(requesterOpts.opts.textDecoder);
   return (batchOps, unitResolver) => {
-    const path = batchOps.map((op) => op.path).join(",");
+    const path = batchOps.map((op) => op.path).join(',');
     const inputs = batchOps.map((op) => op.input);
-    const {
-      cancel,
-      promise
-    } = streamingJsonHttpRequester(__spreadProps(__spreadValues({}, requesterOpts), {
-      textDecoder,
-      path,
-      inputs,
-      headers() {
-        if (!requesterOpts.opts.headers) {
-          return {};
+    const { cancel, promise } = streamingJsonHttpRequester(
+      __spreadProps(__spreadValues({}, requesterOpts), {
+        textDecoder,
+        path,
+        inputs,
+        headers() {
+          if (!requesterOpts.opts.headers) {
+            return {};
+          }
+          if (typeof requesterOpts.opts.headers === 'function') {
+            return requesterOpts.opts.headers({
+              opList: batchOps
+            });
+          }
+          return requesterOpts.opts.headers;
         }
-        if (typeof requesterOpts.opts.headers === "function") {
-          return requesterOpts.opts.headers({
-            opList: batchOps
-          });
-        }
-        return requesterOpts.opts.headers;
+      }),
+      (index, res) => {
+        unitResolver(index, res);
       }
-    }), (index, res) => {
-      unitResolver(index, res);
-    });
+    );
     return {
       /**
-      * return an empty array because the batchLoader expects an array of results
-      * but we've already called the `unitResolver` for each of them, there's
-      * nothing left to do here.
-      */
+       * return an empty array because the batchLoader expects an array of results
+       * but we've already called the `unitResolver` for each of them, there's
+       * nothing left to do here.
+       */
       promise: promise.then(() => []),
       cancel
     };
@@ -1575,24 +1650,26 @@ var streamRequester = (requesterOpts) => {
 };
 var unstable_httpBatchStreamLink = createHTTPBatchLink(streamRequester);
 var getBody2 = (opts) => {
-  if (!("input" in opts)) {
+  if (!('input' in opts)) {
     return void 0;
   }
   if (!(opts.input instanceof FormData)) {
-    throw new Error("Input is not FormData");
+    throw new Error('Input is not FormData');
   }
   return opts.input;
 };
 var formDataRequester = (opts) => {
-  if (opts.type !== "mutation") {
-    throw new Error("We only handle mutations with formdata");
+  if (opts.type !== 'mutation') {
+    throw new Error('We only handle mutations with formdata');
   }
-  return httpRequest(__spreadProps(__spreadValues({}, opts), {
-    getUrl() {
-      return `${opts.url}/${opts.path}`;
-    },
-    getBody: getBody2
-  }));
+  return httpRequest(
+    __spreadProps(__spreadValues({}, opts), {
+      getUrl() {
+        return `${opts.url}/${opts.path}`;
+      },
+      getBody: getBody2
+    })
+  );
 };
 var experimental_formDataLink = httpLinkFactory({
   requester: formDataRequester
