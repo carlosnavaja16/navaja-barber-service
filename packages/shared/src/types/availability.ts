@@ -1,4 +1,4 @@
-import { TimeSlot } from './time-slot.js';
+import { TimeSlot } from './time-slot';
 
 export interface AvailabilityRequest {
   eventDuration: number;

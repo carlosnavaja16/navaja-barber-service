@@ -1,19 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HeaderService } from '@src/app/common/services/header/header.service';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators
 } from '@angular/forms';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import {
-  UserProfile,
-  AT_LEAST_TWO_CHARS_REGEX,
+  CITY_REGEX,
   PHONE_REGEX,
   STATE_REGEX,
+  UserProfile,
   ZIP_CODE_REGEX
 } from '@navaja/shared';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 
 @Component({
   selector: 'profile-form',
@@ -37,11 +37,11 @@ export class ProfileFormComponent implements OnInit {
     this.userProfileForm = this.fb.group({
       firstName: new FormControl(this.userProfile?.firstName, [
         Validators.required,
-        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
+        Validators.pattern(CITY_REGEX)
       ]),
       lastName: new FormControl(this.userProfile?.lastName, [
         Validators.required,
-        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
+        Validators.pattern(CITY_REGEX)
       ]),
       phone: new FormControl(this.userProfile?.phone, [
         Validators.required,
@@ -52,7 +52,7 @@ export class ProfileFormComponent implements OnInit {
       ]),
       city: new FormControl(this.userProfile?.city, [
         Validators.required,
-        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
+        Validators.pattern(CITY_REGEX)
       ]),
       state: new FormControl(this.userProfile?.state, [
         Validators.required,

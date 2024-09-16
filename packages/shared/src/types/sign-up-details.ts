@@ -1,4 +1,4 @@
-import { UserProfile } from './user-profile.js';
+import { UserProfile } from './user-profile';
 
 export interface SignUpDetails {
   email: string;

@@ -1,20 +1,41 @@
-import { View, StyleSheet } from 'react-native';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { firebase } from '../common/firebase/firebase';
 import { useForm } from 'react-hook-form';
+import { StyleSheet, View } from 'react-native';
 import { Button } from '../common/components/button';
-import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../common/styles';
 import { ControlledInput } from '../common/components/controllerInput';
-import { useAppDispatch } from '../store/hooks';
-import { setHeaderText } from '../header/state/headerSlice';
+import { setHeaderText } from '../common/store/header/headerSlice';
+import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../common/styles';
+import { useAppDispatch } from '../common/store/hooks';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { EMAIL_REGEX } from '@navaja/shared';
+import { APPOINTMENTS, goToAppointments } from '../common/routes';
+import { useEffect } from 'react';
+import { Redirect } from 'expo-router';
 
 type LoginFormData = {
   email: string;
   password: string;
 };
 
+const auth = getAuth(firebase);
+
 export default function Login() {
+  /**
+   * Set the header text, must be in an effect to avoid rendering
+   * a parent component (Header) while rendering this one.
+   */
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setHeaderText('Login'));
+  });
+
+  const [user, loading] = useAuthState(auth);
+
   const {
     control,
-    formState: { isValid }
+    formState: { isValid },
+    getValues
   } = useForm<LoginFormData>({
     defaultValues: {
       email: '',
@@ -23,8 +44,16 @@ export default function Login() {
     mode: 'onChange'
   });
 
-  const dispatch = useAppDispatch();
-  dispatch(setHeaderText('Login'));
+  const login = () => {
+    const { email, password } = getValues();
+    signInWithEmailAndPassword(auth, email, password).then(() => {
+      goToAppointments();
+    });
+  };
+
+  if (user) {
+    return <Redirect href={APPOINTMENTS} />;
+  }
 
   return (
     <View style={styles.container}>
@@ -35,7 +64,7 @@ export default function Login() {
           rules={{
             required: 'Email is required',
             pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+              value: EMAIL_REGEX,
               message: 'Invalid email'
             }
           }}
@@ -54,7 +83,12 @@ export default function Login() {
           label="Password"
           secureTextEntry={true}
         />
-        <Button text="Login" disabled={isValid ? false : true} />
+        <Button
+          text="Login"
+          onPress={login}
+          loading={loading}
+          disabled={isValid ? false : true}
+        />
       </View>
     </View>
   );

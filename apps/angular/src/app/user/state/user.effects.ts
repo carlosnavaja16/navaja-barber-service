@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, exhaustMap, filter, tap, catchError } from 'rxjs/operators';
+import { catchError, exhaustMap, filter, map, tap } from 'rxjs/operators';
 import { UserService } from '../user.service';
 import * as UserActions from './user.actions';
-import { authState, Auth, User } from '@angular/fire/auth';
+import { Auth, User, authState } from '@angular/fire/auth';
 import { SnackbarService } from '@src/app/common/services/snackbar/snackbar.service';
 import { EMPTY } from 'rxjs';
 import { Router } from '@angular/router';

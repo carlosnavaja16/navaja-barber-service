@@ -10,10 +10,10 @@ import {
 } from '@angular/fire/auth';
 import { Observable, from, map, of, switchMap } from 'rxjs';
 import {
+  BarberErrors,
   CreateUserProfileRequest,
   UserInfo,
-  UserProfile,
-  BarberErrors
+  UserProfile
 } from '@navaja/shared';
 import {
   CollectionReference,

@@ -1,18 +1,15 @@
 import { Slot } from 'expo-router';
-import { Header } from './header/components/header';
 import { Provider } from 'react-redux';
-import { store } from './store/store';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const queryClient = new QueryClient();
+import { Header } from './common/components/header';
+import { store } from './common/store/store';
+import { StatusBar } from 'expo-status-bar';
 
 export default function Layout() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <Header />
-        <Slot />
-      </Provider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <StatusBar style="auto" />
+      <Header />
+      <Slot />
+    </Provider>
   );
 }

@@ -15,8 +15,8 @@ import { TimeSlotsComponent } from '@booking/components/time-slots/time-slots.co
 import { AppointmentSummaryComponent } from '@src/app/booking/components/appointment-summary/appointment-summary.component';
 import { AppointmentPreviewComponent } from '@booking/components/appointment-preview/appointment-preview.component';
 import { environment } from '@src/environments/environment';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServicePickerComponent } from '@booking/components/service-picker/service-picker.component';
@@ -49,12 +49,12 @@ import { heroUserCircle } from '@ng-icons/heroicons/outline';
 import { bootstrapGithub } from '@ng-icons/bootstrap-icons';
 import { bootstrapLinkedin } from '@ng-icons/bootstrap-icons';
 import { heroEnvelopeSolid } from '@ng-icons/heroicons/solid';
-import { heroPhoneSolid, heroCalendarSolid } from '@ng-icons/heroicons/solid';
-import { heroCalendarDays, heroCalendar } from '@ng-icons/heroicons/outline';
+import { heroCalendarSolid, heroPhoneSolid } from '@ng-icons/heroicons/solid';
+import { heroCalendar, heroCalendarDays } from '@ng-icons/heroicons/outline';
 import {
-  heroHomeModernMini,
   heroCalendarMini,
-  heroClockMini
+  heroClockMini,
+  heroHomeModernMini
 } from '@ng-icons/heroicons/mini';
 
 // NgRx

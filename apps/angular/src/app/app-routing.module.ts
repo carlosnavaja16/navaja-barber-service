@@ -1,16 +1,16 @@
+import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { AppointmentRescheduleComponent } from './booking/pages/appointment-reschedule/appointment-reschedule.component';
+import { AppointmentsComponent } from './booking/pages/appointments/appointments.component';
+import { BookingComponent } from './booking/pages/booking/booking.component';
 import { ServicesComponent } from './booking/pages/services/services.component';
-import { ProfileComponent } from './user/pages/profile/profile.component';
-import { SignUpComponent } from './user/pages/sign-up/sign-up.component';
-import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { GalleryComponent } from './gallery/gallery.component';
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './user/pages/login/login.component';
 import { LogoutComponent } from './user/pages/logout/logout.component';
-import { GalleryComponent } from './gallery/gallery.component';
-import { BookingComponent } from './booking/pages/booking/booking.component';
-import { AppointmentsComponent } from './booking/pages/appointments/appointments.component';
-import { AppointmentRescheduleComponent } from './booking/pages/appointment-reschedule/appointment-reschedule.component';
+import { ProfileComponent } from './user/pages/profile/profile.component';
+import { SignUpComponent } from './user/pages/sign-up/sign-up.component';
 
 const redirectUnauthorizedToHome = () => redirectUnauthorizedTo(['']);
 

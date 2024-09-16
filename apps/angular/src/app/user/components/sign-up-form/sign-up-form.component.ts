@@ -9,11 +9,11 @@ import {
   Validators
 } from '@angular/forms';
 import {
-  AT_LEAST_TWO_CHARS_REGEX,
+  CITY_REGEX,
   PHONE_REGEX,
   STATE_REGEX,
-  ZIP_CODE_REGEX,
-  SignUpDetails
+  SignUpDetails,
+  ZIP_CODE_REGEX
 } from '@navaja/shared';
 
 @Component({
@@ -31,11 +31,11 @@ export class SignUpFormComponent implements OnInit {
     this.signUpForm = this.fb.group({
       firstName: new FormControl('', [
         Validators.required,
-        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
+        Validators.pattern(CITY_REGEX)
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
+        Validators.pattern(CITY_REGEX)
       ]),
       email: new FormControl('', [Validators.required, Validators.email]),
       phone: new FormControl('', [
@@ -45,7 +45,7 @@ export class SignUpFormComponent implements OnInit {
       streetAddr: new FormControl('', [Validators.required]),
       city: new FormControl('', [
         Validators.required,
-        Validators.pattern(AT_LEAST_TWO_CHARS_REGEX)
+        Validators.pattern(CITY_REGEX)
       ]),
       state: new FormControl('', [
         Validators.required,

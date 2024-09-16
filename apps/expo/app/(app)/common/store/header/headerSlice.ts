@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { AppState } from '../../store/store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import type { AppState } from '../store';
 
 export interface HeaderState {
   text: string;

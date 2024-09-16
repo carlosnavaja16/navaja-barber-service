@@ -1,8 +1,11 @@
 import { router } from 'expo-router';
 
 export const HOME = '/';
+export const LOGIN = '/login';
 export const SIGN_UP = '/sign-up';
-export const LOGIN = '/logn';
+export const APPOINTMENTS = '/appointments';
 
-export const replaceRoute = (route: string) => router.replace(route);
-export const pushRoute = (route: string) => router.push(route);
+export const goToHome = () => router.replace(HOME);
+export const goToLogin = () => router.push(LOGIN);
+export const goToSignUp = () => router.push(SIGN_UP);
+export const goToAppointments = () => router.push(APPOINTMENTS);

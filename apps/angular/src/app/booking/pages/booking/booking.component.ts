@@ -8,11 +8,11 @@ import {
 import { HeaderService } from '@src/app/common/services/header/header.service';
 import { Observable, of, switchMap } from 'rxjs';
 import {
-  DateTimeSlots,
-  TimeSlot,
+  Appointment,
   Availability,
+  DateTimeSlots,
   Service,
-  Appointment
+  TimeSlot
 } from '@navaja/shared';
 import { BookingService } from '@booking//booking.service';
 import { MatStepper } from '@angular/material/stepper';

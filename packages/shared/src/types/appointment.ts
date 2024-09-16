@@ -1,6 +1,6 @@
-import { Service } from './service.js';
-import { UserProfile } from './user-profile.js';
-import { TimeSlot } from './time-slot.js';
+import { Service } from './service';
+import { UserProfile } from './user-profile';
+import { TimeSlot } from './time-slot';
 import { z } from 'zod';
 
 export interface AppointmentAddress {

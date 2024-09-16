@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { firebaseApp } from '../index.js';
 import { getFirestore } from 'firebase-admin/firestore';
 import { Service } from '@navaja/shared';

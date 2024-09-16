@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "../../dist/packages/shared",
+    "moduleResolution": "node",
     "skipLibCheck": true
   }
 }

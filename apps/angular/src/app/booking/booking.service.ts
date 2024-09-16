@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import {
-  TimeSlot,
+  Appointment,
   Availability,
   AvailabilityResponse,
-  Service,
-  Appointment,
   BarberErrors,
-  RescheduleRequest
+  RescheduleRequest,
+  Service,
+  TimeSlot
 } from '@navaja/shared';
 import {
+  EMPTY,
+  Observable,
   catchError,
   defer,
-  EMPTY,
   map,
-  Observable,
   switchMap,
   tap
 } from 'rxjs';

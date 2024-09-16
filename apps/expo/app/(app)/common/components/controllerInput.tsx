@@ -1,9 +1,9 @@
 import {
   FieldValues,
-  useController,
-  UseControllerProps
+  UseControllerProps,
+  useController
 } from 'react-hook-form';
-import { TextInput, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import {
   BORDER_RADIUS,
   BORDER_WIDTH,

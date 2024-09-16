@@ -1,10 +1,10 @@
 import { calendar_v3 } from 'googleapis';
 import {
-  UserProfile,
+  Appointment,
+  AppointmentEvent,
   Service,
   TimeSlot,
-  Appointment,
-  AppointmentEvent
+  UserProfile
 } from '@navaja/shared';
 
 export class AppointmentUtils {

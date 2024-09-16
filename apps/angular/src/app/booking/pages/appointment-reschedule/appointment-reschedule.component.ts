@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  signal,
-  ViewChild
+  ViewChild,
+  signal
 } from '@angular/core';
 import {
   Appointment,
@@ -10,7 +10,7 @@ import {
   DateTimeSlots,
   TimeSlot
 } from '@navaja/shared';
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { BookingService } from '../../booking.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';

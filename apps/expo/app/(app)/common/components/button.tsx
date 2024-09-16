@@ -1,19 +1,20 @@
 import React from 'react';
 import {
-  Text,
-  StyleSheet,
+  ActivityIndicator,
   Pressable,
-  View,
-  ActivityIndicator
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 import {
-  NAVAJA_BLUE,
-  INPUT_HEIGHT,
   BORDER_RADIUS,
+  BORDER_WIDTH,
+  INPUT_HEIGHT,
+  NAVAJA_BLUE,
   NAVAJA_SLATE_200,
-  NAVAJA_SLATE_400,
-  BORDER_WIDTH
+  NAVAJA_SLATE_400
 } from '../styles';
+import { TODO } from '@navaja/shared';
 
 interface Props {
   disabled?: boolean;
@@ -21,8 +22,7 @@ interface Props {
   buttonColor?: string;
   textColor?: string;
   loading?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onPress?: (...args: any[]) => any;
+  onPress?: (...args: TODO[]) => TODO;
 }
 
 export const Button = (props: Props) => {

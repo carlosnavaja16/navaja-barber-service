@@ -1,5 +1,5 @@
-import { google, calendar_v3 } from 'googleapis';
-import { SCOPE, BARBER_SERVICE_CALENDAR_ID } from '../constants.js';
+import { calendar_v3, google } from 'googleapis';
+import { BARBER_SERVICE_CALENDAR_ID, SCOPE } from '../constants.js';
 import { googleCalendarSvcAccCreds } from '../credentials.js';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { RescheduleRequest } from '@navaja/shared';

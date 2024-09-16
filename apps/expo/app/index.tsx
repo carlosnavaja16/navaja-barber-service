@@ -1,13 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image } from 'react-native';
-import { Button } from './(app)/common/components/button';
-import { router } from 'expo-router';
 import 'expo-router/entry';
+import { StatusBar } from 'expo-status-bar';
+import { Image, StyleSheet, View } from 'react-native';
+import { Button } from './(app)/common/components/button';
 import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from './(app)/common/styles';
+import { APPOINTMENTS, goToLogin, goToSignUp } from './(app)/common/routes';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { firebase } from './(app)/common/firebase/firebase';
+import { getAuth } from 'firebase/auth';
+import { Redirect } from 'expo-router';
+
+const auth = getAuth(firebase);
 
 export default function App() {
-  const goToLogin = () => router.push('login');
-  const goToSignUp = () => router.push('sign-up');
+  const [user] = useAuthState(auth);
+  if (user) {
+    return <Redirect href={APPOINTMENTS} />;
+  }
 
   return (
     <View style={styles.container}>

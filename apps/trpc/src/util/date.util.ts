@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 import {
   BUFFER_HOURS,
-  OPENING_HOUR_EST,
   CLOSING_HOUR_EST,
-  LIMIT_DAYS,
   DAYS_CLOSED,
+  LIMIT_DAYS,
+  OPENING_HOUR_EST,
   TIME_ZONE
 } from '../constants.js';
 import { TimeSlot } from '@navaja/shared';
