@@ -1,5 +1,5 @@
 import { ServiceAccount } from 'firebase-admin';
-import { JWTInput } from 'google-auth-library/build/src/auth/credentials.js';
+import { JWTInput } from 'google-auth-library';
 
 export const firebaseSvcAccCreds: ServiceAccount = {
   projectId: 'barber-service-45e86',

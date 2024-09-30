@@ -1,16 +1,12 @@
 {
   "name": "navaja",
   "version": "1.0.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
     "format": "prettier -w . && eslint . --fix",
     "push": "rm -rf ./angular/dist && rm -rf ./trpc/dist && npm run format && git add . && git commit -m \"$(date)\" && git push",
-    "start:angular": "npm run start --workspace=@navaja/angular",
-    "start:expo": "npm run start --workspace=@navaja/expo",
-    "start:trpc": "npm run start --workspace=@navaja/trpc"
+    "start:angular": "pnpm --filter '@navaja/angular' start",
+    "start:expo": "pnpm --filter '@navaja/expo' start",
+    "start:trpc": "pnpm --filter '@navaja/trpc' start"
   },
   "dependencies": {
     "@angular/animations": "^18.2.2",
@@ -26,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^18.2.2",
     "@angular/router": "^18.2.2",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@babel/runtime": "^7.25.6",
     "@hono/node-server": "^1.8.2",
     "@hono/trpc-server": "^0.1.1",
     "@ng-icons/bootstrap-icons": "^27.2.0",
@@ -47,6 +44,7 @@
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "gaxios": "^6.2.0",
+    "google-auth-library": "^9.14.1",
     "googleapis": "^130.0.0",
     "hono": "^4.0.8",
     "http-status-codes": "^2.3.0",
@@ -57,6 +55,7 @@
     "react-hook-form": "^7.52.1",
     "react-native": "0.74.5",
     "react-native-dotenv": "^3.4.11",
+    "react-native-reanimated": "^3.15.3",
     "react-native-safe-area-context": "4.10.5",
     "react-native-screens": "3.31.1",
     "react-native-web": "~0.19.6",
@@ -64,6 +63,7 @@
     "rxfire": "^6.0.5",
     "rxjs": "~7.8.1",
     "superjson": "^2.2.1",
+    "tslib": "^2.7.0",
     "tsx": "^4.19.0",
     "zod": "^3.22.4",
     "zone.js": "^0.14.0"
@@ -80,11 +80,10 @@
     "autoprefixer": "^10.4.16",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-sonarjs": "^2.0.2",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "turbo": "^2.1.1",
-    "typescript": "^5.5.4",
+    "typescript": "~5.5.4",
     "typescript-eslint": "^8.4.0",
     "webpack-dev-middleware": "^7.1.1"
   }

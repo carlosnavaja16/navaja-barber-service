@@ -2,7 +2,7 @@
   "name": "@navaja/trpc",
   "type": "module",
   "dependencies": {
-    "@navaja/shared": "*"
+    "@navaja/shared": "workspace:*"
   },
   "scripts": {
     "start": "tsx --watch ./src/index.ts"

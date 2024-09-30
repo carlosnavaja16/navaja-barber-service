@@ -43,7 +43,6 @@ const getStyles = (isWeb: boolean) =>
       gap: 12
     },
     logo: {
-      resizeMode: 'contain',
       width: 65,
       height: 30
     },
@@ -95,6 +94,7 @@ export const Header = () => {
         <Pressable onPress={goToHome}>
           <Image
             style={styles.logo}
+            resizeMode="contain"
             source={require('../../../../../../packages/shared/assets/navajaLogo.png')}
           />
         </Pressable>

@@ -22,6 +22,7 @@ export default function App() {
       <StatusBar style="auto" />
       <Image
         style={styles.image}
+        resizeMode="contain"
         source={require('../../../packages/shared/assets/navajaLogo.png')}
       />
       <View style={styles.buttonContainer}>
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   image: {
-    resizeMode: 'contain',
     width: 150,
     marginBottom: 50
   }

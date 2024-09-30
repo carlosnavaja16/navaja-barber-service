@@ -97,3 +97,5 @@ yarn-error.*
 npm-cache/
 expo/npm-cache/
 /apps/angular/.angular
+
+.turbo/

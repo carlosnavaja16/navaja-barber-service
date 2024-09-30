@@ -12,7 +12,9 @@
       "@tRPC/*": ["../trpc/src/*"],
       "@booking/*": ["./src/app/booking/*"],
       "@common/*": ["./src/app/common/*"],
-      "@user/*": ["./src/app/user/*"]
+      "@user/*": ["./src/app/user/*"],
+      "@navaja/shared": ["../../packages/shared/src/index.ts"],
+      "@navaja/trpc": ["../../packages/trpc/src/index.ts"]
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
