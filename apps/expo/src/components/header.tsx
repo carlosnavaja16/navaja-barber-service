@@ -1,3 +1,6 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { DrawerHeaderProps } from '@react-navigation/drawer';
 import {
   Image,
   Platform,
@@ -6,21 +9,16 @@ import {
   Text,
   View
 } from 'react-native';
-import { selectHeaderText } from '../store/header/headerSlice';
-import { useAppSelector } from '../store/hooks';
+import { goToHome } from '../constants/routes';
 import {
   NAVAJA_SLATE_200,
+  NAVAJA_SLATE_500,
   NAVAJA_SLATE_800,
   NAV_HEIGHT,
   NAV_HEIGHT_MOBILE
-} from '../styles';
-import { goToHome } from '../routes';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle
-} from 'react-native-reanimated';
+} from '../constants/styles';
+import { useAppSelector } from '../store/hooks';
+import { selectLoggedIn } from '../store/user/userSlice';
 
 const getStyles = (isWeb: boolean) =>
   StyleSheet.create({
@@ -57,52 +55,48 @@ const getStyles = (isWeb: boolean) =>
       fontWeight: 'bold',
       color: NAVAJA_SLATE_800
     },
-    emptyContainer: {
-      flex: 1
+    avatarContainer: {
+      flex: 1,
+      display: 'flex',
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      paddingRight: 2
     }
   });
 
 const isWeb = Platform.OS === 'web';
 const styles = getStyles(isWeb);
 
-export const Header = () => {
-  const headerText = useAppSelector(selectHeaderText);
-  const menuBtnRotate = useSharedValue(0);
-
-  const toggleMenu = () => {
-    menuBtnRotate.value =
-      menuBtnRotate.value === 0 ? withTiming(90) : withTiming(0);
-  };
-
-  const menuButtonStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ rotate: `${menuBtnRotate.value}deg` }]
-    };
-  });
+export const Header = (props: DrawerHeaderProps) => {
+  const loggedIn = useAppSelector(selectLoggedIn);
 
   return (
     <View style={styles.nav}>
       <View style={styles.menuLogoContainer}>
-        <Animated.View style={menuButtonStyle}>
+        <View>
           <MaterialIcons
             name="menu"
             size={25}
             color={NAVAJA_SLATE_800}
-            onPress={toggleMenu}
+            onPress={props.navigation.openDrawer}
           />
-        </Animated.View>
+        </View>
         <Pressable onPress={goToHome}>
           <Image
             style={styles.logo}
             resizeMode="contain"
-            source={require('../../../../../../packages/shared/assets/navajaLogo.png')}
+            source={require('../../../../packages/shared/assets/navajaLogo.png')}
           />
         </Pressable>
       </View>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>{headerText}</Text>
+        <Text style={styles.header}>{props.options.title}</Text>
       </View>
-      <View style={styles.emptyContainer}></View>
+      <View style={styles.avatarContainer}>
+        {loggedIn && (
+          <FontAwesome name="user-circle" size={24} color={NAVAJA_SLATE_500} />
+        )}
+      </View>
     </View>
   );
 };

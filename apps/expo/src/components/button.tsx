@@ -1,3 +1,4 @@
+import { TODO } from '@navaja/shared';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -13,8 +14,7 @@ import {
   NAVAJA_BLUE,
   NAVAJA_SLATE_200,
   NAVAJA_SLATE_400
-} from '../styles';
-import { TODO } from '@navaja/shared';
+} from '../constants/styles';
 
 interface Props {
   disabled?: boolean;

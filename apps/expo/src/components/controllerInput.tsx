@@ -9,7 +9,7 @@ import {
   BORDER_WIDTH,
   INPUT_HEIGHT,
   NAVAJA_RED
-} from '../styles';
+} from '../constants/styles';
 
 type ControlledInputProps<T extends FieldValues> = UseControllerProps<T> & {
   label?: string;

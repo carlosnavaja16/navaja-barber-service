@@ -1,7 +1,7 @@
 {
   "name": "@navaja/expo",
   "version": "1.0.0",
-  "main": "./app/index.tsx",
+  "main": "./src/index.tsx",
   "dependencies": {
     "@navaja/shared": "workspace:*",
     "@navaja/trpc": "workspace:*"
