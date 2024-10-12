@@ -3,17 +3,19 @@ import { StatusBar } from 'expo-status-bar';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Image, StyleSheet, View } from 'react-native';
-import { Button } from './components/button';
-import { APPOINTMENTS, LOGIN, SIGN_UP } from './constants/routes';
-import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from './constants/styles';
-import { firebase } from './firebase/firebase';
-import { Redirect, useNavigation } from 'expo-router';
+import { Button } from '../components/button';
+import { APPOINTMENTS, LOGIN, SIGN_UP } from '../constants/routes';
+import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../constants/styles';
+import { firebase } from '../firebase/firebase';
+import { useNavigation, useRouter } from 'expo-router';
 
 const auth = getAuth(firebase);
 
 export default function App() {
   const [user] = useAuthState(auth);
   const navigation = useNavigation();
+  const router = useRouter();
+
   const goToLogin = () => {
     navigation.navigate(LOGIN);
   };
@@ -22,7 +24,7 @@ export default function App() {
   };
 
   if (user) {
-    return <Redirect href={APPOINTMENTS} />;
+    router.replace(APPOINTMENTS);
   }
 
   return (
@@ -31,7 +33,7 @@ export default function App() {
       <Image
         style={styles.image}
         resizeMode="contain"
-        source={require('../../../packages/shared/assets/navajaLogo.png')}
+        source={require('../../../../packages/shared/assets/navajaLogo.png')}
       />
       <View style={styles.buttonContainer}>
         <Button onPress={goToLogin} text="Login" />
