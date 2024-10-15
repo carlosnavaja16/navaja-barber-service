@@ -1,7 +1,7 @@
 {
   "name": "@navaja/expo",
   "version": "1.0.0",
-  "main": "expo-router/entry",
+  "main": "./src/main.ts",
   "scheme": "navaja",
   "dependencies": {
     "@babel/runtime": "^7.25.6",

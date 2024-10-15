@@ -1,4 +1,3 @@
-import 'expo-router/entry';
 import { StatusBar } from 'expo-status-bar';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -7,14 +6,13 @@ import { Button } from '../components/button';
 import { APPOINTMENTS, LOGIN, SIGN_UP } from '../constants/routes';
 import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../constants/styles';
 import { firebase } from '../firebase/firebase';
-import { useNavigation, useRouter } from 'expo-router';
+import { Redirect, useNavigation } from 'expo-router';
 
 const auth = getAuth(firebase);
 
 export default function App() {
   const [user] = useAuthState(auth);
   const navigation = useNavigation();
-  const router = useRouter();
 
   const goToLogin = () => {
     navigation.navigate(LOGIN);
@@ -24,7 +22,8 @@ export default function App() {
   };
 
   if (user) {
-    router.replace(APPOINTMENTS);
+    console.log('user', user);
+    return <Redirect href={APPOINTMENTS} />;
   }
 
   return (
