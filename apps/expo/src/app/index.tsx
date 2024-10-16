@@ -24,22 +24,22 @@ export default function App() {
   if (user) {
     console.log('user', user);
     return <Redirect href={APPOINTMENTS} />;
-  }
-
-  return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Image
-        style={styles.image}
-        resizeMode="contain"
-        source={require('../../../../packages/shared/assets/navajaLogo.png')}
-      />
-      <View style={styles.buttonContainer}>
-        <Button onPress={goToLogin} text="Login" />
-        <Button onPress={goToSignUp} text="Sign Up" />
+  } else {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={require('../../../../packages/shared/assets/navajaLogo.png')}
+        />
+        <View style={styles.buttonContainer}>
+          <Button onPress={goToLogin} text="Login" />
+          <Button onPress={goToSignUp} text="Sign Up" />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

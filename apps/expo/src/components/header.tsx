@@ -17,8 +17,9 @@ import {
   NAV_HEIGHT,
   NAV_HEIGHT_MOBILE
 } from '../constants/styles';
-import { useAppSelector } from '../store/hooks';
-import { selectLoggedIn } from '../store/user/userSlice';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
+import { firebase } from '../firebase/firebase';
 
 const getStyles = (isWeb: boolean) =>
   StyleSheet.create({
@@ -66,9 +67,10 @@ const getStyles = (isWeb: boolean) =>
 
 const isWeb = Platform.OS === 'web';
 const styles = getStyles(isWeb);
+const auth = getAuth(firebase);
 
 export const Header = (props: DrawerHeaderProps) => {
-  const loggedIn = useAppSelector(selectLoggedIn);
+  const [user] = useAuthState(auth);
 
   return (
     <View style={styles.nav}>
@@ -93,7 +95,7 @@ export const Header = (props: DrawerHeaderProps) => {
         <Text style={styles.header}>{props.options.title}</Text>
       </View>
       <View style={styles.avatarContainer}>
-        {loggedIn && (
+        {user && (
           <FontAwesome name="user-circle" size={24} color={NAVAJA_SLATE_500} />
         )}
       </View>
