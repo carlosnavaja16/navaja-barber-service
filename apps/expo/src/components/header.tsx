@@ -1,4 +1,3 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { DrawerHeaderProps } from '@react-navigation/drawer';
 import {
@@ -9,17 +8,13 @@ import {
   Text,
   View
 } from 'react-native';
-import { goToHome } from '../constants/routes';
 import {
   NAVAJA_SLATE_200,
-  NAVAJA_SLATE_500,
   NAVAJA_SLATE_800,
   NAV_HEIGHT,
   NAV_HEIGHT_MOBILE
 } from '../constants/styles';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth } from 'firebase/auth';
-import { firebase } from '../firebase/firebase';
+import { HOME } from '../constants/routes';
 
 const getStyles = (isWeb: boolean) =>
   StyleSheet.create({
@@ -56,21 +51,16 @@ const getStyles = (isWeb: boolean) =>
       fontWeight: 'bold',
       color: NAVAJA_SLATE_800
     },
-    avatarContainer: {
-      flex: 1,
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-      paddingRight: 2
+    emptyContainer: {
+      flex: 1
     }
   });
 
 const isWeb = Platform.OS === 'web';
 const styles = getStyles(isWeb);
-const auth = getAuth(firebase);
 
-export const Header = (props: DrawerHeaderProps) => {
-  const [user] = useAuthState(auth);
+export const Header = ({ navigation, options }: DrawerHeaderProps) => {
+  const goHome = () => navigation.navigate(HOME);
 
   return (
     <View style={styles.nav}>
@@ -80,10 +70,10 @@ export const Header = (props: DrawerHeaderProps) => {
             name="menu"
             size={25}
             color={NAVAJA_SLATE_800}
-            onPress={props.navigation.openDrawer}
+            onPress={navigation.openDrawer}
           />
         </View>
-        <Pressable onPress={goToHome}>
+        <Pressable onPress={goHome}>
           <Image
             style={styles.logo}
             resizeMode="contain"
@@ -92,13 +82,9 @@ export const Header = (props: DrawerHeaderProps) => {
         </Pressable>
       </View>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>{props.options.title}</Text>
+        <Text style={styles.header}>{options.title}</Text>
       </View>
-      <View style={styles.avatarContainer}>
-        {user && (
-          <FontAwesome name="user-circle" size={24} color={NAVAJA_SLATE_500} />
-        )}
-      </View>
+      <View style={styles.emptyContainer} />
     </View>
   );
 };

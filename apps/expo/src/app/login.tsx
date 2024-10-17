@@ -1,15 +1,16 @@
 import { EMAIL_REGEX } from '@navaja/shared';
-import { useNavigation } from 'expo-router';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../components/button';
 import { ControlledInput } from '../components/controllerInput';
-import { APPOINTMENTS, goToAppointments } from '../constants/routes';
+import { APPOINTMENTS } from '../constants/routes';
 import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../constants/styles';
 import { firebase } from '../firebase/firebase';
 import { useEffect } from 'react';
+import { DrawerScreenParams } from '../types/drawerScreenParams';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
 type LoginFormData = {
   email: string;
@@ -18,9 +19,10 @@ type LoginFormData = {
 
 const auth = getAuth(firebase);
 
-export default function Login() {
+export default function Login({
+  navigation
+}: DrawerScreenProps<DrawerScreenParams, 'login'>) {
   const [user, loading] = useAuthState(auth);
-  const navigation = useNavigation();
   useEffect(() => {
     if (user) {
       navigation.navigate(APPOINTMENTS);
@@ -37,6 +39,11 @@ export default function Login() {
     },
     mode: 'onChange'
   });
+
+  const goToAppointments = () => {
+    navigation.navigate(APPOINTMENTS);
+  };
+
   const login = () => {
     const { email, password } = getValues();
     signInWithEmailAndPassword(auth, email, password).then(() => {
@@ -44,8 +51,13 @@ export default function Login() {
     });
   };
 
+  useEffect(() => {
+    if (user) {
+      navigation.navigate(APPOINTMENTS);
+    }
+  });
+
   if (user) {
-    // Don't show anything if the user is already logged in
     return null;
   } else {
     return (

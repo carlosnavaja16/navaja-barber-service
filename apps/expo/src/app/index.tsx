@@ -6,13 +6,16 @@ import { Button } from '../components/button';
 import { APPOINTMENTS, LOGIN, SIGN_UP } from '../constants/routes';
 import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../constants/styles';
 import { firebase } from '../firebase/firebase';
-import { Redirect, useNavigation } from 'expo-router';
+import { useEffect } from 'react';
+import { DrawerScreenParams } from '../types/drawerScreenParams';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
 const auth = getAuth(firebase);
 
-export default function App() {
+export default function App({
+  navigation
+}: DrawerScreenProps<DrawerScreenParams, 'index'>) {
   const [user] = useAuthState(auth);
-  const navigation = useNavigation();
 
   const goToLogin = () => {
     navigation.navigate(LOGIN);
@@ -21,9 +24,14 @@ export default function App() {
     navigation.navigate(SIGN_UP);
   };
 
+  useEffect(() => {
+    if (user) {
+      navigation.navigate(APPOINTMENTS);
+    }
+  });
+
   if (user) {
-    console.log('user', user);
-    return <Redirect href={APPOINTMENTS} />;
+    return null;
   } else {
     return (
       <View style={styles.container}>
