@@ -1,16 +1,16 @@
 import { EMAIL_REGEX } from '@navaja/shared';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { Button } from '../components/button';
 import { ControlledInput } from '../components/controllerInput';
-import { APPOINTMENTS } from '../constants/routes';
+import { APPOINTMENTS_ROUTE, LOGIN_TYPE } from '../constants/screens';
 import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../constants/styles';
 import { firebase } from '../firebase/firebase';
-import { useEffect } from 'react';
-import { DrawerScreenParams } from '../types/drawerScreenParams';
-import { DrawerScreenProps } from '@react-navigation/drawer';
+import { DrawerParams } from '../types/drawerParams';
 
 type LoginFormData = {
   email: string;
@@ -21,13 +21,14 @@ const auth = getAuth(firebase);
 
 export default function Login({
   navigation
-}: DrawerScreenProps<DrawerScreenParams, 'login'>) {
+}: DrawerScreenProps<DrawerParams, LOGIN_TYPE>) {
   const [user, loading] = useAuthState(auth);
   useEffect(() => {
     if (user) {
-      navigation.navigate(APPOINTMENTS);
+      navigation.navigate(APPOINTMENTS_ROUTE);
     }
   });
+
   const {
     control,
     formState: { isValid },
@@ -40,64 +41,54 @@ export default function Login({
     mode: 'onChange'
   });
 
-  const goToAppointments = () => {
-    navigation.navigate(APPOINTMENTS);
-  };
-
   const login = () => {
     const { email, password } = getValues();
     signInWithEmailAndPassword(auth, email, password).then(() => {
-      goToAppointments();
+      navigation.navigate(APPOINTMENTS_ROUTE);
     });
   };
 
-  useEffect(() => {
-    if (user) {
-      navigation.navigate(APPOINTMENTS);
-    }
-  });
-
   if (user) {
     return null;
-  } else {
-    return (
-      <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <ControlledInput
-            control={control}
-            name="email"
-            rules={{
-              required: 'Email is required',
-              pattern: {
-                value: EMAIL_REGEX,
-                message: 'Invalid email'
-              }
-            }}
-            label="Email"
-          />
-          <ControlledInput
-            control={control}
-            name="password"
-            rules={{
-              required: 'Password is required',
-              minLength: {
-                value: 6,
-                message: 'Password must be at least 6 characters'
-              }
-            }}
-            label="Password"
-            secureTextEntry={true}
-          />
-          <Button
-            text="Login"
-            onPress={login}
-            loading={loading}
-            disabled={isValid ? false : true}
-          />
-        </View>
-      </View>
-    );
   }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.formContainer}>
+        <ControlledInput
+          control={control}
+          name="email"
+          rules={{
+            required: 'Email is required',
+            pattern: {
+              value: EMAIL_REGEX,
+              message: 'Invalid email'
+            }
+          }}
+          label="Email"
+        />
+        <ControlledInput
+          control={control}
+          name="password"
+          rules={{
+            required: 'Password is required',
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters'
+            }
+          }}
+          label="Password"
+          secureTextEntry={true}
+        />
+        <Button
+          text="Login"
+          onPress={login}
+          loading={loading}
+          disabled={isValid ? false : true}
+        />
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

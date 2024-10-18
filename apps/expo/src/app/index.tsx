@@ -1,32 +1,37 @@
+import { DrawerScreenProps } from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
 import { getAuth } from 'firebase/auth';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Image, StyleSheet, View } from 'react-native';
 import { Button } from '../components/button';
-import { APPOINTMENTS, LOGIN, SIGN_UP } from '../constants/routes';
+import {
+  APPOINTMENTS_ROUTE,
+  HOME_TYPE,
+  LOGIN_ROUTE,
+  SIGN_UP_ROUTE
+} from '../constants/screens';
 import { FORM_CONTAINER_GAP, PADDING_HORIZONTAL } from '../constants/styles';
 import { firebase } from '../firebase/firebase';
-import { useEffect } from 'react';
-import { DrawerScreenParams } from '../types/drawerScreenParams';
-import { DrawerScreenProps } from '@react-navigation/drawer';
+import { DrawerParams } from '../types/drawerParams';
 
 const auth = getAuth(firebase);
 
 export default function App({
   navigation
-}: DrawerScreenProps<DrawerScreenParams, 'index'>) {
+}: DrawerScreenProps<DrawerParams, HOME_TYPE>) {
   const [user] = useAuthState(auth);
 
   const goToLogin = () => {
-    navigation.navigate(LOGIN);
+    navigation.navigate(LOGIN_ROUTE);
   };
   const goToSignUp = () => {
-    navigation.navigate(SIGN_UP);
+    navigation.navigate(SIGN_UP_ROUTE);
   };
 
   useEffect(() => {
     if (user) {
-      navigation.navigate(APPOINTMENTS);
+      navigation.navigate(APPOINTMENTS_ROUTE);
     }
   });
 

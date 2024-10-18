@@ -1,22 +1,22 @@
-import { getAuth } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { APPOINTMENTS } from '../constants/routes';
-import { firebase } from '../firebase/firebase';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerScreenParams } from '../types/drawerScreenParams';
+import { getAuth } from 'firebase/auth';
 import { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { StyleSheet, Text, View } from 'react-native';
+import { APPOINTMENTS_ROUTE, SIGN_UP_TYPE } from '../constants/screens';
+import { firebase } from '../firebase/firebase';
+import { DrawerParams } from '../types/drawerParams';
 
 const auth = getAuth(firebase);
 
 export default function SignUp({
   navigation
-}: DrawerScreenProps<DrawerScreenParams, 'signUp'>) {
+}: DrawerScreenProps<DrawerParams, SIGN_UP_TYPE>) {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
     if (user) {
-      navigation.navigate(APPOINTMENTS);
+      navigation.navigate(APPOINTMENTS_ROUTE);
     }
   });
 

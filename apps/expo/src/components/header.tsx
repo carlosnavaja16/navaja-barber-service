@@ -8,13 +8,13 @@ import {
   Text,
   View
 } from 'react-native';
+import { HOME_ROUTE } from '../constants/screens';
 import {
   NAVAJA_SLATE_200,
   NAVAJA_SLATE_800,
   NAV_HEIGHT,
   NAV_HEIGHT_MOBILE
 } from '../constants/styles';
-import { HOME } from '../constants/routes';
 
 const getStyles = (isWeb: boolean) =>
   StyleSheet.create({
@@ -60,7 +60,7 @@ const isWeb = Platform.OS === 'web';
 const styles = getStyles(isWeb);
 
 export const Header = ({ navigation, options }: DrawerHeaderProps) => {
-  const goHome = () => navigation.navigate(HOME);
+  const goHome = () => navigation.navigate(HOME_ROUTE);
 
   return (
     <View style={styles.nav}>

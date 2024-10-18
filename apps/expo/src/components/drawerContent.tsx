@@ -1,16 +1,16 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItemList
 } from '@react-navigation/drawer';
-import { Button } from './button';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { firebase } from '../firebase/firebase';
 import { getAuth, signOut } from 'firebase/auth';
-import { View, StyleSheet, Text } from 'react-native';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { StyleSheet, Text, View } from 'react-native';
+import { HOME_ROUTE } from '../constants/screens';
 import { NAVAJA_SLATE_500, PADDING_HORIZONTAL } from '../constants/styles';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { HOME } from '../constants/routes';
+import { firebase } from '../firebase/firebase';
+import { Button } from './button';
 
 const auth = getAuth(firebase);
 
@@ -19,7 +19,7 @@ export const DrawerContent = (props: DrawerContentComponentProps) => {
   const navigation = props.navigation;
   const logout = () => {
     signOut(auth).then(() => {
-      navigation.navigate(HOME);
+      navigation.navigate(HOME_ROUTE);
     });
   };
 

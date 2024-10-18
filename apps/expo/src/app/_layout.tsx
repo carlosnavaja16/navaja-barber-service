@@ -1,20 +1,37 @@
-import { DrawerHeaderProps } from '@react-navigation/drawer';
-import { Drawer } from 'expo-router/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentComponentProps,
+  DrawerHeaderProps
+} from '@react-navigation/drawer';
 import { StatusBar } from 'expo-status-bar';
-import { Provider } from 'react-redux';
-import { Header } from '../components/header';
-import { store } from '../store/store';
-import { DrawerContent } from '../components/drawerContent';
 import { getAuth } from 'firebase/auth';
-import { firebase } from '../firebase/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { StyleProp, ViewStyle } from 'react-native';
+import { Provider } from 'react-redux';
+import { DrawerContent } from '../components/drawerContent';
+import { Header } from '../components/header';
+import {
+  APPOINTMENTS_ROUTE,
+  APPOINTMENTS_TITLE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  LOGIN_TITLE,
+  SIGN_UP_ROUTE,
+  SIGN_UP_TITLE
+} from '../constants/screens';
+import { firebase } from '../firebase/firebase';
+import { store } from '../store/store';
+import { DrawerParams } from '../types/drawerParams';
+import Appointments from './appointments';
+import App from './index';
+import Login from './login';
+import SignUp from './signUp';
 
 const auth = getAuth(firebase);
+const Drawer = createDrawerNavigator<DrawerParams>();
 
 export default function Layout() {
   const [user] = useAuthState(auth);
-
   const hide: StyleProp<ViewStyle> = { display: 'none' };
   const hideIfLoggedIn: StyleProp<ViewStyle> = user ? { display: 'none' } : {};
   const showIfLoggedIn: StyleProp<ViewStyle> = user ? {} : { display: 'none' };
@@ -22,44 +39,50 @@ export default function Layout() {
   return (
     <Provider store={store}>
       <StatusBar style="auto" />
-      <Drawer
-        drawerContent={(props) => <DrawerContent {...props} />}
+      <Drawer.Navigator
+        drawerContent={(props: DrawerContentComponentProps) => (
+          <DrawerContent {...props} />
+        )}
         screenOptions={{
           header: (props: DrawerHeaderProps) => <Header {...props} />
         }}
       >
         <Drawer.Screen
-          name="index"
+          name={HOME_ROUTE}
+          component={App}
           options={{
             headerShown: false,
             drawerItemStyle: hide
           }}
         />
         <Drawer.Screen
-          name="appointments"
+          name={APPOINTMENTS_ROUTE}
+          component={Appointments}
           options={{
-            drawerLabel: 'Appointments',
-            title: 'Appointments',
+            drawerLabel: APPOINTMENTS_TITLE,
+            title: APPOINTMENTS_TITLE,
             drawerItemStyle: showIfLoggedIn
           }}
         />
         <Drawer.Screen
-          name="login"
+          name={LOGIN_ROUTE}
+          component={Login}
           options={{
-            drawerLabel: 'Login',
-            title: 'Login',
+            drawerLabel: LOGIN_TITLE,
+            title: LOGIN_TITLE,
             drawerItemStyle: hideIfLoggedIn
           }}
         />
         <Drawer.Screen
-          name="signUp"
+          name={SIGN_UP_ROUTE}
+          component={SignUp}
           options={{
-            drawerLabel: 'Sign up',
-            title: 'Sign Up',
+            drawerLabel: SIGN_UP_TITLE,
+            title: SIGN_UP_TITLE,
             drawerItemStyle: hideIfLoggedIn
           }}
         />
-      </Drawer>
+      </Drawer.Navigator>
     </Provider>
   );
 }
