@@ -56,7 +56,7 @@ Thumbs.db
 *.env
 
 # credentials
-/apps/trpc/src/credentials.ts
+apps/trpc/src/credentials.ts
 
 # dependencies
 node_modules/

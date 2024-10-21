@@ -18,7 +18,7 @@ export async function getAppointments(userUid: string) {
       return {
         ...a,
         start: a.start.toDate()
-      };
+      } as Appointment;
     });
 
   console.log('result: ', result);

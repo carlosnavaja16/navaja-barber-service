@@ -55,9 +55,6 @@ export class BookingService {
     return this.store.select(UserSelectors.getUserProfile).pipe(
       filter((user) => !!user),
       switchMap((user) => {
-        if (!user) {
-          throw BarberErrors.USER_NOT_LOGGED_IN;
-        }
         return defer(() =>
           this.trpcService.client.getAppointments.query(user.userId)
         );
