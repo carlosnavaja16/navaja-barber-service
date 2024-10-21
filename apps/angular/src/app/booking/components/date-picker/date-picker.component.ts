@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DateTimeSlots, TimeSlot } from '@navaja/shared';
-import { DateUtils } from '@booking/utilities/date.util';
-
+import { DateUtils } from '../../utilities/date.util';
 @Component({
   selector: 'date-picker',
   templateUrl: './date-picker.component.html',

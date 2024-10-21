@@ -22,7 +22,27 @@ export const ControlledInput = <T extends FieldValues>(
   const { field, fieldState } = useController<T>(props);
   const fieldInvalid = fieldState.invalid && fieldState.isTouched;
 
-  const styles = StyleSheet.create({
+  const styles = getStyles(fieldInvalid);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{props.label} </Text>
+      <TextInput
+        onChangeText={field.onChange}
+        onBlur={field.onBlur}
+        value={field.value}
+        style={styles.textInput}
+        secureTextEntry={props.secureTextEntry}
+      />
+      {fieldInvalid && (
+        <Text style={styles.errorMessage}>{fieldState.error?.message}</Text>
+      )}
+    </View>
+  );
+};
+
+const getStyles = (fieldInvalid: boolean) => {
+  return StyleSheet.create({
     container: {
       width: '100%',
       paddingBottom: fieldInvalid ? 0 : 10
@@ -44,20 +64,4 @@ export const ControlledInput = <T extends FieldValues>(
       color: NAVAJA_RED
     }
   });
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{props.label} </Text>
-      <TextInput
-        onChangeText={field.onChange}
-        onBlur={field.onBlur}
-        value={field.value}
-        style={styles.textInput}
-        secureTextEntry={props.secureTextEntry}
-      />
-      {fieldInvalid && (
-        <Text style={styles.errorMessage}>{fieldState.error?.message}</Text>
-      )}
-    </View>
-  );
 };

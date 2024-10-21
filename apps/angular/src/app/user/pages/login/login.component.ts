@@ -9,6 +9,12 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from '@src/app/app.state';
 import * as UserActions from '@src/app/user/state/user.actions';
+import {
+  EMAIL_EMPTY,
+  EMAIL_INVALID,
+  PASSWORD_EMPTY,
+  PASSWORD_INVALID
+} from '@navaja/shared';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +23,10 @@ import * as UserActions from '@src/app/user/state/user.actions';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  emailEmpty = EMAIL_EMPTY;
+  emailInvalid = EMAIL_INVALID;
+  passwordEmpty = PASSWORD_EMPTY;
+  passwordInvalid = PASSWORD_INVALID;
 
   constructor(
     private readonly headerService: HeaderService,

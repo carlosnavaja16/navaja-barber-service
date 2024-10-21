@@ -11,7 +11,18 @@ export async function getAppointments(userUid: string) {
     .orderBy('start', 'desc')
     .limit(APPOINTMENT_LIST_LIMIT)
     .get();
-  return query.docs.map((doc) => doc.data() as Appointment);
+  const result = query.docs
+    .map((doc) => doc.data())
+    .map((a) => {
+      // TODO: we should make this cleaner
+      return {
+        ...a,
+        start: a.start.toDate()
+      };
+    });
+
+  console.log('result: ', result);
+  return result;
 }
 
 export async function getAppointment(eventId: string) {

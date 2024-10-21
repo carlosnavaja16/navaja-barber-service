@@ -4,7 +4,7 @@ import { HeaderService } from '@src/app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Appointment } from '@navaja/shared';
 import { DateUtils } from '@booking/utilities/date.util';
-import { Observable, Subject, merge, switchMap } from 'rxjs';
+import { Observable, Subject, merge, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,9 @@ export class AppointmentsComponent {
   ) {
     this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
-    this.appointments$ = this.bookingService.getAppointments();
+    this.appointments$ = this.bookingService
+      .getAppointments()
+      .pipe(tap((a) => console.log('appointments: ', a)));
     this.cancelledAppointments$ = new Subject();
 
     this.refreshedAppointments$ = this.cancelledAppointments$
@@ -50,7 +52,7 @@ export class AppointmentsComponent {
     this.noAppointments = computed(() => {
       const appointments = this.appointments();
       if (appointments == null) {
-        return null;
+        return true;
       } else {
         return appointments.length === 0;
       }

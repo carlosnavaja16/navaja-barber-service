@@ -24,10 +24,6 @@ export class DateUtils {
     ).toUTC().hour;
   }
 
-  public static getDateHash(date: Date): string {
-    return date.toISOString().split('T')[0];
-  }
-
   /**
    * Returns a new Date object representing the minimum date allowed for a time slot.
    * The minimum date is calculated by adding the buffer hours to the current UTC time,
@@ -55,6 +51,13 @@ export class DateUtils {
     return maxDate;
   }
 
+  /**
+   * Determines if a given time slot falls within the business's operating hours.
+   * @param timeSlot - The time slot to check.
+   * @param openingHourUtc - The opening hour in UTC.
+   * @param closingHourUtc - The closing hour in UTC.
+   * @returns A boolean indicating whether the time slot falls within the business's operating hours.
+   */
   public static isWithinOpenHours(
     timeSlot: TimeSlot,
     openingHourUtc: number,
@@ -66,14 +69,14 @@ export class DateUtils {
 
     if (openingHourUtc > closingHourUtc) {
       return (
-        ((timeSlot.start.getHours() >= openingHourUtc &&
-          timeSlot.start.getHours() < 24) ||
-          (timeSlot.start.getHours() >= 0 &&
-            timeSlot.start.getHours() < closingHourUtc)) &&
-        ((timeSlot.end.getHours() > openingHourUtc &&
-          timeSlot.end.getHours() < 24) ||
-          (timeSlot.end.getHours() >= 0 &&
-            timeSlot.end.getHours() <= closingHourUtc))
+        ((timeSlot.start.getUTCHours() >= openingHourUtc &&
+          timeSlot.start.getUTCHours() < 24) ||
+          (timeSlot.start.getUTCHours() >= 0 &&
+            timeSlot.start.getUTCHours() < closingHourUtc)) &&
+        ((timeSlot.end.getUTCHours() > openingHourUtc &&
+          timeSlot.end.getUTCHours() < 24) ||
+          (timeSlot.end.getUTCHours() >= 0 &&
+            timeSlot.end.getUTCHours() <= closingHourUtc))
       );
     } else {
       return (
@@ -86,8 +89,8 @@ export class DateUtils {
   }
 
   /**
-   * Determines if a given date falls on a day that the business is closed in the Eastern Standard Time (EST) timezone.
-   * @param date The date to check.
+   * Determines if a given date falls on a day that the business is closed in the business's timezone.
+   * @param date - The date to check.
    * @returns A boolean indicating whether the date falls on a closed day.
    */
   public static isDateOnClosedDaysEST(date: Date): boolean {

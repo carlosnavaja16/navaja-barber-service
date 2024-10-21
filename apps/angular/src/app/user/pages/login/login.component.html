@@ -10,14 +10,14 @@
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" />
       @if (email?.invalid && email?.touched) {
-        <mat-error>Please enter a valid email</mat-error>
+        <mat-error> {{ emailInvalid }} </mat-error>
       }
     </mat-form-field>
     <mat-form-field class="w-full">
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password" />
       @if (password?.invalid && password?.touched) {
-        <mat-error> Password is required </mat-error>
+        <mat-error> {{ passwordEmpty }} </mat-error>
       }
     </mat-form-field>
     <button

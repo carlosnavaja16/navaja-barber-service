@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DateTimeSlots, TimeSlot } from '@navaja/shared';
+import {
+  AFTERNOON,
+  DateTimeSlots,
+  EVENING,
+  MORNING,
+  TimeSlot
+} from '@navaja/shared';
 import { DateUtils } from '@booking/utilities/date.util';
 
 @Component({
@@ -18,7 +24,7 @@ export class TimeSlotsComponent {
   get morningTimeSlots() {
     if (this.dateTimeSlots) {
       return this.dateTimeSlots.timeSlots.filter(
-        (t) => DateUtils.whichPartOfDay(t) === 'morning'
+        (t) => DateUtils.whichPartOfDay(t) === MORNING
       );
     }
     return [];
@@ -27,7 +33,7 @@ export class TimeSlotsComponent {
   get afternoonTimeSlots() {
     if (this.dateTimeSlots) {
       return this.dateTimeSlots.timeSlots.filter(
-        (t) => DateUtils.whichPartOfDay(t) === 'afternoon'
+        (t) => DateUtils.whichPartOfDay(t) === AFTERNOON
       );
     }
     return [];
@@ -36,7 +42,7 @@ export class TimeSlotsComponent {
   get eveningTimeSlots() {
     if (this.dateTimeSlots) {
       return this.dateTimeSlots.timeSlots.filter(
-        (t) => DateUtils.whichPartOfDay(t) === 'evening'
+        (t) => DateUtils.whichPartOfDay(t) === EVENING
       );
     }
     return [];

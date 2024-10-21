@@ -6,6 +6,7 @@ import { Service } from '@navaja/shared';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as UserSelectors from '@src/app/user/state/user.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-services',
@@ -13,7 +14,7 @@ import * as UserSelectors from '@src/app/user/state/user.selectors';
   styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent {
-  services: Signal<Service[]>;
+  services$: Observable<Service[]>;
   loggedIn: Signal<boolean>;
 
   constructor(
@@ -23,9 +24,7 @@ export class ServicesComponent {
     private readonly store: Store
   ) {
     this.headerService.setHeader('Services');
-    this.services = toSignal(this.bookingService.getServices(), {
-      initialValue: []
-    });
+    this.services$ = this.bookingService.getServices();
     this.bookingService.selectedService = null;
     this.loggedIn = toSignal(this.store.select(UserSelectors.getLoggedIn), {
       initialValue: false

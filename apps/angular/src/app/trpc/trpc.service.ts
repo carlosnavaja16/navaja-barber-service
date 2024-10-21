@@ -24,15 +24,17 @@ export class TRPCService {
       initialValue: undefined
     });
     this.client = createTRPCProxyClient<BarberServiceRouter>({
-      transformer: superjson,
       links: [
         httpBatchLink({
           url: `${this.getTRPCHost()}:${PORT}/trpc`,
           headers: () => {
-            return { Authorization: this.userToken() };
+            return {
+              Authorization: this.userToken()
+            };
           }
         })
-      ]
+      ],
+      transformer: superjson
     });
   }
 

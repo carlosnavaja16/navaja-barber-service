@@ -77,7 +77,9 @@ export class ProfileFormComponent implements OnInit {
   }
 
   onCancel() {
-    this.userProfileForm.reset(this.userProfile, { emitEvent: false });
+    this.userProfileForm.reset(this.userProfile, {
+      emitEvent: false
+    });
     this.inEditMode = false;
   }
 

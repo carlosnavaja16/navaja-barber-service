@@ -4,7 +4,7 @@
       <mat-progress-spinner color="primary" mode="indeterminate" />
     </div>
   } @else {
-    @if (noAppointments()) {
+    @if (noAppointments() === true) {
       <p class="text-center pb-5">
         <small>
           You have not booked any appointments yet.

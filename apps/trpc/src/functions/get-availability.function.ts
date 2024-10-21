@@ -7,13 +7,16 @@ import { INCREMENT_MILLISECONDS } from '../constants.js';
 export async function getAvailability(
   eventDuration: number
 ): Promise<AvailabilityResponse> {
+  const eventDurationMillis = eventDuration * 60 * 1000;
   const openingHourUTC = DateUtils.getOpeningHourUtc();
   const closingHourUTC = DateUtils.getClosingHourUtc();
   const minDate = DateUtils.getMinDate();
   const maxDate = DateUtils.getMaxDate();
 
-  const allTimeSlots = getAllTimeSlots(eventDuration, minDate, maxDate);
+  //Get all time slots for the given date range
+  const allTimeSlots = getAllTimeSlots(eventDurationMillis, minDate, maxDate);
 
+  //Get the busy times for the given date range (thess will be strings)
   const busyTimes: calendar_v3.Schema$TimePeriod[] = await getCalendarBusy(
     minDate,
     maxDate
@@ -22,9 +25,8 @@ export async function getAvailability(
   //Convert the start and end of each time slot from date strings to date objects
   const busyTimeSlots = getBusyTimeSlots(busyTimes);
 
+  //Get the available time slots given the busy times
   const availableTimeSlots = getAvailableTimeSlots(allTimeSlots, busyTimeSlots);
-
-  const timeSlotsByDate = getTimeSlotsByDate(availableTimeSlots);
 
   return {
     firstAvailableDate: availableTimeSlots[0].start,
@@ -32,17 +34,20 @@ export async function getAvailability(
     closingHourUTC,
     minDate,
     maxDate,
-    availableTimeSlots,
-    timeSlotsByDate
+    availableTimeSlots
   };
 }
 
-function getAllTimeSlots(eventDuration: number, minDate: Date, maxDate: Date) {
+function getAllTimeSlots(
+  eventDurationMillis: number,
+  minDate: Date,
+  maxDate: Date
+) {
   const allTimeSlots: TimeSlot[] = [];
   const openingHourUtc = DateUtils.getOpeningHourUtc();
   const closingHourUtc = DateUtils.getClosingHourUtc();
   const currStart = new Date(minDate);
-  const currEnd = new Date(minDate.getTime() + eventDuration);
+  const currEnd = new Date(minDate.getTime() + eventDurationMillis);
 
   while (currEnd <= maxDate) {
     const currTimeSlot = {
@@ -88,20 +93,4 @@ function getAvailableTimeSlots(
       );
     });
   });
-}
-
-function getTimeSlotsByDate(
-  availableTimeSlots: TimeSlot[]
-): Map<string, TimeSlot[]> {
-  const timeSlotsByDate = new Map<string, TimeSlot[]>();
-  availableTimeSlots.forEach((timeSlot) => {
-    const dateHash = DateUtils.getDateHash(timeSlot.start);
-    const timeSlots = timeSlotsByDate.get(dateHash);
-    if (timeSlots) {
-      timeSlots.push(timeSlot);
-    } else {
-      timeSlotsByDate.set(dateHash, [timeSlot]);
-    }
-  });
-  return timeSlotsByDate;
 }

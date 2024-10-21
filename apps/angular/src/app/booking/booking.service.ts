@@ -13,6 +13,7 @@ import {
   Observable,
   catchError,
   defer,
+  filter,
   map,
   switchMap,
   tap
@@ -52,6 +53,7 @@ export class BookingService {
 
   public getAppointments(): Observable<Appointment[]> {
     return this.store.select(UserSelectors.getUserProfile).pipe(
+      filter((user) => !!user),
       switchMap((user) => {
         if (!user) {
           throw BarberErrors.USER_NOT_LOGGED_IN;
@@ -91,14 +93,18 @@ export class BookingService {
     return defer(() =>
       this.trpcService.client.getAvailability.query(service.duration)
     ).pipe(
+      tap((availabilityResponse) =>
+        console.log('availabilityResponse: ', availabilityResponse)
+      ),
       map((AvailabilityResponse: AvailabilityResponse) => {
+        const timeSlotsByDate = DateUtils.getTimeSlotsByDate(
+          AvailabilityResponse.availableTimeSlots
+        );
         return {
           ...AvailabilityResponse,
+          timeSlotsByDate,
           dateFilter: (date: Date) => {
-            return DateUtils.isDateInAvailableDates(
-              date,
-              AvailabilityResponse.timeSlotsByDate
-            );
+            return DateUtils.isDateInAvailableDates(date, timeSlotsByDate);
           }
         };
       }),

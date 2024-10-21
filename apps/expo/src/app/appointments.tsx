@@ -22,13 +22,13 @@ export default function Appointments({
 
   if (!user) {
     return null;
-  } else {
-    return (
-      <View style={styles.container}>
-        <Text>Appointments</Text>
-      </View>
-    );
   }
+
+  return (
+    <View style={styles.container}>
+      <Text>Appointments</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

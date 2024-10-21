@@ -13,7 +13,10 @@
     </div>
     <div class="text-sm text-black flex items-center gap-1">
       <ng-icon name="heroClockMini"></ng-icon>
-      <p>{{ appointment.start | date: 'shortTime' }} {{ timeZone }}</p>
+      <p>
+        {{ appointment.start | date: 'shortTime' }}
+        {{ timeZone }}
+      </p>
     </div>
   </div>
   @if (upcoming && editable) {

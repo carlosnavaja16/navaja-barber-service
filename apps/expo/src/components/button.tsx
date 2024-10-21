@@ -10,6 +10,7 @@ import {
 import {
   BORDER_RADIUS,
   BORDER_WIDTH,
+  BTN_SHADOW_OFFSET,
   INPUT_HEIGHT,
   NAVAJA_BLUE,
   NAVAJA_SLATE_200,
@@ -29,24 +30,27 @@ export const Button = (props: Props) => {
   const styles = getStyles(props);
 
   return (
-    <Pressable
-      style={styles.container}
-      onPress={props.onPress}
-      disabled={props.disabled}
-    >
-      <View style={styles.emptyContainer} />
-      <View style={styles.textContainer}>
-        <Text style={styles.text}>{props.text}</Text>
-      </View>
-      <View style={styles.loadingContainer}>
-        {props.loading && (
-          <ActivityIndicator
-            size="small"
-            color={props.textColor || 'white'}
-          ></ActivityIndicator>
-        )}
-      </View>
-    </Pressable>
+    <View style={styles.container}>
+      <Pressable
+        style={styles.button}
+        onPress={props.onPress}
+        disabled={props.disabled}
+      >
+        <View style={styles.emptyContainer} />
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>{props.text}</Text>
+        </View>
+        <View style={styles.loadingContainer}>
+          {props.loading && (
+            <ActivityIndicator
+              size="small"
+              color={props.textColor || 'white'}
+            ></ActivityIndicator>
+          )}
+        </View>
+      </Pressable>
+      <View style={styles.shadow} />
+    </View>
   );
 };
 
@@ -54,9 +58,15 @@ const getStyles = (props: Props) =>
   StyleSheet.create({
     container: {
       display: 'flex',
+      flexDirection: 'column',
+      height: INPUT_HEIGHT + BTN_SHADOW_OFFSET,
+      width: '100%'
+    },
+    button: {
+      display: 'flex',
       flexDirection: 'row',
       height: INPUT_HEIGHT,
-      width: '100%',
+      flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
       borderWidth: BORDER_WIDTH,
@@ -64,7 +74,8 @@ const getStyles = (props: Props) =>
       backgroundColor: props.disabled
         ? NAVAJA_SLATE_200
         : props.buttonColor || NAVAJA_BLUE,
-      borderColor: props.disabled ? NAVAJA_SLATE_400 : 'black'
+      borderColor: props.disabled ? NAVAJA_SLATE_400 : 'black',
+      marginEnd: BTN_SHADOW_OFFSET
     },
     loadingContainer: {
       flex: 1,
@@ -86,5 +97,14 @@ const getStyles = (props: Props) =>
     },
     emptyContainer: {
       flex: 1
+    },
+    shadow: {
+      height: INPUT_HEIGHT,
+      flex: 1,
+      backgroundColor: 'black',
+      zIndex: -1,
+      borderRadius: BORDER_RADIUS,
+      marginTop: -1 * INPUT_HEIGHT + BTN_SHADOW_OFFSET,
+      marginLeft: BTN_SHADOW_OFFSET
     }
   });

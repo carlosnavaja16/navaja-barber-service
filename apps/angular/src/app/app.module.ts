@@ -63,6 +63,7 @@ import { bookingReducer } from './booking/state/booking.reducer';
 import { userReducer } from './user/state/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './user/state/user.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,11 @@ import { UserEffects } from './user/state/user.effects';
       booking: bookingReducer,
       user: userReducer
     }),
-    EffectsModule.forRoot([UserEffects])
+    EffectsModule.forRoot([UserEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [
     MatSnackBar,

@@ -10,7 +10,7 @@
     </p>
   }
   <ul class="flex flex-col gap-5">
-    @for (service of services(); track service.name) {
+    @for (service of services$ | async; track service.name) {
       <li class="flex justify-between items-center">
         <div class="flex w-fit flex-col">
           <p

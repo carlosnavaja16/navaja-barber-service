@@ -15,7 +15,8 @@
         }
         @if (time) {
           <div class="text-sm text-black">
-            <b>Time: </b> {{ time | date: 'shortTime' }}
+            <b>Time: </b>
+            {{ time | date: 'shortTime' }}
             {{ timeZone }}
           </div>
         }

@@ -10,7 +10,6 @@ export interface AvailabilityResponse {
   closingHourUTC: number;
   minDate: Date;
   maxDate: Date;
-  timeSlotsByDate: Map<string, TimeSlot[]>;
   availableTimeSlots: TimeSlot[];
 }
 

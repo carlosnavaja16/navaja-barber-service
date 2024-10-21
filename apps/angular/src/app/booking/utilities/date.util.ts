@@ -1,25 +1,21 @@
-import { TimeSlot } from '@navaja/shared';
+import { AFTERNOON, EVENING, MORNING, TimeSlot } from '@navaja/shared';
 
 export class DateUtils {
-  public static getDateHash(date: Date): string {
-    return date.toLocaleDateString();
-  }
-
   public static isDateInAvailableDates(
     date: Date,
     timeSlotsByDate: Map<string, TimeSlot[]>
   ): boolean {
-    return timeSlotsByDate.has(this.getDateHash(date));
+    return timeSlotsByDate.has(DateUtils.getDateHash(date));
   }
 
   public static whichPartOfDay(timeSlot: TimeSlot) {
     const startHour = timeSlot.start.getHours();
     if (startHour >= 0 && startHour < 12) {
-      return 'morning';
+      return MORNING;
     } else if (startHour >= 12 && startHour < 18) {
-      return 'afternoon';
+      return AFTERNOON;
     } else {
-      return 'evening';
+      return EVENING;
     }
   }
 
@@ -32,4 +28,24 @@ export class DateUtils {
       .toLocaleTimeString('en-us', { timeZoneName: 'short' })
       .split(' ')[2];
   }
+
+  public static getTimeSlotsByDate(
+    availableTimeSlots: TimeSlot[]
+  ): Map<string, TimeSlot[]> {
+    const timeSlotsByDate = new Map<string, TimeSlot[]>();
+    availableTimeSlots.forEach((timeSlot) => {
+      const dateHash = DateUtils.getDateHash(timeSlot.start);
+      const timeSlots = timeSlotsByDate.get(dateHash);
+      if (timeSlots) {
+        timeSlots.push(timeSlot);
+      } else {
+        timeSlotsByDate.set(dateHash, [timeSlot]);
+      }
+    });
+    return timeSlotsByDate;
+  }
+
+  public static getDateHash = (date: Date) => {
+    return date.toLocaleDateString();
+  };
 }

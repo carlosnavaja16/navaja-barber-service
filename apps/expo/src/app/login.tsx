@@ -1,4 +1,10 @@
-import { EMAIL_REGEX } from '@navaja/shared';
+import {
+  EMAIL_EMPTY,
+  EMAIL_INVALID,
+  EMAIL_REGEX,
+  PASSWORD_EMPTY,
+  PASSWORD_INVALID
+} from '@navaja/shared';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useEffect } from 'react';
@@ -59,10 +65,10 @@ export default function Login({
           control={control}
           name="email"
           rules={{
-            required: 'Email is required',
+            required: EMAIL_EMPTY,
             pattern: {
               value: EMAIL_REGEX,
-              message: 'Invalid email'
+              message: EMAIL_INVALID
             }
           }}
           label="Email"
@@ -71,10 +77,10 @@ export default function Login({
           control={control}
           name="password"
           rules={{
-            required: 'Password is required',
+            required: PASSWORD_EMPTY,
             minLength: {
               value: 6,
-              message: 'Password must be at least 6 characters'
+              message: PASSWORD_INVALID
             }
           }}
           label="Password"

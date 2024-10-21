@@ -16,3 +16,4 @@ export const NAV_HEIGHT = 60;
 export const NAV_HEIGHT_MOBILE = 100;
 export const SIDE_NAV_WIDTH = 300;
 export const MENU_ITEM_PADDING = 15;
+export const BTN_SHADOW_OFFSET = 3;
