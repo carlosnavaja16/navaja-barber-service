@@ -1,8 +1,8 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { firebaseApp } from '../index.js';
-import { Appointment } from '@navaja/shared';
-import { APPOINTMENT_LIST_LIMIT } from '../constants.js';
-import { App } from 'firebase-admin/app';
+import { AppointmentFirestoreResponse } from '@navaja/shared';
+import { APPOINTMENT_LIST_LIMIT } from '../constants';
+import { AppointmentUtils } from '../util/appointment.util';
 
 export async function getAppointments(userUid: string) {
   const query = await getFirestore(firebaseApp)
@@ -12,16 +12,9 @@ export async function getAppointments(userUid: string) {
     .orderBy('start', 'desc')
     .limit(APPOINTMENT_LIST_LIMIT)
     .get();
-  const result = query.docs
-    .map((doc) => doc.data())
-    .map((a) => {
-      // TODO: we should make this cleaner
-      return {
-        ...a,
-        start: a.start.toDate()
-      } as Appointment;
-    });
-  return result;
+  return query.docs
+    .map((doc) => doc.data() as AppointmentFirestoreResponse)
+    .map((response) => AppointmentUtils.transformDates(response));
 }
 
 export async function getAppointment(eventId: string) {
@@ -29,12 +22,7 @@ export async function getAppointment(eventId: string) {
     .collection('Appointments')
     .doc(eventId)
     .get();
-  const result = query.data();
-  if (result && result.start) {
-    return {
-      ...result,
-      start: result.start.toDate()
-    } as Appointment;
-  }
-  return query.data() as Appointment;
+  return AppointmentUtils.transformDates(
+    query.data() as AppointmentFirestoreResponse
+  );
 }

@@ -2,6 +2,7 @@ import { Service } from './service';
 import { UserProfile } from './user-profile';
 import { TimeSlot } from './time-slot';
 import { z } from 'zod';
+import { Timestamp } from 'firebase-admin/firestore';
 
 export interface AppointmentAddress {
   streetAddr: string;
@@ -16,7 +17,16 @@ export interface Appointment {
   service: Service;
   address: AppointmentAddress;
   start: Date;
-  cancelled: Date | null;
+  cancelled: Date | undefined;
+}
+
+export interface AppointmentFirestoreResponse {
+  eventId: string;
+  userId: string;
+  service: Service;
+  address: AppointmentAddress;
+  start: Timestamp;
+  cancelled: Timestamp | undefined;
 }
 
 export const AppointmentZod = z.object({

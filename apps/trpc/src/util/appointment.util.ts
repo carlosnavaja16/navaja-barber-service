@@ -1,9 +1,9 @@
 import {
   Appointment,
   AppointmentEvent,
+  AppointmentFirestoreResponse,
   AppointmentRequest
 } from '@navaja/shared';
-import { DocumentData } from 'firebase-admin/firestore';
 
 export class AppointmentUtils {
   public static buildAppointmentEvent(
@@ -37,16 +37,19 @@ export class AppointmentUtils {
         zip: appointmentRequest.userProfile.zipCode
       },
       start: appointmentRequest.timeSlot.start,
-      cancelled: null
+      cancelled: undefined
     };
   }
 
   public static transformDates(
-    appointmentFirestoreResponse: DocumentData
+    appointmentFirestoreResponse: AppointmentFirestoreResponse
   ): Appointment {
     return {
       ...appointmentFirestoreResponse,
-      start: appointmentFirestoreResponse.start.toDate()
+      start: appointmentFirestoreResponse.start.toDate(),
+      cancelled: appointmentFirestoreResponse.cancelled
+        ? appointmentFirestoreResponse.cancelled.toDate()
+        : undefined
     };
   }
 }
