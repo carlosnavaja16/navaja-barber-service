@@ -2,6 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { firebaseApp } from '../index.js';
 import { Appointment } from '@navaja/shared';
 import { APPOINTMENT_LIST_LIMIT } from '../constants.js';
+import { App } from 'firebase-admin/app';
 
 export async function getAppointments(userUid: string) {
   const query = await getFirestore(firebaseApp)
@@ -20,8 +21,6 @@ export async function getAppointments(userUid: string) {
         start: a.start.toDate()
       } as Appointment;
     });
-
-  console.log('result: ', result);
   return result;
 }
 
@@ -30,5 +29,12 @@ export async function getAppointment(eventId: string) {
     .collection('Appointments')
     .doc(eventId)
     .get();
+  const result = query.data();
+  if (result && result.start) {
+    return {
+      ...result,
+      start: result.start.toDate()
+    } as Appointment;
+  }
   return query.data() as Appointment;
 }

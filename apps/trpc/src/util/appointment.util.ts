@@ -3,6 +3,7 @@ import {
   AppointmentEvent,
   AppointmentRequest
 } from '@navaja/shared';
+import { DocumentData } from 'firebase-admin/firestore';
 
 export class AppointmentUtils {
   public static buildAppointmentEvent(
@@ -37,6 +38,15 @@ export class AppointmentUtils {
       },
       start: appointmentRequest.timeSlot.start,
       cancelled: null
+    };
+  }
+
+  public static transformDates(
+    appointmentFirestoreResponse: DocumentData
+  ): Appointment {
+    return {
+      ...appointmentFirestoreResponse,
+      start: appointmentFirestoreResponse.start.toDate()
     };
   }
 }
