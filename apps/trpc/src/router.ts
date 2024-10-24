@@ -1,37 +1,35 @@
-import { initTRPC } from '@trpc/server';
-import { getAvailability } from './functions/get-availability.function.js';
-import { bookAppointment } from './functions/book-appointment.function.js';
-import { cancelAppointment } from './functions/cancel-appointment.function.js';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { BarberContext, getProtectedProcedure } from './context.js';
-import { getServices } from './functions/get-services.function.js';
-import {
-  getAppointment,
-  getAppointments
-} from './functions/get-appointments.function.js';
+import { BarberContext } from './context.js';
 import { AppointmentRequestZod } from '@navaja/shared';
 import superjson from 'superjson';
-import { rescheduleEvent } from './util/google-calendar.util.js';
+import {} from './calendar/calendar.service.js';
+import { AppointmentService } from './appointment/service/appointment.service.js';
 
 const t = initTRPC.context<BarberContext>().create({
   transformer: superjson
 });
 export const publicProcedure = t.procedure;
-export const protectedProcedure = getProtectedProcedure();
+export const protectedProcedure = publicProcedure.use((opts) => {
+  if (!opts.ctx.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  return opts.next({ ctx: { user: opts.ctx.user } });
+});
 
 export const barberServiceRouter = t.router({
   getAvailability: publicProcedure.input(z.number()).query(async (opts) => {
-    return getAvailability(opts.input);
+    return AppointmentService.getAvailability(opts.input);
   }),
   cancelAppointment: publicProcedure
     .input(z.string())
     .mutation(async (opts) => {
-      return cancelAppointment(opts.input);
+      return AppointmentService.cancelAppointment(opts.input);
     }),
   bookAppointment: publicProcedure
     .input(AppointmentRequestZod)
     .mutation(async (opts) => {
-      return bookAppointment(opts.input);
+      return AppointmentService.bookAppointment(opts.input);
     }),
   rescheduleAppointment: publicProcedure
     .input(
@@ -41,16 +39,16 @@ export const barberServiceRouter = t.router({
       })
     )
     .mutation(async (opts) => {
-      return rescheduleEvent(opts.input);
+      return AppointmentService.rescheduleAppointment(opts.input);
     }),
   getServices: publicProcedure.query(async () => {
-    return getServices();
+    return AppointmentService.getServices();
   }),
   getAppointments: publicProcedure.input(z.string()).query(async (opts) => {
-    return getAppointments(opts.input);
+    return AppointmentService.getAppointments(opts.input);
   }),
   getAppointment: publicProcedure.input(z.string()).query(async (opts) => {
-    return getAppointment(opts.input);
+    return AppointmentService.getAppointment(opts.input);
   })
 });
 

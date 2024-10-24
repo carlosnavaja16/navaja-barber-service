@@ -6,10 +6,16 @@ import {
   LIMIT_DAYS,
   OPENING_HOUR_EST,
   TIME_ZONE
-} from '../constants.js';
+} from '../../constants.js';
 import { TimeSlot } from '@navaja/shared';
-
+/**
+ * Utility class for date and time operations.
+ */
 export class DateUtils {
+  /**
+   * Returns the opening hour in UTC.
+   * @returns The opening hour in UTC.
+   */
   public static getOpeningHourUtc(): number {
     return DateTime.fromObject(
       { hour: OPENING_HOUR_EST },
@@ -17,6 +23,10 @@ export class DateUtils {
     ).toUTC().hour;
   }
 
+  /**
+   * Returns the closing hour in UTC.
+   * @returns The closing hour in UTC.
+   */
   public static getClosingHourUtc(): number {
     return DateTime.fromObject(
       { hour: CLOSING_HOUR_EST },
