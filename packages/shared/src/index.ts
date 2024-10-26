@@ -7,5 +7,4 @@ export * from './types/sign-up-details';
 export * from './types/time-slot';
 export * from './types/user-profile';
 export * from './constants';
-export * from './errors';
 export * from './firebase/firebase.config';

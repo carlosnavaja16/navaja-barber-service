@@ -1,7 +1,13 @@
 import { calendar_v3, google } from 'googleapis';
-import { BARBER_SERVICE_CALENDAR_ID, SCOPE } from '../constants';
+import {
+  BARBER_SERVICE_CALENDAR_ID,
+  CALENDAR_NOT_FOUND,
+  EVENT_DELETION_FAILED,
+  EVENT_INSERTION_FAILED,
+  SCOPE
+} from '../utils/constants';
 import { googleCalendarSvcAccCreds } from '../credentials';
-import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 import { RescheduleRequest } from '@navaja/shared';
 
 export class CalendarService {
@@ -32,9 +38,7 @@ export class CalendarService {
       !response.data.calendars[BARBER_SERVICE_CALENDAR_ID] ||
       !response.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy
     ) {
-      throw new Error(
-        `No calendar found with calendarId: ${BARBER_SERVICE_CALENDAR_ID}`
-      );
+      throw new Error(CALENDAR_NOT_FOUND(BARBER_SERVICE_CALENDAR_ID));
     }
     return response.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy!;
   }
@@ -54,11 +58,7 @@ export class CalendarService {
     });
 
     if (response.status !== StatusCodes.OK) {
-      throw new Error(
-        `Inserting event failed with status code ${
-          response.status
-        }:  ${getReasonPhrase(response.status)}`
-      );
+      throw new Error(EVENT_INSERTION_FAILED(response.status));
     }
     return response.data;
   }
@@ -77,11 +77,7 @@ export class CalendarService {
     });
 
     if (response.status !== StatusCodes.NO_CONTENT) {
-      throw new Error(
-        `Canceling event failed with status code ${
-          response.status
-        }: ${getReasonPhrase(response.status)}`
-      );
+      throw new Error(EVENT_DELETION_FAILED(response.status));
     }
   }
 

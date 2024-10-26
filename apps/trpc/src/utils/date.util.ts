@@ -6,7 +6,7 @@ import {
   LIMIT_DAYS,
   OPENING_HOUR_EST,
   TIME_ZONE
-} from '../../constants.js';
+} from './constants';
 import { TimeSlot } from '@navaja/shared';
 /**
  * Utility class for date and time operations.

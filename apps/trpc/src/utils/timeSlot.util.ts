@@ -1,6 +1,6 @@
 import { TimeSlot } from '@navaja/shared';
 import { DateUtils } from './date.util';
-import { INCREMENT_MILLISECONDS } from '../../constants';
+import { INCREMENT_MILLISECONDS } from './constants';
 import { calendar_v3 } from 'googleapis';
 
 export class TimeSlotUtils {

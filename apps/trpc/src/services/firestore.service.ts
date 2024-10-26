@@ -1,7 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { firebaseApp } from '../..';
-import { CalendarService } from '../../calendar/calendar.service';
-import { AppointmentUtils } from '../util/appointment.util';
+import { firebaseApp } from '../utils/firebase';
+import { CalendarService } from './calendar.service';
+import { AppointmentUtils } from '../utils/appointment.util';
 import {
   AppointmentFirestoreResponse,
   AppointmentRequest,
@@ -9,19 +9,29 @@ import {
   Service,
   TODO
 } from '@navaja/shared';
-import { APPOINTMENT_LIST_LIMIT } from '../../constants';
-import { DateUtils } from '../util/date.util';
-import { TimeSlotUtils } from '../util/timeSlot.util';
+import {
+  APPOINTMENT_COLLECTION,
+  APPOINTMENT_LIST_LIMIT,
+  ASCENDING_ORDER,
+  CANCELLED_FIELD,
+  DESCENDING_ORDER,
+  PRICE_FIELD,
+  SERVICE_COLLECTION,
+  START_FIELD,
+  USER_ID_FIELD
+} from '../utils/constants';
+import { DateUtils } from '../utils/date.util';
+import { TimeSlotUtils } from '../utils/timeSlot.util';
 
-export class AppointmentService {
+export class FirestoreService {
   /**
    * Retrieves a list of services from Firestore.
    * @returns An array of services.
    */
   public static async getServices() {
     const query = await getFirestore(firebaseApp)
-      .collection('Services')
-      .orderBy('price', 'asc')
+      .collection(SERVICE_COLLECTION)
+      .orderBy(PRICE_FIELD, ASCENDING_ORDER)
       .get();
     return query.docs.map((doc) => doc.data() as Service);
   }
@@ -89,7 +99,7 @@ export class AppointmentService {
       appointmentRequest
     );
     await getFirestore(firebaseApp)
-      .doc(`Appointments/${savedAppointmentEvent.id}`)
+      .doc(`${APPOINTMENT_COLLECTION}/${savedAppointmentEvent.id}`)
       .set(appointment);
 
     return appointment;
@@ -102,10 +112,10 @@ export class AppointmentService {
    */
   public static async getAppointments(userUid: string) {
     const query = await getFirestore(firebaseApp)
-      .collection('Appointments')
-      .where('userId', '==', userUid)
-      .where('cancelled', '==', null)
-      .orderBy('start', 'desc')
+      .collection(APPOINTMENT_COLLECTION)
+      .where(USER_ID_FIELD, '==', userUid)
+      .where(CANCELLED_FIELD, '==', null)
+      .orderBy(START_FIELD, DESCENDING_ORDER)
       .limit(APPOINTMENT_LIST_LIMIT)
       .get();
     return query.docs
@@ -120,7 +130,7 @@ export class AppointmentService {
    */
   public static async getAppointment(eventId: string) {
     const query = await getFirestore(firebaseApp)
-      .collection('Appointments')
+      .collection(APPOINTMENT_COLLECTION)
       .doc(eventId)
       .get();
     return AppointmentUtils.transformDates(
@@ -136,7 +146,7 @@ export class AppointmentService {
    */
   public static async cancelAppointment(eventId: string) {
     await getFirestore(firebaseApp)
-      .collection('Appointments')
+      .collection(APPOINTMENT_COLLECTION)
       .doc(eventId)
       .update({
         cancelled: new Date()

@@ -19,10 +19,10 @@
     "@types/luxon": "^3.4.2"
   },
   "scripts": {
-    "start": "tsx --watch ./src/index.ts"
+    "start": "tsx --watch ./src/server.ts"
   },
-  "main": "./src/index.ts",
+  "main": "./src/server.ts",
   "exports": {
-    "./router": "./src/router.ts"
+    "./router": "./src/routers/main.router.ts"
   }
 }
