@@ -68,7 +68,6 @@ export class SignUpFormComponent implements OnInit {
 
   onSubmit(): void {
     this.formSubmitted.emit({
-      email: this.signUpForm.value.email,
       password: this.signUpForm.value.password,
       userProfile: {
         userId: '',
@@ -79,7 +78,8 @@ export class SignUpFormComponent implements OnInit {
         city: this.signUpForm.value.city,
         state: this.signUpForm.value.state,
         zipCode: this.signUpForm.value.zipCode,
-        isAdmin: false
+        isAdmin: false, 
+        email: this.signUpForm.value.email
       }
     } as SignUpDetails);
   }

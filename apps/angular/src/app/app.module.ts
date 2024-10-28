@@ -57,14 +57,6 @@ import {
   heroHomeModernMini
 } from '@ng-icons/heroicons/mini';
 
-// NgRx
-import { StoreModule } from '@ngrx/store';
-import { bookingReducer } from './booking/state/booking.reducer';
-import { userReducer } from './user/state/user.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './user/state/user.effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -121,16 +113,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       heroCalendarMini,
       heroClockMini
     }),
-    MatSidenavModule,
-    StoreModule.forRoot({
-      booking: bookingReducer,
-      user: userReducer
-    }),
-    EffectsModule.forRoot([UserEffects]),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production
-    })
+    MatSidenavModule
   ],
   providers: [
     MatSnackBar,

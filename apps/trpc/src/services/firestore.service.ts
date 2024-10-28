@@ -6,8 +6,9 @@ import {
   AppointmentFirestoreResponse,
   AppointmentRequest,
   AvailabilityResponse,
+  RescheduleRequest,
   Service,
-  TODO
+  UserProfile
 } from '@navaja/shared';
 import {
   APPOINTMENT_COLLECTION,
@@ -18,7 +19,8 @@ import {
   PRICE_FIELD,
   SERVICE_COLLECTION,
   START_FIELD,
-  USER_ID_FIELD
+  USER_ID_FIELD,
+  USER_PROFILE_COLLECTION
 } from '../utils/constants';
 import { DateUtils } from '../utils/date.util';
 import { TimeSlotUtils } from '../utils/timeSlot.util';
@@ -34,6 +36,40 @@ export class FirestoreService {
       .orderBy(PRICE_FIELD, ASCENDING_ORDER)
       .get();
     return query.docs.map((doc) => doc.data() as Service);
+  }
+
+  /**
+   * Retrieves a user profile from Firestore.
+   * @param userUid - The UID of the user to retrieve the profile for.
+   * @returns The user profile.
+   */
+  public static async getUserProfile(userId: string) {
+    const query = await getFirestore(firebaseApp)
+      .doc(`${USER_PROFILE_COLLECTION}/${userId}`)
+      .get();
+    return query.data() as UserProfile;
+  }
+
+  /**
+   * Creates a user profile in Firestore.
+   * @param userProfile - The user profile to create.
+   */
+  public static async createUserProfile(userProfile: UserProfile) {
+    return await getFirestore(firebaseApp)
+      .doc(`${USER_PROFILE_COLLECTION}/${userProfile.userId}`)
+      .set(userProfile);
+  }
+
+  /**
+   * Updates a user profile in Firestore.
+   * @param userProfile - The user profile to update.
+   */
+  public static async updateUserProfile(userProfile: UserProfile) {
+    await getFirestore(firebaseApp)
+      .doc(`${USER_PROFILE_COLLECTION}/${userProfile.userId}`)
+      .update({...userProfile});
+
+    return userProfile;
   }
 
   /**
@@ -142,7 +178,6 @@ export class FirestoreService {
    * Cancels an appointment by updating the appointment in Firestore
    * and canceling the event in the calendar.
    * @param eventId - The ID of the event to cancel.
-   * @returns The cancelled appointment object.
    */
   public static async cancelAppointment(eventId: string) {
     await getFirestore(firebaseApp)
@@ -151,14 +186,19 @@ export class FirestoreService {
       .update({
         cancelled: new Date()
       });
-    return await CalendarService.deleteEvent(eventId);
+    await CalendarService.deleteEvent(eventId);
   }
 
   /**
    * Reschedules an appointment by updating the appointment in Firestore
    * and rescheduling the event in the calendar.
    */
-  public static async rescheduleAppointment(rescheduleRequest: TODO) {
-    return CalendarService.rescheduleEvent(rescheduleRequest);
+  public static async rescheduleAppointment(rescheduleRequest: RescheduleRequest) {
+    await CalendarService.rescheduleEvent(rescheduleRequest);
+    return await getFirestore(firebaseApp)
+      .doc(`${APPOINTMENT_COLLECTION}/${rescheduleRequest.eventId}`)
+      .update({
+        start: rescheduleRequest.startTime
+      });
   }
 }

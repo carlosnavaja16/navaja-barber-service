@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, Signal } from '@angular/core';
 import {
   Auth,
   User,
@@ -6,38 +6,24 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateEmail,
-  user
+  user,
 } from '@angular/fire/auth';
-import { Observable, from, map, of, switchMap } from 'rxjs';
-import {
-  BarberErrors,
-  CreateUserProfileRequest,
-  UserInfo,
-  UserProfile
-} from '@navaja/shared';
-import {
-  CollectionReference,
-  DocumentData,
-  Firestore,
-  collection,
-  doc,
-  getDoc,
-  updateDoc
-} from '@angular/fire/firestore';
-import { setDoc } from 'firebase/firestore';
+import { Observable, filter, from, of, switchMap, tap } from 'rxjs';
+import { USER_NOT_LOGGED_IN, UserInfo, UserProfile } from '@navaja/shared';
+import { TRPCService } from '../trpc/trpc.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private userProfilesCollection: CollectionReference<DocumentData>;
+
+  public userToken: Signal<string | undefined> = signal(undefined);
+  public isLoggedIn: Signal<boolean> = signal(false);
 
   constructor(
     private readonly auth: Auth,
-    private readonly firestore: Firestore
-  ) {
-    this.userProfilesCollection = collection(this.firestore, 'UserProfiles');
-  }
+    private readonly trpcService: TRPCService
+  ) { }
 
   public login(email: string, password: string) {
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
@@ -47,15 +33,11 @@ export class UserService {
     );
   }
 
-  public logOut(): Observable<void> {
-    return from(signOut(this.auth));
+  public logOut(): Promise<void> {
+    return signOut(this.auth);
   }
 
-  public createUser(
-    email: string,
-    password: string,
-    createUserProfileRequest: CreateUserProfileRequest
-  ) {
+  public createUser(email: string, password: string, userProfile: UserProfile) {
     let user: User;
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
@@ -63,12 +45,7 @@ export class UserService {
       switchMap((userCredential) => {
         user = userCredential.user;
         return from(
-          setDoc(doc(this.firestore, 'UserProfiles', userCredential.user.uid), {
-            ...createUserProfileRequest,
-            email,
-            isAdmin: false,
-            userId: user.uid
-          })
+          this.trpcService.client.user.createUserProfile.mutate(userProfile)
         );
       }),
       switchMap(() => this.getUserInfo(user))
@@ -80,64 +57,40 @@ export class UserService {
     return from(user.getIdToken()).pipe(
       switchMap((token) => {
         userToken = token;
-        return from(getDoc(doc(this.userProfilesCollection, user.uid)));
+        return from(this.trpcService.client.user.getUserProfile.query());
       }),
-      map((doc) => doc.data() as UserProfile),
       switchMap((userProfile) => {
         return of({
           userToken,
-          userProfile
+          userProfile,
         });
       })
     );
   }
 
   public getUserProfile(): Observable<UserProfile> {
-    return user(this.auth).pipe(
-      switchMap((user) => {
-        if (!user) {
-          throw BarberErrors.USER_NOT_LOGGED_IN;
-        }
-        return from(getDoc(doc(this.firestore, 'UserProfiles', user?.uid)));
-      }),
-      map((userProfileSnapshot) => userProfileSnapshot.data() as UserProfile)
-    );
+    return from(this.trpcService.client.user.getUserProfile.query());
   }
 
   public getUserEmail(): Observable<string> {
     return user(this.auth).pipe(
-      switchMap((user) => {
-        if (!user) {
-          throw BarberErrors.USER_NOT_LOGGED_IN;
-        }
-        return user.email ? of(user.email) : of('');
-      })
+      tap((user) => !user && console.error(USER_NOT_LOGGED_IN)),
+      filter((user) => user !== null),
+      switchMap((user) => (user.email ? of(user.email) : of('')))
     );
   }
 
   public updateUserEmail(newEmail: string): Observable<void> {
     return user(this.auth).pipe(
-      switchMap((user) => {
-        if (!user) {
-          throw BarberErrors.USER_NOT_LOGGED_IN;
-        }
-        return from(updateEmail(user, newEmail));
-      })
+      tap((user) => !user && console.error(USER_NOT_LOGGED_IN)),
+      filter((user) => user !== null),
+      switchMap((user) => from(updateEmail(user, newEmail)))
     );
   }
 
-  public updateUserProfile(userProfile: UserProfile): Observable<void> {
-    return user(this.auth).pipe(
-      switchMap((user) => {
-        if (!user) {
-          throw BarberErrors.USER_NOT_LOGGED_IN;
-        }
-        return from(
-          updateDoc(doc(this.firestore, 'UserProfiles', user.uid), {
-            ...userProfile
-          })
-        );
-      })
+  public updateUserProfile(userProfile: UserProfile): Observable<UserProfile> {
+    return from(
+      this.trpcService.client.user.updateUserProfile.mutate(userProfile)
     );
   }
 }

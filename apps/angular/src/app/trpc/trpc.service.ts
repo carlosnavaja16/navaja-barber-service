@@ -9,7 +9,6 @@ import { Injectable, Signal } from '@angular/core';
 import { LOCAL_HOST, TRPC_ENDPOINT, TRPC_PORT } from '@navaja/shared';
 import superjson from 'superjson';
 import { Store } from '@ngrx/store';
-import * as UserSelectors from '@src/app/user/state/user.selectors';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({

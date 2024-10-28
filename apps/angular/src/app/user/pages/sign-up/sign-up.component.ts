@@ -22,7 +22,7 @@ export class SignUpComponent {
 
   onSignUp($event: SignUpDetails): void {
     this.userService
-      .createUser($event.email, $event.password, $event.userProfile)
+      .createUser($event.userProfile.email, $event.password, $event.userProfile)
       .subscribe({
         next: () => {
           this.snackbarService.pushSnackbar(

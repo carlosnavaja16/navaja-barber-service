@@ -1,10 +1,11 @@
 import { calendar_v3, google } from 'googleapis';
 import {
   BARBER_SERVICE_CALENDAR_ID,
-  CALENDAR_NOT_FOUND,
+  FREEBUSY_FETCH_FAILED,
   EVENT_DELETION_FAILED,
   EVENT_INSERTION_FAILED,
-  SCOPE
+  SCOPE,
+  EVENT_UPDATE_FAILED,
 } from '../utils/constants';
 import { googleCalendarSvcAccCreds } from '../credentials';
 import { StatusCodes } from 'http-status-codes';
@@ -19,46 +20,36 @@ export class CalendarService {
    * @returns An array of busy time slots for the specified date range.
    * @throws An error if the freebusy query fails or if no calendar is found for the specified calendar ID.
    */
-  public static async getCalendarFreeBusy(
-    minDate: Date,
-    maxDate: Date
-  ): Promise<calendar_v3.Schema$TimePeriod[]> {
-    const calendar = this.getCalendar();
-    const response = await calendar.freebusy.query({
+  public static async getCalendarFreeBusy(minDate: Date, maxDate: Date) {
+    const response = await this.getCalendar().freebusy.query({
       requestBody: {
         items: [{ id: BARBER_SERVICE_CALENDAR_ID }],
         timeMin: minDate.toISOString(),
-        timeMax: maxDate.toISOString()
-      }
+        timeMax: maxDate.toISOString(),
+      },
     });
-
     if (
-      response.status !== StatusCodes.OK ||
-      !response.data.calendars ||
-      !response.data.calendars[BARBER_SERVICE_CALENDAR_ID] ||
-      !response.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy
+      !response.data.calendars![BARBER_SERVICE_CALENDAR_ID]!.busy ||
+      response.status !== StatusCodes.OK
     ) {
-      throw new Error(CALENDAR_NOT_FOUND(BARBER_SERVICE_CALENDAR_ID));
+      FREEBUSY_FETCH_FAILED(BARBER_SERVICE_CALENDAR_ID, response.status);
     }
-    return response.data.calendars[BARBER_SERVICE_CALENDAR_ID].busy!;
+    return response.data.calendars![BARBER_SERVICE_CALENDAR_ID]!.busy!;
   }
 
   /**
    * Books an appointment on the Barber Service calendar using the provided credentials and event details.
-   * @param credentials The service account credentials used to authenticate with the Google Calendar API.
    * @param event The event details to be added to the calendar.
    * @returns The created event data.
    * @throws An error if the event could not be created.
    */
   public static async insertEvent(event: calendar_v3.Schema$Event) {
-    const calendar = this.getCalendar();
-    const response = await calendar.events.insert({
+    const response = await this.getCalendar().events.insert({
       calendarId: BARBER_SERVICE_CALENDAR_ID,
-      requestBody: event
+      requestBody: event,
     });
-
-    if (response.status !== StatusCodes.OK) {
-      throw new Error(EVENT_INSERTION_FAILED(response.status));
+    if (!response.data || response.status !== StatusCodes.OK) {
+      EVENT_INSERTION_FAILED(response.status);
     }
     return response.data;
   }
@@ -70,14 +61,12 @@ export class CalendarService {
    * @throws Error if there is an error canceling the event.
    */
   public static async deleteEvent(eventId: string) {
-    const calendar = this.getCalendar();
-    const response = await calendar.events.delete({
+    const response = await this.getCalendar().events.delete({
       calendarId: BARBER_SERVICE_CALENDAR_ID,
-      eventId
+      eventId,
     });
-
     if (response.status !== StatusCodes.NO_CONTENT) {
-      throw new Error(EVENT_DELETION_FAILED(response.status));
+      EVENT_DELETION_FAILED(response.status);
     }
   }
 
@@ -87,7 +76,17 @@ export class CalendarService {
    * @returns The event ID.
    */
   public static async rescheduleEvent(rescheduleRequest: RescheduleRequest) {
-    return rescheduleRequest.eventId;
+    const response = await this.getCalendar().events.update({
+      calendarId: BARBER_SERVICE_CALENDAR_ID,
+      eventId: rescheduleRequest.eventId,
+      requestBody: {
+        start: { dateTime: rescheduleRequest.startTime.toISOString() },
+      },
+    });
+    if (!response.data || response.status !== StatusCodes.OK) {
+      EVENT_UPDATE_FAILED(response.status);
+    }
+    return response.data;
   }
 
   /**
@@ -99,8 +98,8 @@ export class CalendarService {
       version: 'v3',
       auth: new google.auth.GoogleAuth({
         credentials: googleCalendarSvcAccCreds,
-        scopes: SCOPE
-      })
+        scopes: SCOPE,
+      }),
     });
   }
 }

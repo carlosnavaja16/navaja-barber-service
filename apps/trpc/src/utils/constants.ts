@@ -1,5 +1,6 @@
 import { getReasonPhrase } from 'http-status-codes';
 import { TRPC_PORT } from '@navaja/shared';
+import { error } from 'console';
 // server constants
 export const HOST = '0.0.0.0';
 
@@ -22,6 +23,7 @@ export const TIME_ZONE = 'America/New_York';
 export const APPOINTMENT_LIST_LIMIT = 25;
 export const APPOINTMENT_COLLECTION = 'Appointments';
 export const SERVICE_COLLECTION = 'Services';
+export const USER_PROFILE_COLLECTION = 'UserProfiles';
 export const USER_ID_FIELD = 'userId';
 export const CANCELLED_FIELD = 'cancelled';
 export const PRICE_FIELD = 'price';
@@ -33,9 +35,30 @@ export const ASCENDING_ORDER = 'asc';
 export const TRPC_RUNNING = `💈 Barber tRPC server listening on port ${TRPC_PORT}`;
 
 // error messages
-export const CALENDAR_NOT_FOUND = (calendarId: string) =>
-  `No calendar found with calendarId: ${calendarId}`;
-export const EVENT_INSERTION_FAILED = (status: number) =>
-  `Inserting event failed with status code ${status}:  ${getReasonPhrase(status)}`;
-export const EVENT_DELETION_FAILED = (status: number) =>
-  `Deleting event failed with status code ${status}:  ${getReasonPhrase(status)}`;
+export const FREEBUSY_FETCH_FAILED = (calendarId: string, error: unknown) => {
+  const errorMsg = `Fetching FreeBusy failed for calendarId: ${calendarId} with error: ${error}`;
+  console.error(errorMsg);
+  throw new Error(errorMsg);
+};
+
+export const EVENT_INSERTION_FAILED = (status: number) => {
+  const errorMsg = `Inserting event failed with status code ${status}: ${getReasonPhrase(
+    status
+  )}`;
+  console.error(errorMsg);
+  throw new Error(errorMsg);
+};
+export const EVENT_DELETION_FAILED = (status: number) => {
+  const errorMsg = `Deleting event failed with status code ${status}: ${getReasonPhrase(
+    status
+  )}`;
+  console.error(errorMsg);
+  throw new Error(errorMsg);
+};
+export const EVENT_UPDATE_FAILED = (status: number) => {
+  const errorMsg = `Updating event failed with status code ${status}: ${getReasonPhrase(
+    status
+  )}`;
+  console.error(errorMsg);
+  throw new Error(errorMsg);
+};

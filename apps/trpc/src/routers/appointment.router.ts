@@ -27,8 +27,8 @@ export const appointmentRouter = router({
     .mutation(async (opts) => {
       return FirestoreService.rescheduleAppointment(opts.input);
     }),
-  getAppointments: privateProcedure.input(z.string()).query(async (opts) => {
-    return FirestoreService.getAppointments(opts.input);
+  getAppointments: privateProcedure.query(async (opts) => {
+    return FirestoreService.getAppointments(opts.ctx.user.uid);
   }),
   getAppointment: privateProcedure.input(z.string()).query(async (opts) => {
     return FirestoreService.getAppointment(opts.input);
