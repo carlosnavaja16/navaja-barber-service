@@ -1,14 +1,14 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import {
   Auth,
   User,
+  UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  updateEmail,
   user,
 } from '@angular/fire/auth';
-import { Observable, filter, from, of, switchMap, tap } from 'rxjs';
+import { Observable, filter, from, map, of, switchMap, tap } from 'rxjs';
 import { USER_NOT_LOGGED_IN, UserInfo, UserProfile } from '@navaja/shared';
 import { TRPCService } from '../trpc/trpc.service';
 
@@ -17,8 +17,8 @@ import { TRPCService } from '../trpc/trpc.service';
 })
 export class UserService {
 
-  public userToken: Signal<string | undefined> = signal(undefined);
-  public isLoggedIn: Signal<boolean> = signal(false);
+  public userInfo: WritableSignal<UserInfo | undefined> = signal(undefined);
+  public isLoggedIn: WritableSignal<boolean> = signal(false);
 
   constructor(
     private readonly auth: Auth,
@@ -26,10 +26,16 @@ export class UserService {
   ) { }
 
   public login(email: string, password: string) {
+    let userProfile: UserProfile;
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      switchMap((userCredential) => {
-        return this.getUserInfo(userCredential.user);
-      })
+      switchMap((uc: UserCredential) => {
+        return this.trpcService.client.user.getUserProfile.query();
+      }),
+      switchMap((up: UserProfile) => {
+        userProfile = up;
+        return getIdToken();
+      }),
+      map((token: string) => ({ token, userProfile }))
     );
   }
 
@@ -52,7 +58,7 @@ export class UserService {
     );
   }
 
-  public getUserInfo(user: User): Observable<UserInfo> {
+  private getUserInfo(user: User): Observable<UserInfo> {
     let userToken: string;
     return from(user.getIdToken()).pipe(
       switchMap((token) => {
@@ -80,12 +86,8 @@ export class UserService {
     );
   }
 
-  public updateUserEmail(newEmail: string): Observable<void> {
-    return user(this.auth).pipe(
-      tap((user) => !user && console.error(USER_NOT_LOGGED_IN)),
-      filter((user) => user !== null),
-      switchMap((user) => from(updateEmail(user, newEmail)))
-    );
+  public updateUserEmail(newEmail: string) {
+    return from(this.trpcService.client.user.updateUserEmail.mutate(newEmail));
   }
 
   public updateUserProfile(userProfile: UserProfile): Observable<UserProfile> {

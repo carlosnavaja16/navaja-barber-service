@@ -1,38 +1,41 @@
 import { z } from 'zod';
 import { router, procedure, privateProcedure } from '../utils/trpc.util';
-import { FirestoreService } from '../services/firestore.service';
+import { BookingService } from '../services/booking.service';
 import { AppointmentRequestZod } from '@navaja/shared';
 
-export const appointmentRouter = router({
+export const bookingRouter = router({
+  getServices: procedure.query(async () => {
+    return BookingService.getServices();
+  }),
   getAvailability: procedure.input(z.number()).query(async (opts) => {
-    return FirestoreService.getAvailability(opts.input);
+    return BookingService.getAvailability(opts.input);
   }),
   cancelAppointment: privateProcedure
     .input(z.string())
     .mutation(async (opts) => {
-      return FirestoreService.cancelAppointment(opts.input);
+      return BookingService.cancelAppointment(opts.input);
     }),
   bookAppointment: privateProcedure
     .input(AppointmentRequestZod)
     .mutation(async (opts) => {
-      return FirestoreService.bookAppointment(opts.input);
+      return BookingService.bookAppointment(opts.input);
     }),
   rescheduleAppointment: privateProcedure
     .input(
       z.object({
         eventId: z.string(),
-        startTime: z.date()
+        startTime: z.date(),
       })
     )
     .mutation(async (opts) => {
-      return FirestoreService.rescheduleAppointment(opts.input);
+      return BookingService.rescheduleAppointment(opts.input);
     }),
   getAppointments: privateProcedure.query(async (opts) => {
-    return FirestoreService.getAppointments(opts.ctx.user.uid);
+    return BookingService.getAppointments(opts.ctx.user.uid);
   }),
   getAppointment: privateProcedure.input(z.string()).query(async (opts) => {
-    return FirestoreService.getAppointment(opts.input);
-  })
+    return BookingService.getAppointment(opts.input);
+  }),
 });
 
-export type AppointmentRouter = typeof appointmentRouter;
+export type BookingRouter = typeof bookingRouter;

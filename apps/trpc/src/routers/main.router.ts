@@ -1,12 +1,10 @@
 import { router } from '../utils/trpc.util';
-import { appointmentRouter } from './appointment.router';
-import { serviceRouter } from './service.router';
+import { bookingRouter } from './booking.router';
 import { userRouter } from './user.router';
 
 export const mainRouter = router({
-  appointment: appointmentRouter,
-  service: serviceRouter,
-  user: userRouter
+  booking: bookingRouter,
+  user: userRouter,
 });
 
 export type MainRouter = typeof mainRouter;
