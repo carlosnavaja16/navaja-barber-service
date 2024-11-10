@@ -1,6 +1,5 @@
 import { getReasonPhrase } from 'http-status-codes';
 import { TRPC_PORT } from '@navaja/shared';
-import { error } from 'console';
 // server constants
 export const HOST = '0.0.0.0';
 

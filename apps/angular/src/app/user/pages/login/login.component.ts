@@ -4,22 +4,22 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { AppState } from '@src/app/app.state';
-import * as UserActions from '@src/app/user/state/user.actions';
 import {
   EMAIL_EMPTY,
   EMAIL_INVALID,
   PASSWORD_EMPTY,
-  PASSWORD_INVALID
+  PASSWORD_INVALID,
 } from '@navaja/shared';
+import { UserService } from '../../user.service';
+import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -30,8 +30,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private readonly headerService: HeaderService,
+    private readonly userService: UserService,
     private readonly fb: FormBuilder,
-    private readonly store: Store<AppState>
+    private readonly router: Router,
   ) {
     this.headerService.setHeader('Login');
   }
@@ -39,17 +40,19 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required]),
     });
   }
 
   onLogin() {
-    this.store.dispatch(
-      UserActions.logIn({
-        email: this.loginForm.value.email,
-        password: this.loginForm.value.password
-      })
-    );
+    firstValueFrom(
+      this.userService.login$(
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      )
+    ).then(() => {
+      this.router.navigate(['/']);
+    });
   }
 
   get email() {

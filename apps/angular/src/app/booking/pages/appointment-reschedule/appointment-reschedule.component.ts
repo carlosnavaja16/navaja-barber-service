@@ -2,15 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
-  signal
+  signal,
 } from '@angular/core';
 import {
   Appointment,
   Availability,
   DateTimeSlots,
-  TimeSlot
+  TimeSlot,
 } from '@navaja/shared';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, firstValueFrom, map, switchMap } from 'rxjs';
 import { BookingService } from '../../booking.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
@@ -19,7 +19,7 @@ import { MatStepper } from '@angular/material/stepper';
   selector: 'appointment-reschedule',
   templateUrl: './appointment-reschedule.component.html',
   styleUrls: ['./appointment-reschedule.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppointmentRescheduleComponent {
   appointment$: Observable<Appointment>;
@@ -36,12 +36,12 @@ export class AppointmentRescheduleComponent {
     this.appointment$ = this.route.paramMap.pipe(
       map((paramMap) => paramMap.get('id')),
       switchMap((appointmentId) =>
-        this.bookingService.getAppointment(appointmentId!)
+        this.bookingService.getAppointment$(appointmentId!)
       )
     );
     this.availability$ = this.appointment$.pipe(
       switchMap((appointment) => {
-        return this.bookingService.getAvailability(appointment.service);
+        return this.bookingService.getAvailability$(appointment.service);
       })
     );
   }
@@ -62,13 +62,17 @@ export class AppointmentRescheduleComponent {
   }
 
   onReschedule() {
-    this.rescheduleResponse$ = this.appointment$.pipe(
-      switchMap((appointment) => {
-        return this.bookingService.rescheduleAppointment({
-          eventId: appointment.eventId,
-          startTime: new Date()
-        });
-      })
+    firstValueFrom(
+      this.appointment$.pipe(
+        switchMap((appointment) => {
+          return this.bookingService.rescheduleAppointment$({
+            eventId: appointment.eventId,
+            startTime: new Date(),
+          });
+        })
+      )
+    ).then(
+      
     );
   }
 }

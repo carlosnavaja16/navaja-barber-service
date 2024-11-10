@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { AFTERNOON, EVENING, MORNING, TimeSlot } from '@navaja/shared';
 
 export class DateUtils {
@@ -47,5 +48,13 @@ export class DateUtils {
 
   public static getDateHash = (date: Date) => {
     return date.toLocaleDateString();
+  };
+
+  public static getDateString = (date: Date) => {
+    return formatDate(
+      date,
+      "EEE, MMM d 'at' h:mm a",
+      'en-US'
+    )
   };
 }

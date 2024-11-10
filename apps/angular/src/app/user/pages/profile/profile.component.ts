@@ -23,7 +23,7 @@ export class ProfileComponent {
   }
 
   onFormSubmitted($event: UserProfile) {
-    this.userService.updateUserProfile($event).subscribe({
+    this.userService.updateUserProfile$($event).subscribe({
       next: () => {
         this.snackbarService.pushSnackbar('Profile updated successfully');
       },

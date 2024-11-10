@@ -3,7 +3,7 @@ import {
   Component,
   OnDestroy,
   ViewChild,
-  signal
+  signal,
 } from '@angular/core';
 import { HeaderService } from '@src/app/common/services/header/header.service';
 import { Observable, of, switchMap } from 'rxjs';
@@ -12,7 +12,7 @@ import {
   Availability,
   DateTimeSlots,
   Service,
-  TimeSlot
+  TimeSlot,
 } from '@navaja/shared';
 import { BookingService } from '@booking//booking.service';
 import { MatStepper } from '@angular/material/stepper';
@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-booking',
   templateUrl: './booking.component.html',
-  styleUrls: ['./booking.component.scss']
+  styleUrls: ['./booking.component.scss'],
 })
 export class BookingComponent implements AfterViewInit, OnDestroy {
   timeZone: string;
@@ -45,11 +45,11 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
   ) {
     this.headerService.setHeader('Booking');
     this.timeZone = DateUtils.getTimeZoneAbbr();
-    this.services$ = this.bookingService.getServices();
+    this.services$ = this.bookingService.getServices$();
     this.availability$ = toObservable(this.selectedService).pipe(
       switchMap((service) => {
         return service
-          ? this.bookingService.getAvailability(service)
+          ? this.bookingService.getAvailability$(service)
           : of(null);
       })
     );
@@ -115,7 +115,7 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
     const selectedTimeSlot = this.selectedTimeSlot();
     if (selectedService && selectedTimeSlot) {
       this.bookingSubmitted = true;
-      this.appointmentResponse$ = this.bookingService.bookAppointment(
+      this.appointmentResponse$ = this.bookingService.bookAppointment$(
         selectedService,
         selectedTimeSlot
       );

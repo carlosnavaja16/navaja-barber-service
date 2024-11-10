@@ -54,7 +54,6 @@ export class FirestoreService {
     await getFirestore(firebaseApp)
       .doc(`${USER_PROFILE_COLLECTION}/${userProfile.userId}`)
       .set(userProfile);
-
     return userProfile;
   }
 

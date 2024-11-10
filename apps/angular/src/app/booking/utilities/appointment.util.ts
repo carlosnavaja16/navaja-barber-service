@@ -42,7 +42,7 @@ export class AppointmentUtils {
         zip: userProfile.zipCode
       },
       start: new Date(event.start?.dateTime || ''),
-      cancelled: null
+      cancelled: undefined
     };
   }
 }

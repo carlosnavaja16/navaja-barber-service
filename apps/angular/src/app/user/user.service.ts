@@ -1,8 +1,6 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import {
   Auth,
-  User,
-  UserCredential,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -13,15 +11,12 @@ import {
   firstValueFrom,
   from,
   map,
-  switchMamap,
-  p,
-  filter,
   switchMap,
-  of,
+  filter,
 } from 'rxjs';
+import { getIdToken } from 'firebase/auth';
 import { UserProfile } from '@navaja/shared';
 import { TRPCService } from '../trpc/trpc.service';
-import { getIdToken } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -67,10 +62,8 @@ export class UserService {
     return from(this.trpcService.client.user.updateUserEmail.mutate(newEmail));
   }
 
-  public updateUserProfile(userProfile: UserProfile): Observable<UserProfile> {
-    return from(
-      this.trpcService.client.user.updateUserProfile.mutate(userProfile)
-    );
+  public updateUserProfile(userProfile: UserProfile) {
+    return this.trpcService.client.user.updateUserProfile.mutate(userProfile);
   }
 
   private initUser = (userProfile?: UserProfile) => {

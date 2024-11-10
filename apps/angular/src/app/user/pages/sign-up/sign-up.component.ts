@@ -8,7 +8,7 @@ import { SignUpDetails } from '@navaja/shared';
 @Component({
   selector: 'app-signup',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent {
   constructor(
@@ -22,7 +22,11 @@ export class SignUpComponent {
 
   onSignUp($event: SignUpDetails): void {
     this.userService
-      .createUser($event.userProfile.email, $event.password, $event.userProfile)
+      .createUser$(
+        $event.userProfile.email,
+        $event.password,
+        $event.userProfile
+      )
       .subscribe({
         next: () => {
           this.snackbarService.pushSnackbar(
@@ -34,7 +38,7 @@ export class SignUpComponent {
           this.snackbarService.pushSnackbar(
             `Sign up failed due to error: ${error}`
           );
-        }
+        },
       });
   }
 }

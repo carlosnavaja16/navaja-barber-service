@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
-  styleUrls: ['./appointments.component.scss']
+  styleUrls: ['./appointments.component.scss'],
 })
 export class AppointmentsComponent {
   timeZone: string;
@@ -31,7 +31,7 @@ export class AppointmentsComponent {
     this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
     this.appointments$ = this.bookingService
-      .getAppointments()
+      .getAppointments$()
       .pipe(tap((a) => console.log('appointments: ', a)));
     this.cancelledAppointments$ = new Subject();
 
@@ -39,9 +39,9 @@ export class AppointmentsComponent {
       .asObservable()
       .pipe(
         switchMap((appointment) =>
-          this.bookingService.cancelAppointment(appointment)
+          this.bookingService.cancelAppointment$(appointment)
         ),
-        switchMap(() => this.bookingService.getAppointments())
+        switchMap(() => this.bookingService.getAppointments$())
       );
 
     this.appointments = toSignal(
