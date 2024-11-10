@@ -8,82 +8,59 @@ import {
   signOut,
   user,
 } from '@angular/fire/auth';
-import { Observable, filter, from, map, of, switchMap, tap } from 'rxjs';
-import { USER_NOT_LOGGED_IN, UserInfo, UserProfile } from '@navaja/shared';
+import {
+  Observable,
+  firstValueFrom,
+  from,
+  map,
+  switchMamap,
+  p,
+  filter,
+  switchMap,
+  of,
+} from 'rxjs';
+import { UserProfile } from '@navaja/shared';
 import { TRPCService } from '../trpc/trpc.service';
+import { getIdToken } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-
-  public userInfo: WritableSignal<UserInfo | undefined> = signal(undefined);
   public isLoggedIn: WritableSignal<boolean> = signal(false);
+  public userToken: WritableSignal<string | undefined> = signal(undefined);
+  public userProfile: WritableSignal<UserProfile | undefined> =
+    signal(undefined);
 
   constructor(
     private readonly auth: Auth,
     private readonly trpcService: TRPCService
-  ) { }
+  ) {
+    this.initUser();
+  }
 
   public login(email: string, password: string) {
-    let userProfile: UserProfile;
-    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      switchMap((uc: UserCredential) => {
-        return this.trpcService.client.user.getUserProfile.query();
-      }),
-      switchMap((up: UserProfile) => {
-        userProfile = up;
-        return getIdToken();
-      }),
-      map((token: string) => ({ token, userProfile }))
+    return signInWithEmailAndPassword(this.auth, email, password).then(() =>
+      this.initUser()
     );
   }
 
   public logOut(): Promise<void> {
-    return signOut(this.auth);
+    return signOut(this.auth).then(() => this.clearUser());
   }
 
   public createUser(email: string, password: string, userProfile: UserProfile) {
-    let user: User;
+    return createUserWithEmailAndPassword(this.auth, email, password).then(() => this.initUser(userProfile));
+  }
+
+  private createUserProfile$(userProfile: UserProfile) {
     return from(
-      createUserWithEmailAndPassword(this.auth, email, password)
-    ).pipe(
-      switchMap((userCredential) => {
-        user = userCredential.user;
-        return from(
-          this.trpcService.client.user.createUserProfile.mutate(userProfile)
-        );
-      }),
-      switchMap(() => this.getUserInfo(user))
+      this.trpcService.client.user.updateUserProfile.mutate(userProfile)
     );
   }
 
-  private getUserInfo(user: User): Observable<UserInfo> {
-    let userToken: string;
-    return from(user.getIdToken()).pipe(
-      switchMap((token) => {
-        userToken = token;
-        return from(this.trpcService.client.user.getUserProfile.query());
-      }),
-      switchMap((userProfile) => {
-        return of({
-          userToken,
-          userProfile,
-        });
-      })
-    );
-  }
-
-  public getUserProfile(): Observable<UserProfile> {
+  private getUserProfile$(): Observable<UserProfile> {
     return from(this.trpcService.client.user.getUserProfile.query());
-  }
-
-  public getUserEmail(): Observable<string> {
-    return user(this.auth).pipe(
-      tap((user) => !user && console.error(USER_NOT_LOGGED_IN)),
-      filter((user) => user !== null),
-      switchMap((user) => (user.email ? of(user.email) : of('')))
-    );
   }
 
   public updateUserEmail(newEmail: string) {
@@ -95,4 +72,29 @@ export class UserService {
       this.trpcService.client.user.updateUserProfile.mutate(userProfile)
     );
   }
+
+  private initUser = (userProfile?: UserProfile) => {
+    return firstValueFrom(
+      user(this.auth).pipe(
+        filter((user) => user != null),
+        switchMap((user) => {
+          this.isLoggedIn.set(true);
+          return from(getIdToken(user));
+        }),
+        switchMap((token) => {
+          this.userToken.set(token);
+          return userProfile
+            ? this.createUserProfile$(userProfile)
+            : this.getUserProfile$();
+        }),
+        map((userProfile) => this.userProfile.set(userProfile))
+      )
+    );
+  };
+
+  private clearUser = () => {
+    this.isLoggedIn.set(false);
+    this.userToken.set(undefined);
+    this.userProfile.set(undefined);
+  };
 }

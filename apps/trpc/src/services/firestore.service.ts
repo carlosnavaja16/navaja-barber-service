@@ -76,9 +76,10 @@ export class FirestoreService {
    * @param email - The new email to set for the user.
    */
   public static async updateUserEmail(userId: string, email: string) {
-    return await getFirestore(firebaseApp)
+    await getFirestore(firebaseApp)
       .doc(`${USER_PROFILE_COLLECTION}/${userId}`)
       .update({ email });
+    return email;
   }
 
   /**
@@ -89,6 +90,7 @@ export class FirestoreService {
     await getFirestore(firebaseApp)
       .doc(`${APPOINTMENT_COLLECTION}/${appointment.eventId}`)
       .set(appointment);
+    return appointment;
   }
 
   /**
@@ -130,12 +132,14 @@ export class FirestoreService {
    * @param eventId - The ID of the event to cancel.
    */
   public static async cancelAppointment(eventId: string) {
+    const cancelled = new Date();
     await getFirestore(firebaseApp)
       .collection(APPOINTMENT_COLLECTION)
       .doc(eventId)
       .update({
-        cancelled: new Date(),
+        cancelled,
       });
+    return cancelled;
   }
 
   /**
@@ -145,10 +149,15 @@ export class FirestoreService {
   public static async rescheduleAppointment(
     rescheduleRequest: RescheduleRequest
   ) {
-    return await getFirestore(firebaseApp)
-      .doc(`${APPOINTMENT_COLLECTION}/${rescheduleRequest.eventId}`)
-      .update({
-        start: rescheduleRequest.startTime,
-      });
+    const doc = await getFirestore(firebaseApp).doc(
+      `${APPOINTMENT_COLLECTION}/${rescheduleRequest.eventId}`
+    );
+    doc.update({
+      start: rescheduleRequest.startTime,
+    });
+    const query = await doc.get();
+    return AppointmentUtils.transformDates(
+      query.data() as AppointmentFirestoreResponse
+    );
   }
 }

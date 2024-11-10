@@ -6,9 +6,8 @@ import {
   httpBatchLink
 } from '@trpc/client';
 import { Injectable, Signal } from '@angular/core';
-import { LOCAL_HOST, TRPC_ENDPOINT, TRPC_PORT } from '@navaja/shared';
+import { LOCAL_HOST, TRPC_ENDPOINT, TRPC_PORT, UserProfile } from '@navaja/shared';
 import superjson from 'superjson';
-import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -18,7 +17,7 @@ export class TRPCService {
   client: CreateTRPCProxyClient<MainRouter>;
   userToken: Signal<string | undefined>;
 
-  constructor(private readonly store: Store) {
+  constructor(private readonly userService: UserProfile) {
     this.userToken = toSignal(this.store.select(UserSelectors.getUserToken), {
       initialValue: undefined
     });

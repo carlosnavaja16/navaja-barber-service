@@ -8,7 +8,7 @@ import { SnackbarService } from '@app/common/services/snackbar/snackbar.service'
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
   userProfile$: Observable<UserProfile>;
@@ -19,7 +19,7 @@ export class ProfileComponent {
     private readonly snackbarService: SnackbarService
   ) {
     this.headerService.setHeader('Profile');
-    this.userProfile$ = this.userService.getUserProfile();
+    this.userProfile$ = this.userService.getUserProfile$();
   }
 
   onFormSubmitted($event: UserProfile) {
@@ -29,7 +29,7 @@ export class ProfileComponent {
       },
       error: (error) => {
         this.snackbarService.pushSnackbar(`Error updating profile: ${error}`);
-      }
+      },
     });
   }
 }
