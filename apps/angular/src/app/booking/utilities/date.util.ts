@@ -51,10 +51,6 @@ export class DateUtils {
   };
 
   public static getDateString = (date: Date) => {
-    return formatDate(
-      date,
-      "EEE, MMM d 'at' h:mm a",
-      'en-US'
-    )
+    return formatDate(date, "EEE, MMM d 'at' h:mm a", 'en-US');
   };
 }

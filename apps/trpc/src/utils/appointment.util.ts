@@ -2,7 +2,7 @@ import {
   Appointment,
   AppointmentEvent,
   AppointmentFirestoreResponse,
-  AppointmentRequest,
+  AppointmentRequest
 } from '@navaja/shared';
 
 export class AppointmentUtils {
@@ -19,11 +19,11 @@ export class AppointmentUtils {
       description: `<b>Service:</b> ${appointmentRequest.service.name}\n<b>Duration:</b> ${appointmentRequest.service.duration} minutes\n<b>Price:</b> $${appointmentRequest.service.price}\n<b>Phone:</b> ${appointmentRequest.userProfile.phone}\n<b>Email:</b> ${appointmentRequest.userProfile.email}`,
       location: `${appointmentRequest.userProfile.streetAddr}, ${appointmentRequest.userProfile.city}, ${appointmentRequest.userProfile.state} ${appointmentRequest.userProfile.zipCode}`,
       start: {
-        dateTime: appointmentRequest.timeSlot.start.toISOString(),
+        dateTime: appointmentRequest.timeSlot.start.toISOString()
       },
       end: {
-        dateTime: appointmentRequest.timeSlot.end.toISOString(),
-      },
+        dateTime: appointmentRequest.timeSlot.end.toISOString()
+      }
     };
   }
 
@@ -45,10 +45,9 @@ export class AppointmentUtils {
         streetAddr: appointmentRequest.userProfile.streetAddr,
         city: appointmentRequest.userProfile.city,
         state: appointmentRequest.userProfile.state,
-        zip: appointmentRequest.userProfile.zipCode,
+        zip: appointmentRequest.userProfile.zipCode
       },
-      start: appointmentRequest.timeSlot.start,
-      cancelled: undefined,
+      start: appointmentRequest.timeSlot.start
     };
   }
 
@@ -65,7 +64,7 @@ export class AppointmentUtils {
       start: appointmentFirestoreResponse.start.toDate(),
       cancelled: appointmentFirestoreResponse.cancelled
         ? appointmentFirestoreResponse.cancelled.toDate()
-        : undefined,
+        : undefined
     };
   }
 }

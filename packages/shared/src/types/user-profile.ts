@@ -23,7 +23,7 @@ export const UserProfileZod = z.object({
   zipCode: z.string(),
   isAdmin: z.boolean(),
   userId: z.string(),
-  email: z.string(),
+  email: z.string()
 });
 
 export interface UserInfo {

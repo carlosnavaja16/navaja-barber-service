@@ -2,24 +2,25 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
-  signal,
+  signal
 } from '@angular/core';
 import {
   Appointment,
   Availability,
   DateTimeSlots,
-  TimeSlot,
+  TimeSlot
 } from '@navaja/shared';
 import { Observable, firstValueFrom, map, switchMap } from 'rxjs';
 import { BookingService } from '../../booking.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
+import { HeaderService } from '@src/app/common/services/header/header.service';
 
 @Component({
   selector: 'appointment-reschedule',
   templateUrl: './appointment-reschedule.component.html',
   styleUrls: ['./appointment-reschedule.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppointmentRescheduleComponent {
   appointment$: Observable<Appointment>;
@@ -31,8 +32,10 @@ export class AppointmentRescheduleComponent {
 
   constructor(
     private readonly bookingService: BookingService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly headerService: HeaderService
   ) {
+    this.headerService.setHeader('Appointment Reschedule');
     this.appointment$ = this.route.paramMap.pipe(
       map((paramMap) => paramMap.get('id')),
       switchMap((appointmentId) =>
@@ -67,12 +70,10 @@ export class AppointmentRescheduleComponent {
         switchMap((appointment) => {
           return this.bookingService.rescheduleAppointment$({
             eventId: appointment.eventId,
-            startTime: new Date(),
+            startTime: new Date()
           });
         })
       )
-    ).then(
-      
-    );
+    ).then();
   }
 }

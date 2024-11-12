@@ -1,8 +1,8 @@
 <div class="mx-auto max-w-lg">
-  @if (userProfile$ | async; as userProfile) {
+  @if (userProfile() != undefined) {
     <profile-form
       class="form"
-      [userProfile]="userProfile"
+      [userProfile]="userProfile()!"
       (formSubmitted)="onFormSubmitted($event)"
     />
   }

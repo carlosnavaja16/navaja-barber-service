@@ -1,10 +1,10 @@
 <div class="mx-auto max-w-screen-md">
-  @if (appointments() === null) {
+  @if ((appointments$ | async) === null) {
     <div class="w-full flex flex-col items-center justify-center h-16">
       <mat-progress-spinner color="primary" mode="indeterminate" />
     </div>
   } @else {
-    @if (noAppointments() === true) {
+    @if (noAppointments$ | async) {
       <p class="text-center pb-5">
         <small>
           You have not booked any appointments yet.
@@ -12,7 +12,7 @@
         </small>
       </p>
     } @else {
-      @if (nextAppointment()) {
+      @if (nextAppointment$ | async) {
         <p class="text-2xl">Your next appointment</p>
         <appointment-summary
           [appointment]="nextAppointment()!"
@@ -23,28 +23,26 @@
           (cancel)="onCancel(nextAppointment()!)"
         />
       }
-      @if (upcomingAppointments()?.length || pastAppointments()?.length) {
+      @if ((upcomingAppointments$ | async) || (pastAppointments$ | async)) {
         <mat-tab-group class="py-3" animationDuration="0ms">
-          @if (upcomingAppointments()?.length) {
-            <mat-tab label="Upcoming">
-              @for (
-                appointment of upcomingAppointments();
-                track appointment.eventId
-              ) {
-                <appointment-summary
-                  [appointment]="appointment"
-                  [timeZone]="timeZone"
-                  editable
-                  (reschedule)="onReschedule(appointment)"
-                  (cancel)="onCancel(appointment)"
-                />
-              }
-            </mat-tab>
-          }
-          @if (pastAppointments()?.length) {
+          <mat-tab label="Upcoming">
+            @for (
+              appointment of upcomingAppointments;
+              track appointment.eventId
+            ) {
+              <appointment-summary
+                [appointment]="appointment"
+                [timeZone]="timeZone"
+                editable
+                (reschedule)="onReschedule(appointment)"
+                (cancel)="onCancel(appointment)"
+              />
+            }
+          </mat-tab>
+          @if (pastAppointments) {
             <mat-tab label="Past">
               @for (
-                appointment of pastAppointments();
+                appointment of pastAppointments;
                 track appointment.eventId
               ) {
                 <appointment-summary

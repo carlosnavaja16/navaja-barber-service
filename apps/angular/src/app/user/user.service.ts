@@ -4,26 +4,17 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  user,
+  user
 } from '@angular/fire/auth';
-import {
-  Observable,
-  firstValueFrom,
-  from,
-  map,
-  switchMap,
-  filter,
-} from 'rxjs';
-import { getIdToken } from 'firebase/auth';
+import { Observable, firstValueFrom, from, map, switchMap, filter } from 'rxjs';
 import { UserProfile } from '@navaja/shared';
 import { TRPCService } from '../trpc/trpc.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
   public isLoggedIn: WritableSignal<boolean> = signal(false);
-  public userToken: WritableSignal<string | undefined> = signal(undefined);
   public userProfile: WritableSignal<UserProfile | undefined> =
     signal(undefined);
 
@@ -45,7 +36,9 @@ export class UserService {
   }
 
   public createUser(email: string, password: string, userProfile: UserProfile) {
-    return createUserWithEmailAndPassword(this.auth, email, password).then(() => this.initUser(userProfile));
+    return createUserWithEmailAndPassword(this.auth, email, password).then(() =>
+      this.initUser(userProfile)
+    );
   }
 
   private createUserProfile$(userProfile: UserProfile) {
@@ -63,19 +56,17 @@ export class UserService {
   }
 
   public updateUserProfile(userProfile: UserProfile) {
-    return this.trpcService.client.user.updateUserProfile.mutate(userProfile);
+    return this.trpcService.client.user.updateUserProfile
+      .mutate(userProfile)
+      .then((userProfile) => this.userProfile.set(userProfile));
   }
 
   private initUser = (userProfile?: UserProfile) => {
     return firstValueFrom(
       user(this.auth).pipe(
         filter((user) => user != null),
-        switchMap((user) => {
+        switchMap(() => {
           this.isLoggedIn.set(true);
-          return from(getIdToken(user));
-        }),
-        switchMap((token) => {
-          this.userToken.set(token);
           return userProfile
             ? this.createUserProfile$(userProfile)
             : this.getUserProfile$();
@@ -87,7 +78,6 @@ export class UserService {
 
   private clearUser = () => {
     this.isLoggedIn.set(false);
-    this.userToken.set(undefined);
     this.userProfile.set(undefined);
   };
 }

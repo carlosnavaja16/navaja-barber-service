@@ -12,7 +12,7 @@ const app = new Hono();
 
 app.use(cors());
 app.use(
-  `${TRPC_ENDPOINT}/*`,
+  `/${TRPC_ENDPOINT}/*`,
   trpcServer({
     router: mainRouter,
     createContext: createBarberContext

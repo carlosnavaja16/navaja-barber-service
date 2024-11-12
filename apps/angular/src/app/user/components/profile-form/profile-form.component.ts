@@ -71,6 +71,7 @@ export class ProfileFormComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted.emit({
+      ...this.userProfile,
       ...this.userProfileForm.value
     } as UserProfile);
     this.inEditMode = false;

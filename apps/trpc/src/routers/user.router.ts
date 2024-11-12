@@ -18,11 +18,9 @@ export const userRouter = router({
     .mutation(async (opts) => {
       return UserService.updateUserProfile(opts.input);
     }),
-  updateUserEmail: privateProcedure
-    .input(z.string())
-    .mutation(async (opts) => {
-      return UserService.updateUserEmail(opts.ctx.user.uid, opts.input);
-    }),
+  updateUserEmail: privateProcedure.input(z.string()).mutation(async (opts) => {
+    return UserService.updateUserEmail(opts.ctx.user.uid, opts.input);
+  })
 });
 
 export type UserRouter = typeof userRouter;

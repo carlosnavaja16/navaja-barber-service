@@ -5,7 +5,7 @@ import {
   EVENT_DELETION_FAILED,
   EVENT_INSERTION_FAILED,
   SCOPE,
-  EVENT_UPDATE_FAILED,
+  EVENT_UPDATE_FAILED
 } from '../utils/constants';
 import { googleCalendarSvcAccCreds } from '../credentials';
 import { StatusCodes } from 'http-status-codes';
@@ -25,8 +25,8 @@ export class CalendarService {
       requestBody: {
         items: [{ id: BARBER_SERVICE_CALENDAR_ID }],
         timeMin: minDate.toISOString(),
-        timeMax: maxDate.toISOString(),
-      },
+        timeMax: maxDate.toISOString()
+      }
     });
     if (
       !response.data.calendars![BARBER_SERVICE_CALENDAR_ID]!.busy ||
@@ -46,7 +46,7 @@ export class CalendarService {
   public static async insertEvent(event: calendar_v3.Schema$Event) {
     const response = await this.getCalendar().events.insert({
       calendarId: BARBER_SERVICE_CALENDAR_ID,
-      requestBody: event,
+      requestBody: event
     });
     if (!response.data || response.status !== StatusCodes.OK) {
       EVENT_INSERTION_FAILED(response.status);
@@ -63,7 +63,7 @@ export class CalendarService {
   public static async deleteEvent(eventId: string) {
     const response = await this.getCalendar().events.delete({
       calendarId: BARBER_SERVICE_CALENDAR_ID,
-      eventId,
+      eventId
     });
     if (response.status !== StatusCodes.NO_CONTENT) {
       EVENT_DELETION_FAILED(response.status);
@@ -80,8 +80,8 @@ export class CalendarService {
       calendarId: BARBER_SERVICE_CALENDAR_ID,
       eventId: rescheduleRequest.eventId,
       requestBody: {
-        start: { dateTime: rescheduleRequest.startTime.toISOString() },
-      },
+        start: { dateTime: rescheduleRequest.startTime.toISOString() }
+      }
     });
     if (!response.data || response.status !== StatusCodes.OK) {
       EVENT_UPDATE_FAILED(response.status);
@@ -98,8 +98,8 @@ export class CalendarService {
       version: 'v3',
       auth: new google.auth.GoogleAuth({
         credentials: googleCalendarSvcAccCreds,
-        scopes: SCOPE,
-      }),
+        scopes: SCOPE
+      })
     });
   }
 }

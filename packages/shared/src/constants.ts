@@ -1,6 +1,6 @@
 // server constants
 export const TRPC_PORT = 8080;
-export const TRPC_ENDPOINT = '/trpc';
+export const TRPC_ENDPOINT = 'trpc';
 export const LOCAL_HOST = 'http://localhost';
 
 // regex

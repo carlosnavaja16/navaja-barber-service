@@ -4,22 +4,22 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import {
   EMAIL_EMPTY,
   EMAIL_INVALID,
   PASSWORD_EMPTY,
-  PASSWORD_INVALID,
+  PASSWORD_INVALID
 } from '@navaja/shared';
 import { UserService } from '../../user.service';
-import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { SnackbarService } from '@src/app/common/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -31,8 +31,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly headerService: HeaderService,
     private readonly userService: UserService,
+    private readonly snackbarService: SnackbarService,
     private readonly fb: FormBuilder,
-    private readonly router: Router,
+    private readonly router: Router
   ) {
     this.headerService.setHeader('Login');
   }
@@ -40,19 +41,21 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
   onLogin() {
-    firstValueFrom(
-      this.userService.login$(
-        this.loginForm.value.email,
-        this.loginForm.value.password
-      )
-    ).then(() => {
-      this.router.navigate(['/']);
-    });
+    this.userService
+      .login(this.email?.value, this.password?.value)
+      .then(() => {
+        this.router.navigate(['/']);
+      })
+      .catch((error) => {
+        this.snackbarService.pushSnackbar(
+          `Login failed due to error: ${error}`
+        );
+      });
   }
 
   get email() {

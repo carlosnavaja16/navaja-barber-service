@@ -1,5 +1,5 @@
-import { UserProfile } from "@navaja/shared";
-import { FirestoreService } from "./firestore.service";
+import { UserProfile } from '@navaja/shared';
+import { FirestoreService } from './firestore.service';
 
 export class UserService {
   /**

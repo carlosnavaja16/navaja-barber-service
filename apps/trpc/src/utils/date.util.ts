@@ -5,7 +5,7 @@ import {
   DAYS_CLOSED,
   LIMIT_DAYS,
   OPENING_HOUR_EST,
-  TIME_ZONE,
+  TIME_ZONE
 } from './constants';
 import { TimeSlot } from '@navaja/shared';
 /**

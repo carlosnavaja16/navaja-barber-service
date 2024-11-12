@@ -6,19 +6,18 @@ import {
   AppointmentFirestoreResponse,
   RescheduleRequest,
   Service,
-  UserProfile,
+  UserProfile
 } from '@navaja/shared';
 import {
   APPOINTMENT_COLLECTION,
   APPOINTMENT_LIST_LIMIT,
   ASCENDING_ORDER,
-  CANCELLED_FIELD,
   DESCENDING_ORDER,
   PRICE_FIELD,
   SERVICE_COLLECTION,
   START_FIELD,
   USER_ID_FIELD,
-  USER_PROFILE_COLLECTION,
+  USER_PROFILE_COLLECTION
 } from '../utils/constants';
 
 export class FirestoreService {
@@ -101,13 +100,13 @@ export class FirestoreService {
     const query = await getFirestore(firebaseApp)
       .collection(APPOINTMENT_COLLECTION)
       .where(USER_ID_FIELD, '==', userUid)
-      .where(CANCELLED_FIELD, '==', null)
       .orderBy(START_FIELD, DESCENDING_ORDER)
       .limit(APPOINTMENT_LIST_LIMIT)
       .get();
     return query.docs
       .map((doc) => doc.data() as AppointmentFirestoreResponse)
-      .map((response) => AppointmentUtils.transformDates(response));
+      .map((response) => AppointmentUtils.transformDates(response))
+      .filter((appointment) => !appointment.cancelled);
   }
 
   /**
@@ -136,7 +135,7 @@ export class FirestoreService {
       .collection(APPOINTMENT_COLLECTION)
       .doc(eventId)
       .update({
-        cancelled,
+        cancelled
       });
     return cancelled;
   }
@@ -152,7 +151,7 @@ export class FirestoreService {
       `${APPOINTMENT_COLLECTION}/${rescheduleRequest.eventId}`
     );
     doc.update({
-      start: rescheduleRequest.startTime,
+      start: rescheduleRequest.startTime
     });
     const query = await doc.get();
     return AppointmentUtils.transformDates(

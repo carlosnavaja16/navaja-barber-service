@@ -8,7 +8,7 @@ export async function createBarberContext(opts: FetchCreateContextFnOptions) {
   try {
     user = await firebaseApp.auth().verifyIdToken(token || '');
   } catch (error) {
-    console.log('Invalid token', error);
+    console.warn('Invalid token', error);
   }
   return { user };
 }

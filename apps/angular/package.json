@@ -18,10 +18,8 @@
     "@ng-icons/bootstrap-icons": "^27.2.0",
     "@ng-icons/core": "^25.3.1",
     "@ng-icons/heroicons": "^25.3.1",
-    "@ngrx/effects": "^18.0.2",
-    "@ngrx/store": "^18.0.2",
-    "@ngrx/store-devtools": "^18.1.0",
-    "@trpc/client": "^10.45.1",
+    "@trpc/client": "11.0.0-rc.630",
+    "@trpc/server": "11.0.0-rc.630",
     "rxfire": "^6.0.5",
     "rxjs": "~7.8.1",
     "zone.js": "^0.14.0"

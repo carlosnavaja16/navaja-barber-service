@@ -17,6 +17,7 @@ export class SnackbarService {
   }
 
   public pushSnackbar(message: string): void {
+    console.log(message);
     this.snackbar$.next(message);
   }
 }

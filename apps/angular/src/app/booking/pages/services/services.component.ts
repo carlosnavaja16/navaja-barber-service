@@ -8,11 +8,11 @@ import { UserService } from '@src/app/user/user.service';
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: ['./services.component.scss'],
+  styleUrls: ['./services.component.scss']
 })
 export class ServicesComponent {
   services$ = this.bookingService.getServices$();
-  loggedIn  = this.userService.isLoggedIn;
+  loggedIn = this.userService.isLoggedIn;
 
   constructor(
     private readonly bookingService: BookingService,

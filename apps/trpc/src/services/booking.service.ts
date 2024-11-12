@@ -1,7 +1,7 @@
 import {
   AppointmentRequest,
   AvailabilityResponse,
-  RescheduleRequest,
+  RescheduleRequest
 } from '@navaja/shared';
 import { FirestoreService } from './firestore.service';
 import { DateUtils } from '../utils/date.util';
@@ -57,7 +57,7 @@ export class BookingService {
       closingHourUTC,
       minDate,
       maxDate,
-      availableTimeSlots,
+      availableTimeSlots
     };
   }
 
@@ -72,9 +72,8 @@ export class BookingService {
     // Generate the a new event and add it to the google calendar
     const appointmentEvent =
       AppointmentUtils.buildAppointmentEvent(appointmentRequest);
-    const savedAppointmentEvent = await CalendarService.insertEvent(
-      appointmentEvent
-    );
+    const savedAppointmentEvent =
+      await CalendarService.insertEvent(appointmentEvent);
 
     // Generate the appointment object and add it to the firestore database
     const appointment = AppointmentUtils.buildAppointment(
@@ -113,7 +112,7 @@ export class BookingService {
   public static async cancelAppointment(eventId: string) {
     await Promise.all([
       FirestoreService.cancelAppointment(eventId),
-      CalendarService.deleteEvent(eventId),
+      CalendarService.deleteEvent(eventId)
     ]);
   }
 
@@ -128,7 +127,7 @@ export class BookingService {
   ) {
     await Promise.all([
       FirestoreService.rescheduleAppointment(rescheduleRequest),
-      CalendarService.rescheduleEvent(rescheduleRequest),
+      CalendarService.rescheduleEvent(rescheduleRequest)
     ]);
   }
 }

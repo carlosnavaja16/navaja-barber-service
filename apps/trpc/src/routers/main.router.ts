@@ -4,7 +4,7 @@ import { userRouter } from './user.router';
 
 export const mainRouter = router({
   booking: bookingRouter,
-  user: userRouter,
+  user: userRouter
 });
 
 export type MainRouter = typeof mainRouter;

@@ -17,7 +17,7 @@ export interface Appointment {
   service: Service;
   address: AppointmentAddress;
   start: Date;
-  cancelled: Date | undefined;
+  cancelled?: Date;
 }
 
 export interface AppointmentFirestoreResponse {

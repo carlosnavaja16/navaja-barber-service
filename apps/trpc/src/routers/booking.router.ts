@@ -24,7 +24,7 @@ export const bookingRouter = router({
     .input(
       z.object({
         eventId: z.string(),
-        startTime: z.date(),
+        startTime: z.date()
       })
     )
     .mutation(async (opts) => {
@@ -35,7 +35,7 @@ export const bookingRouter = router({
   }),
   getAppointment: privateProcedure.input(z.string()).query(async (opts) => {
     return BookingService.getAppointment(opts.input);
-  }),
+  })
 });
 
 export type BookingRouter = typeof bookingRouter;

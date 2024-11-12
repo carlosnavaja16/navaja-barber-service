@@ -5,16 +5,19 @@ import {
   AvailabilityResponse,
   RescheduleRequest,
   Service,
-  TimeSlot,
+  TimeSlot
 } from '@navaja/shared';
 import {
   EMPTY,
   Observable,
   catchError,
   defer,
+  filter,
+  from,
   map,
+  of,
   switchMap,
-  tap,
+  tap
 } from 'rxjs';
 import { DateUtils } from '@booking/utilities/date.util';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
@@ -22,10 +25,9 @@ import { TRPCService } from '../trpc/trpc.service';
 import { UserService } from '../user/user.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BookingService {
-  // TODO: this can be stored in ngrx store
   selectedService: Service | null;
 
   constructor(
@@ -35,10 +37,8 @@ export class BookingService {
   ) {}
 
   public getServices$(): Observable<Service[]> {
-    const services$ = defer(() =>
-      this.trpcService.client.service.getServices.query()
-    );
-    return services$.pipe(
+    return from(this.trpcService.client.booking.getServices.query()).pipe(
+      tap((c) => console.log('services', c)),
       catchError((error) => {
         this.snackbarService.pushSnackbar(
           `Could not load services due to error: ${error}`
@@ -50,7 +50,7 @@ export class BookingService {
 
   public getAppointments$(): Observable<Appointment[]> {
     return defer(() =>
-      this.trpcService.client.appointment.getAppointments.query()
+      this.trpcService.client.booking.getAppointments.query()
     ).pipe(
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -63,7 +63,7 @@ export class BookingService {
 
   public getAppointment$(eventId: string): Observable<Appointment> {
     return defer(() =>
-      this.trpcService.client.appointment.getAppointment.query(eventId)
+      this.trpcService.client.booking.getAppointment.query(eventId)
     ).pipe(
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -81,9 +81,7 @@ export class BookingService {
      * in order to delay the execution of the promise until the observable is subscribed to
      */
     return defer(() =>
-      this.trpcService.client.appointment.getAvailability.query(
-        service.duration
-      )
+      this.trpcService.client.booking.getAvailability.query(service.duration)
     ).pipe(
       map((AvailabilityResponse: AvailabilityResponse) => {
         const timeSlotsByDate = DateUtils.getTimeSlotsByDate(
@@ -94,7 +92,7 @@ export class BookingService {
           timeSlotsByDate,
           dateFilter: (date: Date) => {
             return DateUtils.isDateInAvailableDates(date, timeSlotsByDate);
-          },
+          }
         };
       }),
       catchError((error) => {
@@ -117,13 +115,21 @@ export class BookingService {
     service: Service,
     timeSlot: TimeSlot
   ): Observable<Appointment> {
-    return this.userService.getUserProfile$().pipe(
+    return of(this.userService.userProfile()).pipe(
+      filter((userProfile) => {
+        console.log(
+          userProfile ? 'userProfile is present!' : 'userProfile not present!'
+        );
+        return userProfile != undefined;
+      }),
       switchMap((userProfile) => {
-        return this.trpcService.client.appointment.bookAppointment.mutate({
-          userProfile,
-          service,
-          timeSlot,
-        });
+        return from(
+          this.trpcService.client.booking.bookAppointment.mutate({
+            userProfile,
+            service,
+            timeSlot
+          })
+        );
       }),
       catchError((error) => {
         this.snackbarService.pushSnackbar(
@@ -136,7 +142,7 @@ export class BookingService {
 
   public rescheduleAppointment$(rescheduleRequest: RescheduleRequest) {
     return defer(() =>
-      this.trpcService.client.appointment.rescheduleAppointment.mutate(
+      this.trpcService.client.booking.rescheduleAppointment.mutate(
         rescheduleRequest
       )
     ).pipe(
@@ -157,7 +163,9 @@ export class BookingService {
    */
   public cancelAppointment$(appointment: Appointment): Observable<void> {
     return defer(() =>
-      this.trpcService.client.appointment.cancelAppointment.mutate(appointment.eventId)
+      this.trpcService.client.booking.cancelAppointment.mutate(
+        appointment.eventId
+      )
     ).pipe(
       tap(() =>
         this.snackbarService.pushSnackbar(

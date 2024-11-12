@@ -1,99 +1,70 @@
-import { Component, Signal, computed } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component } from '@angular/core';
 import { HeaderService } from '@src/app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Appointment } from '@navaja/shared';
 import { DateUtils } from '@booking/utilities/date.util';
-import { Observable, Subject, merge, switchMap, tap } from 'rxjs';
+import { Subject, map, merge, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appointments',
   templateUrl: './appointments.component.html',
-  styleUrls: ['./appointments.component.scss'],
+  styleUrls: ['./appointments.component.scss']
 })
 export class AppointmentsComponent {
-  timeZone: string;
-  appointments$: Observable<Appointment[]>;
-  appointments: Signal<Appointment[] | null>;
-  noAppointments: Signal<boolean | null>;
-  nextAppointment: Signal<Appointment | null>;
-  pastAppointments: Signal<Appointment[] | null>;
-  upcomingAppointments: Signal<Appointment[] | null>;
-  cancelledAppointments$: Subject<Appointment>;
-  refreshedAppointments$: Observable<Appointment[]>;
+  timeZone = DateUtils.getTimeZoneAbbr();
+  appointmentToCancel$ = new Subject<Appointment>();
+
+  appointments$ = merge(
+    this.bookingService.getAppointments$(),
+    this.appointmentToCancel$.asObservable().pipe(
+      switchMap((appointment) =>
+        this.bookingService.cancelAppointment$(appointment)
+      ),
+      switchMap(() => this.bookingService.getAppointments$())
+    )
+  );
+
+  noAppointments$ = this.appointments$.pipe(
+    map((appointments) => appointments.length === 0)
+  );
+
+  nextAppointment$ = this.appointments$.pipe(
+    map((appointments) =>
+      appointments.filter(
+        (appointment) => appointment.start.getTime() > Date.now()
+      )
+    ),
+    map((appointments) => (appointments.length ? appointments[0] : null))
+  );
+
+  upcomingAppointments = this.appointments$.pipe(
+    map((appointments) =>
+      appointments.filter(
+        (appointment) => appointment.start.getTime() > Date.now()
+      )
+    ),
+    map((appointments) => appointments.slice(1))
+  );
+
+  pastAppointments$ = this.appointments$.pipe(
+    map((appointments) =>
+      appointments.filter(
+        (appointment) => appointment.start.getTime() < Date.now()
+      )
+    )
+  );
 
   constructor(
     private readonly bookingService: BookingService,
     private readonly headerService: HeaderService,
     private readonly router: Router
   ) {
-    this.timeZone = DateUtils.getTimeZoneAbbr();
     this.headerService.setHeader('Appointments');
-    this.appointments$ = this.bookingService
-      .getAppointments$()
-      .pipe(tap((a) => console.log('appointments: ', a)));
-    this.cancelledAppointments$ = new Subject();
-
-    this.refreshedAppointments$ = this.cancelledAppointments$
-      .asObservable()
-      .pipe(
-        switchMap((appointment) =>
-          this.bookingService.cancelAppointment$(appointment)
-        ),
-        switchMap(() => this.bookingService.getAppointments$())
-      );
-
-    this.appointments = toSignal(
-      merge(this.appointments$, this.refreshedAppointments$),
-      { initialValue: null }
-    );
-
-    this.noAppointments = computed(() => {
-      const appointments = this.appointments();
-      if (appointments == null) {
-        return true;
-      } else {
-        return appointments.length === 0;
-      }
-    });
-
-    this.nextAppointment = computed(() => {
-      const appointments = this.appointments();
-      if (appointments == null) {
-        return null;
-      } else {
-        return appointments.filter(
-          (appointment) => appointment.start.getTime() > Date.now()
-        )[0];
-      }
-    });
-
-    this.pastAppointments = computed(() => {
-      const appointments = this.appointments();
-      if (appointments == null) {
-        return null;
-      } else {
-        return appointments.filter(
-          (appointment) => appointment.start.getTime() < Date.now()
-        );
-      }
-    });
-
-    this.upcomingAppointments = computed(() => {
-      const appointments = this.appointments();
-      if (appointments == null) {
-        return null;
-      } else {
-        return appointments
-          .filter((appointment) => appointment.start.getTime() > Date.now())
-          .slice(1);
-      }
-    });
   }
 
   onCancel(appointment: Appointment): void {
-    this.cancelledAppointments$.next(appointment);
+    this.appointmentToCancel$.next(appointment);
   }
 
   onReschedule(appointment: Appointment) {
