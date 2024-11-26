@@ -61,3 +61,11 @@ export const EVENT_UPDATE_FAILED = (status: number) => {
   console.error(errorMsg);
   throw new Error(errorMsg);
 };
+
+export const EVENT_FETCH_FAILED = (status: number) => {
+  const errorMsg = `Getting event failed with status code ${status}: ${getReasonPhrase(
+    status
+  )}`;
+  console.error(errorMsg);
+  throw new Error(errorMsg);
+};

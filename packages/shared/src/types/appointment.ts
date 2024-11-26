@@ -93,5 +93,13 @@ export const AppointmentRequestZod = z.object({
 
 export interface RescheduleRequest {
   eventId: string;
-  startTime: Date;
+  timeSlot: TimeSlot;
 }
+
+export const RescheduleRequestZod = z.object({
+  eventId: z.string(),
+  timeSlot: z.object({
+    start: z.date(),
+    end: z.date()
+  })
+});

@@ -16,7 +16,6 @@ import { Appointment } from '@navaja/shared';
 })
 export class AppointmentSummaryComponent {
   @Input() appointment: Appointment;
-  @Input() timeZone: string | undefined;
   @Input({ transform: booleanAttribute }) editable: boolean;
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
   @Output() reschedule: EventEmitter<void> = new EventEmitter<void>();

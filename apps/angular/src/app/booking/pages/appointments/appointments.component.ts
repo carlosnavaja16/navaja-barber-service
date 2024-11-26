@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { HeaderService } from '@src/app/common/services/header/header.service';
 import { BookingService } from '@booking/booking.service';
 import { Appointment } from '@navaja/shared';
-import { DateUtils } from '@booking/utilities/date.util';
-import { Subject, map, merge, switchMap } from 'rxjs';
+import { Subject, map, merge, shareReplay, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +11,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./appointments.component.scss']
 })
 export class AppointmentsComponent {
-  timeZone = DateUtils.getTimeZoneAbbr();
   appointmentToCancel$ = new Subject<Appointment>();
 
   appointments$ = merge(
@@ -23,7 +21,7 @@ export class AppointmentsComponent {
       ),
       switchMap(() => this.bookingService.getAppointments$())
     )
-  );
+  ).pipe(shareReplay());
 
   noAppointments$ = this.appointments$.pipe(
     map((appointments) => appointments.length === 0)
@@ -38,7 +36,7 @@ export class AppointmentsComponent {
     map((appointments) => (appointments.length ? appointments[0] : null))
   );
 
-  upcomingAppointments = this.appointments$.pipe(
+  upcomingAppointments$ = this.appointments$.pipe(
     map((appointments) =>
       appointments.filter(
         (appointment) => appointment.start.getTime() > Date.now()

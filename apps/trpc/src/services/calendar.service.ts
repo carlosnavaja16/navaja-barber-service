@@ -5,11 +5,12 @@ import {
   EVENT_DELETION_FAILED,
   EVENT_INSERTION_FAILED,
   SCOPE,
-  EVENT_UPDATE_FAILED
+  EVENT_UPDATE_FAILED,
+  EVENT_FETCH_FAILED
 } from '../utils/constants';
 import { googleCalendarSvcAccCreds } from '../credentials';
 import { StatusCodes } from 'http-status-codes';
-import { RescheduleRequest } from '@navaja/shared';
+import { TimeSlot } from '@navaja/shared';
 
 export class CalendarService {
   /**
@@ -35,6 +36,18 @@ export class CalendarService {
       FREEBUSY_FETCH_FAILED(BARBER_SERVICE_CALENDAR_ID, response.status);
     }
     return response.data.calendars![BARBER_SERVICE_CALENDAR_ID]!.busy!;
+  }
+
+  public static async getEvent(eventId: string) {
+    const response = await this.getCalendar().events.get({
+      calendarId: BARBER_SERVICE_CALENDAR_ID,
+      eventId
+    });
+
+    if (!response.data || response.status !== StatusCodes.OK) {
+      EVENT_FETCH_FAILED(response.status);
+    }
+    return response.data;
   }
 
   /**
@@ -75,12 +88,17 @@ export class CalendarService {
    * @param rescheduleRequest - The reschedule request containing the event ID and new event details.
    * @returns The event ID.
    */
-  public static async rescheduleEvent(rescheduleRequest: RescheduleRequest) {
+  public static async rescheduleEvent(
+    event: calendar_v3.Schema$Event,
+    timeSlot: TimeSlot
+  ) {
     const response = await this.getCalendar().events.update({
       calendarId: BARBER_SERVICE_CALENDAR_ID,
-      eventId: rescheduleRequest.eventId,
+      eventId: event.id!,
       requestBody: {
-        start: { dateTime: rescheduleRequest.startTime.toISOString() }
+        ...event,
+        start: { dateTime: timeSlot.start.toISOString() },
+        end: { dateTime: timeSlot.end.toISOString() }
       }
     });
     if (!response.data || response.status !== StatusCodes.OK) {

@@ -7,18 +7,13 @@ import { LOCAL_HOST, TRPC_ENDPOINT, TRPC_PORT } from '@navaja/shared';
 import { Auth } from '@angular/fire/auth';
 import { idToken } from 'rxfire/auth';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TRPCService {
   client: CreateTRPCClient<MainRouter>;
-  userToken = toSignal(
-    idToken(this.auth).pipe(
-      tap((token) => console.log('idToken is now: ', token))
-    )
-  );
+  userToken = toSignal(idToken(this.auth));
 
   constructor(private readonly auth: Auth) {
     this.client = createTRPCClient<MainRouter>({

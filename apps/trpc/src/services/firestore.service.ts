@@ -4,8 +4,8 @@ import { AppointmentUtils } from '../utils/appointment.util';
 import {
   Appointment,
   AppointmentFirestoreResponse,
-  RescheduleRequest,
   Service,
+  TimeSlot,
   UserProfile
 } from '@navaja/shared';
 import {
@@ -145,13 +145,14 @@ export class FirestoreService {
    * and rescheduling the event in the calendar.
    */
   public static async rescheduleAppointment(
-    rescheduleRequest: RescheduleRequest
+    eventId: string,
+    timeSlot: TimeSlot
   ) {
     const doc = await getFirestore(firebaseApp).doc(
-      `${APPOINTMENT_COLLECTION}/${rescheduleRequest.eventId}`
+      `${APPOINTMENT_COLLECTION}/${eventId}`
     );
     doc.update({
-      start: rescheduleRequest.startTime
+      start: timeSlot.start
     });
     const query = await doc.get();
     return AppointmentUtils.transformDates(

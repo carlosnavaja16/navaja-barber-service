@@ -17,7 +17,6 @@ import {
 import { BookingService } from '@booking//booking.service';
 import { MatStepper } from '@angular/material/stepper';
 import { ChangeDetectorRef } from '@angular/core';
-import { DateUtils } from '@booking/utilities/date.util';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
@@ -27,7 +26,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements AfterViewInit, OnDestroy {
-  timeZone: string;
   services$: Observable<Service[]>;
   availability$: Observable<Availability | null>;
   selectedService = signal<Service | null>(null);
@@ -44,7 +42,6 @@ export class BookingComponent implements AfterViewInit, OnDestroy {
     private readonly router: Router
   ) {
     this.headerService.setHeader('Booking');
-    this.timeZone = DateUtils.getTimeZoneAbbr();
     this.services$ = this.bookingService.getServices$();
     this.availability$ = toObservable(this.selectedService).pipe(
       switchMap((service) => {

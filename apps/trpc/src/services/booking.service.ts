@@ -123,11 +123,16 @@ export class BookingService {
    * the details of the reschedule.
    */
   public static async rescheduleAppointment(
-    rescheduleRequest: RescheduleRequest
+    rescheduleAppointment: RescheduleRequest
   ) {
     await Promise.all([
-      FirestoreService.rescheduleAppointment(rescheduleRequest),
-      CalendarService.rescheduleEvent(rescheduleRequest)
+      FirestoreService.rescheduleAppointment(
+        rescheduleAppointment.eventId,
+        rescheduleAppointment.timeSlot
+      ),
+      CalendarService.getEvent(rescheduleAppointment.eventId).then((event) =>
+        CalendarService.rescheduleEvent(event, rescheduleAppointment.timeSlot)
+      )
     ]);
   }
 }

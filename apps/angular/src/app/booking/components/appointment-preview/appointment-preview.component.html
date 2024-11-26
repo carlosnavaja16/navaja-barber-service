@@ -1,35 +1,59 @@
-<mat-card class="card">
+<mat-card class="bg-slate-400">
   <mat-card-content>
-    <div class="flex justify-between items-center">
-      <div class="flex flex-col items-start justify-center">
-        <div class="font-bold text-black">Appointment Preview</div>
-        <div class="text-sm text-black"><b>Service: </b>{{ service.name }}</div>
-        <div class="text-sm text-black">
-          <b>Duration: </b>{{ service.duration | duration }}
+    <div class="flex flex-col gap-4 justify-center items-center sm:flex-row">
+      <div class="w-full flex flex-col items-start justify-center sm:flex-2">
+        <div class="w-full font-bold text-black">
+          {{ reschedulingFrom ? 'Reschedule' : 'Appointment' }} Preview
         </div>
-        <div class="text-sm text-black"><b>Price: </b>${{ service.price }}</div>
-        @if (date) {
+        @if (reschedulingFrom) {
+          <!-- When we are rescheduling -->
           <div class="text-sm text-black">
-            <b>Date: </b>{{ date | date: 'fullDate' }}
+            <b>Rescheduling: </b>{{ service.name }}
           </div>
-        }
-        @if (time) {
           <div class="text-sm text-black">
-            <b>Time: </b>
-            {{ time | date: 'shortTime' }}
-            {{ timeZone }}
+            <b>From: </b>{{ reschedulingFrom | date: 'mediumDate' }} &#64;
+            {{ reschedulingFrom | date: 'shortTime' }}
           </div>
+          @if (date) {
+            <div class="text-sm text-black">
+              <b>To: </b>{{ date | date: 'mediumDate' }}
+              @if (time) {
+                &#64; {{ time | date: 'shortTime' }}
+              }
+            </div>
+          }
+        } @else {
+          <!-- When we are booking -->
+          <div class="text-sm text-black">
+            <b>Service: </b>{{ service.name }}
+          </div>
+          <div class="text-sm text-black">
+            <b>Duration: </b>{{ service.duration | duration }}
+          </div>
+          <div class="text-sm text-black">
+            <b>Price: </b>${{ service.price }}
+          </div>
+          @if (date) {
+            <div class="text-sm text-black">
+              <b>Date: </b>{{ date | date: 'fullDate' }}
+              @if (time) {
+                &#64; {{ time | date: 'shortTime' }}
+              }
+            </div>
+          }
         }
       </div>
-      <div class="flex justify-center items-center">
+      <div
+        class="w-full sm:w-auto sm:grid sm:place-items-center sm:flex-initial"
+      >
         <button
           mat-raised-button
           color="primary"
-          class="w-full"
+          class="w-full sm:w-32"
           [disabled]="bookDisabled"
           (click)="onBook()"
         >
-          Book
+          {{ reschedulingFrom ? 'Reschedule' : 'Book' }}
         </button>
       </div>
     </div>

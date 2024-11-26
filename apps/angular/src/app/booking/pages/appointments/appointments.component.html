@@ -12,43 +12,40 @@
         </small>
       </p>
     } @else {
-      @if (nextAppointment$ | async) {
+      @if (nextAppointment$ | async; as nextAppointment) {
         <p class="text-2xl">Your next appointment</p>
         <appointment-summary
-          [appointment]="nextAppointment()!"
-          [timeZone]="timeZone"
+          [appointment]="nextAppointment"
           class="pb-3"
           editable
-          (reschedule)="onReschedule(nextAppointment()!)"
-          (cancel)="onCancel(nextAppointment()!)"
+          (reschedule)="onReschedule(nextAppointment)"
+          (cancel)="onCancel(nextAppointment)"
         />
       }
       @if ((upcomingAppointments$ | async) || (pastAppointments$ | async)) {
         <mat-tab-group class="py-3" animationDuration="0ms">
-          <mat-tab label="Upcoming">
-            @for (
-              appointment of upcomingAppointments;
-              track appointment.eventId
-            ) {
-              <appointment-summary
-                [appointment]="appointment"
-                [timeZone]="timeZone"
-                editable
-                (reschedule)="onReschedule(appointment)"
-                (cancel)="onCancel(appointment)"
-              />
-            }
-          </mat-tab>
-          @if (pastAppointments) {
-            <mat-tab label="Past">
+          @if ((upcomingAppointments$ | async)?.length) {
+            <mat-tab label="Upcoming">
               @for (
-                appointment of pastAppointments;
+                appointment of upcomingAppointments$ | async;
                 track appointment.eventId
               ) {
                 <appointment-summary
                   [appointment]="appointment"
-                  [timeZone]="timeZone"
+                  editable
+                  (reschedule)="onReschedule(appointment)"
+                  (cancel)="onCancel(appointment)"
                 />
+              }
+            </mat-tab>
+          }
+          @if ((pastAppointments$ | async)?.length) {
+            <mat-tab label="Past">
+              @for (
+                appointment of pastAppointments$ | async;
+                track appointment.eventId
+              ) {
+                <appointment-summary [appointment]="appointment" />
               }
             </mat-tab>
           }

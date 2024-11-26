@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { router, procedure, privateProcedure } from '../utils/trpc.util';
 import { BookingService } from '../services/booking.service';
-import { AppointmentRequestZod } from '@navaja/shared';
+import { AppointmentRequestZod, RescheduleRequestZod } from '@navaja/shared';
 
 export const bookingRouter = router({
   getServices: procedure.query(async () => {
@@ -21,12 +21,7 @@ export const bookingRouter = router({
       return BookingService.bookAppointment(opts.input);
     }),
   rescheduleAppointment: privateProcedure
-    .input(
-      z.object({
-        eventId: z.string(),
-        startTime: z.date()
-      })
-    )
+    .input(RescheduleRequestZod)
     .mutation(async (opts) => {
       return BookingService.rescheduleAppointment(opts.input);
     }),

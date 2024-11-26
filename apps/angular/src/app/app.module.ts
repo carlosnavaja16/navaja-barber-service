@@ -26,6 +26,7 @@ import { ProfileFormComponent } from '@user/components/profile-form/profile-form
 import { SignUpFormComponent } from '@user/components/sign-up-form/sign-up-form.component';
 import { AppointmentsComponent } from '@booking/pages/appointments/appointments.component';
 import { AppointmentRescheduleComponent } from '@src/app/booking/pages/appointment-reschedule/appointment-reschedule.component';
+import { PageLoadingComponent } from './common/components/pageLoading/page-loading.component';
 
 // material design
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -77,7 +78,8 @@ import {
     AppointmentPreviewComponent,
     AppointmentSummaryComponent,
     AppointmentsComponent,
-    AppointmentRescheduleComponent
+    AppointmentRescheduleComponent,
+    PageLoadingComponent
   ],
   imports: [
     BrowserModule,

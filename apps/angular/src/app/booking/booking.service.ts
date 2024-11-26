@@ -116,12 +116,7 @@ export class BookingService {
     timeSlot: TimeSlot
   ): Observable<Appointment> {
     return of(this.userService.userProfile()).pipe(
-      filter((userProfile) => {
-        console.log(
-          userProfile ? 'userProfile is present!' : 'userProfile not present!'
-        );
-        return userProfile != undefined;
-      }),
+      filter((userProfile) => userProfile != undefined),
       switchMap((userProfile) => {
         return from(
           this.trpcService.client.booking.bookAppointment.mutate({

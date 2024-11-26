@@ -17,7 +17,7 @@ export class AppointmentPreviewComponent {
   @Input() service: Service;
   @Input() date: Date | undefined;
   @Input() time: Date | undefined;
-  @Input() timeZone: string | undefined;
+  @Input() reschedulingFrom?: Date;
   @Output() book: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
