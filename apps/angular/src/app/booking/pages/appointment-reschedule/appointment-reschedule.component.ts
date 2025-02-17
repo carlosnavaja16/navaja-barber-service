@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { DateTimeSlots, TimeSlot } from '@navaja/shared';
 import {
+  BehaviorSubject,
   catchError,
   firstValueFrom,
   map,
@@ -51,9 +52,12 @@ export class AppointmentRescheduleComponent {
     switchMap((id) => this.bookingService.getAppointment$(id!))
   );
 
-  appointment$ = merge(this.initialFetch$, this.reFetch$).pipe(shareReplay(1));
+  appointment$ = merge(this.initialFetch$, this.reFetch$).pipe(
+    shareReplay(1),
+    catchError(() => of(this.error$.next(true)))
+  );
   loading$ = this.appointment$.pipe(map((appointment) => appointment === null));
-  error$ = this.appointment$.pipe(catchError(() => of(true)));
+  error$ = new BehaviorSubject<boolean>(false);
 
   availability$ = this.appointment$.pipe(
     switchMap((appointment) =>
