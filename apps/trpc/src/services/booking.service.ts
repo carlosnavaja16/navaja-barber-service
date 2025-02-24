@@ -119,8 +119,8 @@ export class BookingService {
   /**
    * Reschedules an appointment by updating the appointment in Firestore
    * and rescheduling the event in the calendar.
-   * @param rescheduleRequest - The reschedule request object containing
    * the details of the reschedule.
+   * @param rescheduleAppointment
    */
   public static async rescheduleAppointment(
     rescheduleAppointment: RescheduleRequest

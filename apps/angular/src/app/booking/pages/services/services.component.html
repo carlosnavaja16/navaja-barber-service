@@ -25,17 +25,13 @@
           >
         </div>
         <div>
-          <button
+          <navaja-button
             [disabled]="!loggedIn()"
-            mat-stroked-button
-            color="primary"
+            [theme]="'el-cap-slate'"
             (click)="bookService(service)"
-            [matTooltip]="
-              !loggedIn() ? 'In order to book you will need to log in.' : ''
-            "
           >
             Book
-          </button>
+          </navaja-button>
         </div>
       </li>
     }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderService } from '@src/app/common/services/header/header.service';
 import { UserService } from '../user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,13 @@ export class HomeComponent {
 
   constructor(
     private readonly headerService: HeaderService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly router: Router
   ) {
     this.headerService.setHeader('Navaja Barber Service');
+  }
+
+  onBook() {
+    this.router.navigate(['services']);
   }
 }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { HomeComponent } from './home/home.component';
 import { ServicesComponent } from '@booking/pages/services/services.component';
@@ -26,7 +25,9 @@ import { ProfileFormComponent } from '@user/components/profile-form/profile-form
 import { SignUpFormComponent } from '@user/components/sign-up-form/sign-up-form.component';
 import { AppointmentsComponent } from '@booking/pages/appointments/appointments.component';
 import { AppointmentRescheduleComponent } from '@src/app/booking/pages/appointment-reschedule/appointment-reschedule.component';
-import { LoadingSpinnerComponent } from './common/components/pageLoading/loading-spinner.component';
+import { LoadingSpinnerComponent } from "@common/components/pageLoading/loading-spinner.component";
+import { NavajaButtonComponent } from "@common/components/navajaButton/navaja-button.component";
+import { routes } from '@app/routes';
 
 // material design
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -57,6 +58,7 @@ import {
   heroClockMini,
   heroHomeModernMini
 } from '@ng-icons/heroicons/mini';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -79,11 +81,12 @@ import {
     AppointmentSummaryComponent,
     AppointmentsComponent,
     AppointmentRescheduleComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    NavajaButtonComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatCardModule,

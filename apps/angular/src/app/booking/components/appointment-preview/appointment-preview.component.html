@@ -46,15 +46,14 @@
       <div
         class="w-full sm:w-auto sm:grid sm:place-items-center sm:flex-initial"
       >
-        <button
-          mat-raised-button
-          color="primary"
-          class="w-full sm:w-32"
+        <navaja-button
+          [width]="'full'"
+          [theme]="'mt-blue-sky'"
           [disabled]="bookDisabled"
           (click)="onBook()"
         >
           {{ reschedulingFrom ? 'Reschedule' : 'Book' }}
-        </button>
+        </navaja-button>
       </div>
     </div>
   </mat-card-content>

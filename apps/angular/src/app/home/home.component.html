@@ -4,24 +4,11 @@
   <h5 class="text-center">Mobile Barber</h5>
   <p class="text-center text-xs">Licensed by the State of Florida</p>
   <div class="flex justify-content-center items-center gap-3 pt-5">
-    <button
-      color="primary"
-      mat-flat-button
-      [matTooltip]="
-        loggedIn() ? '' : 'In order to book you will need to log In'
-      "
-      [routerLink]="loggedIn() ? '/booking' : '/login'"
+    <navaja-button
+      [loading]="false"
+      (click)="onBook()"
     >
-      <div class="flex justify-center items-center gap-3">
-        <ng-icon class="text-lg" name="heroCalendarSolid"></ng-icon>
-        <p class="font-bold">Book</p>
-      </div>
-    </button>
-    <button color="primary" mat-flat-button href="tel:19545158474">
-      <div class="flex justify-center items-center gap-3">
-        <ng-icon class="text-lg" name="heroPhoneSolid"></ng-icon>
-        <p class="font-bold">Call</p>
-      </div>
-    </button>
+      Book
+    </navaja-button>
   </div>
 </div>

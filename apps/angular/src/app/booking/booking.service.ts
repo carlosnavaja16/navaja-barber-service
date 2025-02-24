@@ -22,7 +22,7 @@ import {
 import { DateUtils } from '@booking/utilities/date.util';
 import { SnackbarService } from '@app/common/services/snackbar/snackbar.service';
 import { TRPCService } from '../trpc/trpc.service';
-import { UserService } from '../user/user.service';
+import { UserService } from "@user/user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -64,13 +64,6 @@ export class BookingService {
   public getAppointment$(eventId: string): Observable<Appointment> {
     return defer(() =>
       this.trpcService.client.booking.getAppointment.query(eventId)
-    ).pipe(
-      catchError((error) => {
-        this.snackbarService.pushSnackbar(
-          `Could not get appointment due to error: ${error}`
-        );
-        return EMPTY;
-      })
     );
   }
 
