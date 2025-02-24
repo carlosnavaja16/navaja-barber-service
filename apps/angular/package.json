@@ -18,6 +18,8 @@
     "@ng-icons/bootstrap-icons": "^27.2.0",
     "@ng-icons/core": "^25.3.1",
     "@ng-icons/heroicons": "^25.3.1",
+    "@ngrx/operators": "^19.0.1",
+    "@ngrx/signals": "^19.0.1",
     "@trpc/client": "11.0.0-rc.630",
     "@trpc/server": "11.0.0-rc.630",
     "rxfire": "^6.0.5",

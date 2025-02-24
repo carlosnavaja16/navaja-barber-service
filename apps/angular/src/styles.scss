@@ -24,6 +24,13 @@
   @apply text-blue-700 hover:text-blue-900 transition-all duration-300 underline;
 }
 
+// This is to add the white color to the mat-spinner
+.white-spinner {
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: white,
+  ));
+}
+
 /* this is to add an extra option color to the mat-raised-button
  * after defining a new class with mat-<name>
  * you can use it in the html like this:

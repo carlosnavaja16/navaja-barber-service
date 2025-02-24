@@ -27,6 +27,7 @@ import { SignUpFormComponent } from '@user/components/sign-up-form/sign-up-form.
 import { AppointmentsComponent } from '@booking/pages/appointments/appointments.component';
 import { AppointmentRescheduleComponent } from '@src/app/booking/pages/appointment-reschedule/appointment-reschedule.component';
 import { LoadingSpinnerComponent } from './common/components/pageLoading/loading-spinner.component';
+import { NavajaButtonComponent } from './common/components/navajaButton/navaja-button.component';
 
 // material design
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -79,7 +80,8 @@ import {
     AppointmentSummaryComponent,
     AppointmentsComponent,
     AppointmentRescheduleComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    NavajaButtonComponent
   ],
   imports: [
     BrowserModule,

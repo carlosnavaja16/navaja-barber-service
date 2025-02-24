@@ -1,56 +1,60 @@
-@if (appointment$ | async; as appointment) {
-  <div class="w-full flex flex-col items-center justify-center">
-    <mat-vertical-stepper
-      linear
-      #stepper
-      class="booking-stepper mb-52 w-full max-w-lg md:mb-0"
-    >
-      <mat-step
-        label="Select a date"
-        [completed]="selectedDateTimeSlots$ | async"
-      >
-        @if (availability$ | async; as availability) {
-          <date-picker
-            [dateFilter]="availability.dateFilter"
-            [timeSlotsByDate]="availability.timeSlotsByDate"
-            [minDate]="availability.minDate"
-            [maxDate]="availability.maxDate"
-            (dateSelected)="onDateSelected($event)"
-          />
-        } @else {
-          <div class="w-full flex flex-col items-center justify-center h-8">
-            <mat-progress-spinner color="primary" mode="indeterminate" />
-          </div>
-        }
-      </mat-step>
-      <mat-step label="Select a time" [completed]="selectedTimeSlot$ | async">
-        @if (selectedDateTimeSlots$ | async; as dateTimeSlots) {
-          <time-slots
-            [dateTimeSlots]="dateTimeSlots"
-            (timeSlotSelected)="onTimeSlotSelected($event)"
-          />
-        }
-      </mat-step>
-    </mat-vertical-stepper>
+@if (store.appointmentLoading()) {
+<loading-spinner />
+} @else if (store.appointmentError()) {
+<div class="flex flex-col justify-start items-center">
+  <p class="text-center mb-5">
+    <small> There was an issue loading this appointment. </small>
+  </p>
+  <button
+    mat-raised-button
+    color="primary"
+    class="w-full sm:w-32"
+    (click)="onRetry()">
+    Try again
+  </button>
+</div>
+} @else {
+<div class="w-full flex flex-col items-center justify-center">
+  <mat-vertical-stepper
+    linear
+    #stepper
+    class="booking-stepper mb-52 w-full max-w-lg md:mb-0">
+    <mat-step
+      label="Select a date"
+      [completed]="store.selectedDateTimeSlots()">
+      @if (store.availability(); as availability) {
+      <date-picker
+        [dateFilter]="availability.dateFilter"
+        [timeSlotsByDate]="availability.timeSlotsByDate"
+        [minDate]="availability.minDate"
+        [maxDate]="availability.maxDate"
+        (dateSelected)="onDateSelected($event)" />
+      } @else {
+      <div class="w-full flex flex-col items-center justify-center h-8">
+        <mat-progress-spinner color="primary" mode="indeterminate" />
+      </div>
+      }
+    </mat-step>
+    <mat-step label="Select a time" [completed]="store.selectedTimeSlot()">
+      @if (store.selectedDateTimeSlots(); as dateTimeSlots) {
+      <time-slots
+        [dateTimeSlots]="dateTimeSlots"
+        (timeSlotSelected)="onTimeSlotSelected($event)" />
+      }
+    </mat-step>
+  </mat-vertical-stepper>
+  @if (store.appointment(); as appointment) {
     <div
       class="fixed bottom-5 px-5 z-10 w-full md:max-w-lg md:grow md:static md:p-0"
     >
       <appointment-preview
-        [service]="appointment.service"
-        [date]="(selectedDateTimeSlots$ | async)?.date"
-        [time]="(selectedTimeSlot$ | async)?.start"
+        [service]="appointment!.service"
+        [date]="store.selectedDateTimeSlots()?.date"
+        [time]="store.selectedTimeSlot()?.start"
         [reschedulingFrom]="appointment.start"
-        (book)="onReschedule()"
+        (book)="onReschedule()" 
       />
     </div>
-  </div>
-} @else if (loading$ | async) {
-  <loading-spinner />
-} @else if ((error$ | async) === true) {
-  <p class="text-center mb-5">
-    <small>
-      There was an issue loading this appointment. Please
-      <a (click)="onRetry()">try again</a>
-    </small>
-  </p>
+  }
+</div>
 }

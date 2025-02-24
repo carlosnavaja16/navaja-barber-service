@@ -64,13 +64,6 @@ export class BookingService {
   public getAppointment$(eventId: string): Observable<Appointment> {
     return defer(() =>
       this.trpcService.client.booking.getAppointment.query(eventId)
-    ).pipe(
-      catchError((error) => {
-        this.snackbarService.pushSnackbar(
-          `Could not get appointment due to error: ${error}`
-        );
-        return EMPTY;
-      })
     );
   }
 
